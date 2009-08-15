@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<rolemap>
+    <!-- -*- extra stuff goes here -*- -->
+  <roles>
+      <role name="Manager"></role>
+  </roles>
+  <permissions>
+    <permission
+        name="plone.app.collection: Add Collection"
+        acquire="True"
+    >
+      <role name="Manager" />
+    </permission>
+  </permissions>
+</rolemap>
