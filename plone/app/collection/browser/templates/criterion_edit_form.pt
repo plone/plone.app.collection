@@ -14,66 +14,11 @@
               tal:condition="request/SearchableText|nothing"
               tal:attributes="href string:$here_url/search_rss?${request/QUERY_STRING}"/>
 
-<style type="text/css">
-.queryindex, .addIndex {
-    display: block;
-    width: 200px;
-    float: left;
-    margin-right: 0.5em;
-}
-.queryoperator, .addOperator {
-    display: block;
-    width: 150px;
-    float: left;
-    margin-right: 0.5em;
-}
-.queryresults {
-    float: right;
-}
-.previewSearchResultsHeading {
-    margin-top: 1em;
-}
-#advancedsearch .field {
-    margin: 0 1em 0.5em 0;
-}
-.removecriteria {
-    border: 0;
-    padding: 0;
-    background: transparent;
-    cursor: pointer;
-}
-.multipleSelectionWidget {
-    overflow:auto; 
-    height:6.5em;
-}
-.multipleSelectionWidget label {
-    display: block;
-}
-.querywidget {
-    float: left;
-    width: 200px;
-    border-width: 1px;
-}
-.referenceWidget input {
-    width: 200px;
-}
-dl.querywidget {
-    margin: 0;
-}
-dl.querywidget dd {
-    margin: 0;
-}
-.dateRangeWidget input {
-    width: 80px;
-}
-div.dateRangeWidget, dl.multipleSelectionWidget {
-    border: solid 1px transparent;
-}
-</style>
-
-<script tal:content="python:view.getJavascriptConfig()"></script>
 <script type="text/javascript">
 jQuery(function($) {
+
+    // Search config
+    var plone_app_search_config = {};
 
     // Create a select menu
     function CreateSelect(values, selectedvalue, class, name) {
@@ -209,21 +154,27 @@ jQuery(function($) {
 
     // Enhance for javascript browsers
     $(document).ready(function () {
-        $('div.queryindex').each(function () {
-            $(this).before(
-                $(document.createElement('div'))
-                    .addClass('queryresults discreet')
-                    .html('')
-            )
-            $(this).replaceWith(CreateQueryIndex($(this).children('input').val()));
-        });
-        $('div.queryoperator').each(function () {
-            $(this).replaceWith(CreateQueryOperator($(this).parents('.field').children('.queryindex').val(),
-                                                    $(this).children('input').val()));
-        });
+
+        // Hide controls used for non-javascript only
         $(".formControls").hide();
         $(".addIndexButton").hide();
-        UpdateSearch();
+
+        $.getJSON('jsonadvancedsearchconfig', function (data) {
+            plone_app_search_config = data;
+            $('div.queryindex').each(function () {
+                $(this).before(
+                    $(document.createElement('div'))
+                        .addClass('queryresults discreet')
+                        .html('')
+                )
+                $(this).replaceWith(CreateQueryIndex($(this).children('input').val()));
+            });
+            $('div.queryoperator').each(function () {
+                $(this).replaceWith(CreateQueryOperator($(this).parents('.field').children('.queryindex').val(),
+                                                        $(this).children('input').val()));
+            });
+            UpdateSearch();
+        });
     });
 
     function GetCurrentWidget (node) {
@@ -550,7 +501,3 @@ jQuery(function($) {
 
 </body>
 </html>
-
-
-
-
