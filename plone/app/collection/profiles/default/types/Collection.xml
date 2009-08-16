@@ -6,7 +6,7 @@
   <property name="description"
     i18n:translate="">Collection of searchable information</property>
   <property name="content_meta_type">Collection</property>
-  <property name="content_icon">++resource++humanitas.content.images/afdeling.png</property>
+  <property name="content_icon">++resource++plone.app.collection.images/collection_icon.png</property>
   <property name="product">plone.app.collection</property>
   <property name="factory">addCollection</property>
   <property name="immediate_view">atct_edit</property>
