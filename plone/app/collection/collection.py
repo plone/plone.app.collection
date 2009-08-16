@@ -10,10 +10,6 @@ from Products.ATContentTypes.content import schemata
 from plone.app.collection.interfaces import ICollection
 from plone.app.collection.config import PROJECTNAME
 
-from archetypes.querystringwidget.widget import QueryStringWidget
-
-
-
 CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
 
     # -*- Your Archetypes field definitions here ... -*-
