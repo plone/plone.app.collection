@@ -20,9 +20,9 @@
 
     <browser:page
         name="criterion_edit_form"
-        class="plone.app.search.browser.AdvancedSearch"
+        class=".browser.CriterionEditFrom"
         permission="zope2.View"
-        for="plone.app.collection.interfaces.ICollection"
+        for="..interfaces.ICollection"
         template="templates/criterion_edit_form.pt"
     />
 
