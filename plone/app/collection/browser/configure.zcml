@@ -7,4 +7,10 @@
         name="plone.app.collection.images"
         directory="images"
     />
+    
+    <browser:resourceDirectory
+        name="plone.app.collection.templates"
+        directory="templates"
+    />    
+    
 </configure>
