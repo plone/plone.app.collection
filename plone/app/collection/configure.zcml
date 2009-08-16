@@ -5,7 +5,7 @@
     i18n_domain="plone.app.collection">
     
     <five:registerPackage package="." initialize=".initialize" />
-	<include package=".browser" />
+    <include package=".browser" />
 
     <!-- Create Zope2 permissions -->
     <permission
@@ -14,19 +14,17 @@
     />
   
   <genericsetup:registerProfile
-  	name="default"
-  	title="plone.app.collection"
-  	directory="profiles/default"
-  	description="plone.app.collection profile"
-  	provides="Products.GenericSetup.interfaces.EXTENSION"
-  	/>
-  	
-  	
-  	<class class=".collection.Collection">
+    name="default"
+    title="plone.app.collection"
+    directory="profiles/default"
+    description="plone.app.collection profile"
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    />
+    <class class=".collection.Collection">
       <require
           permission="zope2.View"
           interface=".interfaces.ICollection"
           />
     </class>
-  
+
 </configure>

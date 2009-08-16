@@ -35,7 +35,7 @@
          action_id="criteria"
          category="object" 
          condition_expr="not:object/@@plone_lock_info/is_locked_for_current_user"
-         url_expr="string:${object_url}/criteria_view" 
+         url_expr="string:${object_url}/criterion_edit_form" 
          visible="True">
   <permission value="Modify portal content"/>
  </action> 

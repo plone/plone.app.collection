@@ -12,5 +12,13 @@
         name="plone.app.collection.templates"
         directory="templates"
     />    
-    
+
+    <browser:page
+        name="criterion_edit_form"
+        class="plone.app.search.browser.AdvancedSearch"
+        permission="zope2.View"
+        for="plone.app.collection.interfaces.ICollection"
+        template="templates/criterion_edit_form.pt"
+    />
+
 </configure>
