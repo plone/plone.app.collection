@@ -10,7 +10,9 @@ from Products.ATContentTypes.content import schemata
 from plone.app.collection.interfaces import ICollection
 from plone.app.collection.config import PROJECTNAME
 
-from archetypes.querystringwidget import widget
+from archetypes.querystringwidget.widget import QueryStringWidget
+
+
 
 CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
 
@@ -18,7 +20,7 @@ CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
     atapi.StringField(
         name='querystring',
         default="",
-        widget=widget.QueryStringWidget(
+        widget=QueryStringWidget(
             label='Querystring',
             description = "Querystring as used by plone.app.search",
         ),
