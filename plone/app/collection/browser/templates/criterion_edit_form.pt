@@ -129,9 +129,8 @@ jQuery(function($) {
                     .addClass('querywidget multipleSelectionWidget')
                     .append($(document.createElement('dt'))
                         .html('Select...')
-                        .addClass('hiddenStructure')
                     )
-                var dd = $(document.createElement('dd'));
+                var dd = $(document.createElement('dd')).addClass('hiddenStructure')
                 $.each(plone_app_search_config.indexes[index].values, function (i, val) {
                     dd.append($(document.createElement('label'))
                         .append($(document.createElement('input'))
@@ -156,7 +155,6 @@ jQuery(function($) {
     $(document).ready(function () {
 
         // Hide controls used for non-javascript only
-        $(".formControls").hide();
         $(".addIndexButton").hide();
 
         $.getJSON('jsonadvancedsearchconfig', function (data) {
@@ -186,6 +184,10 @@ jQuery(function($) {
             }
         }
     }
+
+    $('.multipleSelectionWidget dt').live('click', function () {
+        $(this).parent().children('dd').toggleClass('hiddenStructure');
+    });
 
     $('.queryindex').live('change', function () {
         var index = $(this).children(':selected')[0].value;
