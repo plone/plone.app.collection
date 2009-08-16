@@ -128,7 +128,13 @@ jQuery(function($) {
                 var dl = $(document.createElement('dl'))
                     .addClass('querywidget multipleSelectionWidget')
                     .append($(document.createElement('dt'))
-                        .html('Select...')
+                        .append($(document.createElement('span'))
+                            .html('Select...')
+                        )
+                        .append($(document.createElement('span'))
+                            .addClass('arrowDownAlternative')
+                            .html('▼')
+                        )
                     )
                 var dd = $(document.createElement('dd')).addClass('hiddenStructure')
                 $.each(plone_app_search_config.indexes[index].values, function (i, val) {
@@ -156,6 +162,8 @@ jQuery(function($) {
 
         // Hide controls used for non-javascript only
         $(".addIndexButton").hide();
+        $(".multipleSelectionWidget dt").removeClass('hiddenStructure');
+        $(".multipleSelectionWidget dd").addClass('hiddenStructure widgetPulldownMenu');
 
         $.getJSON('jsonadvancedsearchconfig', function (data) {
             plone_app_search_config = data;
@@ -316,8 +324,7 @@ jQuery(function($) {
         <fieldset>
             <legend>Criteria</legend>
             <tal:counter tal:define="dummy python:request.set('querystringwidgetcounter', 0)"/>
-            <tal:row repeat="row context/REQUEST/form/query"
-                     condition="exists: context/REQUEST/form/query">
+            <tal:row repeat="row context/getQueryDict">
             <div class="field"
                  tal:condition="python:not request.has_key('removecriteria.%s' % repeat['row'].index)">
                 <div class="queryindex">
@@ -339,13 +346,13 @@ jQuery(function($) {
 
                 <dl class="querywidget queryvalue multipleSelectionWidget"
                      tal:condition="python:indexes[row.i]['operators'][row.o]['widget'] == 'MultipleSelectionWidget'">
-                    <dt class="hiddenStructure">Select...</dt>
+                    <dt class="hiddenStructure"><span>Select...</span><span class="arrowDownAlternative">▼</span></dt>
                     <dd>
                     <tal:values repeat="index python:indexes[row.i]['values'].keys()">
                     <label>
                         <input type="checkbox" name="query.v:records:list"
                                tal:attributes="value index;
-                                               checked python: index in row.v and 'checked' or nothing"/>
+                                               checked python: row.has_key('v') and index in row.v and 'checked' or nothing"/>
                         <span tal:content="python:indexes[row.i]['values'][index]['friendly_name']"/>
                     </label>
                     </tal:values>
@@ -482,7 +489,7 @@ jQuery(function($) {
                 </label>
                 <select name="sort_on" id="sort_on">
                     <tal:index repeat="index python:sortable_indexes.keys()">
-                        <option tal:attributes="value index; selected python:(request.has_key('sort_on') and request.sort_on == index) and 'selected' or nothing" 
+                        <option tal:attributes="value index; selected python:(request.has_key('sort_on') and request.sort_on == index) and 'selected' or nothing"
                                 tal:content="python:sortable_indexes[index]['friendly_name']">Index</option>
                     </tal:index>
                 </select>
