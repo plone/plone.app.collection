@@ -15,6 +15,9 @@
   <property name="default_view">base_view</property>
   <property name="view_methods">
     <element value="base_view" />
+    <element value="folder_listing" />
+    <element value="folder_summary_view" />
+    <element value="folder_tabular_view" />
   </property>
   <alias from="(Default)" to="(dynamic view)" />
   <alias from="edit" to="atct_edit" />
