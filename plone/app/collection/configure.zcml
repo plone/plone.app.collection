@@ -5,6 +5,7 @@
     i18n_domain="plone.app.collection">
     
     <five:registerPackage package="." initialize=".initialize" />
+	<include package=".browser" />
 
     <!-- Create Zope2 permissions -->
     <permission
