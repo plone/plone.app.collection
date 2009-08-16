@@ -10,13 +10,15 @@ from Products.ATContentTypes.content import schemata
 from plone.app.collection.interfaces import ICollection
 from plone.app.collection.config import PROJECTNAME
 
+#from widgets import QuerystringWidget
+
 CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
 
     # -*- Your Archetypes field definitions here ... -*-
-    atapi.TextField(
+    atapi.StringField(
         name='querystring',
         default="",
-        widget=atapi.TextAreaWidget(
+        widget=atapi.StringWidget(
             label='Querystring',
             description = "Querystring as used by plone.app.search",
         ),
