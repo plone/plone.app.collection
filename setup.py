@@ -26,7 +26,6 @@ setup(name='plone.app.collection',
       install_requires=[
           'setuptools',
           # -*- Extra requirements: -*-
-          'archetypes.querystringwidget',
       ],
       entry_points="""
       # -*- Entry points: -*-
