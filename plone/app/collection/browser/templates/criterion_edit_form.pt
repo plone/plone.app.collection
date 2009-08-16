@@ -13,7 +13,7 @@
               tal:define="here_url context/@@plone_context_state/object_url"
               tal:condition="request/SearchableText|nothing"
               tal:attributes="href string:$here_url/search_rss?${request/QUERY_STRING}"/>
-<style type="text/stylesheet">
+<style type="text/css">
 .queryindex, .addIndex {
     display: block;
     width: 200px;
