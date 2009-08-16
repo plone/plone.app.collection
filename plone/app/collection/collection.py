@@ -17,15 +17,6 @@ from archetypes.querystringwidget.widget import QueryStringWidget
 CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
 
     # -*- Your Archetypes field definitions here ... -*-
-    atapi.StringField(
-        name='querystring',
-        default="",
-        widget=QueryStringWidget(
-            label='Querystring',
-            description = "Querystring as used by plone.app.search",
-        ),
-    ),
-
 ))
 
 # Set storage on fields copied from ATDocumentSchema, making sure
@@ -51,5 +42,19 @@ class Collection(document.ATDocument):
     description = atapi.ATFieldProperty('description')
     
     # -*- Your ATSchema to Python Property Bridges Here ... -*-
+    
+    def getQueryDict(self):
+        """Get the query dict from the request or from the object"""
+        # Try the request to be current
+        query=getattr(self.REQUEST,'query', None)
+        if query:
+            return query
+        # Try the stored dict
+        query=getattr(self,'querydict', None)
+        if query:
+            return query
+        
+        # Nothing here. Should I raise an exception?
+        return {}
 
 atapi.registerType(Collection, PROJECTNAME)

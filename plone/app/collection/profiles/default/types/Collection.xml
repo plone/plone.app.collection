@@ -12,12 +12,10 @@
   <property name="immediate_view">atct_edit</property>
   <property name="global_allow">True</property>
   <property name="allow_discussion">False</property>
-  <property name="default_view">base_view</property>
+  <property name="default_view">collection_summary_view</property>
   <property name="view_methods">
-    <element value="base_view" />
-    <element value="folder_listing" />
-    <element value="folder_summary_view" />
-    <element value="folder_tabular_view" />
+    <element value="collection_summary_view" />
+    <element value="collection_tabular_view" />
   </property>
   <alias from="(Default)" to="(dynamic view)" />
   <alias from="edit" to="atct_edit" />
