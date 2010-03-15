@@ -137,7 +137,7 @@ def _relativePath(context, row):
     
 # Helper methods
 def getCurrentUsername(context):
-    mt = getToolByName('portal_membership', context)
+    mt = getToolByName(context, 'portal_membership')
     user = mt.getAuthenticatedMember()
     if user:
         return user.getUserName()
