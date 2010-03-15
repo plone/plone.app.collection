@@ -3,12 +3,12 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
-     
+
       i18n:domain="plone">
 <head>
 </head>
 <body>
-<div tal:define="results view/results">
+<div tal:define="results python:view.results(request)">
 
     <h2 class="previewsearchResultsHeading">
         <span>
@@ -16,7 +16,7 @@
         </span>
         <span class="discreet">
         &mdash;
-        <span><tal:count content="view/getNumberOfResults">1</tal:count> items matching your search terms</span>
+        <span><tal:count content="python: view.getNumberOfResults(request)">1</tal:count> items matching your search terms</span>
       </span>
     </h2>
 
@@ -28,11 +28,11 @@
         <dl class="searchResults">
         <tal:results repeat="item results">
         <tal:entry>
-            <dt 
+            <dt
                 tal:attributes="class string:FIXME">
               <img tal:replace="structure item/getIcon" />
                <a
-                 href="#" 
+                 href="#"
                  tal:attributes="href item/getURL;
                                  class item/review_state"
                  tal:content="item/Title" />
@@ -77,7 +77,7 @@
 
             </span>
             </dt>
-            
+
             <dd>
                 <span tal:replace="item/Description">
                     Cropped description
@@ -99,11 +99,11 @@
 
 
     </div>
-      
-      
 
-      
-      
+
+
+
+
 </div>
 </body>
 </html>
