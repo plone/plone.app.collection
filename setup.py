@@ -8,7 +8,6 @@ setup(name='plone.app.collection',
       description="",
       long_description=open("README.txt").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
-      # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
         "Framework :: Plone",
         "Programming Language :: Python",
@@ -27,7 +26,8 @@ setup(name='plone.app.collection',
           'setuptools',
           # -*- Extra requirements: -*-
           'plone.app.registry',
-          'collective.testcaselayer'
+          'collective.testcaselayer',
+          'plone.directives.form',
       ],
       entry_points="""
       # -*- Entry points: -*-
