@@ -1,4 +1,5 @@
-"""Definition of the Collection content type
+"""
+    Definition of the Collection content type
 """
 
 from zope.interface import implements
@@ -10,9 +11,10 @@ from plone.app.collection.config import PROJECTNAME
 
 CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
     QueryField(
-        name='queryfield',
+        name='query',
         widget=QueryWidget(
-            label="query field",
+            label="Query",
+            description="Query for the collection",
         ),
     ),
 ))
