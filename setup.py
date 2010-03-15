@@ -26,7 +26,8 @@ setup(name='plone.app.collection',
       install_requires=[
           'setuptools',
           # -*- Extra requirements: -*-
-          'plone.app.registry'
+          'plone.app.registry',
+          'collective.testcaselayer'
       ],
       entry_points="""
       # -*- Entry points: -*-
