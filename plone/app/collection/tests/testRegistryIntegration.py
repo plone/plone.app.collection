@@ -10,20 +10,20 @@ class TestOperationDefinitions(CollectionTestCase):
         
         assert prefix+'.title' in registry
         
-        self.assertEqual(prefix+".title", "equals")
-        self.assertEqual(prefix+".description", 
+        self.assertEqual(registry[prefix+".title"], "equals")
+        self.assertEqual(registry[prefix+".description"], 
                          'Tip: you can use * to autocomplete.')
-        self.assertEqual(prefix+".operation", 'is')
+        self.assertEqual(registry[prefix+".operation"], 'is')
                 
     def test_string_inequality(self):
         registry = self.portal.portal_registry
         prefix = 'plone.app.collection.operation.string.isNot'
         assert prefix+".title" in registry
         
-        self.assertEqual(prefix+".title", "does not equal")
-        self.assertEqual(prefix+".description", 
+        self.assertEqual(registry[prefix+".title"], "does not equal")
+        self.assertEqual(registry[prefix+".description"], 
                          'Tip: you can use * to autocomplete.')
-        self.assertEqual(prefix+".operation", 'is_not')
+        self.assertEqual(registry[prefix+".operation"], 'is_not')
     
     def test_date_lessthan(self):
         registry = self.portal.portal_registry
@@ -31,10 +31,10 @@ class TestOperationDefinitions(CollectionTestCase):
 
         assert prefix+".title" in registry
         
-        self.assertEqual(prefix+".title", "before")
-        self.assertEqual(prefix+".description",
+        self.assertEqual(registry[prefix+".title"], "before")
+        self.assertEqual(registry[prefix+".description"],
                          'Please use YYYY/MM/DD.')
-        self.assertEqual(prefix+".operation", 'less_than')
+        self.assertEqual(registry[prefix+".operation"], 'less_than')
 
 class TestFieldDefinitions(CollectionTestCase):
     
@@ -43,9 +43,9 @@ class TestFieldDefinitions(CollectionTestCase):
         prefix = 'plone.app.collection.field.getId'
         assert prefix+".title" in registry
 
-        self.assertEqual(prefix+".title", "Short Name")
+        self.assertEqual(registry[prefix+".title"], "Short Name")
         
-        operations = prefix + ".operations"
+        operations = registry[prefix + ".operations"]
         assert len(operations) == 2
         
         equal = 'plone.app.collection.operation.string.is'
