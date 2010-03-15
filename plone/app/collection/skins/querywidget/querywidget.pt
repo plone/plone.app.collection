@@ -1,0 +1,34 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="querystringwidget">
+
+  <head><title></title></head>
+
+  <body>
+    <metal:view_macro define-macro="view">
+
+    </metal:view_macro>
+
+    <metal:edit_macro define-macro="edit">
+    <metal:use use-macro="field_macro | here/widgets/field/macros/edit">
+
+
+      <input metal:fill-slot="widget_body"
+                     type="text"
+                     name=""
+                     class="blurrable firstToFocus"
+                     id=""
+                     value=""
+                     size="30"
+                     tal:attributes="name fieldName;
+                                     id fieldName;
+                                     value value;"
+                     />
+
+    </metal:use>
+    </metal:edit_macro>
+
+  </body>
+</html>

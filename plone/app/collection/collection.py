@@ -9,7 +9,12 @@ from plone.app.collection.interfaces import ICollection
 from plone.app.collection.config import PROJECTNAME
 
 CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
-
+    QueryField(
+        name='queryfield',
+        widget=QueryWidget(
+            label="query field",
+        ),
+    ),
 ))
 
 # Set storage on fields copied from ATDocumentSchema, making sure

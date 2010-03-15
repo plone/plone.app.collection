@@ -2,17 +2,19 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:cmf="http://namespaces.zope.org/cmf"
     i18n_domain="plone.app.collection">
-    
+
     <five:registerPackage package="." initialize=".initialize" />
     <include package=".browser" />
+    <include file="skins.zcml" />
 
     <!-- Create Zope2 permissions -->
     <permission
         id="plone.app.collection.addCollection"
         title="plone.app.collection: Add Collection"
     />
-  
+
   <genericsetup:registerProfile
     name="default"
     title="plone.app.collection"
