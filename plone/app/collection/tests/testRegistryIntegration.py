@@ -17,7 +17,7 @@ class TestOperationDefinitions(CollectionTestCase):
                 
     def test_string_inequality(self):
         registry = self.portal.portal_registry
-        prefix = 'plone.app.collection.operation.string.is_not'
+        prefix = 'plone.app.collection.operation.string.isNot'
         assert prefix+".Title" in registry
         
         self.assertEqual(prefix+".Title", "does not equal")
@@ -49,7 +49,7 @@ class TestFieldDefinitions(CollectionTestCase):
         assert len(operations) == 2
         
         equal = 'plone.app.collection.operation.string.is'
-        inequal = 'plone.app.collection.operation.string.is_not'
+        inequal = 'plone.app.collection.operation.string.isNot'
         assert equal in operations
         assert inequal in operations
 
