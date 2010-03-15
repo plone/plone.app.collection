@@ -8,20 +8,20 @@ class TestOperationDefinitions(CollectionTestCase):
         registry = self.portal.portal_registry
         prefix = "plone.app.collection.operation.string.is"
         
-        assert prefix+'.Title' in registry
+        assert prefix+'.title' in registry
         
-        self.assertEqual(prefix+".Title", "equals")
-        self.assertEqual(prefix+".Description", 
+        self.assertEqual(prefix+".title", "equals")
+        self.assertEqual(prefix+".description", 
                          'Tip: you can use * to autocomplete.')
         self.assertEqual(prefix+".operation", 'is')
                 
     def test_string_inequality(self):
         registry = self.portal.portal_registry
         prefix = 'plone.app.collection.operation.string.isNot'
-        assert prefix+".Title" in registry
+        assert prefix+".title" in registry
         
-        self.assertEqual(prefix+".Title", "does not equal")
-        self.assertEqual(prefix+".Description", 
+        self.assertEqual(prefix+".title", "does not equal")
+        self.assertEqual(prefix+".description", 
                          'Tip: you can use * to autocomplete.')
         self.assertEqual(prefix+".operation", 'is_not')
     
@@ -29,10 +29,10 @@ class TestOperationDefinitions(CollectionTestCase):
         registry = self.portal.portal_registry
         prefix = 'plone.app.collection.operation.date.lessthan'
 
-        assert prefix+".Title" in registry
+        assert prefix+".title" in registry
         
-        self.assertEqual(prefix+".Title", "before")
-        self.assertEqual(prefix+".Description",
+        self.assertEqual(prefix+".title", "before")
+        self.assertEqual(prefix+".description",
                          'Please use YYYY/MM/DD.')
         self.assertEqual(prefix+".operation", 'less_than')
 
@@ -41,9 +41,9 @@ class TestFieldDefinitions(CollectionTestCase):
     def test_getId(self):
         registry = self.portal.portal_registry
         prefix = 'plone.app.collection.field.getId'
-        assert prefix+".Title" in registry
+        assert prefix+".title" in registry
 
-        self.assertEqual(prefix+".Title", "Short Name")
+        self.assertEqual(prefix+".title", "Short Name")
         
         operations = prefix + ".operations"
         assert len(operations) == 2
