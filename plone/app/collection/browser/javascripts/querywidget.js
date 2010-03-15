@@ -143,7 +143,7 @@
     // Enhance for javascript browsers
     $(document).ready(function () {
 
-        $("#advancedsearch").each(function () {
+        $(".ArchetypesQueryWidget").each(function () {
 
             // Hide controls used for non-javascript only
             $(".addIndexButton").hide();
@@ -263,7 +263,7 @@
     function UpdateSearch() {
         var query = "querybuilderpreviewresults?";
         var querylist  = [];
-        $('#advancedsearch .queryindex').each(function () {
+        $('.ArchetypesQueryWidget .queryindex').each(function () {
             var results = $(this).parents('.field').children('.queryresults');
             var index = $(this).val();
             var operator = $(this).parents('.field').children('.queryoperator').val();

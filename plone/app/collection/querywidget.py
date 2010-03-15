@@ -8,10 +8,12 @@ __docformat__ = 'epytext'
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.Widget import TypesWidget
 from Products.Archetypes.Registry import registerWidget
-from plone.app.collection.browser.querybuilder import QueryBuilder
+from zope.component import getMultiAdapter
+
+from browser.config import CRITERION, SORTABLES
 
 
-class QueryWidget(TypesWidget, QueryBuilder):
+class QueryWidget(TypesWidget):
     """QueryWidget"""
 
     _properties = TypesWidget._properties.copy()
@@ -28,6 +30,15 @@ class QueryWidget(TypesWidget, QueryBuilder):
         value = form.get(field.getName())
         if value:
             return value, {}
+
+    def getConfig(self):
+        return {'indexes':CRITERION, 'sortable_indexes': SORTABLES}
+        # we wrap this in a dictionary so we can add more configuration data
+        # to the payload in the future. This is data that will be fetched
+        # by a browser AJAX call
+
+    def previewSearchResults(self, request, context):
+        return getMultiAdapter((context, request),name='querybuilderpreviewresults')()
 
 __all__ = ('QueryWidget')
 
