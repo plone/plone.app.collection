@@ -10,19 +10,16 @@ class Layer(tcl_ptc.BasePTCLayer):
     """Install plone.app.collection"""
 
     def afterSetUp(self):
-        ztc.installPackage('plone.app.layout')
+        ztc.installPackage('plone.app.registry')
         ztc.installPackage('plone.app.contentlisting')
-        ztc.installPackage('plone.app.search')
         ztc.installPackage('plone.app.collection')
 
-        import plone.app.layout
+        import plone.app.registry
         import plone.app.contentlisting
-        import plone.app.search
         import plone.app.collection
 
-        self.loadZCML('configure.zcml', package=plone.app.layout)
+        self.loadZCML('configure.zcml', package=plone.app.registry)
         self.loadZCML('configure.zcml', package=plone.app.contentlisting)
-        self.loadZCML('configure.zcml', package=plone.app.search)
         self.loadZCML('configure.zcml', package=plone.app.collection)
         
         self.addProfile('plone.app.collection:default')
