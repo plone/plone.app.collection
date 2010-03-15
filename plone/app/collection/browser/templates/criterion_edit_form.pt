@@ -73,6 +73,7 @@
 dl.querywidget {
     margin: 0;
 }
+#content dl.querywidget dd,
 dl.querywidget dd {
     margin: 0;
 }
@@ -263,7 +264,11 @@ jQuery(function($) {
     }
 
     $('.multipleSelectionWidget dt').live('click', function () {
-        $(this).parent().children('dd').toggleClass('hiddenStructure');
+        if ($(this).parent().children('dd').hasClass('hiddenStructure')) {
+            $(this).parent().children('dd').removeClass('hiddenStructure');
+        } else {
+            $(this).parent().children('dd').addClass('hiddenStructure');
+        }
     });
 
     $('.queryindex').live('change', function () {
