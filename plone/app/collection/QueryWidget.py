@@ -8,8 +8,10 @@ __docformat__ = 'epytext'
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.Widget import TypesWidget
 from Products.Archetypes.Registry import registerWidget
+from plone.app.collection.browser.querybuilder import QueryBuilder
 
-class QueryWidget(TypesWidget):
+
+class QueryWidget(TypesWidget, QueryBuilder):
     """QueryWidget"""
 
     _properties = TypesWidget._properties.copy()
