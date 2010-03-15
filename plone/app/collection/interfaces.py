@@ -5,13 +5,13 @@ class ICollection(Interface):
     """ """
     pass
 
-class ICollectionOperation(Interface):
+class IQueryOperation(Interface):
     title = field.TextLine(title=u"Title")
     description = field.Text(title=u"Description")
     operator = field.TextLine(title=u"Operator")
     widget = field.TextLine(title=u"widget")
 
-class ICollectionField(Interface):
+class IQueryField(Interface):
     title = field.TextLine(title=u"Title")
     description = field.Text(title=u"Description")
     enabled = field.Bool(title=u"Enabled")
