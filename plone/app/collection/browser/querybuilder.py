@@ -11,7 +11,7 @@ class QueryBuilder(BrowserView):
     """ """
 
     # This is the advanced search that uses the query view from new-style-collections.
-    # If we end up not using this view for advanced search, it should probably be moved to the collections 
+    # If we end up not using this view for advanced search, it should probably be moved to the collections
     # package
 
     def __init__(self, context, request):
@@ -52,13 +52,10 @@ class QueryBuilder(BrowserView):
             return IContentListing(results)
         return IContentListing([])
 
-    def printQuery(self):
-        return self.query
-
     def getConfig(self):
         return {'indexes':CRITERION, 'sortable_indexes': SORTABLES}
-        # we wrap this in a dictionary so we can add more configuration data 
-        # to the payload in the future. This is data that will be fetched 
+        # we wrap this in a dictionary so we can add more configuration data
+        # to the payload in the future. This is data that will be fetched
         # by a browser AJAX call
 
     def getJSONConfig(self):
