@@ -33,7 +33,7 @@ class TestOperationDefinitions(CollectionTestCase):
         
         self.assertEqual(prefix+".Title", "before")
         self.assertEqual(prefix+".Description",
-                         'please use YYYY/MM/DD.')
+                         'Please use YYYY/MM/DD.')
         self.assertEqual(prefix+".operation", 'less_than')
 
 class TestFieldDefinitions(CollectionTestCase):
@@ -42,6 +42,8 @@ class TestFieldDefinitions(CollectionTestCase):
         registry = self.portal.portal_registry
         prefix = 'plone.app.collection.field.getId'
         assert prefix+".Title" in registry
+
+        self.assertEqual(prefix+".Title", "Short Name")
         
         operations = prefix + ".operations"
         assert len(operations) == 2

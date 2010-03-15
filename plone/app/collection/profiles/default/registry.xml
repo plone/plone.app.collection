@@ -1,0 +1,40 @@
+<registry>
+    <records interface="plone.app.collection.interfaces.ICollectionOperation" prefix="plone.app.collection.operation.string.is">
+        <value key="title">equals</value>
+        <value key="description">Tip: you can use * to autocomplete.</value>
+        <value key="operation">is</value>
+        <value key="widget"></value>
+    </records>
+  
+    <records interface="plone.app.collection.interfaces.ICollectionOperation" prefix="plone.app.collection.operation.string.isNot">
+        <value key="title">does not equal</value>
+        <value key="description">Tip: you can use * to autocomplete.</value>
+        <value key="operation">is_not</value>
+        <value key="widget"></value>
+    </records>
+    
+    <records interface="plone.app.collection.interfaces.ICollectionOperation" prefix="plone.app.collection.operation.string.lessthan">
+        <value key="title">before</value>
+        <value key="description">Please use YYYY/MM/DD.</value>
+        <value key="operation">less_than</value>
+        <value key="widget"></value>
+    </records>
+
+
+
+
+    <records interface="plone.app.collection.interfaces.ICollectionField" prefix="plone.app.collection.field.getId">
+       <value key="title">Short Name</value>
+       <value key="description"></value>
+       <value key="enabled">True</value>
+       <value key="operations">
+            <element key="string.is">string.is</element>
+            <element key="string.is_not">string.is_not</element>
+       </value>
+       <value key="vocabulary"></value>
+    </records>
+
+
+</registry>
+
+
