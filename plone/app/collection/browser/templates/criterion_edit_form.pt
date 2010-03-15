@@ -380,7 +380,7 @@ jQuery(function($) {
         if ($('#sort_order:checked').length > 0) {
             query += '&sort_order=reverse'
         }
-        $.get(query, {}, function (data) { $('#searchresults').html(data); });
+        $.get(query, {}, function (data) { $('#advancedsearch .previewresults').html(data); });
     }
 }(jQuery))
 </script>
@@ -389,12 +389,23 @@ jQuery(function($) {
 </head>
 
 <body>
-<div metal:fill-slot="main" tal:define="config python:view.getConfig();
-                                        indexes config/indexes;
-                                        sortable_indexes config/sortable_indexes;
-                                        addindexselected python:request.has_key('addindex') and request.addindex != '';
-                                        addoperatorselected python:request.has_key('addoperator') and request.addoperator != ''">
-    <form action="" method="get" accept-charset="utf-8" id="advancedsearch">
+<div metal:fill-slot="main">
+<form action="" method="get" accept-charset="utf-8" id="advancedsearch">
+
+<div id="archetypes-fieldname-query"
+     class="field ArchetypesQueryWidget"
+     tal:define="config python:view.getConfig();
+                 indexes config/indexes;
+                 sortable_indexes config/sortable_indexes;
+                 addindexselected python:request.has_key('addindex') and request.addindex != '';
+                 addoperatorselected python:request.has_key('addoperator') and request.addoperator != ''">
+<span></span>
+<label for="query" class="formQuestion">Query</label>
+<div id="query_help" class="formHelp">Used to specify the query.</div>
+<div class="fieldErrorBox"></div>
+
+
+
         <fieldset>
             <legend>Criteria</legend>
             <tal:counter tal:define="dummy python:request.set('querystringwidgetcounter', 0)"/>
@@ -577,10 +588,11 @@ jQuery(function($) {
         <div class="formControls">
             <input type="submit" value="Save" name="form.button.save" class="context"/>
         </div>
-    </form>
-    <div id="searchresults" tal:content="structure view/previewSearchResults">
+    <div class="previewresults" tal:content="structure view/previewSearchResults">
     </div>
 </div>
 
+</form>
+</div>
 </body>
 </html>
