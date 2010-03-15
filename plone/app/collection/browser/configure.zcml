@@ -42,4 +42,28 @@
         template="templates/tabular_view.pt"
         />
 
+    <browser:page
+        name="querybuilderpreviewresults"
+        class=".querybuilder.QueryBuilder"
+        permission="zope2.View"
+        for="*"
+        template="previewresults.pt"
+        />
+
+    <browser:page
+        name="querybuildernumberofresults"
+        class=".querybuilder.QueryBuilder"
+        permission="zope2.View"
+        for="*"
+        attribute="getFormattedNumberOfResults"
+        />
+
+    <browser:page
+        name="querybuilderjsonconfig"
+        class=".querybuilder.QueryBuilder"
+        permission="zope2.View"
+        for="*"
+        attribute="getJSONConfig"
+        />
+
 </configure>
