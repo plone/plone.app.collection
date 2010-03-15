@@ -9,8 +9,8 @@ from Products.ATContentTypes.content import schemata
 from plone.app.collection.interfaces import ICollection
 from plone.app.collection.config import PROJECTNAME
 
-from QueryField import QueryField
-from QueryWidget import QueryWidget
+from queryfield import QueryField
+from querywidget import QueryWidget
 
 CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
     QueryField(
