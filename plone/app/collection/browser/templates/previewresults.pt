@@ -8,7 +8,7 @@
 <head>
 </head>
 <body>
-<div tal:define="results python:view.results(request)">
+<div tal:define="results python:view.results()">
 
     <h2 class="previewsearchResultsHeading">
         <span>
@@ -16,7 +16,7 @@
         </span>
         <span class="discreet">
         &mdash;
-        <span><tal:count content="python: view.getNumberOfResults(request)">1</tal:count> items matching your search terms</span>
+        <span><tal:count content="python: view.getNumberOfResults()">1</tal:count> items matching your search terms</span>
       </span>
     </h2>
 
