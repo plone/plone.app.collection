@@ -201,9 +201,6 @@
 
             </fieldset>
 
-            <div class="formControls">
-                <input type="submit" value="Save" name="form.button.save" class="context"/>
-            </div>
         <div class="previewresults" tal:content="structure python:widget.previewSearchResults(request, context)">
         </div>
     </div>
