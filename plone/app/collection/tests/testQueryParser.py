@@ -37,7 +37,7 @@ class TestQueryParser(unittest.TestCase):
     def test_path_computed(self):
         query = {'i':'path', 'o':'path', 'v': '00000000000000001'},
         
-        self.parsed.context = MockSite()
+        self.parser.context = MockSite()
         
         parsed = self.parser.parseFormquery(query)
         self.assertEqual(parsed, {'path': '/site/foo'})
