@@ -13,14 +13,14 @@
         <value key="widget"></value>
     </records>
     
-    <records interface="plone.app.collection.interfaces.IQueryOperation" prefix="plone.app.collection.operation.date.lessthan">
+    <records interface="plone.app.collection.interfaces.IQueryOperation" prefix="plone.app.collection.operation.date.lessThan">
         <value key="title">before</value>
         <value key="description">Please use YYYY/MM/DD.</value>
         <value key="operation">less_than</value>
         <value key="widget"></value>
     </records>
 
-    <records interface="plone.app.collection.interfaces.IQueryOperation" prefix="plone.app.collection.operation.date.largerthan">
+    <records interface="plone.app.collection.interfaces.IQueryOperation" prefix="plone.app.collection.operation.date.largerThan">
         <value key="title">after</value>
         <value key="description">Please use YYYY/MM/DD.</value>
         <value key="operation">larger_than</value>
@@ -34,21 +34,21 @@
         <value key="widget"></value>
     </records>
     
-    <records interface="plone.app.collection.interfaces.IQueryOperation" prefix="plone.app.collection.operation.date.lessthanrelativedate">
+    <records interface="plone.app.collection.interfaces.IQueryOperation" prefix="plone.app.collection.operation.date.lessThanRelativeDate">
         <value key="title">less than relative date</value>
         <value key="description">Please use YYYY/MM/DD.</value>
         <value key="operation">less_than_relative_date</value>
         <value key="widget"></value>
     </records>
 
-    <records interface="plone.app.collection.interfaces.IQueryOperation" prefix="plone.app.collection.operation.date.largerthanrelativedate">
+    <records interface="plone.app.collection.interfaces.IQueryOperation" prefix="plone.app.collection.operation.date.largerThanRelativeDate">
         <value key="title">larger than relative date</value>
         <value key="description">Please use YYYY/MM/DD.</value>
         <value key="operation">larger_than_relative_date</value>
         <value key="widget"></value>
     </records>
 
-    <records interface="plone.app.collection.interfaces.IQueryOperation" prefix="plone.app.collection.operation.string.currentuser">
+    <records interface="plone.app.collection.interfaces.IQueryOperation" prefix="plone.app.collection.operation.string.currentUser">
         <value key="title">Current User</value>
         <value key="description"></value>
         <value key="operation">current_user</value>
@@ -62,7 +62,7 @@
         <value key="widget"></value>
     </records>
     
-    <records interface="plone.app.collection.interfaces.IQueryOperation" prefix="plone.app.collection.operation.string.relativepath">
+    <records interface="plone.app.collection.interfaces.IQueryOperation" prefix="plone.app.collection.operation.string.relativePath">
         <value key="title">Relative Path</value>
         <value key="description"></value>
         <value key="operation">relative_path</value>
@@ -76,7 +76,7 @@
        <value key="enabled">True</value>
        <value key="operations">
             <element key="string.is">string.is</element>
-            <element key="string.is_not">string.is_not</element>
+            <element key="string.isNot">string.isNot</element>
        </value>
     </records>
 
@@ -85,6 +85,9 @@
        <value key="description">The roles and users with View permission on an item</value>
        <value key="enabled">True</value>
        <value key="operations">
+           <element key="string.is">string.is</element>
+           <element key="string.isNot">string.isNot</element>
+           <element key="string.iscurrentuser">string.isCurrentUser</element>
        </value>
     </records>
 
@@ -93,11 +96,11 @@
        <value key="description">The time and date an item was created</value>
        <value key="enabled">True</value>
        <value key="operations">
-           <element key="date.lessthan">date.lessthan</element>
-           <element key="date.largerthan">date.largerthan</element>
+           <element key="date.lessThan">date.lessThan</element>
+           <element key="date.largerThan">date.largerThan</element>
            <element key="date.between">date.between</element>
-           <element key="date.lessthanrelativedate">date.lessthanrelativedate</element>
-           <element key="date.largerthanrelativedate">date.largerthanrelativedate</element>
+           <element key="date.lessThanRelativeDate">date.lessThanRelativeDate</element>
+           <element key="date.largerThanRelativeDate">date.largerThanRelativeDate</element>
        </value>
     </records>
 
