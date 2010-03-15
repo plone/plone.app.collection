@@ -8,13 +8,14 @@
 
   <body>
     <metal:view_macro define-macro="view">
-        hello view me
+        <div class="previewresults" tal:content="structure python:widget.SearchResults(request,context)">
+        </div>
     </metal:view_macro>
 
     <metal:edit_macro define-macro="edit">
     <metal:use use-macro="field_macro | here/widgets/field/macros/edit">
 
-    <div  metal:fill-slot="widget_body">
+    <div metal:fill-slot="widget_body">
 
     <div tal:define="config python:widget.getConfig();
                      indexes config/indexes;

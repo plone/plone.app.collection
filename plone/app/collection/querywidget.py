@@ -37,7 +37,11 @@ class QueryWidget(TypesWidget):
         # to the payload in the future. This is data that will be fetched
         # by a browser AJAX call
 
+
     def previewSearchResults(self, request, context):
+        return getMultiAdapter((context, request),name='querybuilderpreviewresults')()
+
+    def SearchResults(self, request, context):
         return getMultiAdapter((context, request),name='querybuilderpreviewresults')()
 
 __all__ = ('QueryWidget')

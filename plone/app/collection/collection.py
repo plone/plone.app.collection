@@ -50,8 +50,8 @@ class Collection(document.ATDocument):
         query = getattr(self.REQUEST, 'query', None)
         if query:
             return query
-        # Try the stored dict
-        query = getattr(self, 'querydict', None)
+        #TODO: get all queryfields here
+        query = self.getQuery()
         if query:
             return query
 
