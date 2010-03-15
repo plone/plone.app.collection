@@ -8,7 +8,7 @@ class ICollection(Interface):
 class IQueryOperation(Interface):
     title = field.TextLine(title=u"Title")
     description = field.Text(title=u"Description")
-    operator = field.TextLine(title=u"Operator")
+    operation = field.TextLine(title=u"Operation")
     widget = field.TextLine(title=u"widget")
 
 class IQueryField(Interface):
