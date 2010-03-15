@@ -13,25 +13,92 @@
         <value key="widget"></value>
     </records>
     
-    <records interface="plone.app.collection.interfaces.IQueryOperation" prefix="plone.app.collection.operation.string.lessthan">
+    <records interface="plone.app.collection.interfaces.IQueryOperation" prefix="plone.app.collection.operation.date.lessthan">
         <value key="title">before</value>
         <value key="description">Please use YYYY/MM/DD.</value>
         <value key="operation">less_than</value>
         <value key="widget"></value>
     </records>
 
+    <records interface="plone.app.collection.interfaces.IQueryOperation" prefix="plone.app.collection.operation.date.largerthan">
+        <value key="title">after</value>
+        <value key="description">Please use YYYY/MM/DD.</value>
+        <value key="operation">larger_than</value>
+        <value key="widget"></value>
+    </records>
 
+    <records interface="plone.app.collection.interfaces.IQueryOperation" prefix="plone.app.collection.operation.date.between">
+        <value key="title">between</value>
+        <value key="description">Please use YYYY/MM/DD.</value>
+        <value key="operation">between</value>
+        <value key="widget"></value>
+    </records>
+    
+    <records interface="plone.app.collection.interfaces.IQueryOperation" prefix="plone.app.collection.operation.date.lessthanrelativedate">
+        <value key="title">less than relative date</value>
+        <value key="description">Please use YYYY/MM/DD.</value>
+        <value key="operation">less_than_relative_date</value>
+        <value key="widget"></value>
+    </records>
+
+    <records interface="plone.app.collection.interfaces.IQueryOperation" prefix="plone.app.collection.operation.date.largerthanrelativedate">
+        <value key="title">larger than relative date</value>
+        <value key="description">Please use YYYY/MM/DD.</value>
+        <value key="operation">larger_than_relative_date</value>
+        <value key="widget"></value>
+    </records>
+
+    <records interface="plone.app.collection.interfaces.IQueryOperation" prefix="plone.app.collection.operation.string.currentuser">
+        <value key="title">Current User</value>
+        <value key="description"></value>
+        <value key="operation">current_user</value>
+        <value key="widget"></value>
+    </records>
+
+    <records interface="plone.app.collection.interfaces.IQueryOperation" prefix="plone.app.collection.operation.string.path">
+        <value key="title">Path</value>
+        <value key="description"></value>
+        <value key="operation">path</value>
+        <value key="widget"></value>
+    </records>
+    
+    <records interface="plone.app.collection.interfaces.IQueryOperation" prefix="plone.app.collection.operation.string.relativepath">
+        <value key="title">Relative Path</value>
+        <value key="description"></value>
+        <value key="operation">relative_path</value>
+        <value key="widget"></value>
+    </records>
 
 
     <records interface="plone.app.collection.interfaces.IQueryField" prefix="plone.app.collection.field.getId">
        <value key="title">Short Name</value>
-       <value key="description"></value>
+       <value key="description">The short name of an item (used in the url)</value>
        <value key="enabled">True</value>
        <value key="operations">
             <element key="string.is">string.is</element>
             <element key="string.is_not">string.is_not</element>
        </value>
-       <value key="vocabulary"></value>
+    </records>
+
+    <records interface="plone.app.collection.interfaces.IQueryField" prefix="plone.app.collection.field.allowedRolesAndUsers">
+       <value key="title"></value>
+       <value key="description">The roles and users with View permission on an item</value>
+       <value key="enabled">True</value>
+       <value key="operations">
+       </value>
+    </records>
+
+    <records interface="plone.app.collection.interfaces.IQueryField" prefix="plone.app.collection.field.created">
+       <value key="title">Creation Date</value>
+       <value key="description">The time and date an item was created</value>
+       <value key="enabled">True</value>
+       <value key="operations">
+           <element key="date.lessthan">date.lessthan</element>
+           <element key="date.largerthan">date.largerthan</element>
+           <element key="date.between">date.between</element>
+           <element key="date.lessthanrelativedate">date.lessthanrelativedate</element>
+           <element key="date.largerthanrelativedate">date.largerthanrelativedate</element>
+       </value>
     </records>
 
 
