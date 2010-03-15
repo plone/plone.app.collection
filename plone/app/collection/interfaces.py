@@ -14,6 +14,6 @@ class ICollectionOperation(Interface):
 class ICollectionField(Interface):
     title = field.TextLine(title=u"Title")
     description = field.Text(title=u"Description")
-    enabled = field.Bool(title="Enabled")
+    enabled = field.Bool(title=u"Enabled")
     operations = field.List(title=u"Operations")
     vocabulary = field.TextLine(title=u"Vocabulary")
