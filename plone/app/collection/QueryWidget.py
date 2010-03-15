@@ -1,8 +1,5 @@
 """
-    Query Field UI component
-
-    Copyright 2010 QueryField authors
-
+    Query Widget
 """
 
 __author__  = 'Maarten Kling <maarten@fourdigits.nl>, Ralph Jacobs <ralph@fourdigits.nl>'
@@ -13,8 +10,7 @@ from Products.Archetypes.Widget import TypesWidget
 from Products.Archetypes.Registry import registerWidget
 
 class QueryWidget(TypesWidget):
-    """
-    """
+    """QueryWidget"""
 
     _properties = TypesWidget._properties.copy()
     _properties.update({
@@ -38,4 +34,3 @@ registerWidget(QueryWidget,
                description=('Field for storing collection query'),
                used_for=('plone.app.collection.QueryField',)
                )
-
