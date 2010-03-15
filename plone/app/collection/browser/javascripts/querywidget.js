@@ -161,7 +161,7 @@
                     $(this).replaceWith(CreateQueryIndex($(this).children('input').val()));
                 });
                 $('div.queryoperator').each(function () {
-                    $(this).replaceWith(CreateQueryOperator($(this).parents('.field').children('.queryindex').val(),
+                    $(this).replaceWith(CreateQueryOperator($(this).parents('.criteria').children('.queryindex').val(),
                                                             $(this).children('input').val()));
                 });
                 UpdateSearch();
@@ -191,7 +191,7 @@
         var index = $(this).children(':selected')[0].value;
         $(this).parent().children('.queryoperator')
             .replaceWith(CreateQueryOperator(index, ''));
-        var operatorvalue = $(this).parents('.field').children('.queryoperator').val();
+        var operatorvalue = $(this).parents('.criteria').children('.queryoperator').val();
         var widget = plone_app_search_config.indexes[index].operators[operatorvalue].widget;
         var querywidget = $(this).parent().children('.querywidget');
         if ((widget != GetCurrentWidget(querywidget)) || (widget == 'MultipleSelectionWidget')) {
@@ -201,7 +201,7 @@
     });
 
     $('.queryoperator').live('change', function () {
-        var index = $(this).parents('.field').children('.queryindex').val();
+        var index = $(this).parents('.criteria').children('.queryindex').val();
         var operatorvalue = $(this).children(':selected')[0].value;
         var widget = plone_app_search_config.indexes[index].operators[operatorvalue].widget;
         var querywidget = $(this).parent().children('.querywidget');
@@ -226,21 +226,21 @@
 
     $('.addIndex').live('change', function () {
         var index = $(this).children(':selected')[0].value;
-        var field = $(this).parents('.field');
-        var newfield = $(document.createElement('div'))
-                            .addClass('field');
+        var criteria = $(this).parents('.criteria');
+        var newcriteria = $(document.createElement('div'))
+                            .addClass('criteria');
 
-        newfield.append(
+        newcriteria.append(
                 $(document.createElement('div'))
                     .addClass('queryresults discreet')
                     .html('')
             )
-        newfield.append(CreateQueryIndex(index));
+        newcriteria.append(CreateQueryIndex(index));
         var operator = CreateQueryOperator(index,'');
-        newfield.append(operator);
+        newcriteria.append(operator);
         var operatorvalue = $(operator.children()[0]).attr('value');
-        newfield.append(CreateWidget(plone_app_search_config.indexes[index].operators[operatorvalue].widget, index));
-        newfield.append(
+        newcriteria.append(CreateWidget(plone_app_search_config.indexes[index].operators[operatorvalue].widget, index));
+        newcriteria.append(
             $(document.createElement('input'))
                 .attr({
                     'value': 'Remove criterion',
@@ -249,13 +249,13 @@
                 })
                 .addClass('removecriteria discreet')
         )
-        field.before(newfield);
+        criteria.before(newcriteria);
         $(this).val('');
         UpdateSearch();
     });
 
     $('.removecriteria').live('click', function () {
-        $(this).parents('.field').remove();
+        $(this).parents('.criteria').remove();
         UpdateSearch();
         return false;
     });
@@ -264,26 +264,26 @@
         var query = "querybuilderpreviewresults?";
         var querylist  = [];
         $('.ArchetypesQueryWidget .queryindex').each(function () {
-            var results = $(this).parents('.field').children('.queryresults');
+            var results = $(this).parents('.criteria').children('.queryresults');
             var index = $(this).val();
-            var operator = $(this).parents('.field').children('.queryoperator').val();
+            var operator = $(this).parents('.criteria').children('.queryoperator').val();
             var widget = plone_app_search_config.indexes[index].operators[operator].widget;
             querylist.push('query.i:records=' + index);
             querylist.push('query.o:records=' + operator);
             switch (widget) {
                 case 'DateRangeWidget':
-                    var querywidget = $(this).parents('.field').find('.querywidget');
+                    var querywidget = $(this).parents('.criteria').find('.querywidget');
                     querylist.push('query.v:records:list=' + $(querywidget.children('input')[0]).val());
                     querylist.push('query.v:records:list=' + $(querywidget.children('input')[1]).val());
                     break;
                 case 'MultipleSelectionWidget':
-                    var querywidget = $(this).parents('.field').find('.querywidget');
+                    var querywidget = $(this).parents('.criteria').find('.querywidget');
                     querywidget.find('input:checked').each(function () {
                         querylist.push('query.v:records:list=' + $(this).val());
                     });
                     break;
                 default:
-                    querylist.push('query.v:records=' + $(this).parents('.field').find('.queryvalue').val());
+                    querylist.push('query.v:records=' + $(this).parents('.criteria').find('.queryvalue').val());
                     break;
             }
 
@@ -296,7 +296,7 @@
         if ($('#sort_order:checked').length > 0) {
             query += '&sort_order=reverse'
         }
-        $.get(query, {}, function (data) { $('#advancedsearch .previewresults').html(data); });
+        $.get(query, {}, function (data) { $('.ArchetypesQueryWidget .previewresults').html(data); });
     }
 
 })(jQuery);

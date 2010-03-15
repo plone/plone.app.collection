@@ -16,28 +16,17 @@
 
     <div  metal:fill-slot="widget_body">
 
-    <form action="" method="get" accept-charset="utf-8" id="advancedsearch">
-
-
-    <div id="archetypes-fieldname-query"
-         class="field ArchetypesQueryWidget"
-         tal:define="config python:widget.getConfig();
+    <div tal:define="config python:widget.getConfig();
                      indexes config/indexes;
                      sortable_indexes config/sortable_indexes;
                      addindexselected python:request.has_key('addindex') and request.addindex != '';
                      addoperatorselected python:request.has_key('addoperator') and request.addoperator != ''">
-    <span></span>
-
-    <label for="query" class="formQuestion">Query</label>
-    <div id="query_help" class="formHelp">Used to specify the query.</div>
-    <div class="fieldErrorBox"></div>
-
 
             <fieldset>
                 <legend>Criteria</legend>
                 <tal:counter tal:define="dummy python:request.set('querystringwidgetcounter', 0)"/>
                 <tal:row repeat="row here/getQueryDict">
-                <div class="field"
+                <div class="criteria"
                      tal:condition="python:not request.has_key('removecriteria.%s' % repeat['row'].index)">
                     <div class="queryindex">
                         <input type="hidden" name="query.i:records"
@@ -104,7 +93,7 @@
                 </div>
                 </tal:row>
 
-                <div class="field" tal:condition="python: addindexselected and addoperatorselected">
+                <div class="criteria" tal:condition="python: addindexselected and addoperatorselected">
 
                     <div class="queryindex">
                         <input type="hidden" name="query.i:records"
@@ -162,7 +151,7 @@
                     <input type="submit" name="removecriteria" class="removecriteria discreet" value="Remove criterion">
                 </div>
 
-                <div class="field">
+                <div class="criteria">
                     <label for="addindex" class="hiddenStructure">Add criterion</label>
 
                     <select class="addIndex" name="addindex" tal:condition="python: not(addindexselected) or addoperatorselected">
@@ -219,7 +208,6 @@
         </div>
     </div>
 
-    </form>
 </div>
     </metal:use>
     </metal:edit_macro>
