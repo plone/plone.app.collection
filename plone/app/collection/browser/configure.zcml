@@ -6,17 +6,22 @@
     <browser:resourceDirectory
         name="plone.app.collection.images"
         directory="images"
-    />
+        />
 
     <browser:resourceDirectory
         name="plone.app.collection.javascripts"
         directory="javascripts"
-    />
+        />
+
+    <browser:resourceDirectory
+        name="plone.app.collection.stylesheets"
+        directory="stylesheets"
+        />
 
     <browser:resourceDirectory
         name="plone.app.collection.templates"
         directory="templates"
-    />
+        />
 
     <browser:page
         name="criterion_edit_form"
@@ -24,8 +29,8 @@
         permission="zope2.View"
         for="..interfaces.ICollection"
         template="templates/criterion_edit_form.pt"
-    />
-    
+        />
+
     <!-- Views for in Display menu -->
     <browser:page
         name="collection_summary_view"
@@ -34,6 +39,7 @@
         for="plone.app.collection.interfaces.ICollection"
         template="templates/summary_view.pt"
         />
+
     <browser:page
         name="collection_tabular_view"
         class=".browser.CollectionViews"
