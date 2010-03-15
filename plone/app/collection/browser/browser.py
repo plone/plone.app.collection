@@ -2,7 +2,7 @@ from querybuilder import QueryBuilder
 
 from plone.app.collection.interfaces import ICollection
 
-class CriterionEditFrom(AdvancedSearch):
+class CriterionEditFrom(QueryBuilder):
 
     def __init__(self, context, request):
         self._results = None
@@ -13,7 +13,7 @@ class CriterionEditFrom(AdvancedSearch):
         if self.request.form.has_key('form.button.save'):
             self.context.querydict = self.request.get('query', None)
 
-class CollectionViews(AdvancedSearch):
+class CollectionViews(QueryBuilder):
     def __init__(self, context, request):
         self._results = None
         self.context = context

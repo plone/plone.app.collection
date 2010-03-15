@@ -65,4 +65,4 @@ class QueryBuilder(BrowserView):
         return json.dumps(self.getConfig())
 
     def previewSearchResults(self):
-        return getMultiAdapter((self.context, self.request),name='previewadvancedsearchresults')()
+        return getMultiAdapter((self.context, self.request),name='querybuilderpreviewresults')()

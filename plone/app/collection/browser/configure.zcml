@@ -47,7 +47,7 @@
         class=".querybuilder.QueryBuilder"
         permission="zope2.View"
         for="*"
-        template="previewresults.pt"
+        template="templates/previewresults.pt"
         />
 
     <browser:page

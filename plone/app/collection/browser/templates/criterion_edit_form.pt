@@ -234,7 +234,7 @@ jQuery(function($) {
         $(".multipleSelectionWidget dt").removeClass('hiddenStructure');
         $(".multipleSelectionWidget dd").addClass('hiddenStructure widgetPulldownMenu');
 
-        $.getJSON('jsonadvancedsearchconfig', function (data) {
+        $.getJSON('querybuilderjsonconfig', function (data) {
             plone_app_search_config = data;
             $('div.queryindex').each(function () {
                 $(this).before(
@@ -340,7 +340,7 @@ jQuery(function($) {
     });
 
     function UpdateSearch() {
-        var query = "previewadvancedsearchresults?";
+        var query = "querybuilderpreviewresults?";
         var querylist  = [];
         $('#advancedsearch .queryindex').each(function () {
             var results = $(this).parents('.field').children('.queryresults');
@@ -366,7 +366,7 @@ jQuery(function($) {
                     break;
             }
 
-            $.get('previewadvancedsearchnumberofresults?' + querylist.join('&'),
+            $.get('querybuildernumberofresults?' + querylist.join('&'),
                   {},
                   function (data) { results.html(data); });
         });
