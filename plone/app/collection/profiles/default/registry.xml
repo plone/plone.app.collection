@@ -299,7 +299,7 @@
         <value key="enabled">False</value>
         <value key="operations">
         </value>
-        <value key="vocabulary">plone.app.vocabularies.types.PortalTypesVocabulary</value>
+        <value key="vocabulary">plone.app.vocabularies.PortalTypes</value>
     </records>
     
     <records interface="plone.app.collection.interfaces.IQueryField"
@@ -311,7 +311,7 @@
             <element>plone.app.collection.operation.string.is</element>
             <element>plone.app.collection.operation.list.contains</element>
         </value>
-        <value key="vocabulary">plone.app.vocabularies.workflow.WorkflowStatesVocabulary</value>
+        <value key="vocabulary">plone.app.vocabularies.WorkflowStates</value>
     </records>
     
     <records interface="plone.app.collection.interfaces.IQueryField"
@@ -368,7 +368,7 @@
         <value key="operations">
             <element>plone.app.collection.operation.string.is</element>
         </value>
-        <value key="vocabulary">plone.app.vocabularies.types.UserFriendlyTypesVocabulary</value>
+        <value key="vocabulary">plone.app.vocabularies.UserFriendlyTypes</value>
     </records>
 
 </registry>
