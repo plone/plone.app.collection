@@ -18,7 +18,7 @@
 
     <div metal:fill-slot="widget_body">
 
-    <div tal:define="config python:widget.getConfig();
+    <div tal:define="config widget/getConfig;
                      indexes config/indexes;
                      sortable_indexes config/sortable_indexes;
                      addindexselected python:request.has_key('addindex') and request.addindex != '';
