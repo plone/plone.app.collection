@@ -8,10 +8,10 @@
 <head>
 </head>
 <body>
-<div tal:define="results python:view.results()">
+<div tal:define="results view/results">
 
     <h2 class="previewsearchResultsHeading">
-        <span>
+        <span i18n:translate="collection_query_results">
             Query results
         </span>
         <span class="discreet">

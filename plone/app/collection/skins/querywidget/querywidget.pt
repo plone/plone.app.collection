@@ -156,7 +156,7 @@
                     <label for="addindex" class="hiddenStructure">Add criterion</label>
 
                     <select class="addIndex" name="addindex" tal:condition="python: not(addindexselected) or addoperatorselected">
-                        <option value="" selected="selected">Add criterion...</option>
+                        <option value="" selected="selected">Select&hellip;</option>
                         <tal:index repeat="index python:indexes.keys()">
                         <option tal:attributes="value index;"
                                 tal:content="python:indexes[index]['friendly_name']">Index</option>
@@ -170,7 +170,7 @@
                     </div>
 
                     <select class="addOperator" name="addoperator" tal:condition="python: addindexselected and not(addoperatorselected)">
-                        <option value="" selected="selected">Add criterion...</option>
+                        <option value="" selected="selected">Select&hellip;</option>
                         <tal:index repeat="index python:indexes[request.form['addindex']]['operators'].keys()">
                         <option tal:attributes="value index;"
                                 tal:content="python:indexes[request.form['addindex']]['operators'][index]['friendly_name']">Index</option>
