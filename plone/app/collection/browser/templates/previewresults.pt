@@ -12,11 +12,11 @@
 
     <h2 class="previewsearchResultsHeading">
         <span>
-            Search results
+            Query results
         </span>
         <span class="discreet">
         &mdash;
-        <span><tal:count content="python: view.getNumberOfResults()">1</tal:count> items matching your search terms</span>
+        <span><tal:count content="view/getNumberOfResults">1</tal:count> items matching your query terms</span>
       </span>
     </h2>
 
