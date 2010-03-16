@@ -23,14 +23,6 @@
         directory="templates"
         />
 
-    <browser:page
-        name="criterion_edit_form"
-        class=".browser.CriterionEditFrom"
-        permission="zope2.View"
-        for="..interfaces.ICollection"
-        template="templates/criterion_edit_form.pt"
-        />
-
     <!-- Views for in Display menu -->
     <browser:page
         name="collection_summary_view"
@@ -79,7 +71,7 @@
         for="*"
         attribute="getJSONConfig"
         />
-    
+
     <browser:page
         name="querybuilderjsonconfigfromregistry"
         class=".querybuilder.QueryBuilder"
