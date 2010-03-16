@@ -3,7 +3,9 @@ from copy import deepcopy
 
 from Acquisition import aq_parent
 from DateTime import DateTime
+from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
+from zope.component import getUtility
 
 Row = namedtuple('Row', ['index', 'operator', 'values'])
 
@@ -17,15 +19,19 @@ class QueryParser(object):
     def parseFormquery(self, formquery):
         if not formquery:
             return {}
+        reg = getUtility(IRegistry)
         
         formquery = deepcopy(formquery)
-        
         query = {}
         for row in formquery:
+            
+            operator = row.get('o', None)
+            function_path = reg["%s.operation" % operator]
+            
             # The functions expect this pattern of object, so lets give it to
             # them in a named tuple instead of jamming things onto the request
             row = Row(index=row.get('i', None), 
-                      operator=row.get('o', None), 
+                      operator=function_path, 
                       values=row.get('v', None))
             
             kwargs = {}
@@ -35,7 +41,7 @@ class QueryParser(object):
             try:
                 module = __import__(module, fromlist=fromlist)
                 parser = getattr(module, function)
-            except ImportError, AttributeError:
+            except (ImportError, AttributeError):
                 raise # XXX: Be more friendly
             else:
                 kwargs = parser(self.context, row)

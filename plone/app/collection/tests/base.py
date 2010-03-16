@@ -1,10 +1,11 @@
-from Testing import ZopeTestCase as ztc
-
-from Products.PloneTestCase import PloneTestCase as ptc
-from Products.PloneTestCase.layer import onsetup
+from plone.registry.interfaces import IRegistry
+from zope.component import getGlobalSiteManager
 
 from collective.testcaselayer import ptc as tcl_ptc
 from collective.testcaselayer import common
+from collective.testcaselayer.layer import Layer as BaseLayer
+from Products.PloneTestCase import PloneTestCase as ptc
+from Testing import ZopeTestCase as ztc
 
 class Layer(tcl_ptc.BasePTCLayer):
     """Install plone.app.collection"""
@@ -23,8 +24,20 @@ class Layer(tcl_ptc.BasePTCLayer):
         self.loadZCML('configure.zcml', package=plone.app.collection)
         
         self.addProfile('plone.app.collection:default')
-        
 
+class RegistryLayer(BaseLayer):
+    
+    def setUp(self):
+        gsm = getGlobalSiteManager()
+        
+        # We don't actually care about having a real registry, just as long as
+        # we can find it in the same way and it's dictish
+        self.registry = dict()
+
+        gsm.registerUtility(self.registry, IRegistry)
+
+UnittestLayer = BaseLayer([], name="UnittestLayer")
+UnittestWithRegistryLayer = RegistryLayer([UnittestLayer])
 Installedlayer = Layer([common.common_layer])
 UninstalledLayer = tcl_ptc.BasePTCLayer([common.common_layer])
 
