@@ -15,7 +15,7 @@
         </span>
         <span class="discreet">
         &mdash;
-        <span><tal:count content="view/getNumberOfResults/">1</tal:count> items matching your search terms</span>
+        <span><tal:count content="view/getNumberOfResults">1</tal:count> items matching your search terms</span>
       </span>
     </h2>
 
