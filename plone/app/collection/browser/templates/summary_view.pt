@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<div tal:define="results view/results" metal:fill-slot="main">
+<metal:main tal:define="results view/results" fill-slot="main">
 
     <h1 class="documentFirstHeading">
         <metal:field use-macro="python:context.widget('title', mode='view')">
@@ -114,10 +114,6 @@
 
     <div tal:replace="structure provider:plone.belowcontentbody" />
 
-</div>
+</metal:main>
 </body>
 </html>
-
-
-
-
