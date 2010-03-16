@@ -11,10 +11,6 @@ class Layer(tcl_ptc.BasePTCLayer):
     """Install plone.app.collection"""
 
     def afterSetUp(self):
-        ztc.installPackage('plone.app.registry')
-        ztc.installPackage('plone.app.contentlisting')
-        ztc.installPackage('plone.app.collection')
-
         import plone.app.registry
         import plone.app.contentlisting
         import plone.app.collection
@@ -22,6 +18,10 @@ class Layer(tcl_ptc.BasePTCLayer):
         self.loadZCML('configure.zcml', package=plone.app.registry)
         self.loadZCML('configure.zcml', package=plone.app.contentlisting)
         self.loadZCML('configure.zcml', package=plone.app.collection)
+
+        ztc.installPackage('plone.app.registry')
+        ztc.installPackage('plone.app.contentlisting')
+        ztc.installPackage('plone.app.collection')
         
         self.addProfile('plone.app.collection:default')
 
@@ -38,8 +38,8 @@ class RegistryLayer(BaseLayer):
 
 UnittestLayer = BaseLayer([], name="UnittestLayer")
 UnittestWithRegistryLayer = RegistryLayer([UnittestLayer])
-Installedlayer = Layer([common.common_layer])
 UninstalledLayer = tcl_ptc.BasePTCLayer([common.common_layer])
+Installedlayer = Layer([common.common_layer])
 
 class CollectionTestCase(ptc.PloneTestCase):
     layer = Installedlayer
