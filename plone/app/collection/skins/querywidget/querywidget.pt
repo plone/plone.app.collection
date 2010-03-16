@@ -50,7 +50,7 @@
 
                     <dl class="querywidget queryvalue multipleSelectionWidget"
                          tal:condition="python:indexes[row.i]['operators'][row.o]['widget'] == 'MultipleSelectionWidget'">
-                        <dt class="hiddenStructure"><span>Select...</span><span class="arrowDownAlternative">▼</span></dt>
+                        <dt class="hiddenStructure"><span>Select&hellip;</span><span class="arrowDownAlternative">▼</span></dt>
                         <dd>
                         <tal:values repeat="index python:indexes[row.i]['values'].keys()">
                         <label>
@@ -65,7 +65,7 @@
 
                     <dl class="querywidget referenceWidget"
                          tal:condition="python:indexes[row.i]['operators'][row.o]['widget'] == 'ReferenceWidget'">
-                        <dt class="hiddenStructure">Select...</dt>
+                        <dt class="hiddenStructure">Select&hellip;</dt>
                         <dd>
                             <input class="queryvalue" autocomplete="off" type="text" name="query.v:records" tal:attributes="name python:str(fieldName)+'.v:records'; value python:row['v']" />
                         </dd>
@@ -117,7 +117,7 @@
 
                     <dl class="querywidget queryvalue multipleSelectionWidget"
                          tal:condition="python:indexes[request.form['addindex']]['operators'][request.form['addoperator']]['widget'] == 'MultipleSelectionWidget'">
-                        <dt class="hiddenStructure">Select...</dt>
+                        <dt class="hiddenStructure">Select&hellip;</dt>
                         <dd>
                             <tal:values repeat="index python:indexes[request.form['addindex']]['values'].keys()">
                             <label>
@@ -131,7 +131,7 @@
                     <div class="querywidget referenceWidget"
                          tal:condition="python:indexes[request.form['addindex']]['operators'][request.form['addoperator']]['widget'] == 'ReferenceWidget'">
                         <dl>
-                            <dt class="hiddenStructure">Select...</dt>
+                            <dt class="hiddenStructure">Select&hellip;</dt>
                             <dd><input class="queryvalue" autocomplete="off" tal:attributes="name python:str(fieldName)+'.v:records';" type="text" name="query.v:records"/></dd>
                         </dl>
                     </div>
