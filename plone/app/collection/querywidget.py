@@ -30,6 +30,9 @@ class QueryWidget(TypesWidget):
         """A custom implementation for the widget form processing."""
         value = form.get(field.getName())
 
+        #if 'form.button.addcriteria' in form:
+            
+
         if value:
             return value, {}
 
