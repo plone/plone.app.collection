@@ -33,11 +33,9 @@ class QueryBuilder(BrowserView):
     def _queryForResults(self, formquery=None):
         # parse query
         if not formquery:
-            ## todo: get field here
             formquery=self.request.get('query', None)
         queryparser=QueryParser(self.context, self.request)
         query = queryparser.parseFormquery(formquery)
-
         if not query:
             return IContentListing([])
 
@@ -45,13 +43,9 @@ class QueryBuilder(BrowserView):
         query['sort_on'] = getattr(self.request, 'sort_on', 'getObjPositionInParent')
         query['sort_order'] = getattr(self.request, 'sort_order', 'ascending')
 
-        # Get me my stuff!
-        catalog = getToolByName(self.context, 'portal_catalog')
-        results = catalog(query)
+        #fetch and return the actual resultset
+        return getMultiAdapter((self.context, self.request), name='searchResults')(query=query)
 
-        if results:
-            return IContentListing(results)
-        return IContentListing([])
 
     def getConfig(self):
         return {'indexes':CRITERION, 'sortable_indexes': SORTABLES}
