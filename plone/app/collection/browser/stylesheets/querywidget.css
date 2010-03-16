@@ -40,7 +40,7 @@
     width: 200px;
     border: 1px solid #8CACBB;
     background: white;
-    overflow:auto; 
+    overflow:auto;
     height:6.5em;
 }
 .multipleSelectionWidget label {
@@ -66,4 +66,7 @@ dl.querywidget dd {
 }
 div.dateRangeWidget, dl.multipleSelectionWidget {
     border: solid 1px transparent;
+}
+.criteria {
+    clear: both;
 }
