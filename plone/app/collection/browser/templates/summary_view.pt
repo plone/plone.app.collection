@@ -8,6 +8,7 @@
 <head>
 </head>
 <body>
+
 <div tal:define="results view/results" metal:fill-slot="main">
 
     <h1 class="documentFirstHeading">
@@ -38,11 +39,11 @@
         <dl class="searchResults">
         <tal:results repeat="item results">
         <tal:entry>
-            <dt 
+            <dt
                 tal:attributes="class string:FIXME">
               <img tal:replace="structure item/getIcon" />
                <a
-                 href="#" 
+                 href="#"
                  tal:attributes="href item/getURL;
                                  class item/review_state"
                  tal:content="item/Title" />
@@ -87,7 +88,7 @@
 
             </span>
             </dt>
-            
+
             <dd>
                 <span tal:replace="item/Description">
                     Cropped description
@@ -109,8 +110,8 @@
 
 
     </div>
-      
-      
+
+
     <div tal:replace="structure provider:plone.belowcontentbody" />
 
 </div>

@@ -1,6 +1,7 @@
 from Products.Five.browser import BrowserView
 from plone.app.contentlisting.interfaces import IContentListing
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import log
 from config import CRITERION, SORTABLES
 import json
 from plone.app.collection.queryparser import QueryParser
@@ -19,6 +20,13 @@ class QueryBuilder(BrowserView):
         self.context = context
         self.request = request
 
+
+    def __call__(self,value=None):
+        """Call"""
+        self.value = value
+        return self.index()
+
+
     def getNumberOfResults(self):
         return len(self.results())
 
@@ -31,9 +39,10 @@ class QueryBuilder(BrowserView):
         return self._results
 
     def _queryForResults(self, formquery=None):
-        # parse query
+
+        formquery = self.request.get('query', None)
         if not formquery:
-            formquery=self.request.get('query', None)
+            formquery = self.value
         queryparser=QueryParser(self.context, self.request)
         query = queryparser.parseFormquery(formquery)
         if not query:

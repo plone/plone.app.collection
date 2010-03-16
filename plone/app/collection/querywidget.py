@@ -21,6 +21,7 @@ class QueryWidget(TypesWidget):
         'macro': 'querywidget',
         }),
 
+    value = ""
     security = ClassSecurityInfo()
 
     security.declarePublic('process_form')
@@ -29,12 +30,12 @@ class QueryWidget(TypesWidget):
                      emptyReturnsMarker=False, validating=True):
         """A custom implementation for the widget form processing."""
         value = form.get(field.getName())
-
+        print 'value = %s' % value
+        self.value = value
         #if 'form.button.addcriteria' in form:
-            
-
         if value:
             return value, {}
+
 
     def getConfig(self):
         return {'indexes': CRITERION, 'sortable_indexes': SORTABLES}
@@ -49,7 +50,7 @@ class QueryWidget(TypesWidget):
 
     def SearchResults(self, request, context):
         """search results"""
-        return getMultiAdapter((context, request), name='querybuilderresults')()
+        return getMultiAdapter((context, request), name='querybuilderresults')(value=self.value)
 
 __all__ = ('QueryWidget')
 

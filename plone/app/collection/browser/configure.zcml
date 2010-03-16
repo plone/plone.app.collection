@@ -55,7 +55,7 @@
         for="*"
         template="templates/previewresults.pt"
         />
-    
+
     <browser:page
         name="querybuilderresults"
         class=".querybuilder.QueryBuilder"
@@ -81,5 +81,5 @@
         for="*"
         attribute="getJSONConfig"
         />
-        
+
 </configure>

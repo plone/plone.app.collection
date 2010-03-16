@@ -9,7 +9,6 @@
 </head>
 <body>
 <div tal:define="results python:view.results()">
-
     <h2 class="previewsearchResultsHeading">
         <span>
             Search results
