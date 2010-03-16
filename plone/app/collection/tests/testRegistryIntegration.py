@@ -7,7 +7,6 @@ class TestOperationDefinitions(CollectionTestCase):
     def test_string_equality(self):
         registry = self.portal.portal_registry
         prefix = "plone.app.collection.operation.string.is"
-        import pdb; pdb.set_trace( )
         assert prefix+'.title' in registry
         
         self.assertEqual(registry[prefix+".title"], "equals")
