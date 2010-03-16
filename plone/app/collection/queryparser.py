@@ -128,10 +128,10 @@ def _path(context, row):
     
     # UID
     if not '/' in values:
-        row.values = getPathByUID(values) # XXX : This looks broken
+        values = getPathByUID(context, values)
     
     tmp={row.index:{
-        'query':row.values
+        'query':values
     }}
     
     depth = getattr(row, 'depth', None)
@@ -162,20 +162,13 @@ def getCurrentUsername(context):
         return user.getUserName()
     return ''
 
-def getPathByUID(context):
-    """Returns the path of an object specified in the request by UID"""
-
-    request = context.REQUEST
-
-    if not hasattr(request, 'uid'):
-    	return ""
-
-    uid = request['uid']
+def getPathByUID(context, uid):
+    """Returns the path of an object specified by UID"""
 
     reference_tool = getToolByName(context, 'reference_catalog')
     obj = reference_tool.lookupObject(uid)
 
     if obj:
-    	return obj.absolute_url()
+    	return '/'.join(obj.absolute_url())
 
     return ""
