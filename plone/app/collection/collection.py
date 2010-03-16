@@ -24,13 +24,6 @@ CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
             description="Query for the collection",
         ),
     ),
-    QueryField(
-        name='query2',
-        widget=QueryWidget(
-            label="Query 2",
-            description="Query for the collection",
-        ),
-    ),
     BooleanField(
         name='limitNumber',
         required=False,
