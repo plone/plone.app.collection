@@ -16,10 +16,3 @@ class CollectionViews(QueryBuilder):
         self._results = None
         self.context = context
         self.request = request
-
-    def results(self):
-        return ''
-        formquery= ''## get the current field here
-        if self._results is None:
-            self._results = self._queryForResults(formquery)
-        return self._results
