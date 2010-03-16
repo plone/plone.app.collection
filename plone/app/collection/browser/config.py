@@ -384,11 +384,11 @@ CRITERION={
 SORTABLES={
     'Creator':{
         'friendly_name' : 'Creator',
-        'description' : 'The creator (username) of the item',
+        'description' : 'The person that created an item',
     },
     'Type':{
         'friendly_name' : 'Item Type',
-        'description' : 'The type of the item',
+        'description' : 'The content type of the item',
     },
 # is there an usecase?
 #     'getId':{  
@@ -406,12 +406,12 @@ SORTABLES={
 #          'description' : '',
 #     },
     'review_state':{  
-        'friendly_name' : 'State',
+        'friendly_name' : 'Workflow state',
         'description' : 'An item\'s workflow state (e.g.published)',
     },
     'sortable_title':{  
         'friendly_name' : 'Title',
-        'description' : 'An item\'s title transformed for sorting',
+        'description' : 'The item\'s title transformed for sorting',
     },
 # Same as Modification Date?
 #     'Date':{  
@@ -424,14 +424,14 @@ SORTABLES={
     },
     'effective':{  
         'friendly_name' : 'Effective date',
-        'description' : 'The time and date an item becomes publicly available',
+        'description' : 'The time and date an item was published',
     },
     'end':{  
         'friendly_name' : 'End date (Event)',
         'description' : 'The end date and time of an event',
     },
     'expires':{  
-        'friendly_name' : 'Expire date',
+        'friendly_name' : 'Expiry date',
         'description' : 'The time and date an item is no longer publicly available',
     },
     'modified':{  
@@ -443,7 +443,7 @@ SORTABLES={
         'description' : 'The start date and time of an event',
     },
     'Subject':{  
-        'friendly_name' : 'Categories',
+        'friendly_name' : 'Category',
         'description' : 'The keywords used to describe an item',
     },
     'getEventType':{  
@@ -455,8 +455,8 @@ SORTABLES={
 #          'friendly_name': 'Related to',
 #          'description': 'Find items related to the selected items',
 #     },
-    'relevence':{
-        'friendly_name' : 'Relevence',
-        'description' : 'Relevence',
+    'relevance':{
+        'friendly_name' : 'Relevance',
+        'description' : 'Relevance',
     },
 }
