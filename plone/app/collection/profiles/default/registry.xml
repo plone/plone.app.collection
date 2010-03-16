@@ -1,3 +1,14 @@
+<!-- Need
+     int.is, int.lessThan, int.greaterThan
+     reference.is, reference.isNot
+     boolean.is, boolean.isNot
+     <element>plone.app.collection.operation.path.isWithin</element>
+     <element>plone.app.collection.operation.path.isNotWithin</element>
+     <element>plone.app.collection.operation.path.isWithinRelatve</element>
+     <element>plone.app.collection.operation.path.isNotWithinRelative</element>
+-->
+
+
 <registry>
     <records interface="plone.app.collection.interfaces.IQueryOperation" prefix="plone.app.collection.operation.string.is">
         <value key="title">equals</value>
@@ -75,8 +86,8 @@
        <value key="description">The short name of an item (used in the url)</value>
        <value key="enabled">True</value>
        <value key="operations">
-            <element key="string.is">string.is</element>
-            <element key="string.isNot">string.isNot</element>
+            <element>plone.app.collection.operation.string.is</element>
+            <element>plone.app.collection.operation.string.isNot</element>
        </value>
     </records>
 
@@ -85,9 +96,9 @@
        <value key="description">The roles and users with View permission on an item</value>
        <value key="enabled">True</value>
        <value key="operations">
-           <element key="string.is">string.is</element>
-           <element key="string.isNot">string.isNot</element>
-           <element key="string.iscurrentuser">string.isCurrentUser</element>
+           <element>plone.app.collection.operation.string.is</element>
+           <element>plone.app.collection.operation.string.isNot</element>
+           <element>plone.app.collection.operation.string.isCurrentUser</element>
        </value>
     </records>
 
@@ -96,15 +107,184 @@
        <value key="description">The time and date an item was created</value>
        <value key="enabled">True</value>
        <value key="operations">
-           <element key="date.lessThan">date.lessThan</element>
-           <element key="date.largerThan">date.largerThan</element>
-           <element key="date.between">date.between</element>
-           <element key="date.lessThanRelativeDate">date.lessThanRelativeDate</element>
-           <element key="date.largerThanRelativeDate">date.largerThanRelativeDate</element>
+           <element>plone.app.collection.operation.date.lessThan</element>
+           <element>plone.app.collection.operation.date.largerThan</element>
+           <element>plone.app.collection.operation.date.between</element>
+           <element>plone.app.collection.operation.date.lessThanRelativeDate</element>
+           <element>plone.app.collection.operation.date.largerThanRelativeDate</element>
        </value>
     </records>
 
+    <records interface="plone.app.collection.interfaces.IQueryField" prefix="plone.app.collection.field.creator">
+        <value key="title">Creator</value>
+        <value key="description"></value>
+        <value key="enabled">True</value>
+        <value key="operations">
+            <element>plone.app.collection.operation.string.is</element>
+            <element>plone.app.collection.operation.string.isNot</element>
+            <element>plone.app.collection.operation.string.isCurrentUser</element>
+        </value>
+    </records>
+    
+    <records interface="plone.app.collection.interfaces.IQueryField" prefix="plone.app.collection.field.date">
+        <value key="title">Modification Date</value>
+        <value key="description">The time and date an item was last modified</value>
+        <value key="enabled">False</value>
+        <value key="operations">
+            <element>plone.app.collection.operation.date.lessThan</element>
+            <element>plone.app.collection.operation.date.largerThan</element>
+            <element>plone.app.collection.operation.date.between</element>
+            <element>plone.app.collection.operation.date.lessThanRelativeDate</element>
+            <element>plone.app.collection.operation.date.largerThanRelativeDate</element>
+        </value>
+    </records>
+    
+    <records interface="plone.app.collection.interfaces.IQueryField" prefix="plone.app.collection.field.description">
+        <value key="title">Description</value>
+        <value key="description"></value>
+        <value key="enabled">True</value>
+        <value key="operations">
+            <element>plone.app.collection.operation.string.is</element>
+            <element>plone.app.collection.operation.string.isNot</element>
+        </value>
+    </records>
+    
+    <records interface="plone.app.collection.interfaces.IQueryField" prefix="plone.app.collection.field.effective">
+        <value key="title">Effective Date</value>
+        <value key="description">The time and date an item becomes publicly available</value>
+        <value key="enabled">True</value>
+        <value key="operations">
+            <element>plone.app.collection.operation.date.lessThan</element>
+            <element>plone.app.collection.operation.date.largerThan</element>
+            <element>plone.app.collection.operation.date.between</element>
+            <element>plone.app.collection.operation.date.lessThanRelativeDate</element>
+            <element>plone.app.collection.operation.date.largerThanRelativeDate</element>
+        </value>
+    </records>    
 
+    <records interface="plone.app.collection.interfaces.IQueryField" prefix="plone.app.collection.field.effectiveRange">
+        <value key="title">Effective Range</value>
+        <value key="description">The time and date an item becomes publicly available</value>
+        <value key="enabled">False</value>
+        <value key="operations">
+            <element>plone.app.collection.operation.date.lessThan</element>
+            <element>plone.app.collection.operation.date.largerThan</element>
+            <element>plone.app.collection.operation.date.between</element>
+            <element>plone.app.collection.operation.date.lessThanRelativeDate</element>
+            <element>plone.app.collection.operation.date.largerThanRelativeDate</element>
+        </value>
+    </records>    
+
+    <records interface="plone.app.collection.interfaces.IQueryField" prefix="plone.app.collection.field.end">
+        <value key="title">End Date</value>
+        <value key="description">The end date and time of an event</value>
+        <value key="enabled">True</value>
+        <value key="operations">
+            <element>plone.app.collection.operation.date.lessThan</element>
+            <element>plone.app.collection.operation.date.largerThan</element>
+            <element>plone.app.collection.operation.date.between</element>
+            <element>plone.app.collection.operation.date.lessThanRelativeDate</element>
+            <element>plone.app.collection.operation.date.largerThanRelativeDate</element>
+        </value>
+    </records>    
+
+    <records interface="plone.app.collection.interfaces.IQueryField" prefix="plone.app.collection.field.expires">
+        <value key="title">Expiration Date</value>
+        <value key="description">The time and date an item is no longer publicly available</value>
+        <value key="enabled">True</value>
+        <value key="operations">
+            <element>plone.app.collection.operation.date.lessThan</element>
+            <element>plone.app.collection.operation.date.largerThan</element>
+            <element>plone.app.collection.operation.date.between</element>
+            <element>plone.app.collection.operation.date.lessThanRelativeDate</element>
+            <element>plone.app.collection.operation.date.largerThanRelativeDate</element>
+        </value>
+    </records>    
+
+    <records interface="plone.app.collection.interfaces.IQueryField" prefix="plone.app.collection.field.getObjPositionInParent">
+        <value key="title">Order in folder</value>
+        <value key="description">The order of an item in its parent folder</value>
+        <value key="enabled">False</value>
+        <value key="operations">
+            <element>plone.app.collection.operation.int.is</element>
+            <element>plone.app.collection.operation.int.lessThan</element>
+            <element>plone.app.collection.operation.int.greaterThan</element>
+        </value>
+    </records>
+    
+    <records interface="plone.app.collection.interfaces.IQueryField" prefix="plone.app.collection.field.getRawRelatedItems">
+        <value key="title">Related To</value>
+        <value key="description">Find items related to the selected items</value>
+        <value key="enabled">True</value>
+        <value key="operations">
+            <element>plone.app.collection.operation.reference.is</element>
+            <element>plone.app.collection.operation.reference.isNot</element>
+        </value>
+    </records>    
+    
+<!--
+    TODO What sort of operations will this need?
+-->
+    <records interface="plone.app.collection.interfaces.IQueryField" prefix="plone.app.collection.field.inReplyTo">
+        <value key="title">In Reply To</value>
+        <value key="description"></value>
+        <value key="enabled">False</value>
+        <value key="operations">
+        </value>
+    </records>    
+    
+    <records interface="plone.app.collection.interfaces.IQueryField" prefix="plone.app.collection.field.isDefaultPage">
+        <value key="title">Default Page</value>
+        <value key="description">Find items that are the default view for their containing folder.</value>
+        <value key="enabled">False</value>
+        <value key="operations">
+            <element>plone.app.collection.operation.boolean.is</element>
+            <element>plone.app.collection.operation.boolean.isNot</element>
+        </value>
+    </records>    
+
+    <records interface="plone.app.collection.interfaces.IQueryField" prefix="plone.app.collection.field.isFolderish">
+        <value key="title">Folder-like</value>
+        <value key="description">Find items that can contain other objects</value>
+        <value key="enabled">False</value>
+        <value key="operations">
+            <element>plone.app.collection.operation.boolean.is</element>
+            <element>plone.app.collection.operation.boolean.isNot</element>
+        </value>
+    </records>    
+
+    <records interface="plone.app.collection.interfaces.IQueryField" prefix="plone.app.collection.field.modified">
+        <value key="title">Modification Date</value>
+        <value key="description">The time and date an item was last modified</value>
+        <value key="enabled">True</value>
+        <value key="operations">
+            <element>plone.app.collection.operation.date.lessThan</element>
+            <element>plone.app.collection.operation.date.largerThan</element>
+            <element>plone.app.collection.operation.date.between</element>
+            <element>plone.app.collection.operation.date.lessThanRelativeDate</element>
+            <element>plone.app.collection.operation.date.largerThanRelativeDate</element>
+        </value>
+    </records>    
+
+    <records interface="plone.app.collection.interfaces.IQueryField" prefix="plone.app.collection.field.path">
+        <value key="title">Expiration Date</value>
+        <value key="description">The location of an item in the site (path)</value>
+        <value key="enabled">True</value>
+        <value key="operations">
+            <element>plone.app.collection.operation.path.isWithin</element>
+            <element>plone.app.collection.operation.path.isNotWithin</element>
+            <element>plone.app.collection.operation.path.isWithinRelatve</element>
+            <element>plone.app.collection.operation.path.isNotWithinRelative</element>
+        </value>
+    </records>  
+    
+    <records interface="plone.app.collection.interfaces.IQueryField" prefix="plone.app.collection.field.portalType">
+        <value key="title">Item Type (internal)</value>
+        <value key="description"></value>
+        <value key="enabled">False</value>
+        <value key="operations">
+        </value>
+    </records>      
 </registry>
 
 
