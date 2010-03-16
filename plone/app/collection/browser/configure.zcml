@@ -55,6 +55,14 @@
         for="*"
         template="templates/previewresults.pt"
         />
+    
+    <browser:page
+        name="querybuilderresults"
+        class=".querybuilder.QueryBuilder"
+        permission="zope2.View"
+        for="*"
+        template="templates/results.pt"
+        />
 
     <browser:page
         name="querybuildernumberofresults"
@@ -63,6 +71,8 @@
         for="*"
         attribute="getFormattedNumberOfResults"
         />
+
+
 
     <browser:page
         name="querybuilderjsonconfig"

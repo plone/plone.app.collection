@@ -24,6 +24,7 @@ class QueryWidget(TypesWidget):
     security = ClassSecurityInfo()
 
     security.declarePublic('process_form')
+
     def process_form(self, instance, field, form, empty_marker=None,
                      emptyReturnsMarker=False, validating=True):
         """A custom implementation for the widget form processing."""
@@ -32,22 +33,23 @@ class QueryWidget(TypesWidget):
             return value, {}
 
     def getConfig(self):
-        return {'indexes':CRITERION, 'sortable_indexes': SORTABLES}
+        return {'indexes': CRITERION, 'sortable_indexes': SORTABLES}
         # we wrap this in a dictionary so we can add more configuration data
         # to the payload in the future. This is data that will be fetched
         # by a browser AJAX call
 
-
     def previewSearchResults(self, request, context):
-        return getMultiAdapter((context, request),name='querybuilderpreviewresults')()
+        """preview search results"""
+        return getMultiAdapter((context, request),
+            name='querybuilderpreviewresults')()
 
     def SearchResults(self, request, context):
-        return getMultiAdapter((context, request),name='querybuilderpreviewresults')()
+        """search results"""
+        return getMultiAdapter((context, request), name='querybuilderresults')()
 
 __all__ = ('QueryWidget')
 
 registerWidget(QueryWidget,
                title='Query',
                description=('Field for storing collection query'),
-               used_for=('plone.app.collection.QueryField',)
-               )
+               used_for=('plone.app.collection.QueryField',))
