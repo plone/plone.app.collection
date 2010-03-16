@@ -9,10 +9,6 @@ class CriterionEditFrom(QueryBuilder):
         self.context = context
         self.request = request
 
-        # save the criteria to the collection object
-        if self.request.form.has_key('form.button.save'):
-            self.context.querydict = self.request.get('query', None)
-
 class CollectionViews(QueryBuilder):
     def __init__(self, context, request):
         self._results = None
