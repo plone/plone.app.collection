@@ -19,7 +19,7 @@
     name="default"
     title="plone.app.collection"
     directory="profiles/default"
-    description="plone.app.collection profile"
+    description="Add new collections (saved searches) to Plone"
     provides="Products.GenericSetup.interfaces.EXTENSION"
     />
     <class class=".collection.Collection">
