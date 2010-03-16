@@ -357,6 +357,7 @@
         <value key="enabled">True</value>
         <value key="operations">
             <element>plone.app.collection.operation.string.contains</element>
+            <element>plone.app.collection.operation.string.is</element>
         </value>
     </records>
 
