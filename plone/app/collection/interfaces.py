@@ -9,7 +9,7 @@ class IQueryOperation(Interface):
     title = field.TextLine(title=u"Title")
     description = field.Text(title=u"Description")
     operation = field.TextLine(title=u"Operation")
-    widget = field.TextLine(title=u"widget")
+    widget = field.TextLine(title=u"Widget")
 
 class IQueryField(Interface):
     title = field.TextLine(title=u"Title")
