@@ -34,10 +34,6 @@
         show related items if they exist
     </div>
 
-    <div tal:condition="not: results">
-        <p><strong i18n:translate="description_no_results_found">No results were found.</strong></p>
-    </div>
-
     <div tal:condition="results">
         <dl class="searchResults">
         <tal:results repeat="item results">
