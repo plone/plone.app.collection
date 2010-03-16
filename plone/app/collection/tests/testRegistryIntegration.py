@@ -12,7 +12,7 @@ class TestOperationDefinitions(CollectionTestCase):
         self.assertEqual(registry[prefix+".title"], "equals")
         self.assertEqual(registry[prefix+".description"], 
                          'Tip: you can use * to autocomplete.')
-        self.assertEqual(registry[prefix+".operation"], 'is')
+        self.assertEqual(registry[prefix+".operation"], 'plone.app.collection.queryparser:_equal')
                 
     def test_string_inequality(self):
         registry = self.portal.portal_registry
@@ -22,7 +22,7 @@ class TestOperationDefinitions(CollectionTestCase):
         self.assertEqual(registry[prefix+".title"], "does not equal")
         self.assertEqual(registry[prefix+".description"], 
                          'Tip: you can use * to autocomplete.')
-        self.assertEqual(registry[prefix+".operation"], 'is_not')
+        self.assertEqual(registry[prefix+".operation"], 'plone.app.collection.queryparser:_notEqual')
     
     def test_date_lessthan(self):
         registry = self.portal.portal_registry
@@ -33,7 +33,7 @@ class TestOperationDefinitions(CollectionTestCase):
         self.assertEqual(registry[prefix+".title"], "before")
         self.assertEqual(registry[prefix+".description"],
                          'Please use YYYY/MM/DD.')
-        self.assertEqual(registry[prefix+".operation"], 'less_than')
+        self.assertEqual(registry[prefix+".operation"], 'plone.app.collection.queryparser:_lessThan')
 
 class TestFieldDefinitions(CollectionTestCase):
     

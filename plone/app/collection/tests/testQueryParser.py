@@ -25,17 +25,17 @@ class TestQueryParser(unittest.TestCase):
         self.parser = QueryParser(None, None)
             
     def test_exact_title(self):
-        query = {'i':'Title', 'o':'is', 'v': 'Welcome to Plone'},
+        query = {'i':'Title', 'o':'plone.app.collection.queryparser:_equal', 'v': 'Welcome to Plone'},
         parsed = self.parser.parseFormquery(query)
         self.assertEqual(parsed, {'Title': 'Welcome to Plone'})
     
     def test_path_explicit(self):
-        query = {'i':'path', 'o':'path', 'v': '/site/foo'},
+        query = {'i':'path', 'o':'plone.app.collection.queryparser:_path', 'v': '/site/foo'},
         parsed = self.parser.parseFormquery(query)
         self.assertEqual(parsed, {'path': '/site/foo'})
     
     def test_path_computed(self):
-        query = {'i':'path', 'o':'path', 'v': '00000000000000001'},
+        query = {'i':'path', 'o':'plone.app.collection.queryparser:_path', 'v': '00000000000000001'},
         
         self.parser.context = MockSite()
         

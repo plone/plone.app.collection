@@ -1,7 +1,11 @@
-from Products.CMFCore.utils import getToolByName
-from DateTime import DateTime
+from collections import namedtuple
 from copy import deepcopy
+
 from Acquisition import aq_parent
+from DateTime import DateTime
+from Products.CMFCore.utils import getToolByName
+
+Row = namedtuple('Row', ['index', 'operator', 'values'])
 
 class QueryParser(object):
 
@@ -18,29 +22,38 @@ class QueryParser(object):
         
         query = {}
         for row in formquery:
-            index = row.get('i', None)
-            operator = row.get('o', None)
-            values = row.get('v', None)
-            row.index = index
-            row.operator = operator
-            row.values = values
+            # The functions expect this pattern of object, so lets give it to
+            # them in a named tuple instead of jamming things onto the request
+            row = Row(index=row.get('i', None), 
+                      operator=row.get('o', None), 
+                      values=row.get('v', None))
             
-            # default behaviour
-            kwargs = {index: {
-                        'query':values
-                        }
-                     }
-
-            if operator in operator_parsers:
-                parser = operator_parsers[operator]
+            kwargs = {}
+            
+            module, function = row.operator.split(":")
+            fromlist = module.split(".")[:-1]
+            try:
+                module = __import__(module, fromlist=fromlist)
+                parser = getattr(module, function)
+            except ImportError, AttributeError:
+                raise # XXX: Be more friendly
+            else:
                 kwargs = parser(self.context, row)
 
             query.update(kwargs)
-            
+        
+        if not query:
+            # If the query is empty fall back onto the equality query
+            query = _equal(self.context, row)
+        
         return query
 
-
 # operators
+def _equal(context, row):
+    return {row.index: {
+                'query':row.values
+                }
+             }
 
 # query.i:records=modified&query.o:records=between&query.v:records:list=2009/08/12&query.v:records:list=2009/08/14
 # v[0] >= x > v[1]
@@ -160,15 +173,3 @@ def getPathByUID(context):
     	return obj.absolute_url()
 
     return ""
-
-
-operator_parsers={
-    'between':                  _between,
-    'larger_than':              _largerThan,
-    'less_than':                _lessThan,
-    'current_user':             _currentUser,
-    'less_than_relative_date':  _lessThanRelativeDate,
-    'more_than_relative_date':  _moreThanRelativeDate,
-    'path':                     _path,
-    'relative_path':            _relativePath,
-}

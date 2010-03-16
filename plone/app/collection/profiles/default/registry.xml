@@ -20,7 +20,7 @@
              prefix="plone.app.collection.operation.string.is">
         <value key="title">equals</value>
         <value key="description">Tip: you can use * to autocomplete.</value>
-        <value key="operation">is</value>
+        <value key="operation">plone.app.collection.queryparser:_equal</value>
         <value key="widget"></value>
     </records>
   
@@ -28,7 +28,7 @@
              prefix="plone.app.collection.operation.string.isNot">
         <value key="title">does not equal</value>
         <value key="description">Tip: you can use * to autocomplete.</value>
-        <value key="operation">is_not</value>
+        <value key="operation">plone.app.collection.queryparser:_notEqual</value>
         <value key="widget"></value>
     </records>
     
@@ -36,7 +36,7 @@
              prefix="plone.app.collection.operation.date.lessThan">
         <value key="title">before</value>
         <value key="description">Please use YYYY/MM/DD.</value>
-        <value key="operation">less_than</value>
+        <value key="operation">plone.app.collection.queryparser:_lessThan</value>
         <value key="widget"></value>
     </records>
 
@@ -44,7 +44,7 @@
              prefix="plone.app.collection.operation.date.largerThan">
         <value key="title">after</value>
         <value key="description">Please use YYYY/MM/DD.</value>
-        <value key="operation">larger_than</value>
+        <value key="operation">plone.app.collection.queryparser:_largerThan</value>
         <value key="widget"></value>
     </records>
 
@@ -52,7 +52,7 @@
              prefix="plone.app.collection.operation.date.between">
         <value key="title">between</value>
         <value key="description">Please use YYYY/MM/DD.</value>
-        <value key="operation">between</value>
+        <value key="operation">plone.app.collection.queryparser:_between</value>
         <value key="widget"></value>
     </records>
     
@@ -60,7 +60,7 @@
              prefix="plone.app.collection.operation.date.lessThanRelativeDate">
         <value key="title">less than relative date</value>
         <value key="description">Please use YYYY/MM/DD.</value>
-        <value key="operation">less_than_relative_date</value>
+        <value key="operation">plone.app.collection.queryparser:_lessThanRelativeDate</value>
         <value key="widget"></value>
     </records>
 
@@ -68,7 +68,7 @@
              prefix="plone.app.collection.operation.date.largerThanRelativeDate">
         <value key="title">larger than relative date</value>
         <value key="description">Please use YYYY/MM/DD.</value>
-        <value key="operation">larger_than_relative_date</value>
+        <value key="operation">plone.app.collection.queryparser:_largerThanRelativeDate</value>
         <value key="widget"></value>
     </records>
 
@@ -76,7 +76,7 @@
              prefix="plone.app.collection.operation.string.currentUser">
         <value key="title">Current User</value>
         <value key="description"></value>
-        <value key="operation">current_user</value>
+        <value key="operation">plone.app.collection.queryparser:_currentUser</value>
         <value key="widget"></value>
     </records>
 
@@ -84,7 +84,7 @@
              prefix="plone.app.collection.operation.string.path">
         <value key="title">Path</value>
         <value key="description"></value>
-        <value key="operation">path</value>
+        <value key="operation">plone.app.collection.queryparser:_path</value>
         <value key="widget"></value>
     </records>
     
@@ -92,7 +92,7 @@
              prefix="plone.app.collection.operation.string.relativePath">
         <value key="title">Relative Path</value>
         <value key="description"></value>
-        <value key="operation">relative_path</value>
+        <value key="operation">plone.app.collection.queryparser:_relativePath</value>
         <value key="widget"></value>
     </records>
 
