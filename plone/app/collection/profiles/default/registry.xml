@@ -14,7 +14,7 @@
 
 -->
 
-
+<!-- Operation Definitions -->
 <registry>
     <records interface="plone.app.collection.interfaces.IQueryOperation"
              prefix="plone.app.collection.operation.string.is">
@@ -96,6 +96,9 @@
         <value key="widget"></value>
     </records>
 
+
+
+<!-- QueryField declarations  -->
 
     <records interface="plone.app.collection.interfaces.IQueryField"
              prefix="plone.app.collection.field.getId">
@@ -318,6 +321,7 @@
         <value key="enabled">False</value>
         <value key="operations">
         </value>
+        <value key="vocabulary">plone.app.vocabularies.types.PortalTypesVocabulary</value>
     </records>
     
     <records interface="plone.app.collection.interfaces.IQueryField"
@@ -331,6 +335,7 @@
             <element>plone.app.collection.operation.list.contains</element>
             <element>plone.app.collection.operation.list.doesNotContain</element>
         </value>
+        <value key="vocabulary">plone.app.vocabularies.workflow.WorkflowStatesVocabulary</value>
     </records>
     
     <records interface="plone.app.collection.interfaces.IQueryField"
@@ -395,6 +400,7 @@
             <element>plone.app.collection.operation.string.is</element>
             <element>plone.app.collection.operation.string.isNot</element>
         </value>
+        <value key="vocabulary">plone.app.vocabularies.types.UserFriendlyTypesVocabulary</value>
     </records>
 
 </registry>
