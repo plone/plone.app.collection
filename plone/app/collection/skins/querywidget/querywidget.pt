@@ -11,6 +11,11 @@
         <div class="previewresults" tal:content="structure python:widget.SearchResults(request,context)">
         </div>
     </metal:view_macro>
+    <metal:view_macro define-macro="tabular">
+        tabular view
+        <div class="previewresults" tal:content="structure python:widget.SearchResults(request,context)">
+        </div>
+    </metal:view_macro>
 
     <metal:edit_macro define-macro="edit">
     <metal:use use-macro="field_macro | here/widgets/field/macros/edit">
