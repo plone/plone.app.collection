@@ -82,11 +82,4 @@
         attribute="getJSONConfig"
         />
         
-    <browser:page
-        name="pacollection-controlpanel"
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        class=".controlpanel.PACollectionControlPanelFormView"
-        permission="cmf.ManagePortal"
-        />
-
 </configure>
