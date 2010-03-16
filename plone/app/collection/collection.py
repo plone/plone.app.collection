@@ -16,7 +16,14 @@ CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
     QueryField(
         name='query',
         widget=QueryWidget(
-            label="Query",
+            label="Query 1",
+            description="Query for the collection",
+        ),
+    ),
+    QueryField(
+        name='query2',
+        widget=QueryWidget(
+            label="Query 2",
             description="Query for the collection",
         ),
     ),
@@ -43,19 +50,5 @@ class Collection(document.ATDocument):
     title = atapi.ATFieldProperty('title')
     description = atapi.ATFieldProperty('description')
 
-    # -*- Your ATSchema to Python Property Bridges Here ... -*-
-    def getQueryDict(self):
-        """Get the query dict from the request or from the object"""
-        # Try the request to be current
-        query = getattr(self.REQUEST, 'query', None)
-        if query:
-            return query
-        #TODO: get all queryfields here
-        query = self.getQuery()
-        if query:
-            return query
-
-        # Nothing here. Should I raise an exception?
-        return {}
 
 atapi.registerType(Collection, PROJECTNAME)

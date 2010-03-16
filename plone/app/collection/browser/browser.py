@@ -20,6 +20,9 @@ class CollectionViews(QueryBuilder):
         self.request = request
 
     def results(self):
+        ## get field
+        return ''
+
         formquery=self.context.getQueryDict()
         if self._results is None:
             self._results = self._queryForResults(formquery)

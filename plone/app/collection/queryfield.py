@@ -27,6 +27,19 @@ class QueryField(ObjectField):
         # call super constructor
         ObjectField.__init__(self, name, **kwargs)
 
+    # -*- Your ATSchema to Python Property Bridges Here ... -*-
+    def set(self, instance, value, **kwargs):
+        """
+        The passed in object should be a records object, or a sequence of dictionaries
+        """
+        ObjectField.set(self, instance, value, **kwargs)
+
+    def get(self, instance, **kwargs):
+        """Get the query dict from the request or from the object"""
+        value = ObjectField.get(self, instance, **kwargs) or ()
+        return value
+
+
 registerField(QueryField,
               title='QueryField',
               description=('query field for storing collection query'))

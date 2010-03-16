@@ -12,8 +12,9 @@
   <property name="immediate_view">atct_edit</property>
   <property name="global_allow">True</property>
   <property name="allow_discussion">False</property>
-  <property name="default_view">collection_summary_view</property>
+  <property name="default_view">base_view</property>
   <property name="view_methods">
+    <element value="base_view" />
     <element value="collection_summary_view" />
     <element value="collection_tabular_view" />
   </property>
@@ -29,12 +30,12 @@
     url_expr="string:${object_url}/edit" visible="True">
     <permission value="Modify portal content" />
   </action>
- <action title="Criteria" 
+ <action title="Criteria"
          action_id="criteria"
-         category="object" 
+         category="object"
          condition_expr="not:object/@@plone_lock_info/is_locked_for_current_user"
-         url_expr="string:${object_url}/criterion_edit_form" 
+         url_expr="string:${object_url}/criterion_edit_form"
          visible="True">
   <permission value="Modify portal content"/>
- </action> 
+ </action>
 </object>

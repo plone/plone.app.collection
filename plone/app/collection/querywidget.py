@@ -29,6 +29,7 @@ class QueryWidget(TypesWidget):
                      emptyReturnsMarker=False, validating=True):
         """A custom implementation for the widget form processing."""
         value = form.get(field.getName())
+
         if value:
             return value, {}
 

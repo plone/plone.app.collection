@@ -33,6 +33,7 @@ class QueryBuilder(BrowserView):
     def _queryForResults(self, formquery=None):
         # parse query
         if not formquery:
+            ## todo: get field here
             formquery=self.request.get('query', None)
         queryparser=QueryParser(self.context, self.request)
         query = queryparser.parseFormquery(formquery)
