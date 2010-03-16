@@ -43,9 +43,12 @@ class QueryBuilder(BrowserView):
 
     def _queryForResults(self, formquery=None):
 
-        formquery = self.request.get('query', None)
-        if not formquery:
-            formquery = self.value
+        if formquery is None:
+            if 'query' in self.request.form:
+                formquery = self.request.form.get('query', None)
+            else:
+                formquery = self.value
+        
         queryparser=QueryParser(self.context, self.request)
         query = queryparser.parseFormquery(formquery)
         if not query:
