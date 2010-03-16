@@ -36,8 +36,12 @@ class QueryField(ObjectField):
 
     def get(self, instance, **kwargs):
         """Get the query dict from the request or from the object"""
-        value = ObjectField.get(self, instance, **kwargs) or ()
-        return value
+        value = self.getRaw(instance)
+        querybuilder = instance.restrictedTraverse("querybuilderresults")
+        return querybuilder._queryForResults(value)
+    
+    def getRaw(self, instance, **kwargs):
+        return ObjectField.get(self, instance, **kwargs) or ()
 
 
 registerField(QueryField,
