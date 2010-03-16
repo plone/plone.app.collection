@@ -119,7 +119,7 @@
                             .html('▼')
                         )
                     )
-                var dd = $(document.createElement('dd')).addClass('hiddenStructure')
+                var dd = $(document.createElement('dd')).addClass('hiddenStructure widgetPulldownMenu')
                 $.each(plone_app_search_config.indexes[index].values, function (i, val) {
                     dd.append($(document.createElement('label'))
                         .append($(document.createElement('input'))
