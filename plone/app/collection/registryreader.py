@@ -3,7 +3,7 @@ from zope.component import getUtility, adapts
 from zope.interface import implements
 from plone.registry.interfaces import IRegistry
 from interfaces import ICollectionRegistryReader
-from Products.CMFCore.utils import getToolByName
+#from Products.CMFCore.utils import getToolByName
 
 
 class DottedDict(dict):
@@ -74,7 +74,12 @@ class CollectionRegistryReader(object):
         return values
 
     def __call__(self):
-        values = self.parseRegistry()
-        values = self.getVocabularyValues(values)
-        values = self.mapOperations(values)
-        return values
+        indexes = self.parseRegistry()
+        indexes = self.getVocabularyValues(indexes)
+        indexes = self.mapOperations(indexes)
+        # todo: sortables
+        return {
+            'indexes': indexes,
+            'sortable_indexes': {},
+        }
+
