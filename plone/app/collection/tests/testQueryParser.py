@@ -37,12 +37,12 @@ class MockQuery(object):
             yield x
 
 
-class TestQueryParser(unittest.TestCase):
+class TestQueryParserBase(unittest.TestCase):
 
     layer = UnittestWithRegistryLayer
 
     def setUp(self):
-        super(TestQueryParser, self).setUp()
+        super(TestQueryParserBase, self).setUp()
 
         self.parser = queryparser.QueryParser(None, None)
 
@@ -55,6 +55,9 @@ class TestQueryParser(unittest.TestCase):
         # the registry to provide a name->function mapping.
         reg['plone.app.collection.operation.string.is.operation'] = 'plone.app.collection.queryparser:_equal'
         reg['plone.app.collection.operation.string.path.operation'] = 'plone.app.collection.queryparser:_path'
+
+
+class TestQueryParser(TestQueryParserBase):
 
     def test_exact_title(self):
         data = {
@@ -89,8 +92,9 @@ class TestQueryParser(unittest.TestCase):
         parsed = self.parser.parseFormquery(query)
         self.assertEqual(parsed, {'path': {'query': '/site/foo'}})
 
-    # Test the actual query generating
-    # XXX: This needs to go in a different test case
+
+class TestQueryGenerators(TestQueryParserBase):
+    
     def test__between(self):
         data = Row(index='modified',
                   operator='_between',
@@ -104,4 +108,5 @@ class TestQueryParser(unittest.TestCase):
 def test_suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TestQueryParser))
+    suite.addTest(unittest.makeSuite(TestQueryGenerators))
     return suite
