@@ -34,6 +34,8 @@ class QueryWidget(TypesWidget):
         value = form.get(field.getName())
         if value:
             return value, {}
+        else:
+            return {}, {}
 
 
     def getConfig(self):
