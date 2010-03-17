@@ -35,14 +35,6 @@ class MockQuery(object):
             yield x
 
 
-class MockRow(object):
-    def __init__(self, rowdata):
-        self.__dict__.update(rowdata)
-
-    def get(self, index, default=None):
-        return self.__dict__.get(index, default)
-
-
 class TestQueryParser(unittest.TestCase):
 
     layer = UnittestWithRegistryLayer
@@ -68,7 +60,7 @@ class TestQueryParser(unittest.TestCase):
             'o': 'plone.app.collection.operation.string.is',
             'v': 'Welcome to Plone',
         }
-        query = MockQuery([MockRow(data)])
+        query = MockQuery([data, ])
         parsed = self.parser.parseFormquery(query)
         self.assertEqual(parsed, {'Title': {'query': 'Welcome to Plone'}})
 
@@ -78,7 +70,7 @@ class TestQueryParser(unittest.TestCase):
             'o': 'plone.app.collection.operation.string.path',
             'v': '/site/foo',
         }
-        query = MockQuery([MockRow(data)])
+        query = MockQuery([data, ])
         parsed = self.parser.parseFormquery(query)
         self.assertEqual(parsed, {'path': {'query': '/site/foo'}})
 
@@ -88,7 +80,7 @@ class TestQueryParser(unittest.TestCase):
             'o': 'plone.app.collection.operation.string.path',
             'v': '00000000000000001',
         }
-        query = MockQuery([MockRow(data)])
+        query = MockQuery([data, ])
 
         self.parser.context = MockSite()
 
@@ -96,12 +88,13 @@ class TestQueryParser(unittest.TestCase):
         self.assertEqual(parsed, {'path': {'query': '/site/foo'}})
 
     # Test the actual query generating
+    # XXX: This needs to go in a different test case
     def test__between(self):
         data = {
             'index': 'modified',
             'values': ['2009/08/12', '2009/08/14'],
         }
-        parsed = queryparser._between(None, MockRow(data))
+        parsed = queryparser._between(None, data)
         expected = {'modified': {'query': ['2009/08/12', '2009/08/14'],
                     'range': 'minmax'}}
         self.assertEqual(parsed, expected)
