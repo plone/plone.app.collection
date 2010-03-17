@@ -71,7 +71,7 @@
         class=".querybuilder.QueryBuilder"
         permission="zope2.View"
         for="*"
-        attribute="getFormattedNumberOfResults"
+        attribute="getNumberOfResults"
         />
 
     <browser:page

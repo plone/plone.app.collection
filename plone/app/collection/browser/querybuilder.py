@@ -69,9 +69,6 @@ class QueryBuilder(BrowserView):
     def getNumberOfResults(self):
         return len(self.results())
 
-    def getFormattedNumberOfResults(self):
-        return "%d items remaining" % (len(self.results()))
-
     def getConfig(self):
         return {'indexes': CRITERION, 'sortable_indexes': SORTABLES}
         #tmp = self.getConfigFromRegistry()
