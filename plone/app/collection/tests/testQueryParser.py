@@ -3,6 +3,8 @@ import unittest
 from plone.app.collection import queryparser
 from base import UnittestWithRegistryLayer
 
+from plone.app.collection.queryparser import Row
+
 
 class MockObject(object):
     def __init__(self, uid, path):
@@ -90,10 +92,9 @@ class TestQueryParser(unittest.TestCase):
     # Test the actual query generating
     # XXX: This needs to go in a different test case
     def test__between(self):
-        data = {
-            'index': 'modified',
-            'values': ['2009/08/12', '2009/08/14'],
-        }
+        data = Row(index='modified',
+                  operator='_between',
+                  values=['2009/08/12', '2009/08/14'])
         parsed = queryparser._between(None, data)
         expected = {'modified': {'query': ['2009/08/12', '2009/08/14'],
                     'range': 'minmax'}}
