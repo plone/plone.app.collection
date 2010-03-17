@@ -9,7 +9,7 @@ class TestOperationDefinitions(CollectionTestCase):
         prefix = "plone.app.collection.operation.string.is"
         assert prefix+'.title' in registry
         
-        self.assertEqual(registry[prefix+".title"], "equals")
+        self.assertEqual(registry[prefix+".title"], "Equals")
         self.assertEqual(registry[prefix+".description"], 
                          'Tip: you can use * to autocomplete.')
         self.assertEqual(registry[prefix+".operation"], 'plone.app.collection.queryparser:_equal')
@@ -20,7 +20,7 @@ class TestOperationDefinitions(CollectionTestCase):
 
         assert prefix+".title" in registry
         
-        self.assertEqual(registry[prefix+".title"], "before")
+        self.assertEqual(registry[prefix+".title"], "Before date")
         self.assertEqual(registry[prefix+".description"],
                          'Please use YYYY/MM/DD.')
         self.assertEqual(registry[prefix+".operation"], 'plone.app.collection.queryparser:_lessThan')
@@ -32,7 +32,7 @@ class TestFieldDefinitions(CollectionTestCase):
         prefix = 'plone.app.collection.field.getId'
         assert prefix+".title" in registry
 
-        self.assertEqual(registry[prefix+".title"], "Short Name")
+        self.assertEqual(registry[prefix+".title"], "Short name (id)")
         
         operations = registry[prefix + ".operations"]
         self.assertEqual(len(operations), 1)
@@ -42,7 +42,7 @@ class TestFieldDefinitions(CollectionTestCase):
         
         self.assertEqual(registry[prefix+".description"], "The short name of an item (used in the url)")
         self.assertEqual(registry[prefix+".enabled"], True)
-        self.assertEqual(registry[prefix+".sortable"], True)
+        self.assertEqual(registry[prefix+".sortable"],True)
         self.assertEqual(registry[prefix+".group"], "Metadata")
 
 def test_suite():
