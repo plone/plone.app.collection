@@ -20,7 +20,6 @@ class TestQueryField(CollectionTestCase):
         self.assertEqual(len(self.collection.getQuery()), 1)
         self.assertEqual(self.collection.getQuery()[0].Title(), "Welcome to Plone")
 
-
 def test_suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TestQueryField))

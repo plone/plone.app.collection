@@ -43,3 +43,7 @@ Installedlayer = Layer([common.common_layer])
 
 class CollectionTestCase(ptc.PloneTestCase):
     layer = Installedlayer
+
+class CollectionFunctionalTestCase(ptc.FunctionalTestCase):
+    layer = Installedlayer
+
