@@ -17,6 +17,7 @@ class QueryBuilder(BrowserView):
     """ """
 
     def __init__(self, context, request):
+        self.value = None
         self._results = None
         self.context = context
         self.request = request
