@@ -9,7 +9,7 @@ class TestQueryField(CollectionTestCase):
         collection_id = self.portal.invokeFactory("Collection", "NuCollection")
         self.collection = self.portal[collection_id]
     
-    def test_getId(self):
+    def test_query(self):
         query = [{
             'i': 'Title',
             'o': 'plone.app.collection.operation.string.is',
