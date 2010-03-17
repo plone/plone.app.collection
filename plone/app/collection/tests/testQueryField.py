@@ -7,7 +7,7 @@ class TestQueryField(CollectionTestCase):
     def afterSetUp(self):
         self.loginAsPortalOwner()
         collection_id = self.portal.invokeFactory("Collection", "NuCollection")
-        self.collection = portal[collection_id]
+        self.collection = self.portal[collection_id]
     
     def test_getId(self):
         query = [{
@@ -17,7 +17,9 @@ class TestQueryField(CollectionTestCase):
         }]
         self.collection.setQuery(query)
         self.assertEqual(query, self.collection.getRawQuery())
-        self.assertEqual(len(self.collection.getQuery()))
+        self.assertEqual(len(self.collection.getQuery()), 1)
+        self.assertEqual(self.collection.getQuery()[0].Title(), "Welcome to Plone")
+
 
 def test_suite():
     suite = unittest.TestSuite()
