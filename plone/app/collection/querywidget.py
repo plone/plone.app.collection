@@ -21,17 +21,13 @@ class QueryWidget(TypesWidget):
         'macro': 'querywidget',
         }),
 
-    value = ""
     security = ClassSecurityInfo()
 
     security.declarePublic('process_form')
-
     def process_form(self, instance, field, form, empty_marker=None,
                      emptyReturnsMarker=False, validating=True):
         """A custom implementation for the widget form processing."""
         value = form.get(field.getName())
-        self.value = value
-        #if 'form.button.addcriteria' in form:
         if value:
             return value, {}
 
@@ -43,13 +39,14 @@ class QueryWidget(TypesWidget):
         # by a browser AJAX call
 
     def previewSearchResults(self, request, context):
-        """preview search results"""
+        """Build the search results page with values from the request"""
         return getMultiAdapter((context, request),
-            name='querybuilderpreviewresults')()
+            name='querybuilderpreviewresults')(value=None)
 
-    def SearchResults(self, request, context):
+    def SearchResults(self, request, context, accessor):
         """search results"""
-        return getMultiAdapter((context, request), name='querybuilderresults')(value=self.value)
+        return getMultiAdapter((context, request), 
+            name='querybuilderresults')(value=accessor(raw=True))
 
 __all__ = ('QueryWidget')
 

@@ -8,7 +8,7 @@
 
   <body>
     <metal:view_macro define-macro="view">
-        <div class="previewresults" tal:content="structure python:widget.SearchResults(request,context)">
+        <div class="previewresults" tal:content="structure python:widget.SearchResults(request, context, accessor)">
         </div>
     </metal:view_macro>
     <metal:view_macro define-macro="tabular">

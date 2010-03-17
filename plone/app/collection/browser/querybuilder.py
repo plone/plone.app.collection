@@ -26,15 +26,9 @@ class QueryBuilder(BrowserView):
 
     def __call__(self,value=None):
         """Call"""
-        self.value = value
+        if value is not None:
+            self.value = value
         return self.index()
-
-
-    def getNumberOfResults(self):
-        return len(self.results())
-
-    def getFormattedNumberOfResults(self):
-        return "%d items remaining" % (len(self.results()))
 
     def results(self):
         if self._results is None:
@@ -42,7 +36,7 @@ class QueryBuilder(BrowserView):
         return self._results
 
     def _queryForResults(self, formquery=None):
-
+        
         if formquery is None:
             if 'query' in self.request.form:
                 formquery = self.request.form.get('query', None)
@@ -62,11 +56,11 @@ class QueryBuilder(BrowserView):
         return getMultiAdapter((self.context, self.request), name='searchResults')(query=query)
 
 
-    def getConfig(self):
-        return {'indexes':CRITERION, 'sortable_indexes': SORTABLES}
-        # we wrap this in a dictionary so we can add more configuration data
-        # to the payload in the future. This is data that will be fetched
-        # by a browser AJAX call
+    def getNumberOfResults(self):
+        return len(self.results())
+
+    def getFormattedNumberOfResults(self):
+        return "%d items remaining" % (len(self.results()))
 
     def getJSONConfig(self):
         return json.dumps(self.getConfig())
