@@ -95,6 +95,7 @@
        <value key="operations">
             <element>plone.app.collection.operation.string.is</element>
        </value>
+       <value key="group">Metadata</value>
     </records>
 
     <records interface="plone.app.collection.interfaces.IQueryField"
@@ -106,6 +107,7 @@
            <element>plone.app.collection.operation.string.is</element>
            <element>plone.app.collection.operation.string.isCurrentUser</element>
        </value>
+       <value key="group">Metadata</value>
     </records>
 
     <records interface="plone.app.collection.interfaces.IQueryField"
@@ -120,6 +122,7 @@
            <element>plone.app.collection.operation.date.lessThanRelativeDate</element>
            <element>plone.app.collection.operation.date.largerThanRelativeDate</element>
        </value>
+       <value key="group">Dates</value>
     </records>
 
     <records interface="plone.app.collection.interfaces.IQueryField"
@@ -131,6 +134,7 @@
             <element>plone.app.collection.operation.string.is</element>
             <element>plone.app.collection.operation.string.isCurrentUser</element>
         </value>
+       <value key="group">Metadata</value>
     </records>
     
     <records interface="plone.app.collection.interfaces.IQueryField"
@@ -145,6 +149,7 @@
             <element>plone.app.collection.operation.date.lessThanRelativeDate</element>
             <element>plone.app.collection.operation.date.largerThanRelativeDate</element>
         </value>
+       <value key="group">Dates</value>
     </records>
     
     <records interface="plone.app.collection.interfaces.IQueryField"
@@ -155,6 +160,7 @@
         <value key="operations">
             <element>plone.app.collection.operation.string.is</element>
         </value>
+       <value key="group">Text</value>
     </records>
     
     <records interface="plone.app.collection.interfaces.IQueryField"
@@ -169,6 +175,7 @@
             <element>plone.app.collection.operation.date.lessThanRelativeDate</element>
             <element>plone.app.collection.operation.date.largerThanRelativeDate</element>
         </value>
+       <value key="group">Dates</value>
     </records>    
 
     <records interface="plone.app.collection.interfaces.IQueryField"
@@ -183,6 +190,7 @@
             <element>plone.app.collection.operation.date.lessThanRelativeDate</element>
             <element>plone.app.collection.operation.date.largerThanRelativeDate</element>
         </value>
+       <value key="group">Dates</value>
     </records>    
 
     <records interface="plone.app.collection.interfaces.IQueryField"
@@ -197,6 +205,7 @@
             <element>plone.app.collection.operation.date.lessThanRelativeDate</element>
             <element>plone.app.collection.operation.date.largerThanRelativeDate</element>
         </value>
+       <value key="group">Dates</value>
     </records>    
 
     <records interface="plone.app.collection.interfaces.IQueryField"
@@ -211,6 +220,7 @@
             <element>plone.app.collection.operation.date.lessThanRelativeDate</element>
             <element>plone.app.collection.operation.date.largerThanRelativeDate</element>
         </value>
+       <value key="group">Dates</value>
     </records>    
 
     <records interface="plone.app.collection.interfaces.IQueryField"
@@ -223,6 +233,7 @@
             <element>plone.app.collection.operation.int.lessThan</element>
             <element>plone.app.collection.operation.int.greaterThan</element>
         </value>
+       <value key="group">Metadata</value>
     </records>
     
     <records interface="plone.app.collection.interfaces.IQueryField"
@@ -233,6 +244,7 @@
         <value key="operations">
             <element>plone.app.collection.operation.reference.is</element>
         </value>
+       <value key="group">Metadata</value>
     </records>    
     
 <!--
@@ -245,6 +257,7 @@
         <value key="enabled">False</value>
         <value key="operations">
         </value>
+       <value key="group">Metadata</value>
     </records>    
     
     <records interface="plone.app.collection.interfaces.IQueryField"
@@ -255,6 +268,7 @@
         <value key="operations">
             <element>plone.app.collection.operation.boolean.is</element>
         </value>
+       <value key="group">Metadata</value>
     </records>    
 
     <records interface="plone.app.collection.interfaces.IQueryField"
@@ -265,6 +279,7 @@
         <value key="operations">
             <element>plone.app.collection.operation.boolean.is</element>
         </value>
+       <value key="group">Metadata</value>
     </records>    
 
     <records interface="plone.app.collection.interfaces.IQueryField"
@@ -279,6 +294,7 @@
             <element>plone.app.collection.operation.date.lessThanRelativeDate</element>
             <element>plone.app.collection.operation.date.largerThanRelativeDate</element>
         </value>
+       <value key="group">Dates</value>
     </records>    
 
     <records interface="plone.app.collection.interfaces.IQueryField"
@@ -293,6 +309,7 @@
             <element>plone.app.collection.operation.date.lessThanRelativeDate</element>
             <element>plone.app.collection.operation.date.largerThanRelativeDate</element>
         </value>
+       <value key="group">Dates</value>
     </records>  
     
     <records interface="plone.app.collection.interfaces.IQueryField"
@@ -303,6 +320,7 @@
         <value key="operations">
         </value>
         <value key="vocabulary">plone.app.vocabularies.PortalTypes</value>
+       <value key="group">Metadata</value>
     </records>
     
     <records interface="plone.app.collection.interfaces.IQueryField"
@@ -315,6 +333,7 @@
             <element>plone.app.collection.operation.list.contains</element>
         </value>
         <value key="vocabulary">plone.app.vocabularies.WorkflowStates</value>
+       <value key="group">Metadata</value>
     </records>
     
     <records interface="plone.app.collection.interfaces.IQueryField"
@@ -326,6 +345,7 @@
             <element>plone.app.collection.operation.string.is</element>
             <element>plone.app.collection.operation.string.contains</element>
         </value>
+       <value key="group">Text</value>
     </records>
 
     <records interface="plone.app.collection.interfaces.IQueryField"
@@ -340,6 +360,7 @@
             <element>plone.app.collection.operation.date.lessThanRelativeDate</element>
             <element>plone.app.collection.operation.date.largerThanRelativeDate</element>
         </value>
+       <value key="group">Dates</value>
     </records>    
 
     <records interface="plone.app.collection.interfaces.IQueryField"
@@ -351,6 +372,7 @@
             <element>plone.app.collection.operation.string.is</element>
             <element>plone.app.collection.operation.string.contains</element>
         </value>
+       <value key="group">Text</value>
     </records>
 
     <records interface="plone.app.collection.interfaces.IQueryField"
@@ -362,6 +384,7 @@
             <element>plone.app.collection.operation.string.contains</element>
             <element>plone.app.collection.operation.string.is</element>
         </value>
+       <value key="group">Text</value>
     </records>
 
     <records interface="plone.app.collection.interfaces.IQueryField"
@@ -373,6 +396,7 @@
             <element>plone.app.collection.operation.string.is</element>
         </value>
         <value key="vocabulary">plone.app.vocabularies.UserFriendlyTypes</value>
+       <value key="group">Metadata</value>
     </records>
 
 </registry>

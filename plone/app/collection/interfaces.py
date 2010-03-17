@@ -17,3 +17,4 @@ class IQueryField(Interface):
     enabled = field.Bool(title=u"Enabled")
     operations = field.List(title=u"Operations", value_type=field.DottedName(title=u"Operation ID"))
     vocabulary = field.TextLine(title=u"Vocabulary")
+    group = field.TextLine(title=u"Group")
