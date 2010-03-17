@@ -13,7 +13,7 @@
     </metal:view_macro>
     <metal:view_macro define-macro="tabular">
         tabular view
-        <div class="previewresults" tal:content="structure python:widget.SearchResults(request,context)">
+        <div class="previewresults" tal:content="structure python:widget.SearchResults(request, context, accessor)">
         </div>
     </metal:view_macro>
 
@@ -208,7 +208,7 @@
 
             </fieldset>
 
-        <div class="previewresults" tal:content="structure python:widget.previewSearchResults(request, context)">
+        <div class="previewresults" tal:content="structure python:widget.SearchResults(request, context, accessor)">
         </div>
     </div>
 

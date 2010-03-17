@@ -8,14 +8,15 @@
 <head>
 </head>
 <body>
-<div tal:define="results view/results">
+<div tal:define="results context">
+    <!--pre tal:content="python:'Rendering for %s' % repr(context)" /-->
     <h2 class="previewsearchResultsHeading">
         <span>
             Search results
         </span>
         <span class="discreet">
         &mdash;
-        <span><tal:count content="view/getNumberOfResults">1</tal:count> items matching your search terms</span>
+        <span><tal:count content="python:len(results)">1</tal:count> items matching your search terms</span>
       </span>
     </h2>
 

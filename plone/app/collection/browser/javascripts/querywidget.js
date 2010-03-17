@@ -151,7 +151,7 @@
     }
 
     function UpdateSearch() {
-        var query = "querybuilderpreviewresults?";
+        var query = "querybuilder_html_results?";
         var querylist  = [];
         $('.ArchetypesQueryWidget .queryindex').each(function () {
             var results = $(this).parents('.criteria').children('.queryresults');

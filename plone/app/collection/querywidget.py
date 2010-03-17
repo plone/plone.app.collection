@@ -10,6 +10,8 @@ from Products.Archetypes.Widget import TypesWidget
 from Products.Archetypes.Registry import registerWidget
 from zope.component import getMultiAdapter
 
+from plone.app.contentlisting.interfaces import IContentListing
+
 from browser.config import CRITERION, SORTABLES
 
 
@@ -38,15 +40,11 @@ class QueryWidget(TypesWidget):
         # to the payload in the future. This is data that will be fetched
         # by a browser AJAX call
 
-    def previewSearchResults(self, request, context):
-        """Build the search results page with values from the request"""
-        return getMultiAdapter((context, request),
-            name='querybuilderpreviewresults')(value=None)
-
     def SearchResults(self, request, context, accessor):
         """search results"""
-        return getMultiAdapter((context, request), 
-            name='querybuilderresults')(value=accessor(raw=True))
+        return getMultiAdapter((accessor(), request), 
+            name='display_query_results')()
+            
 
 __all__ = ('QueryWidget')
 

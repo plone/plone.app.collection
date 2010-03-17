@@ -13,6 +13,17 @@ from plone.app.collection.registryreader import CollectionRegistryReader
 import json
 
 
+
+class ContentListingView(BrowserView):
+
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+
+    def __call__(self):
+        """Call"""
+        return self.index()
+
 class QueryBuilder(BrowserView):
     """ """
 
@@ -23,15 +34,17 @@ class QueryBuilder(BrowserView):
         self.request = request
 
     def __call__(self, value=None):
-        if value is not None:
-            self.value = value
-        return self.index()
+        self.value = value
+        return self.results()
 
     def results(self, formquery=None):
         if self._results is None:
             self._results = self._queryForResults(formquery=formquery)
         return self._results
-
+    
+    def html_results(self):
+        return getMultiAdapter((self.results(), self.request), name='display_query_results')()
+    
     def _queryForResults(self, formquery=None):
 
         if formquery is None:
@@ -58,6 +71,12 @@ class QueryBuilder(BrowserView):
     def getFormattedNumberOfResults(self):
         return "%d items remaining" % (len(self.results()))
 
+    def getConfig(self): 
+        return {'indexes':CRITERION, 'sortable_indexes': SORTABLES} 
+        # we wrap this in a dictionary so we can add more configuration data 
+        # to the payload in the future. This is data that will be fetched 
+        # by a browser AJAX call 
+
     def getJSONConfig(self):
         return json.dumps(self.getConfigFromRegistry())
 
@@ -71,6 +90,3 @@ class QueryBuilder(BrowserView):
     def getJSONConfigFromRegistry(self):
         """returns the portal registry settings in JSON format"""
         return json.dumps(self.getConfigFromRegistry())
-
-    def previewSearchResults(self):
-        return getMultiAdapter((self.context, self.request), name='querybuilderpreviewresults')()

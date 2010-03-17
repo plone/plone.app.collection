@@ -20,7 +20,10 @@ class QueryParser(object):
         if not formquery:
             return {}
         reg = getUtility(IRegistry)
-
+        
+        # make sure the things in formquery are dicts, not crazy things
+        formquery = map(dict, formquery)
+        
         formquery = deepcopy(formquery)
         query = {}
         for row in formquery:

@@ -26,7 +26,6 @@
     <!-- Views for in Display menu -->
     <browser:page
         name="collection_summary_view"
-        class=".browser.CollectionViews"
         permission="zope2.View"
         for="plone.app.collection.interfaces.ICollection"
         template="templates/summary_view.pt"
@@ -34,27 +33,38 @@
 
     <browser:page
         name="collection_tabular_view"
-        class=".browser.CollectionViews"
         permission="zope2.View"
         for="plone.app.collection.interfaces.ICollection"
         template="templates/tabular_view.pt"
         />
 
+    <!--- Helper views -->
+
     <browser:page
-        name="querybuilderpreviewresults"
-        class=".querybuilder.QueryBuilder"
+        name="display_query_results"
+        class=".querybuilder.ContentListingView"
         permission="zope2.View"
         for="*"
-        template="templates/previewresults.pt"
+        template="templates/results.pt"
         />
+
 
     <browser:page
         name="querybuilderresults"
         class=".querybuilder.QueryBuilder"
         permission="zope2.View"
         for="*"
-        template="templates/results.pt"
         />
+
+    <browser:page
+        name="querybuilder_html_results"
+        class=".querybuilder.QueryBuilder"
+        permission="zope2.View"
+        attribute="html_results"
+        for="*"
+        />
+
+    <!--- others -->
 
     <browser:page
         name="querybuildernumberofresults"

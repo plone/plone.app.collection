@@ -366,12 +366,12 @@ CRITERION={
         'friendly_name': 'Title',
         'description': 'Title of the item',
         'operators':{
-            'is_not':{
+            'plone.app.collection.operation.string.is_not':{
                 'friendly_name' : 'does not equal',
                 'widget'        : 'StringWidget',
                 'description'   : 'Tip: you can use * to autocomplete.',
             },
-            'is':{
+            'plone.app.collection.operation.string.is':{
                 'friendly_name' : 'equals',
                 'widget'        : 'StringWidget',
                 'description'   : 'Tip: you can use * to autocomplete.',
