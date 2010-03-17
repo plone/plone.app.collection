@@ -79,6 +79,6 @@ class CollectionRegistryReader(object):
         indexes = self.mapOperations(indexes)
         # todo: sortables
         return {
-            'indexes': indexes.get(self.prefix),
+            'indexes': indexes.get('%s.field' % self.prefix),
             'sortable_indexes': {},
         }
