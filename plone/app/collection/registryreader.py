@@ -3,7 +3,6 @@ from zope.component import getUtility, adapts
 from zope.interface import implements
 from plone.registry.interfaces import IRegistry
 from interfaces import ICollectionRegistryReader
-#from Products.CMFCore.utils import getToolByName
 
 
 class DottedDict(dict):
@@ -64,13 +63,14 @@ class CollectionRegistryReader(object):
         """
         for field in values.get(self.prefix + '.field').values():
             fieldoperations = field.get('operations', [])
+            field['operators'] = {}
             for operation_key in fieldoperations:
                 try:
                     field['operators'][operation_key.split('.')[-1]] = \
                         values.get(operation_key)
                 except KeyError:
-                    # invalid operation, probably doesn't exist
-                    field['operators'] = {}
+                    # invalid operation, probably doesn't exist, pass for now
+                    pass
         return values
 
     def __call__(self):
@@ -82,4 +82,3 @@ class CollectionRegistryReader(object):
             'indexes': indexes.get(self.prefix),
             'sortable_indexes': {},
         }
-
