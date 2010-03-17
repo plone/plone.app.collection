@@ -197,15 +197,40 @@
     // Enhance for javascript browsers
     $(document).ready(function () {
 
-        $(".ArchetypesQueryWidget").each(function () {
+        // Init
+        $.querywidget.init();
 
-            // Hide controls used for non-javascript only
-            $(".addIndexButton").hide();
-            $(".multipleSelectionWidget dt").removeClass('hiddenStructure');
-            $(".multipleSelectionWidget dd").addClass('hiddenStructure widgetPulldownMenu');
 
-            $.getJSON(portal_url + '/@@querybuilderjsonconfig', function (data) {
-                $.querywidget.config = data;
+    });
+
+    // Init widget
+    $.querywidget.init = function () {
+
+        // Check if already initialized
+        if ($.querywidget.initialized == true) {
+
+            // Return nothing done
+            return false;
+        }
+
+        // Set initialized
+        $.querywidget.initialized = true;
+
+        // Get configuration
+        $.getJSON(portal_url + '/@@querybuilderjsonconfig', function (data) {
+            $.querywidget.config = data;
+
+            // Find querywidgets
+            $(".ArchetypesQueryWidget").each(function () {
+
+                // Get object
+                var obj = $(this);
+
+                // Hide controls used for non-javascript only
+                obj.find(".addIndexButton").hide();
+                obj.find(".multipleSelectionWidget dt").removeClass('hiddenStructure');
+                obj.find(".multipleSelectionWidget dd").addClass('hiddenStructure widgetPulldownMenu');
+
                 $('div.queryindex').each(function () {
                     $(this).before(
                         $(document.createElement('div'))
@@ -221,88 +246,87 @@
                 $.querywidget.updateSearch();
             });
         });
-    });
 
-    $('.multipleSelectionWidget dt').live('click', function () {
-        if ($(this).parent().children('dd').hasClass('hiddenStructure')) {
-            $(this).parent().children('dd').removeClass('hiddenStructure');
-        } else {
-            $(this).parent().children('dd').addClass('hiddenStructure');
-        }
-    });
+        $('.multipleSelectionWidget dt').live('click', function () {
+            if ($(this).parent().children('dd').hasClass('hiddenStructure')) {
+                $(this).parent().children('dd').removeClass('hiddenStructure');
+            } else {
+                $(this).parent().children('dd').addClass('hiddenStructure');
+            }
+        });
 
-    $('.queryindex').live('change', function () {
-        var index = $(this).children(':selected')[0].value;
-        $(this).parent().children('.queryoperator')
-            .replaceWith($.querywidget.createQueryOperator(index, ''));
-        var operatorvalue = $(this).parents('.criteria').children('.queryoperator').val();
-        var widget = $.querywidget.config.indexes[index].operators[operatorvalue].widget;
-        var querywidget = $(this).parent().children('.querywidget');
-        if ((widget != $.querywidget.getCurrentWidget(querywidget)) || (widget == 'MultipleSelectionWidget')) {
-            querywidget.replaceWith($.querywidget.createWidget(widget, index));
-        }
-        $.querywidget.updateSearch();
-    });
+        $('.queryindex').live('change', function () {
+            var index = $(this).children(':selected')[0].value;
+            $(this).parent().children('.queryoperator')
+                .replaceWith($.querywidget.createQueryOperator(index, ''));
+            var operatorvalue = $(this).parents('.criteria').children('.queryoperator').val();
+            var widget = $.querywidget.config.indexes[index].operators[operatorvalue].widget;
+            var querywidget = $(this).parent().children('.querywidget');
+            if ((widget != $.querywidget.getCurrentWidget(querywidget)) || (widget == 'MultipleSelectionWidget')) {
+                querywidget.replaceWith($.querywidget.createWidget(widget, index));
+            }
+            $.querywidget.updateSearch();
+        });
 
-    $('.queryoperator').live('change', function () {
-        var index = $(this).parents('.criteria').children('.queryindex').val();
-        var operatorvalue = $(this).children(':selected')[0].value;
-        var widget = $.querywidget.config.indexes[index].operators[operatorvalue].widget;
-        var querywidget = $(this).parent().children('.querywidget');
-        if (widget != $.querywidget.getCurrentWidget(querywidget)) {
-            querywidget.replaceWith($.querywidget.createWidget(widget, index));
-        }
-        $.querywidget.updateSearch();
-    });
+        $('.queryoperator').live('change', function () {
+            var index = $(this).parents('.criteria').children('.queryindex').val();
+            var operatorvalue = $(this).children(':selected')[0].value;
+            var widget = $.querywidget.config.indexes[index].operators[operatorvalue].widget;
+            var querywidget = $(this).parent().children('.querywidget');
+            if (widget != $.querywidget.getCurrentWidget(querywidget)) {
+                querywidget.replaceWith($.querywidget.createWidget(widget, index));
+            }
+            $.querywidget.updateSearch();
+        });
 
-    $('#sort_on,#sort_order,.multipleSelectionWidget input').live('change', function () {
-        $.querywidget.updateSearch();
-    });
+        $('#sort_on,#sort_order,.multipleSelectionWidget input').live('change', function () {
+            $.querywidget.updateSearch();
+        });
 
-    $('.queryvalue').live('keyup', function () {
-        $.querywidget.updateSearch();
-    });
+        $('.queryvalue').live('keyup', function () {
+            $.querywidget.updateSearch();
+        });
 
-    $('.queryvalue').live('keydown', function (e) {
-        if (e.keyCode == 13) {
-            return false;
-        }
-    });
+        $('.queryvalue').live('keydown', function (e) {
+            if (e.keyCode == 13) {
+                return false;
+            }
+        });
 
-    $('.addIndex').live('change', function () {
-        var index = $(this).children(':selected')[0].value;
-        var criteria = $(this).parents('.criteria');
-        var newcriteria = $(document.createElement('div'))
-                            .addClass('criteria');
+        $('.addIndex').live('change', function () {
+            var index = $(this).children(':selected')[0].value;
+            var criteria = $(this).parents('.criteria');
+            var newcriteria = $(document.createElement('div'))
+                                .addClass('criteria');
 
-        newcriteria.append(
-                $(document.createElement('div'))
-                    .addClass('queryresults discreet')
-                    .html('')
+            newcriteria.append(
+                    $(document.createElement('div'))
+                        .addClass('queryresults discreet')
+                        .html('')
+                )
+            newcriteria.append($.querywidget.createQueryIndex(index));
+            var operator = $.querywidget.createQueryOperator(index,'');
+            newcriteria.append(operator);
+            var operatorvalue = $(operator.children()[0]).attr('value');
+            newcriteria.append($.querywidget.createWidget($.querywidget.config.indexes[index].operators[operatorvalue].widget, index));
+            newcriteria.append(
+                $(document.createElement('input'))
+                    .attr({
+                        'value': 'Remove criterion',
+                        'type': 'submit',
+                        'name': 'removecriteria'
+                    })
+                    .addClass('removecriteria discreet')
             )
-        newcriteria.append($.querywidget.createQueryIndex(index));
-        var operator = $.querywidget.createQueryOperator(index,'');
-        newcriteria.append(operator);
-        var operatorvalue = $(operator.children()[0]).attr('value');
-        newcriteria.append($.querywidget.createWidget($.querywidget.config.indexes[index].operators[operatorvalue].widget, index));
-        newcriteria.append(
-            $(document.createElement('input'))
-                .attr({
-                    'value': 'Remove criterion',
-                    'type': 'submit',
-                    'name': 'removecriteria'
-                })
-                .addClass('removecriteria discreet')
-        )
-        criteria.before(newcriteria);
-        $(this).val('');
-        $.querywidget.updateSearch();
-    });
+            criteria.before(newcriteria);
+            $(this).val('');
+            $.querywidget.updateSearch();
+        });
 
-    $('.removecriteria').live('click', function () {
-        $(this).parents('.criteria').remove();
-        $.querywidget.updateSearch();
-        return false;
-    });
-
+        $('.removecriteria').live('click', function () {
+            $(this).parents('.criteria').remove();
+            $.querywidget.updateSearch();
+            return false;
+        });
+    };
 })(jQuery);

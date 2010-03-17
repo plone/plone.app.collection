@@ -11,7 +11,7 @@ $.ajax = function (options) {
     options.success("{test: 1}");
 };
 
-module("core", {
+module("querywidget", {
     setup: function () {
         // We'll create a div element for the dialog
         $(document.body)
