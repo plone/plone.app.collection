@@ -92,7 +92,7 @@
        <value key="title">Short name (id)</value>
        <value key="description">The short name of an item (used in the url)</value>
        <value key="enabled">True</value>
-       <value key="sortable">False</value>
+       <value key="sortable">True</value>
        <value key="operations">
             <element>plone.app.collection.operation.string.is</element>
        </value>
