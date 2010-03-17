@@ -5,6 +5,9 @@ class ICollection(Interface):
     """ """
     pass
 
+class ICollectionRegistryReader(Interface):
+    """Marker interface for the registry adapter"""
+
 class IQueryOperation(Interface):
     title = field.TextLine(title=u"Title")
     description = field.Text(title=u"Description")
