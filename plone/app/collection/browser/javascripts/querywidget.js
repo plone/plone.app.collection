@@ -10,6 +10,7 @@
 
     // Create a select menu
     $.querywidget.createSelect = function (values, selectedvalue, className, name) {
+
         // Create select
         var select = $(document.createElement('select'))
                             .addClass(className)

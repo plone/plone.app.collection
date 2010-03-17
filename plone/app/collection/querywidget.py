@@ -21,6 +21,8 @@ class QueryWidget(TypesWidget):
     _properties = TypesWidget._properties.copy()
     _properties.update({
         'macro': 'querywidget',
+        'helper_css': ('++resource++plone.app.collection.stylesheets/querywidget.css',),
+        'helper_js': ('++resource++plone.app.collection.javascripts/querywidget.js',),
         }),
 
     security = ClassSecurityInfo()
