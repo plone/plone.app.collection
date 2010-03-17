@@ -140,6 +140,55 @@
         }
     }
 
+    function GetCurrentWidget (node) {
+        var classes = node.attr('class').split(' ');
+        for (i in classes) {
+            if (classes[i].indexOf('Widget') != -1) {
+                var classname = classes[i];
+                return classname.slice(0,1).toUpperCase() + classname.slice(1);
+            }
+        }
+    }
+
+    function UpdateSearch() {
+        var query = "querybuilderpreviewresults?";
+        var querylist  = [];
+        $('.ArchetypesQueryWidget .queryindex').each(function () {
+            var results = $(this).parents('.criteria').children('.queryresults');
+            var index = $(this).val();
+            var operator = $(this).parents('.criteria').children('.queryoperator').val();
+            var widget = plone_app_search_config.indexes[index].operators[operator].widget;
+            querylist.push('query.i:records=' + index);
+            querylist.push('query.o:records=' + operator);
+            switch (widget) {
+                case 'DateRangeWidget':
+                    var querywidget = $(this).parents('.criteria').find('.querywidget');
+                    querylist.push('query.v:records:list=' + $(querywidget.children('input')[0]).val());
+                    querylist.push('query.v:records:list=' + $(querywidget.children('input')[1]).val());
+                    break;
+                case 'MultipleSelectionWidget':
+                    var querywidget = $(this).parents('.criteria').find('.querywidget');
+                    querywidget.find('input:checked').each(function () {
+                        querylist.push('query.v:records:list=' + $(this).val());
+                    });
+                    break;
+                default:
+                    querylist.push('query.v:records=' + $(this).parents('.criteria').find('.queryvalue').val());
+                    break;
+            }
+
+            $.get('querybuildernumberofresults?' + querylist.join('&'),
+                  {},
+                  function (data) { results.html(data); });
+        });
+        query += querylist.join('&');
+        query += '&sort_on=' + $('#sort_on').val();
+        if ($('#sort_order:checked').length > 0) {
+            query += '&sort_order=reverse'
+        }
+        $.get(query, {}, function (data) { $('.ArchetypesQueryWidget .previewresults').html(data); });
+    }
+
     // Enhance for javascript browsers
     $(document).ready(function () {
 
@@ -168,16 +217,6 @@
             });
         });
     });
-
-    function GetCurrentWidget (node) {
-        var classes = node.attr('class').split(' ');
-        for (i in classes) {
-            if (classes[i].indexOf('Widget') != -1) {
-                var classname = classes[i];
-                return classname.slice(0,1).toUpperCase() + classname.slice(1);
-            }
-        }
-    }
 
     $('.multipleSelectionWidget dt').live('click', function () {
         if ($(this).parent().children('dd').hasClass('hiddenStructure')) {
@@ -218,6 +257,7 @@
     $('.queryvalue').live('keyup', function () {
         UpdateSearch();
     });
+
     $('.queryvalue').live('keydown', function (e) {
         if (e.keyCode == 13) {
             return false;
@@ -259,44 +299,5 @@
         UpdateSearch();
         return false;
     });
-
-    function UpdateSearch() {
-        var query = "querybuilderpreviewresults?";
-        var querylist  = [];
-        $('.ArchetypesQueryWidget .queryindex').each(function () {
-            var results = $(this).parents('.criteria').children('.queryresults');
-            var index = $(this).val();
-            var operator = $(this).parents('.criteria').children('.queryoperator').val();
-            var widget = plone_app_search_config.indexes[index].operators[operator].widget;
-            querylist.push('query.i:records=' + index);
-            querylist.push('query.o:records=' + operator);
-            switch (widget) {
-                case 'DateRangeWidget':
-                    var querywidget = $(this).parents('.criteria').find('.querywidget');
-                    querylist.push('query.v:records:list=' + $(querywidget.children('input')[0]).val());
-                    querylist.push('query.v:records:list=' + $(querywidget.children('input')[1]).val());
-                    break;
-                case 'MultipleSelectionWidget':
-                    var querywidget = $(this).parents('.criteria').find('.querywidget');
-                    querywidget.find('input:checked').each(function () {
-                        querylist.push('query.v:records:list=' + $(this).val());
-                    });
-                    break;
-                default:
-                    querylist.push('query.v:records=' + $(this).parents('.criteria').find('.queryvalue').val());
-                    break;
-            }
-
-            $.get('querybuildernumberofresults?' + querylist.join('&'),
-                  {},
-                  function (data) { results.html(data); });
-        });
-        query += querylist.join('&');
-        query += '&sort_on=' + $('#sort_on').val();
-        if ($('#sort_order:checked').length > 0) {
-            query += '&sort_order=reverse'
-        }
-        $.get(query, {}, function (data) { $('.ArchetypesQueryWidget .previewresults').html(data); });
-    }
 
 })(jQuery);
