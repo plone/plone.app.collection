@@ -30,9 +30,9 @@ class QueryBuilder(BrowserView):
             self.value = value
         return self.index()
 
-    def results(self):
+    def results(self, formquery=None):
         if self._results is None:
-            self._results = self._queryForResults()
+            self._results = self._queryForResults(formquery=formquery)
         return self._results
 
     def _queryForResults(self, formquery=None):

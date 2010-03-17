@@ -43,7 +43,7 @@ class QueryField(ObjectField):
         
         value = self.getRaw(instance)
         querybuilder = instance.restrictedTraverse("querybuilderresults")
-        return querybuilder._queryForResults(value)
+        return querybuilder.results(value)
     
     def getRaw(self, instance, **kwargs):
         return ObjectField.get(self, instance, **kwargs) or ()
