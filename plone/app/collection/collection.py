@@ -24,6 +24,7 @@ CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
             description="""Define the search terms for the items you want to list by choosing what to match on.  
             The list of results will be dynamically updated""",
         ),
+        validators=('javascriptDisabled',)
     ),
     BooleanField(
         name='limitNumber',
