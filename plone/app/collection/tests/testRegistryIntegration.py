@@ -38,10 +38,8 @@ class TestFieldDefinitions(CollectionTestCase):
         self.assertEqual(len(operations), 1)
         
         equal = 'plone.app.collection.operation.string.is'
-        inequal = 'plone.app.collection.operation.string.isNot'
         assert equal in operations
-        # We don't have this operator yet
-        # assert inequal in operations
+
 
 def test_suite():
     suite = unittest.TestSuite()
