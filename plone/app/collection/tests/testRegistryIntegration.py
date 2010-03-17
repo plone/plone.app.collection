@@ -6,10 +6,11 @@ class TestOperationDefinitions(CollectionTestCase):
         
     def test_string_equality(self):
         registry = self.portal.portal_registry
+
         prefix = "plone.app.collection.operation.string.is"
         assert prefix+'.title' in registry
         
-        self.assertEqual(registry[prefix+".title"], "Equals")
+        self.assertEqual(registry[prefix+".title"], "Is")
         self.assertEqual(registry[prefix+".description"], 
                          'Tip: you can use * to autocomplete.')
         self.assertEqual(registry[prefix+".operation"], 'plone.app.collection.queryparser:_equal')
@@ -31,7 +32,7 @@ class TestFieldDefinitions(CollectionTestCase):
         registry = self.portal.portal_registry
         prefix = 'plone.app.collection.field.getId'
         assert prefix+".title" in registry
-
+        
         self.assertEqual(registry[prefix+".title"], "Short name (id)")
         
         operations = registry[prefix + ".operations"]
