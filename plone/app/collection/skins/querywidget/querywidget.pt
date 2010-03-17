@@ -31,7 +31,7 @@
             <fieldset>
                 <legend>Criteria</legend>
                 <tal:counter tal:define="dummy python:request.set('querystringwidgetcounter', 0)"/>
-                <tal:row repeat="row accessor">
+                <tal:row repeat="row python:accessor(raw=True)">
                 <div class="criteria"
                      tal:condition="python:not request.has_key('removecriteria.%s' % repeat['row'].index)">
                     <div class="queryindex">

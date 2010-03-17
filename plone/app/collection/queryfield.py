@@ -36,6 +36,11 @@ class QueryField(ObjectField):
 
     def get(self, instance, **kwargs):
         """Get the query dict from the request or from the object"""
+        raw = kwargs.get('raw', None)
+        if raw == True:
+            # We actually wanted the raw value, should have called getRaw
+            return self.getRaw(instance)
+        
         value = self.getRaw(instance)
         querybuilder = instance.restrictedTraverse("querybuilderresults")
         return querybuilder._queryForResults(value)
