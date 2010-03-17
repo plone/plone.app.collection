@@ -43,6 +43,27 @@ Installedlayer = Layer([common.common_layer])
 
 class CollectionTestCase(ptc.PloneTestCase):
     layer = Installedlayer
+    
+    
+class CollectionRegistryReaderCase(ptc.PloneTestCase):
+    layer = Installedlayer
+
+    def getLogger(self, value):
+        return 'plone.app.collection'
+
+    def shouldPurge(self):
+        return False
+    
+    def createRegistry(self, xml):
+        """Create a registry from a minimal set of fields and operators"""
+        from plone.registry import Registry
+        from plone.app.registry.exportimport.handler import RegistryImporter
+        
+        registry = Registry()
+        importer = RegistryImporter(registry, self)
+        importer.importDocument(xml)
+        return registry
+    
 
 class CollectionFunctionalTestCase(ptc.FunctionalTestCase):
     layer = Installedlayer
