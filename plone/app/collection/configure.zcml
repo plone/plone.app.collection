@@ -29,4 +29,6 @@
           />
     </class>
 
+    <adapter
+        factory=".registryreader.CollectionRegistryReader" />
 </configure>
