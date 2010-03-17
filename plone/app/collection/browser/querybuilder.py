@@ -9,7 +9,7 @@ from plone.app.collection.queryparser import QueryParser
 from zope.component import getMultiAdapter
 #from ZTUtils import make_query
 from zope.component import getUtility
-from plone.app.collection.registryreader import CollectionRegistryReader
+from plone.app.collection.interfaces import ICollectionRegistryReader
 import json
 
 
@@ -83,7 +83,7 @@ class QueryBuilder(BrowserView):
     def getConfigFromRegistry(self):
         """Returns the indexes and sortable indexes from the portal registry"""
         registry = getUtility(IRegistry)
-        registryreader = CollectionRegistryReader(registry)
+        registryreader = ICollectionRegistryReader(registry)
         result = registryreader()
         return result
 
