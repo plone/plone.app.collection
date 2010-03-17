@@ -66,7 +66,7 @@ class CollectionRegistryReader(object):
             field['operators'] = {}
             for operation_key in fieldoperations:
                 try:
-                    field['operators'][operation_key.split('.')[-1]] = \
+                    field['operators'][operation_key] = \
                         values.get(operation_key)
                 except KeyError:
                     # invalid operation, probably doesn't exist, pass for now
