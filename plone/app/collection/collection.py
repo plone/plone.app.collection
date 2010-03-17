@@ -20,8 +20,9 @@ CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
     QueryField(
         name='query',
         widget=QueryWidget(
-            label="Query 1",
-            description="Query for the collection",
+            label="Search terms",
+            description="""Define the search terms for the items you want to list by choosing what to match on.  
+            The list of results will be dynamically updated""",
         ),
     ),
     BooleanField(
@@ -53,6 +54,7 @@ CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
 # they work well with the python bridge properties.
 CollectionSchema['title'].storage = atapi.AnnotationStorage()
 CollectionSchema['description'].storage = atapi.AnnotationStorage()
+CollectionSchema.moveField('query', after='description')
 
 schemata.finalizeATCTSchema(
     CollectionSchema,
