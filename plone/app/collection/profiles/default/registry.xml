@@ -372,6 +372,7 @@
             <element>plone.app.collection.operation.string.is</element>
             <element>plone.app.collection.operation.string.contains</element>
         </value>
+       <value key="vocabulary">plone.app.vocabularies.Keywords</value>
        <value key="group">Text</value>
     </records>
 
