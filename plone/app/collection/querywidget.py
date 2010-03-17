@@ -35,7 +35,11 @@ class QueryWidget(TypesWidget):
         if value:
             return value, {}
         else:
-            return {}, {}
+            # check if addINdexButton is in request, only when javascript
+            # is disabled
+            if 'form.button.addcriteria' in form:
+                # pass thru empty value to validator
+                return {}, {}
 
 
     def getConfig(self):
