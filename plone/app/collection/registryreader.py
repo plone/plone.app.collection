@@ -72,13 +72,21 @@ class CollectionRegistryReader(object):
                     # invalid operation, probably doesn't exist, pass for now
                     pass
         return values
+        
+    def mapSortableIndexes(self, values):
+        sortables = {}
+        for key, field in values.get('%s.field' % self.prefix).iteritems():
+            if field.get('sortable', False):
+                sortables[key] = values.get('%s.field.%s' % (self.prefix, key))
+        values['sortable'] = sortables
+        return values
 
     def __call__(self):
         indexes = self.parseRegistry()
         indexes = self.getVocabularyValues(indexes)
         indexes = self.mapOperations(indexes)
-        # todo: sortables
+        indexes = self.mapSortableIndexes(indexes)
         return {
             'indexes': indexes.get('%s.field' % self.prefix),
-            'sortable_indexes': {},
+            'sortable_indexes': indexes.get('sortable'),
         }
