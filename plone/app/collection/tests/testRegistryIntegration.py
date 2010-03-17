@@ -14,17 +14,6 @@ class TestOperationDefinitions(CollectionTestCase):
                          'Tip: you can use * to autocomplete.')
         self.assertEqual(registry[prefix+".operation"], 'plone.app.collection.queryparser:_equal')
                 
-    # We don't have this operator yet
-    # def test_string_inequality(self):
-    #    registry = self.portal.portal_registry
-    #    prefix = 'plone.app.collection.operation.string.isNot'
-    #    assert prefix+".title" in registry
-    #    
-    #    self.assertEqual(registry[prefix+".title"], "does not equal")
-    #    self.assertEqual(registry[prefix+".description"], 
-    #                     'Tip: you can use * to autocomplete.')
-    #    self.assertEqual(registry[prefix+".operation"], 'plone.app.collection.queryparser:_notEqual')
-    
     def test_date_lessthan(self):
         registry = self.portal.portal_registry
         prefix = 'plone.app.collection.operation.date.lessThan'
