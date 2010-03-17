@@ -1,7 +1,6 @@
 ;(function($) {
 
-    // Search config
-    var plone_app_search_config = {};
+    var config;
 
     // Create a select menu
     function CreateSelect(values, selectedvalue, className, name) {
@@ -23,7 +22,7 @@
 
     // Create a queryindex select menu
     function CreateQueryIndex(value) {
-        return CreateSelect(plone_app_search_config.indexes,
+        return CreateSelect(config.indexes,
                             value,
                             'queryindex',
                             'query.i:records');
@@ -31,7 +30,7 @@
 
     // Create a queryoperator select menu
     function CreateQueryOperator(index, value) {
-        return CreateSelect(plone_app_search_config.indexes[index].operators,
+        return CreateSelect(config.indexes[index].operators,
                             value,
                             'queryoperator',
                             'query.o:records');
@@ -120,7 +119,7 @@
                         )
                     )
                 var dd = $(document.createElement('dd')).addClass('hiddenStructure widgetPulldownMenu')
-                $.each(plone_app_search_config.indexes[index].values, function (i, val) {
+                $.each(config.indexes[index].values, function (i, val) {
                     dd.append($(document.createElement('label'))
                         .append($(document.createElement('input'))
                             .attr({
@@ -151,13 +150,13 @@
     }
 
     function UpdateSearch() {
-        var query = "querybuilder_html_results?";
+        var query = portal_url + "/querybuilder_html_results?";
         var querylist  = [];
         $('.ArchetypesQueryWidget .queryindex').each(function () {
             var results = $(this).parents('.criteria').children('.queryresults');
             var index = $(this).val();
             var operator = $(this).parents('.criteria').children('.queryoperator').val();
-            var widget = plone_app_search_config.indexes[index].operators[operator].widget;
+            var widget = config.indexes[index].operators[operator].widget;
             querylist.push('query.i:records=' + index);
             querylist.push('query.o:records=' + operator);
             switch (widget) {
@@ -177,7 +176,7 @@
                     break;
             }
 
-            $.get('querybuildernumberofresults?' + querylist.join('&'),
+            $.get(portal_url + '/querybuildernumberofresults?' + querylist.join('&'),
                   {},
                   function (data) { results.html(data); });
         });
@@ -199,8 +198,8 @@
             $(".multipleSelectionWidget dt").removeClass('hiddenStructure');
             $(".multipleSelectionWidget dd").addClass('hiddenStructure widgetPulldownMenu');
 
-            $.getJSON('querybuilderjsonconfig', function (data) {
-                plone_app_search_config = data;
+            $.getJSON(portal_url + '/querybuilderjsonconfig', function (data) {
+                config = data;
                 $('div.queryindex').each(function () {
                     $(this).before(
                         $(document.createElement('div'))
@@ -231,7 +230,7 @@
         $(this).parent().children('.queryoperator')
             .replaceWith(CreateQueryOperator(index, ''));
         var operatorvalue = $(this).parents('.criteria').children('.queryoperator').val();
-        var widget = plone_app_search_config.indexes[index].operators[operatorvalue].widget;
+        var widget = config.indexes[index].operators[operatorvalue].widget;
         var querywidget = $(this).parent().children('.querywidget');
         if ((widget != GetCurrentWidget(querywidget)) || (widget == 'MultipleSelectionWidget')) {
             querywidget.replaceWith(CreateWidget(widget, index));
@@ -242,7 +241,7 @@
     $('.queryoperator').live('change', function () {
         var index = $(this).parents('.criteria').children('.queryindex').val();
         var operatorvalue = $(this).children(':selected')[0].value;
-        var widget = plone_app_search_config.indexes[index].operators[operatorvalue].widget;
+        var widget = config.indexes[index].operators[operatorvalue].widget;
         var querywidget = $(this).parent().children('.querywidget');
         if (widget != GetCurrentWidget(querywidget)) {
             querywidget.replaceWith(CreateWidget(widget, index));
@@ -279,7 +278,7 @@
         var operator = CreateQueryOperator(index,'');
         newcriteria.append(operator);
         var operatorvalue = $(operator.children()[0]).attr('value');
-        newcriteria.append(CreateWidget(plone_app_search_config.indexes[index].operators[operatorvalue].widget, index));
+        newcriteria.append(CreateWidget(config.indexes[index].operators[operatorvalue].widget, index));
         newcriteria.append(
             $(document.createElement('input'))
                 .attr({
