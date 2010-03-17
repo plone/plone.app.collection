@@ -12,45 +12,45 @@
 
 CRITERION={
     'Subject':{
-        'friendly_name': 'Categories',
+        'title': 'Categories',
         'description': 'The category the item is put in.',
         'operators':{
             'is_not':{
-                'friendly_name' : 'are not',
+                'title' : 'are not',
                 'widget'        : 'MultipleSelectionWidget',
             },
             'is':{
-                'friendly_name' : 'are',
+                'title' : 'are',
                 'widget'        : 'MultipleSelectionWidget',
             },
         },
         'values': {
             'Plone':{
-                'friendly_name' : 'Plone',
+                'title' : 'Plone',
             },
             'Zope':{
-                'friendly_name' : 'Zope',
+                'title' : 'Zope',
             },
             'Python':{
-                'friendly_name' : 'Python',
+                'title' : 'Python',
             },
             'Javascript':{
-                'friendly_name' : 'Javascript',
+                'title' : 'Javascript',
             },
         },
     },
 
     'Creator':{
-        'friendly_name': 'Creator',
+        'title': 'Creator',
         'description': 'The creator of the item',
         'operators':{
             'is_not':{
-                'friendly_name' : 'does not equal',
+                'title' : 'does not equal',
                 'widget'        : 'StringWidget',
                 'description'   : 'Only username search is supported.',
             },
             'is':{
-                'friendly_name' : 'equals',
+                'title' : 'equals',
                 'widget'        : 'StringWidget',
                 'description'   : 'Only username search is supported',
             },
@@ -58,26 +58,26 @@ CRITERION={
     },
 
     'created':{
-        'friendly_name': 'Creation date',
+        'title': 'Creation date',
         'description': 'The time and date an item was created',
         'operators':{
             'less_then':{
-                'friendly_name': 'before',
+                'title': 'before',
                 'widget': 'DateWidget',
                 'description'   : 'please use YYYY/MM/DD.',
             },
             'is':{
-                'friendly_name': 'on',
+                'title': 'on',
                 'widget': 'DateWidget',
                 'description'   : 'please use YYYY/MM/DD.',
             },
             'larger_then':{
-                'friendly_name': 'after',
+                'title': 'after',
                 'widget': 'DateWidget',
                 'description'   : 'please use YYYY/MM/DD.',
             },
             'between':{
-                'friendly_name': 'between',
+                'title': 'between',
                 'widget': 'DateRangeWidget',
                 'description'   : 'please use YYYY/MM/DD.',
             },
@@ -85,16 +85,16 @@ CRITERION={
     },
 
     'Description':{
-        'friendly_name': 'Description',
+        'title': 'Description',
         'description': 'Description',
         'operators':{
             'is_not':{
-                'friendly_name' : 'does not equal',
+                'title' : 'does not equal',
                 'widget'        : 'StringWidget',
                 'description'   : 'Tip: you can use * to autocomplete.',
             },
             'is':{
-                'friendly_name' : 'equals',
+                'title' : 'equals',
                 'widget'        : 'StringWidget',
                 'description'   : 'Tip: you can use * to autocomplete.',
             },
@@ -102,26 +102,26 @@ CRITERION={
     },
 
     'effective':{
-        'friendly_name': 'Effective date (publish date)',
+        'title': 'Effective date (publish date)',
         'description': 'The time and date an item becomes publicly available',
         'operators':{
             'less_then':{
-                'friendly_name': 'before',
+                'title': 'before',
                 'widget': 'DateWidget',
                 'description'   : 'please use YYYY/MM/DD.',
             },
             'is':{
-                'friendly_name': 'on',
+                'title': 'on',
                 'widget': 'DateWidget',
                 'description'   : 'please use YYYY/MM/DD.',
             },
             'larger_then':{
-                'friendly_name': 'after',
+                'title': 'after',
                 'widget': 'DateWidget',
                 'description'   : 'please use YYYY/MM/DD.',
             },
             'between':{
-                'friendly_name': 'between',
+                'title': 'between',
                 'widget': 'DateRangeWidget',
                 'description'   : 'please use YYYY/MM/DD.',
             },
@@ -129,26 +129,26 @@ CRITERION={
     },
 
     'end':{
-        'friendly_name': 'End date (event)',
+        'title': 'End date (event)',
         'description': 'The end date and time of an event',
         'operators':{
             'less_then':{
-                'friendly_name': 'before',
+                'title': 'before',
                 'widget': 'DateWidget',
                 'description'   : 'please use YYYY/MM/DD.',
             },
             'is':{
-                'friendly_name': 'on',
+                'title': 'on',
                 'widget': 'DateWidget',
                 'description'   : 'please use YYYY/MM/DD.',
             },
             'larger_then':{
-                'friendly_name': 'after',
+                'title': 'after',
                 'widget': 'DateWidget',
                 'description'   : 'please use YYYY/MM/DD.',
             },
             'between':{
-                'friendly_name': 'between',
+                'title': 'between',
                 'widget': 'DateRangeWidget',
                 'description'   : 'please use YYYY/MM/DD.',
             },
@@ -156,26 +156,26 @@ CRITERION={
     },
 
     'expires':{
-        'friendly_name': 'Expiration date',
+        'title': 'Expiration date',
         'description': 'The time and date an item is no longer publicly available',
         'operators':{
             'less_then':{
-                'friendly_name': 'before',
+                'title': 'before',
                 'widget': 'DateWidget',
                 'description'   : 'please use YYYY/MM/DD.',
             },
             'is':{
-                'friendly_name': 'on',
+                'title': 'on',
                 'widget': 'DateWidget',
                 'description'   : 'please use YYYY/MM/DD.',
             },
             'larger_then':{
-                'friendly_name': 'after',
+                'title': 'after',
                 'widget': 'DateWidget',
                 'description'   : 'please use YYYY/MM/DD.',
             },
             'between':{
-                'friendly_name': 'between',
+                'title': 'between',
                 'widget': 'DateRangeWidget',
                 'description'   : 'please use YYYY/MM/DD.',
             },
@@ -183,47 +183,47 @@ CRITERION={
     },
 
     'Type':{
-        'friendly_name': 'Item type',
+        'title': 'Item type',
         'description': 'An item\'s type (e.g. Event)',
         'operators':{
             'is_not':{
-                'friendly_name' : 'does not equal',
+                'title' : 'does not equal',
                 'widget'        : 'MultipleSelectionWidget',
             },
             'is':{
-                'friendly_name' : 'equals',
+                'title' : 'equals',
                 'widget'        : 'MultipleSelectionWidget',
             },
         },
         'values': {
             'Page':{
-                'friendly_name' : 'Page',
+                'title' : 'Page',
 # possible extension/option
 #               'preselected' : True,
             },
             'Folder':{
-                'friendly_name' : 'Folder',
+                'title' : 'Folder',
             },
             'File':{
-                'friendly_name' : 'File',
+                'title' : 'File',
             },
             'Collection':{
-                'friendly_name' : 'Collection',
+                'title' : 'Collection',
             },
         },
     },
 
     'path':{
-        'friendly_name': 'Location (path)',
+        'title': 'Location (path)',
         'description': 'The location of an item in the site (path)',
         'operators':{
             'is':{
-                'friendly_name' : 'location in the site',
+                'title' : 'location in the site',
                 'widget'        : 'ReferenceWidget',
                 'description'   : 'Fill in your absolute location e.g.: /site/events/',
             },
             'relative_location':{
-                'friendly_name' : 'location in site relative to the current location',
+                'title' : 'location in site relative to the current location',
                 'widget'        : 'RelativePathWidget',
                 'description'   : 'Enter a relative path e.g.:\'..\' for the parent folder \'../..\' for the parent\'s parent \'../somefolder\' for a sibling folder',
             },
@@ -231,26 +231,26 @@ CRITERION={
     },
 
     'modified':{
-        'friendly_name': 'Modification date',
+        'title': 'Modification date',
         'description': 'The time and date an item was last modified',
         'operators':{
             'less_then':{
-                'friendly_name': 'before',
+                'title': 'before',
                 'widget': 'DateWidget',
                 'description'   : 'please use YYYY/MM/DD.',
             },
             'is':{
-                'friendly_name': 'on',
+                'title': 'on',
                 'widget': 'DateWidget',
                 'description'   : 'please use YYYY/MM/DD.',
             },
             'larger_then':{
-                'friendly_name': 'after',
+                'title': 'after',
                 'widget': 'DateWidget',
                 'description'   : 'please use YYYY/MM/DD.',
             },
             'between':{
-                'friendly_name': 'between',
+                'title': 'between',
                 'widget': 'DateRangeWidget',
                 'description'   : 'please use YYYY/MM/DD.',
             },
@@ -258,27 +258,27 @@ CRITERION={
     },
 
     'getRawRelatedItems':{
-        'friendly_name': 'Related to',
+        'title': 'Related to',
         'description': 'Find items related to the selected items',
         'operators':{
             'to':{
-                'friendly_name' : 'to',
+                'title' : 'to',
                 'widget'        : 'MultipleSelectionWidget',
             },
         },
     },
 
     'SearchableText':{
-        'friendly_name': 'Search text',
+        'title': 'Search text',
         'description': 'Text search of an item\'s contents',
         'operators':{
             'is_not':{
-                'friendly_name' : 'does not equal',
+                'title' : 'does not equal',
                 'widget'        : 'StringWidget',
                 'description'   : 'Tip: you can use * to autocomplete.',
             },
             'is':{
-                'friendly_name' : 'equals',
+                'title' : 'equals',
                 'widget'        : 'StringWidget',
                 'description'   : 'Tip: you can use * to autocomplete.',
             },
@@ -286,41 +286,41 @@ CRITERION={
     },
 
     'getId':{
-        'friendly_name': 'Short name',
+        'title': 'Short name',
         'description': 'Short name of the item',
         'operators':{
             'is_not':{
-                'friendly_name' : 'does not equal',
+                'title' : 'does not equal',
                 'widget'        : 'StringWidget',
             },
             'is':{
-                'friendly_name' : 'equals',
+                'title' : 'equals',
                 'widget'        : 'StringWidget',
             },
         },
     },
 
     'start':{
-        'friendly_name': 'Start date',
+        'title': 'Start date',
         'description': 'The start date and time of an event',
         'operators':{
             'less_then':{
-                'friendly_name': 'before',
+                'title': 'before',
                 'widget': 'DateWidget',
                 'description'   : 'please use YYYY/MM/DD.',
             },
             'is':{
-                'friendly_name': 'on',
+                'title': 'on',
                 'widget': 'DateWidget',
                 'description'   : 'please use YYYY/MM/DD.',
             },
             'larger_then':{
-                'friendly_name': 'after',
+                'title': 'after',
                 'widget': 'DateWidget',
                 'description'   : 'please use YYYY/MM/DD.',
             },
             'between':{
-                'friendly_name': 'between',
+                'title': 'between',
                 'widget': 'DateRangeWidget',
                 'description'   : 'please use YYYY/MM/DD.',
             },
@@ -328,51 +328,51 @@ CRITERION={
     },
 
     'review_state':{
-        'friendly_name': 'State',
+        'title': 'State',
         'description': 'An item\'s workflow state (e.g.published)',
         'operators':{
             'is_not':{
-                'friendly_name' : 'does not equal',
+                'title' : 'does not equal',
                 'widget'        : 'MultipleSelectionWidget',
             },
             'is':{
-                'friendly_name' : 'equals',
+                'title' : 'equals',
                 'widget'        : 'MultipleSelectionWidget',
             },
         },
         'values': {
             'Published':{
-                'friendly_name' : 'Published',
+                'title' : 'Published',
             },
             'Private':{
-                'friendly_name' : 'Private',
+                'title' : 'Private',
             },
             'Pending':{
-                'friendly_name' : 'Pending',
+                'title' : 'Pending',
             },
             'Rejected':{
-                'friendly_name' : 'Rejected',
+                'title' : 'Rejected',
             },
             'Sent_back':{
-                'friendly_name' : 'Sent Back',
+                'title' : 'Sent Back',
             },
             'Draft':{
-                'friendly_name' : 'Draft',
+                'title' : 'Draft',
             },
         },
     },
 
     'Title':{
-        'friendly_name': 'Title',
+        'title': 'Title',
         'description': 'Title of the item',
         'operators':{
             'plone.app.collection.operation.string.is_not':{
-                'friendly_name' : 'does not equal',
+                'title' : 'does not equal',
                 'widget'        : 'StringWidget',
                 'description'   : 'Tip: you can use * to autocomplete.',
             },
             'plone.app.collection.operation.string.is':{
-                'friendly_name' : 'equals',
+                'title' : 'equals',
                 'widget'        : 'StringWidget',
                 'description'   : 'Tip: you can use * to autocomplete.',
             },
@@ -383,80 +383,80 @@ CRITERION={
 
 SORTABLES={
     'Creator':{
-        'friendly_name' : 'Creator',
+        'title' : 'Creator',
         'description' : 'The person that created an item',
     },
     'Type':{
-        'friendly_name' : 'Item Type',
+        'title' : 'Item Type',
         'description' : 'The content type of the item',
     },
 # is there an usecase?
 #     'getId':{  
-#          'friendly_name' : 'Short name',
+#          'title' : 'Short name',
 #          'description' : 'The short name of the item',
 #     },
 # same as getId?
 #     'id':{  
-#          'friendly_name' : 'ID',
+#          'title' : 'ID',
 #          'description' : '',
 #     },
 # this is portal type, such as document (not page), topic (not collection)
 #     'portal_type':{  
-#          'friendly_name' : '',
+#          'title' : '',
 #          'description' : '',
 #     },
     'review_state':{  
-        'friendly_name' : 'Workflow state',
+        'title' : 'Workflow state',
         'description' : 'An item\'s workflow state (e.g.published)',
     },
     'sortable_title':{  
-        'friendly_name' : 'Title',
+        'title' : 'Title',
         'description' : 'The item\'s title transformed for sorting',
     },
 # Same as Modification Date?
 #     'Date':{  
-#          'friendly_name' : 'Date',
+#          'title' : 'Date',
 #          'description' : '',
 #     },
     'created':{  
-        'friendly_name' : 'Creation date',
+        'title' : 'Creation date',
         'description' : 'The time and date an item was created',
     },
     'effective':{  
-        'friendly_name' : 'Effective date',
+        'title' : 'Effective date',
         'description' : 'The time and date an item was published',
     },
     'end':{  
-        'friendly_name' : 'End date (Event)',
+        'title' : 'End date (Event)',
         'description' : 'The end date and time of an event',
     },
     'expires':{  
-        'friendly_name' : 'Expiry date',
+        'title' : 'Expiry date',
         'description' : 'The time and date an item is no longer publicly available',
     },
     'modified':{  
-        'friendly_name' : 'Modification date',
+        'title' : 'Modification date',
         'description' : 'The time and date an item was last modified',
     },
     'start':{  
-        'friendly_name' : 'Start date',
+        'title' : 'Start date',
         'description' : 'The start date and time of an event',
     },
     'Subject':{  
-        'friendly_name' : 'Category',
+        'title' : 'Category',
         'description' : 'The keywords used to describe an item',
     },
     'getEventType':{  
-        'friendly_name' : 'Event type',
+        'title' : 'Event type',
         'description' : 'The type of event',
     },
 # use case?
 #     'getRawRelatedItems':{  
-#          'friendly_name': 'Related to',
+#          'title': 'Related to',
 #          'description': 'Find items related to the selected items',
 #     },
     'relevance':{
-        'friendly_name' : 'Relevance',
+        'title' : 'Relevance',
         'description' : 'Relevance',
     },
 }
