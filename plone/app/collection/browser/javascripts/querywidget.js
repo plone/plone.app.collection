@@ -1,9 +1,15 @@
 ;(function($) {
 
-    var config;
+    // Define querywidget namespace if it doesn't exist
+    if (typeof($.querywidget) == "undefined") {
+        $.querywidget = {
+            config: {},
+            initialized: false
+        };
+    }
 
     // Create a select menu
-    function CreateSelect(values, selectedvalue, className, name) {
+    $.querywidget.createSelect = function (values, selectedvalue, className, name) {
         // Create select
         var select = $(document.createElement('select'))
                             .addClass(className)
@@ -18,25 +24,25 @@
             select.append(option);
         });
         return select;
-    }
+    };
 
     // Create a queryindex select menu
-    function CreateQueryIndex(value) {
-        return CreateSelect(config.indexes,
+    $.querywidget.createQueryIndex = function (value) {
+        return $.querywidget.createSelect($.querywidget.config.indexes,
                             value,
                             'queryindex',
                             'query.i:records');
-    }
+    };
 
     // Create a queryoperator select menu
-    function CreateQueryOperator(index, value) {
-        return CreateSelect(config.indexes[index].operators,
+    $.querywidget.createQueryOperator = function (index, value) {
+        return $.querywidget.createSelect($.querywidget.config.indexes[index].operators,
                             value,
                             'queryoperator',
                             'query.o:records');
-    }
+    };
 
-    function CreateWidget(type, index) {
+    $.querywidget.createWidget = function (type, index) {
         switch (type) {
             case 'StringWidget':
                 return $(document.createElement('input'))
@@ -119,7 +125,7 @@
                         )
                     )
                 var dd = $(document.createElement('dd')).addClass('hiddenStructure widgetPulldownMenu')
-                $.each(config.indexes[index].values, function (i, val) {
+                $.each($.querywidget.config.indexes[index].values, function (i, val) {
                     dd.append($(document.createElement('label'))
                         .append($(document.createElement('input'))
                             .attr({
@@ -137,9 +143,9 @@
                 return dl;
                 break;
         }
-    }
+    };
 
-    function GetCurrentWidget (node) {
+    $.querywidget.getCurrentWidget  = function (node) {
         var classes = node.attr('class').split(' ');
         for (i in classes) {
             if (classes[i].indexOf('Widget') != -1) {
@@ -147,16 +153,16 @@
                 return classname.slice(0,1).toUpperCase() + classname.slice(1);
             }
         }
-    }
+    };
 
-    function UpdateSearch() {
-        var query = portal_url + "/querybuilder_html_results?";
+    $.querywidget.updateSearch = function () {
+        var query = portal_url + "/@@querybuilder_html_results?";
         var querylist  = [];
         $('.ArchetypesQueryWidget .queryindex').each(function () {
             var results = $(this).parents('.criteria').children('.queryresults');
             var index = $(this).val();
             var operator = $(this).parents('.criteria').children('.queryoperator').val();
-            var widget = config.indexes[index].operators[operator].widget;
+            var widget = $.querywidget.config.indexes[index].operators[operator].widget;
             querylist.push('query.i:records=' + index);
             querylist.push('query.o:records=' + operator);
             switch (widget) {
@@ -176,7 +182,7 @@
                     break;
             }
 
-            $.get(portal_url + '/querybuildernumberofresults?' + querylist.join('&'),
+            $.get(portal_url + '/@@querybuildernumberofresults?' + querylist.join('&'),
                   {},
                   function (data) { results.html(data); });
         });
@@ -186,7 +192,7 @@
             query += '&sort_order=reverse'
         }
         $.get(query, {}, function (data) { $('.ArchetypesQueryWidget .previewresults').html(data); });
-    }
+    };
 
     // Enhance for javascript browsers
     $(document).ready(function () {
@@ -198,21 +204,21 @@
             $(".multipleSelectionWidget dt").removeClass('hiddenStructure');
             $(".multipleSelectionWidget dd").addClass('hiddenStructure widgetPulldownMenu');
 
-            $.getJSON(portal_url + '/querybuilderjsonconfig', function (data) {
-                config = data;
+            $.getJSON(portal_url + '/@@querybuilderjsonconfig', function (data) {
+                $.querywidget.config = data;
                 $('div.queryindex').each(function () {
                     $(this).before(
                         $(document.createElement('div'))
                             .addClass('queryresults discreet')
                             .html('')
                     )
-                    $(this).replaceWith(CreateQueryIndex($(this).children('input').val()));
+                    $(this).replaceWith($.querywidget.createQueryIndex($(this).children('input').val()));
                 });
                 $('div.queryoperator').each(function () {
-                    $(this).replaceWith(CreateQueryOperator($(this).parents('.criteria').children('.queryindex').val(),
+                    $(this).replaceWith($.querywidget.createQueryOperator($(this).parents('.criteria').children('.queryindex').val(),
                                                             $(this).children('input').val()));
                 });
-                UpdateSearch();
+                $.querywidget.updateSearch();
             });
         });
     });
@@ -228,33 +234,33 @@
     $('.queryindex').live('change', function () {
         var index = $(this).children(':selected')[0].value;
         $(this).parent().children('.queryoperator')
-            .replaceWith(CreateQueryOperator(index, ''));
+            .replaceWith($.querywidget.createQueryOperator(index, ''));
         var operatorvalue = $(this).parents('.criteria').children('.queryoperator').val();
-        var widget = config.indexes[index].operators[operatorvalue].widget;
+        var widget = $.querywidget.config.indexes[index].operators[operatorvalue].widget;
         var querywidget = $(this).parent().children('.querywidget');
-        if ((widget != GetCurrentWidget(querywidget)) || (widget == 'MultipleSelectionWidget')) {
-            querywidget.replaceWith(CreateWidget(widget, index));
+        if ((widget != $.querywidget.getCurrentWidget(querywidget)) || (widget == 'MultipleSelectionWidget')) {
+            querywidget.replaceWith($.querywidget.createWidget(widget, index));
         }
-        UpdateSearch();
+        $.querywidget.updateSearch();
     });
 
     $('.queryoperator').live('change', function () {
         var index = $(this).parents('.criteria').children('.queryindex').val();
         var operatorvalue = $(this).children(':selected')[0].value;
-        var widget = config.indexes[index].operators[operatorvalue].widget;
+        var widget = $.querywidget.config.indexes[index].operators[operatorvalue].widget;
         var querywidget = $(this).parent().children('.querywidget');
-        if (widget != GetCurrentWidget(querywidget)) {
-            querywidget.replaceWith(CreateWidget(widget, index));
+        if (widget != $.querywidget.getCurrentWidget(querywidget)) {
+            querywidget.replaceWith($.querywidget.createWidget(widget, index));
         }
-        UpdateSearch();
+        $.querywidget.updateSearch();
     });
 
     $('#sort_on,#sort_order,.multipleSelectionWidget input').live('change', function () {
-        UpdateSearch();
+        $.querywidget.updateSearch();
     });
 
     $('.queryvalue').live('keyup', function () {
-        UpdateSearch();
+        $.querywidget.updateSearch();
     });
 
     $('.queryvalue').live('keydown', function (e) {
@@ -274,11 +280,11 @@
                     .addClass('queryresults discreet')
                     .html('')
             )
-        newcriteria.append(CreateQueryIndex(index));
-        var operator = CreateQueryOperator(index,'');
+        newcriteria.append($.querywidget.createQueryIndex(index));
+        var operator = $.querywidget.createQueryOperator(index,'');
         newcriteria.append(operator);
         var operatorvalue = $(operator.children()[0]).attr('value');
-        newcriteria.append(CreateWidget(config.indexes[index].operators[operatorvalue].widget, index));
+        newcriteria.append($.querywidget.createWidget($.querywidget.config.indexes[index].operators[operatorvalue].widget, index));
         newcriteria.append(
             $(document.createElement('input'))
                 .attr({
@@ -290,12 +296,12 @@
         )
         criteria.before(newcriteria);
         $(this).val('');
-        UpdateSearch();
+        $.querywidget.updateSearch();
     });
 
     $('.removecriteria').live('click', function () {
         $(this).parents('.criteria').remove();
-        UpdateSearch();
+        $.querywidget.updateSearch();
         return false;
     });
 
