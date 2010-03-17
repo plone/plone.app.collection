@@ -1,4 +1,4 @@
-parsed_correct = {'plone': {'app': {'collection': {'field': {'getId': {'operations': ['plone.app.collection.operation.string.is'], 'group': u'Metadata', 'description': u'The short name of an item (used in the url)', 'vocabulary': None, 'title': u'Short Name', 'enabled': True, 'sortable': None}, 'created': {'operations': ['plone.app.collection.operation.date.lessThan', 'plone.app.collection.operation.date.largerThan'], 'group': u'Dates', 'description': u'The time and date an item was created', 'vocabulary': None, 'title': u'Creation Date', 'enabled': True, 'sortable': None}}, 'operation': {'date': {'largerThan': {'widget': None, 'operation': u'plone.app.collection.queryparser:_largerThan', 'description': u'Please use YYYY/MM/DD.', 'title': u'after'}, 'lessThan': {'widget': None, 'operation': u'plone.app.collection.queryparser:_lessThan', 'description': u'Please use YYYY/MM/DD.', 'title': u'before'}}, 'string': {'is': {'widget': None, 'operation': u'plone.app.collection.queryparser:_equal', 'description': u'Tip: you can use * to autocomplete.', 'title': u'equals'}}}}}}}
+parsed_correct = {'plone': {'app': {'collection': {'field': {'getId': {'operations': ['plone.app.collection.operation.string.is'], 'group': u'Metadata', 'description': u'The short name of an item (used in the url)', 'vocabulary': None, 'title': u'Short Name', 'enabled': True, 'sortable': True}, 'created': {'operations': ['plone.app.collection.operation.date.lessThan', 'plone.app.collection.operation.date.largerThan'], 'group': u'Dates', 'description': u'The time and date an item was created', 'vocabulary': None, 'title': u'Creation Date', 'enabled': True, 'sortable': False}}, 'operation': {'date': {'largerThan': {'widget': None, 'operation': u'plone.app.collection.queryparser:_largerThan', 'description': u'Please use YYYY/MM/DD.', 'title': u'after'}, 'lessThan': {'widget': None, 'operation': u'plone.app.collection.queryparser:_lessThan', 'description': u'Please use YYYY/MM/DD.', 'title': u'before'}}, 'string': {'is': {'widget': None, 'operation': u'plone.app.collection.queryparser:_equal', 'description': u'Tip: you can use * to autocomplete.', 'title': u'equals'}}}}}}}
 
 minimal_correct_xml = """
 <registry>
@@ -31,6 +31,7 @@ minimal_correct_xml = """
        <value key="title">Short Name</value>
        <value key="description">The short name of an item (used in the url)</value>
        <value key="enabled">True</value>
+       <value key="sortable">True</value>
        <value key="operations">
             <element>plone.app.collection.operation.string.is</element>
        </value>
@@ -42,6 +43,7 @@ minimal_correct_xml = """
        <value key="title">Creation Date</value>
        <value key="description">The time and date an item was created</value>
        <value key="enabled">True</value>
+       <value key="sortable">False</value>
        <value key="operations">
            <element>plone.app.collection.operation.date.lessThan</element>
            <element>plone.app.collection.operation.date.largerThan</element>
@@ -66,6 +68,7 @@ minimal_missing_operator_xml = """
        <value key="title">Creation Date</value>
        <value key="description">The time and date an item was created</value>
        <value key="enabled">True</value>
+       <value key="sortable">False</value>
        <value key="operations">
            <element>plone.app.collection.operation.date.lessThan</element>
            <element>plone.app.collection.operation.date.largerThan</element>
