@@ -282,13 +282,16 @@
     </records>    
 
     <records interface="plone.app.collection.interfaces.IQueryField"
-             prefix="plone.app.collection.field.path">
+             prefix="plone.app.collection.field.expired">
         <value key="title">Expiration Date</value>
-        <value key="description">The location of an item in the site (path)</value>
+        <value key="description">The time and date an item was expired</value>
         <value key="enabled">True</value>
         <value key="operations">
-            <element>plone.app.collection.operation.path.isWithin</element>
-            <element>plone.app.collection.operation.path.isWithinRelatve</element>
+            <element>plone.app.collection.operation.date.lessThan</element>
+            <element>plone.app.collection.operation.date.largerThan</element>
+            <element>plone.app.collection.operation.date.between</element>
+            <element>plone.app.collection.operation.date.lessThanRelativeDate</element>
+            <element>plone.app.collection.operation.date.largerThanRelativeDate</element>
         </value>
     </records>  
     
