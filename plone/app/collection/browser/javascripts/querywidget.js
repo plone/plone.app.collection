@@ -18,7 +18,7 @@
         $.each(values, function (i, val) {
             var option = $(document.createElement('option'))
                             .attr('value', i)
-                            .html(val.friendly_name)
+                            .html(val.title)
             if (i == selectedvalue) {
                 option.attr('selected', 'selected');
             }
@@ -136,7 +136,7 @@
                             })
                         )
                         .append($(document.createElement('span'))
-                            .html(val.friendly_name)
+                            .html(val.title)
                         )
                     )
                 });
