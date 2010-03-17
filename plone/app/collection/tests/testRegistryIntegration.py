@@ -39,7 +39,11 @@ class TestFieldDefinitions(CollectionTestCase):
         
         equal = 'plone.app.collection.operation.string.is'
         assert equal in operations
-
+        
+        self.assertEqual(registry[prefix+".description"], "The short name of an item (used in the url)")
+        self.assertEqual(registry[prefix+".enabled"], True)
+        self.assertEqual(registry[prefix+".sortable"], True)
+        self.assertEqual(registry[prefix+".group"], "Metadata")
 
 def test_suite():
     suite = unittest.TestSuite()
