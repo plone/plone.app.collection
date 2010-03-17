@@ -5,13 +5,6 @@
               compression="none"
               cookable="False"
               enabled="True"
-              id="++resource++plone.app.collection.javascripts/hidecriteria.js"
-              inline="False"/>
-
-  <javascript cacheable="False"
-              compression="none"
-              cookable="False"
-              enabled="True"
               id="++resource++plone.app.collection.javascripts/querywidget.js"
               inline="False"/>
 
