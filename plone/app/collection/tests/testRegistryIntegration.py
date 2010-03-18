@@ -1,9 +1,11 @@
 import unittest
 
-from plone.app.collection.tests.base import CollectionTestCase
+from plone.app.collection.tests.base import CollectionTestCase, TestProfileLayer, ptc
 
-class TestOperationDefinitions(CollectionTestCase):
-        
+class TestOperationDefinitions(ptc.PloneTestCase):
+    
+    layer = TestProfileLayer
+    
     def test_string_equality(self):
         registry = self.portal.portal_registry
 
@@ -27,6 +29,8 @@ class TestOperationDefinitions(CollectionTestCase):
         self.assertEqual(registry[prefix+".operation"], 'plone.app.collection.queryparser:_lessThan')
 
 class TestFieldDefinitions(CollectionTestCase):
+    
+    layer = TestProfileLayer
     
     def test_getId(self):
         registry = self.portal.portal_registry
