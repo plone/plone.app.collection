@@ -7,10 +7,12 @@ from zope.component import getGlobalSiteManager
 from plone.app.collection.interfaces import ICollectionRegistryReader
 from plone.app.collection.tests.base import InstalledLayer
 import plone.app.collection.tests.registry_testdata as td
+from plone.app.collection.registryreader import DottedDict
 
 from zope.schema.vocabulary import SimpleVocabulary
 from zope.schema.interfaces import IVocabularyFactory
 from zope.interface import implements
+
 
 class TestVocabulary(object):
     implements(IVocabularyFactory)
@@ -41,6 +43,16 @@ class TestRegistryReader(unittest.TestCase):
         importer = RegistryImporter(self.registry, self)
         importer.importDocument(xml)
         return self.registry
+    
+    def test_dotted_dict(self):
+        """test the dotted dict type which is used by the registry reader to
+           access dicts in dicts by dotted names. (eg field.created.operations)
+           it should raise a keyerror when an invalid key is used
+           TODO : DottedDict should be in a separate package
+        """
+        dd = DottedDict({'my' : {'dotted' : {'name' : 'value'}}})
+        assert dd.get('my.dotted.name') == 'value'
+        self.assertRaises(KeyError, dd.get, 'my.dotted.wrongname')
     
     def test_parse_registry(self):
         """tests if the parsed registry data is correct"""
