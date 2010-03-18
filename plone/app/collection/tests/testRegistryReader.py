@@ -36,7 +36,7 @@ class TestRegistryReader(CollectionRegistryReaderCase):
         assert 'plone.app.collection.operation.date.largerThan' not in operators
 
     def test_sortable_indexes(self):
-        registry = self.createRegistry(td.minimal_missing_operator_xml)
+        registry = self.createRegistry(td.minimal_correct_xml)
         reader = ICollectionRegistryReader(registry)
         result = reader.parseRegistry()
         result = reader.mapOperations(result)
@@ -44,7 +44,7 @@ class TestRegistryReader(CollectionRegistryReaderCase):
         sortables = result['sortable']
 
         # there should be at least one sortable index
-        assert len(sortables) > 0
+        assert len(sortables) == 1
 
         # confirm that every sortable really is sortable
         for field in sortables.values():
