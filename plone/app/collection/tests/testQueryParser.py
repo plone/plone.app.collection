@@ -1,10 +1,12 @@
 import unittest
 
 from plone.app.collection import queryparser
+from plone.registry import field
+from plone.registry import Record
+
 from base import UnittestWithRegistryLayer
-
 from plone.app.collection.queryparser import Row
-
+        
 
 class MockObject(object):
     def __init__(self, uid, path):
@@ -46,16 +48,14 @@ class TestQueryParserBase(unittest.TestCase):
 
         self.parser = queryparser.QueryParser(None, None)
 
-        reg = self.layer.registry
-        # As this isn't a real registry but a dict we can just set things
-        # easily.
-        #
-        # This seems like the best comprimise between keeping this as a simple
-        # unittest and having the API for the form parser be sane by trusting
-        # the registry to provide a name->function mapping.
-        reg['plone.app.collection.operation.string.is.operation'] = 'plone.app.collection.queryparser:_equal'
-        reg['plone.app.collection.operation.string.path.operation'] = 'plone.app.collection.queryparser:_path'
+        self.setFunctionForOperation('plone.app.collection.operation.string.is.operation', 'plone.app.collection.queryparser:_equal')
+        self.setFunctionForOperation('plone.app.collection.operation.string.path.operation', 'plone.app.collection.queryparser:_path')
 
+    def setFunctionForOperation(self, operation, function):
+        function_field = field.ASCIILine(title=u"Operator")
+        function_record = Record(function_field)
+        function_record.value = function
+        self.layer.registry.records[operation] = function_record
 
 class TestQueryParser(TestQueryParserBase):
 

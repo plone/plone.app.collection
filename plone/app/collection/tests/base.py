@@ -1,11 +1,16 @@
+import unittest
+
 from plone.registry.interfaces import IRegistry
+from plone.registry import Registry
 from zope.component import getGlobalSiteManager
+from Products.Five import zcml
+from Products.Five import fiveconfigure
+from Products.PloneTestCase import PloneTestCase as ptc
+from Testing import ZopeTestCase as ztc
 
 from collective.testcaselayer import ptc as tcl_ptc
 from collective.testcaselayer import common
 from collective.testcaselayer.layer import Layer as BaseLayer
-from Products.PloneTestCase import PloneTestCase as ptc
-from Testing import ZopeTestCase as ztc
 
 class CollectionsInstalled(tcl_ptc.BasePTCLayer):
     """Install plone.app.collection"""
@@ -31,12 +36,12 @@ class RegistryLayer(BaseLayer):
     
     def setUp(self):
         gsm = getGlobalSiteManager()
-        
-        # We don't actually care about having a real registry, just as long as
-        # we can find it in the same way and it's dictish
-        self.registry = dict()
-
+        self.registry = Registry()
         gsm.registerUtility(self.registry, IRegistry)
+    
+    def tearDown(self):
+        gsm = getGlobalSiteManager()
+        gsm.unregisterUtility(provided=IRegistry)
 
 UnittestLayer = BaseLayer([], name="UnittestLayer")
 UnittestWithRegistryLayer = RegistryLayer([UnittestLayer, ])
@@ -48,7 +53,7 @@ FullProfilelayer = RealGSProfile([InstalledLayer, ])
 class CollectionTestCase(ptc.PloneTestCase):
     layer = FullProfilelayer    
     
-class CollectionRegistryReaderCase(ptc.PloneTestCase):
+class CollectionRegistryReaderCase(unittest.TestCase):
     layer = InstalledLayer
 
     def getLogger(self, value):
@@ -59,13 +64,14 @@ class CollectionRegistryReaderCase(ptc.PloneTestCase):
     
     def createRegistry(self, xml):
         """Create a registry from a minimal set of fields and operators"""
-        from plone.registry import Registry
         from plone.app.registry.exportimport.handler import RegistryImporter
+        gsm = getGlobalSiteManager()
+        self.registry = Registry()
+        gsm.registerUtility(self.registry, IRegistry)
         
-        registry = Registry()
-        importer = RegistryImporter(registry, self)
+        importer = RegistryImporter(self.registry, self)
         importer.importDocument(xml)
-        return registry
+        return self.registry
     
 
 class CollectionFunctionalTestCase(ptc.FunctionalTestCase):
