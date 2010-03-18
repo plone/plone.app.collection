@@ -54,7 +54,7 @@ class CollectionRegistryReader(object):
                 field['values'] = {}
                 for item in utility(self.context):
                     field['values'][item.value] = \
-                        {'friendly_name': item.title}
+                        {'title': item.title}
         return values
 
     def mapOperations(self, values):
