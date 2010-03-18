@@ -22,7 +22,6 @@ class TestRegistryReader(unittest.TestCase):
     layer = InstalledLayer
 
     def setUp(self):
-        print "after setup called"
         gsm = getGlobalSiteManager()
         gsm.registerUtility(TestVocabulary(), IVocabularyFactory, 'plone.app.collection.tests.testvocabulary')
 
