@@ -72,11 +72,11 @@ class CollectionRegistryReader(object):
                     # invalid operation, probably doesn't exist, pass for now
                     pass
         return values
-        
+
     def mapSortableIndexes(self, values):
         sortables = {}
         for key, field in values.get('%s.field' % self.prefix).iteritems():
-            if field.get('sortable', False):
+            if field['sortable']:
                 sortables[key] = values.get('%s.field.%s' % (self.prefix, key))
         values['sortable'] = sortables
         return values
