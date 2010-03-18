@@ -20,10 +20,10 @@ class QueryParser(object):
         if not formquery:
             return {}
         reg = getUtility(IRegistry)
-        
+
         # make sure the things in formquery are dicts, not crazy things
         formquery = map(dict, formquery)
-        
+
         formquery = deepcopy(formquery)
         query = {}
         for row in formquery:
@@ -59,13 +59,13 @@ class QueryParser(object):
 
 
 # operators
+# http://localhost:8080/Plone/@@querybuilder_html_results?query.i:records=Creator&query.o:records=plone.app.collection.operation.string.is&query.v:records=admin
+# http://localhost:8080/Plone/@@querybuilder_html_results?query.i:records=Creator&query.o:records=plone.app.collection.operation.string.is&query.v:records=joshenken
 def _equal(context, row):
     return {row.index: {'query': row.values, }}
 
 
-# query.i:records=modified&query.o:records=between&query.v:records:list=
-# 2009/08/12&query.v:records:list=2009/08/14
-# v[0] >= x > v[1]
+# http://localhost:8080/Plone/@@querybuilder_html_results?query.i:records=modified&query.o:records=plone.app.collection.operation.date.between&query.v:records:list=2010/03/18&query.v:records:list=2010/03/19
 def _between(context, row):
     tmp = {row.index: {
               'query': row.values,
@@ -75,9 +75,7 @@ def _between(context, row):
     return tmp
 
 
-# query.i:records=modified&query.o:records=larger_then_or_equal&
-# query.v:records=2009/08/12
-# x >= value
+# http://localhost:8080/Plone/@@querybuilder_html_results?query.i:records=modified&query.o:records=plone.app.collection.operation.date.largerThan&query.v:records=2010/03/18
 def _largerThan(context, row):
     tmp = {row.index: {
               'query': row.values,
@@ -87,9 +85,7 @@ def _largerThan(context, row):
     return tmp
 
 
-# # query.i:records=modified&query.o:records=less_then&
-# query.v:records=2009/08/14
-# x < value
+# http://localhost:8080/Plone/@@querybuilder_html_results?query.i:records=modified&query.o:records=plone.app.collection.operation.date.lessThan&query.v:records=2010/03/18
 def _lessThan(context, row):
     tmp = {row.index: {
               'query': row.values,
@@ -99,30 +95,40 @@ def _lessThan(context, row):
     return tmp
 
 
-# current user
+# http://localhost:8080/Plone/@@querybuilder_html_results?query.i:records=Creator&query.o:records=plone.app.collection.operation.string.currentUser
+# Anonymous users are represented by the 'Anonymous User' username. Normally there will not be any results for that user.
 def _currentUser(context, row):
-    tmp = {row.index: {
-              'query': getCurrentUsername(context),
+    mt = getToolByName(context, 'portal_membership')
+    user = mt.getAuthenticatedMember()
+    username = 'Anonymous User'
+    if user:
+        username = user.getUserName()
+
+    return {row.index: {
+              'query': username,
               },
           }
-    return tmp
 
 
-# query.i:records=modified&query.o:records=less_then_relative_date&
-# query.v:records=-7
+# http://localhost:8080/Plone/@@querybuilder_html_results?query.i:records=modified&query.o:records=plone.app.collection.operation.date.lessThanRelativeDate&query.v:records=-1
+# http://localhost:8080/Plone/@@querybuilder_html_results?query.i:records=modified&query.o:records=plone.app.collection.operation.date.lessThanRelativeDate&query.v:records=1
 def _lessThanRelativeDate(context, row):
+    # values is the number of days
     values = int(row.values)
 
     now = DateTime()
     my_date = now + values
 
     my_date = my_date.earliestTime()
-    row.values = my_date
+    row = Row(index=row.index,
+              operator=row.operator,
+              values=my_date)
+
     return _lessThan(context, row)
 
 
-# query.i:records=modified&query.o:records=more_then_relative_date&
-# query.v:records=-2
+# http://localhost:8080/Plone/@@querybuilder_html_results?query.i:records=modified&query.o:records=plone.app.collection.operation.date.moreThanRelativeDate&query.v:records=-1
+# http://localhost:8080/Plone/@@querybuilder_html_results?query.i:records=modified&query.o:records=plone.app.collection.operation.date.moreThanRelativeDate&query.v:records=1
 def _moreThanRelativeDate(context, row):
     values = int(row.values)
 
@@ -130,14 +136,15 @@ def _moreThanRelativeDate(context, row):
     my_date = now + values
 
     my_date = my_date.latestTime()
-    row.values = my_date
+    row = Row(index=row.index,
+              operator=row.operator,
+              values=my_date)
+
     return _largerThan(context, row)
 
 
-# query.i:records=path&query.o:records=path&query.v:records=/search/news/
-#
-# query.i:records=path&query.o:records=path&
-# query.v:records=08fb402c83d0e68cf4d547ea79f7680c
+# http://localhost:8080/Plone/@@querybuilder_html_results?query.i:records=path&query.o:records=plone.app.collection.operation.string.path&query.v:records=/news/
+# http://localhost:8080/Plone/@@querybuilder_html_results?query.i:records=path&query.o:records=plone.app.collection.operation.string.path&query.v:records=718f66a14bda3688d64bb36309e0d76e
 def _path(context, row):
     values = row.values
 
@@ -147,13 +154,14 @@ def _path(context, row):
 
     tmp = {row.index: {'query': values, }}
 
+    # XXX: support this
     depth = getattr(row, 'depth', None)
     if depth is not None:  # could be 0
         tmp[row.index]['depth'] = int(depth)
     return tmp
 
 
-# query.i:records=path&query.o:records=relative_path&query.v:records=../../..
+# http://localhost:8080/Plone/news/aggregator/@@querybuilder_html_results?query.i:records=path&query.o:records=plone.app.collection.operation.string.relativePath&query.v:records=../
 def _relativePath(context, row):
     t = len([x for x in row.values.split('/') if x])
 
@@ -161,23 +169,14 @@ def _relativePath(context, row):
     for x in xrange(t):
         obj = aq_parent(obj)
 
-    if obj and hasattr(obj, 'getPhysicalPath'):
-        row.values = '/'.join(obj.getPhysicalPath())
-        return _path(context, row)
+    row = Row(index=row.index,
+              operator=row.operator,
+              values='/'.join(obj.getPhysicalPath()))
 
-    row.values = '/'.join(obj.getPhysicalPath())
     return _path(context, row)
 
 
-# Helper methods
-def getCurrentUsername(context):
-    mt = getToolByName(context, 'portal_membership')
-    user = mt.getAuthenticatedMember()
-    if user:
-        return user.getUserName()
-    return ''
-
-
+# Helper functions
 def getPathByUID(context, uid):
     """Returns the path of an object specified by UID"""
 
@@ -185,6 +184,6 @@ def getPathByUID(context, uid):
     obj = reference_tool.lookupObject(uid)
 
     if obj:
-        return '/'.join(obj.absolute_url())
+        return '/'.join(obj.getPhysicalPath())
 
     return ""
