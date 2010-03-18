@@ -172,7 +172,7 @@
                                 
                                 <div class="addIndex" tal:condition="python: addindexselected and not(addoperatorselected)">
                                     <input type="hidden" name="addindex"
-                                           tal:attributes="value request/form/addindex"/>
+                                           tal:attributes="value REQUEST/form/addindex|nothing"/>
                                     <span tal:content="python:indexes[request.form['addindex']]['title']"/>
                                 </div>
                                 
