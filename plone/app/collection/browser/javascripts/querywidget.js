@@ -311,9 +311,12 @@
             var operatorvalue = $(operator.children()[0]).attr('value');
             newcriteria.append($.querywidget.createWidget($.querywidget.config.indexes[index].operators[operatorvalue].widget, index));
             newcriteria.append(
+
+                // How will we translate these values?
+
                 $(document.createElement('input'))
                     .attr({
-                        'value': 'Remove criterion',
+                        'value': 'Remove term',
                         'type': 'submit',
                         'name': 'removecriteria'
                     })
