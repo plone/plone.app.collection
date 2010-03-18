@@ -33,8 +33,8 @@ class QueryWidget(TypesWidget):
         if value:
             return value, {}
         else:
-            # check if addINdexButton is in request, only when javascript
-            # is disabled
+            # check if form.button.addcriteria is in request,
+            # this only happends when javascript is disabled
             if 'form.button.addcriteria' in form:
                 # pass thru empty value to validator
                 return {}, {}
