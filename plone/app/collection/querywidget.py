@@ -7,9 +7,10 @@ from Products.Archetypes.Widget import TypesWidget
 from Products.Archetypes.Registry import registerWidget
 from zope.component import getMultiAdapter
 
-from plone.app.contentlisting.interfaces import IContentListing
+from plone.registry.interfaces import IRegistry
+from zope.component import getUtility
 
-from browser.config import CRITERION, SORTABLES
+from plone.app.collection.interfaces import ICollectionRegistryReader
 
 
 class QueryWidget(TypesWidget):
@@ -38,18 +39,16 @@ class QueryWidget(TypesWidget):
                 # pass thru empty value to validator
                 return {}, {}
 
-
     def getConfig(self):
-        return {'indexes': CRITERION, 'sortable_indexes': SORTABLES}
-        # we wrap this in a dictionary so we can add more configuration data
-        # to the payload in the future. This is data that will be fetched
-        # by a browser AJAX call
+        registry = getUtility(IRegistry)
+        registryreader = ICollectionRegistryReader(registry)
+        config = registryreader()
+        return config
 
     def SearchResults(self, request, context, accessor):
         """search results"""
-        return getMultiAdapter((accessor(), request), 
-            name='display_query_results')()
-            
+        return getMultiAdapter((accessor(), request), name='display_query_results')()
+
 
 __all__ = ('QueryWidget')
 
