@@ -134,6 +134,14 @@
         <value key="title">Is</value>
         <value key="description">Tip: you can use * to autocomplete.</value>
         <value key="operation">plone.app.collection.queryparser:_equal</value>
+        <value key="widget">StringWidget</value>
+    </records>
+    
+    <records interface="plone.app.collection.interfaces.IQueryOperation"
+             prefix="plone.app.collection.operation.selection.is">
+        <value key="title">Is</value>
+        <value key="description">Tip: you can use * to autocomplete.</value>
+        <value key="operation">plone.app.collection.queryparser:_equal</value>
         <value key="widget">MultipleSelectionWidget</value>
     </records>
 
@@ -495,7 +503,7 @@
         <value key="enabled">True</value>
         <value key="sortable">True</value>
         <value key="operations">
-            <element>plone.app.collection.operation.string.is</element>
+            <element>plone.app.collection.operation.selection.is</element>
         </value>
         <value key="vocabulary">plone.app.vocabularies.UserFriendlyTypes</value>
        <value key="group">Metadata</value>
