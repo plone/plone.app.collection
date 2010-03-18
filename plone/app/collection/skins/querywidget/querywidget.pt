@@ -104,13 +104,13 @@
                                 
                                 <div class="queryindex">
                                     <input type="hidden" name="query.i:records"
-                                           tal:attributes="name python:str(fieldName)+'.i:records'; value REQUEST/form/addindex" />
+                                           tal:attributes="name python:str(fieldName)+'.i:records'; value context/REQUEST/form/addindex" />
                                     <span tal:content="python:indexes[request.form['addindex']]['title']"/>
                                 </div>
                                 
                                 <div class="queryoperator">
                                     <input type="hidden" name="query.o:records"
-                                           tal:attributes="name python:str(fieldName)+'.o:records';value REQUEST/form/addoperator" />
+                                           tal:attributes="name python:str(fieldName)+'.o:records';value context/REQUEST/form/addoperator" />
                                     <span tal:content="python:indexes[request.form['addindex']]['operators'][request.form['addoperator']]['title']"/>
                                 </div>
                                 
@@ -172,7 +172,9 @@
                                 
                                 <div class="addIndex" tal:condition="python: addindexselected and not(addoperatorselected)">
                                     <input type="hidden" name="addindex"
-                                           tal:attributes="value REQUEST/form/addindex|nothing"/>
+                                           tal:attributes="value context/REQUEST/form/addindex"/>
+
+                                    
                                     <span tal:content="python:indexes[request.form['addindex']]['title']"/>
                                 </div>
                                 
