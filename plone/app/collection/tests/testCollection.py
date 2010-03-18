@@ -44,8 +44,18 @@ class TestQuerybuilder(CollectionTestCase):
             'o': 'plone.app.collection.operation.string.is',
             'v': 'Collectionstestpage',
         }]
-        results = self.querybuilder.results(formquery=query)
+        results = self.querybuilder(query=query)
         self.assertEqual(results[0].Title(), "Collectionstestpage")
+
+    def testQueryBuildeNumberOfResults(self):
+        query = [{
+            'i': 'Title',
+            'o': 'plone.app.collection.operation.string.is',
+            'v': 'Collectionstestpage',
+        }]
+        self.assertEqual(self.querybuilder.getNumberOfResults(),1)
+
+
 
 def test_suite():
     suite = unittest.TestSuite()
