@@ -48,10 +48,10 @@ class CollectionRegistryReader(object):
     def getVocabularyValues(self, values):
         """Get all vocabulary values if a vocabulary is defined"""
         for field in values.get(self.prefix + '.field').values():
+            field['values'] = {}
             vocabulary = field.get('vocabulary', [])
             if vocabulary:
                 utility = getUtility(IVocabularyFactory, vocabulary)
-                field['values'] = {}
                 for item in utility(self.context):
                     field['values'][item.value] = \
                         {'title': item.title}
