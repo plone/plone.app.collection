@@ -32,7 +32,8 @@ class QueryWidget(TypesWidget):
         value = form.get(field.getName())
         # check if form.button.addcriteria is in request,
         # this only happends when javascript is disabled
-        if 'form.button.addcriteria' in form:
+        
+        if 'form.button.addcriteria' or 'removecriteria' in form:
             return {}, {}
         if value:
             return value, {}
