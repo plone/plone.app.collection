@@ -1,0 +1,18 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="plone.app.collection">
+    
+    <include 
+        package="plone.app.registry"
+        />
+
+    <genericsetup:registerProfile
+        name="registry"
+        title="Tests for plone.app.collection"
+        directory="profiles/registry"
+        description="Test values for the registry integration tests"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+    />
+
+</configure>

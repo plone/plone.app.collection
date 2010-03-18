@@ -7,7 +7,7 @@ from collective.testcaselayer.layer import Layer as BaseLayer
 from Products.PloneTestCase import PloneTestCase as ptc
 from Testing import ZopeTestCase as ztc
 
-class Layer(tcl_ptc.BasePTCLayer):
+class CollectionsInstalled(tcl_ptc.BasePTCLayer):
     """Install plone.app.collection"""
 
     def afterSetUp(self):
@@ -23,7 +23,17 @@ class Layer(tcl_ptc.BasePTCLayer):
         ztc.installPackage('plone.app.contentlisting')
         ztc.installPackage('plone.app.collection')
         
+class RealGSProfile(tcl_ptc.PTCLayer):
+
+    def afterSetUp(self):
         self.addProfile('plone.app.collection:default')
+
+class TestGSProfile(tcl_ptc.PTCLayer):
+    
+    def afterSetUp(self):
+        import plone.app.collection.tests
+        self.loadZCML('configure.zcml', package=plone.app.collection.tests)
+        self.addProfile('plone.app.collection.tests:registry')
 
 class RegistryLayer(BaseLayer):
     
@@ -37,16 +47,17 @@ class RegistryLayer(BaseLayer):
         gsm.registerUtility(self.registry, IRegistry)
 
 UnittestLayer = BaseLayer([], name="UnittestLayer")
-UnittestWithRegistryLayer = RegistryLayer([UnittestLayer])
-UninstalledLayer = tcl_ptc.BasePTCLayer([common.common_layer])
-Installedlayer = Layer([common.common_layer])
+UnittestWithRegistryLayer = RegistryLayer([UnittestLayer, ])
+UninstalledLayer = tcl_ptc.BasePTCLayer([common.common_layer, ])
+InstalledLayer = CollectionsInstalled([UninstalledLayer, ])
+TestProfileLayer = TestGSProfile([InstalledLayer, ])
+FullProfilelayer = RealGSProfile([InstalledLayer, ])
 
 class CollectionTestCase(ptc.PloneTestCase):
-    layer = Installedlayer
-    
+    layer = FullProfilelayer    
     
 class CollectionRegistryReaderCase(ptc.PloneTestCase):
-    layer = Installedlayer
+    layer = InstalledLayer
 
     def getLogger(self, value):
         return 'plone.app.collection'
@@ -66,5 +77,4 @@ class CollectionRegistryReaderCase(ptc.PloneTestCase):
     
 
 class CollectionFunctionalTestCase(ptc.FunctionalTestCase):
-    layer = Installedlayer
-
+    layer = FullProfilelayer
