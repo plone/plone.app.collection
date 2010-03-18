@@ -17,7 +17,7 @@ class NonJavascriptValidator:
         """
         # value  is only empty when not using javascript
         if len(value) == 0:
-            return "."
+            return "Please finish your search terms / criteria"
         return 1
     
 validatorList = [
