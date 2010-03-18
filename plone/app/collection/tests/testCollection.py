@@ -53,7 +53,7 @@ class TestQuerybuilder(CollectionTestCase):
             'o': 'plone.app.collection.operation.string.is',
             'v': 'Collectionstestpage',
         }]
-        self.assertEqual(self.querybuilder.getNumberOfResults(),1)
+        self.assertEqual(self.querybuilder.getNumberOfResults(query),1)
 
 
 
