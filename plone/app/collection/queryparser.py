@@ -61,6 +61,10 @@ class QueryParser(object):
 # operators
 # http://localhost:8080/Plone/@@querybuilder_html_results?query.i:records=Creator&query.o:records=plone.app.collection.operation.string.is&query.v:records=admin
 # http://localhost:8080/Plone/@@querybuilder_html_results?query.i:records=Creator&query.o:records=plone.app.collection.operation.string.is&query.v:records=joshenken
+
+def _contains(context, row):
+    return _equal(context, row)
+
 def _equal(context, row):
     return {row.index: {'query': row.values, }}
 
