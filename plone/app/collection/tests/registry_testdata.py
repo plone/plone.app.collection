@@ -53,7 +53,7 @@ minimal_correct_xml = """
 </registry>
 """
 
-minimal_missing_operator_xml = """
+test_missing_operator_xml = """
 <registry>
     <records interface="plone.app.collection.interfaces.IQueryOperation"
              prefix="plone.app.collection.operation.date.lessThan">
@@ -74,6 +74,31 @@ minimal_missing_operator_xml = """
            <element>plone.app.collection.operation.date.largerThan</element>
        </value>
        <value key="group">Dates</value>
+    </records>
+</registry>
+"""
+
+test_vocabulary_xml = """
+<registry>
+    <records interface="plone.app.collection.interfaces.IQueryOperation"
+             prefix="plone.app.collection.operation.string.is">
+        <value key="title">equals</value>
+        <value key="description">Tip: you can use * to autocomplete.</value>
+        <value key="operation">plone.app.collection.queryparser:_equal</value>
+        <value key="widget"></value>
+    </records>
+
+    <records interface="plone.app.collection.interfaces.IQueryField"
+             prefix="plone.app.collection.field.reviewState">
+        <value key="title">Review state</value>
+        <value key="description">An item's workflow state (e.g.published)</value>
+        <value key="enabled">True</value>
+        <value key="sortable">True</value>
+        <value key="operations">
+            <element>plone.app.collection.operation.string.is</element>
+        </value>
+        <value key="vocabulary">plone.app.collection.tests.testvocabulary</value>
+       <value key="group">Metadata</value>
     </records>
 </registry>
 """
