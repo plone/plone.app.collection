@@ -6,7 +6,7 @@ from plone.registry import Record
 
 from base import UnittestWithRegistryLayer
 from plone.app.collection.queryparser import Row
-        
+
 
 class MockObject(object):
     def __init__(self, uid, path):
@@ -30,15 +30,6 @@ class MockSite(object):
         self.reference_catalog = MockCatalog()
 
 
-class MockQuery(object):
-    def __init__(self, formquerydata):
-        self.formquerydata = formquerydata
-
-    def __iter__(self):
-        for x in self.formquerydata:
-            yield x
-
-
 class TestQueryParserBase(unittest.TestCase):
 
     layer = UnittestWithRegistryLayer
@@ -57,6 +48,7 @@ class TestQueryParserBase(unittest.TestCase):
         function_record.value = function
         self.layer.registry.records[operation] = function_record
 
+
 class TestQueryParser(TestQueryParserBase):
 
     def test_exact_title(self):
@@ -65,8 +57,7 @@ class TestQueryParser(TestQueryParserBase):
             'o': 'plone.app.collection.operation.string.is',
             'v': 'Welcome to Plone',
         }
-        query = MockQuery([data, ])
-        parsed = self.parser.parseFormquery(query)
+        parsed = self.parser.parseFormquery([data, ])
         self.assertEqual(parsed, {'Title': {'query': 'Welcome to Plone'}})
 
     def test_path_explicit(self):
@@ -75,8 +66,7 @@ class TestQueryParser(TestQueryParserBase):
             'o': 'plone.app.collection.operation.string.path',
             'v': '/site/foo',
         }
-        query = MockQuery([data, ])
-        parsed = self.parser.parseFormquery(query)
+        parsed = self.parser.parseFormquery([data, ])
         self.assertEqual(parsed, {'path': {'query': '/site/foo'}})
 
     def test_path_computed(self):
@@ -85,16 +75,14 @@ class TestQueryParser(TestQueryParserBase):
             'o': 'plone.app.collection.operation.string.path',
             'v': '00000000000000001',
         }
-        query = MockQuery([data, ])
 
         self.parser.context = MockSite()
-
-        parsed = self.parser.parseFormquery(query)
+        parsed = self.parser.parseFormquery([data, ])
         self.assertEqual(parsed, {'path': {'query': '/site/foo'}})
 
 
 class TestQueryGenerators(TestQueryParserBase):
-    
+
     def test__between(self):
         data = Row(index='modified',
                   operator='_between',
@@ -103,8 +91,6 @@ class TestQueryGenerators(TestQueryParserBase):
         expected = {'modified': {'query': ['2009/08/12', '2009/08/14'],
                     'range': 'minmax'}}
         self.assertEqual(parsed, expected)
-
-
 
 
 def test_suite():
