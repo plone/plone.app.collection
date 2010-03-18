@@ -1,0 +1,27 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+
+      i18n:domain="plone">
+<head>
+</head>
+<body>
+<div tal:define="results context">
+    <!--pre tal:content="python:'Rendering for %s' % repr(context)" /-->
+    <h2 class="previewsearchResultsHeading">
+        <span>
+            Search results
+        </span>
+        <span class="discreet">
+        &mdash;
+        <span><tal:count content="python:len(results)">1</tal:count> items matching your search terms</span>
+      </span>
+    </h2>
+</div>
+
+<!-- we should call the results list here -->
+
+</body>
+</html>
