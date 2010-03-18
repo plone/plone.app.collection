@@ -1,12 +1,33 @@
 import unittest
 
-from plone.app.collection.tests.base import CollectionRegistryReaderCase
-import plone.app.collection.tests.registry_testdata as td
+from plone.registry.interfaces import IRegistry
+from plone.registry import Registry
+from zope.component import getGlobalSiteManager
+
 from plone.app.collection.interfaces import ICollectionRegistryReader
+from plone.app.collection.tests.base import InstalledLayer
+import plone.app.collection.tests.registry_testdata as td
 
+class TestRegistryReader(unittest.TestCase):
+    layer = InstalledLayer
 
-class TestRegistryReader(CollectionRegistryReaderCase):
+    def getLogger(self, value):
+        return 'plone.app.collection'
 
+    def shouldPurge(self):
+        return False
+    
+    def createRegistry(self, xml):
+        """Create a registry from a minimal set of fields and operators"""
+        from plone.app.registry.exportimport.handler import RegistryImporter
+        gsm = getGlobalSiteManager()
+        self.registry = Registry()
+        gsm.registerUtility(self.registry, IRegistry)
+        
+        importer = RegistryImporter(self.registry, self)
+        importer.importDocument(xml)
+        return self.registry
+    
     def test_parse_registry(self):
         """tests if the parsed registry data is correct"""
         registry = self.createRegistry(td.minimal_correct_xml)
