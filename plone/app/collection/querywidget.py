@@ -30,14 +30,13 @@ class QueryWidget(TypesWidget):
                      emptyReturnsMarker=False, validating=True):
         """A custom implementation for the widget form processing."""
         value = form.get(field.getName())
+        # check if form.button.addcriteria is in request,
+        # this only happends when javascript is disabled
+        if 'form.button.addcriteria' in form:
+            return {}, {}
         if value:
             return value, {}
-        else:
-            # check if form.button.addcriteria is in request,
-            # this only happends when javascript is disabled
-            if 'form.button.addcriteria' in form:
-                # pass thru empty value to validator
-                return {}, {}
+
 
     def getConfig(self):
         registry = getUtility(IRegistry)
