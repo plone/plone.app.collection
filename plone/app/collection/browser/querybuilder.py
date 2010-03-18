@@ -42,12 +42,14 @@ class QueryBuilder(BrowserView):
     def number_of_results(self, query):
         return len(self(query))
 
-    # Fetch configuration
+class RegistryConfiguration(BrowserView):
 
-    def get_configuration_from_registry(self):
-        """Returns the indexes and sortable indexes from the portal registry"""
-        return ICollectionRegistryReader(getUtility(IRegistry))()
+    def __init__(self, context, request):
+        self._results = None
+        self.context = context
+        self.request = request
 
-    def get_json_configuration(self):
-        """Returns the indexes and sortable indexes from the portal registry as JSON"""
-        return json.dumps(self.get_configuration_from_registry())
+    def __call__(self):
+        return json.dumps(ICollectionRegistryReader(getUtility(IRegistry))())
+
+        

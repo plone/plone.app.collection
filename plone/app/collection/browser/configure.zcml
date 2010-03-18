@@ -76,10 +76,9 @@
 
     <browser:page
         name="querybuilderjsonconfig"
-        class=".querybuilder.QueryBuilder"
+        class=".querybuilder.RegistryConfiguration"
         permission="zope2.View"
         for="*"
-        attribute="get_json_configuration"
         />
 
 

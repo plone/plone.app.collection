@@ -53,11 +53,20 @@ class TestQuerybuilder(CollectionTestCase):
     def testQueryBuilderHTML(self):        
         self.failUnless('Collectionstestpage' in self.querybuilder.html_results(self.query))
 
+    def testGettingConfiguration(self):
+        configuration = self.folder.restrictedTraverse('@@querybuildernumberofresults')(self.query)
 
 
+class TestConfigurationFetcher(CollectionTestCase):
+
+    def testGettingJSONConfiguration(self):
+        configuration = self.folder.restrictedTraverse('@@querybuilderjsonconfig')()
+
+        
 
 def test_suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TestCollection))
     suite.addTest(unittest.makeSuite(TestQuerybuilder))
+    suite.addTest(unittest.makeSuite(TestConfigurationFetcher))
     return suite
