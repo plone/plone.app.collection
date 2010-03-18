@@ -26,6 +26,8 @@ setup(name='plone.app.collection',
           'setuptools',
           # -*- Extra requirements: -*-
           'plone.app.registry',
+          'plone.app.contentlisting',
+          'plone.app.vocabularies',
           'collective.testcaselayer',
           'plone.directives.form',
       ],

@@ -11,16 +11,8 @@ class CollectionsInstalled(tcl_ptc.BasePTCLayer):
     """Install plone.app.collection"""
 
     def afterSetUp(self):
-        import plone.app.registry
-        import plone.app.contentlisting
         import plone.app.collection
-
-        self.loadZCML('configure.zcml', package=plone.app.registry)
-        self.loadZCML('configure.zcml', package=plone.app.contentlisting)
         self.loadZCML('configure.zcml', package=plone.app.collection)
-
-        ztc.installPackage('plone.app.registry')
-        ztc.installPackage('plone.app.contentlisting')
         ztc.installPackage('plone.app.collection')
         
 class RealGSProfile(tcl_ptc.PTCLayer):
