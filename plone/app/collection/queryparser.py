@@ -164,10 +164,6 @@ def _path(context, row):
 
     tmp = {row.index: {'query': values, }}
 
-    # XXX: support this
-    depth = getattr(row, 'depth', None)
-    if depth is not None:  # could be 0
-        tmp[row.index]['depth'] = int(depth)
     return tmp
 
 
