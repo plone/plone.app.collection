@@ -71,7 +71,7 @@
         class=".querybuilder.QueryBuilder"
         permission="zope2.View"
         for="*"
-        attribute="getNumberOfResults"
+        attribute="number_of_results"
         />
 
     <browser:page
@@ -79,15 +79,8 @@
         class=".querybuilder.QueryBuilder"
         permission="zope2.View"
         for="*"
-        attribute="getJSONConfig"
+        attribute="get_json_configuration"
         />
 
-    <browser:page
-        name="querybuilderjsonconfigfromregistry"
-        class=".querybuilder.QueryBuilder"
-        permission="zope2.View"
-        for="*"
-        attribute="getJSONConfigFromRegistry"
-        />
 
 </configure>

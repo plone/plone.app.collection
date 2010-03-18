@@ -37,23 +37,22 @@ class TestQuerybuilder(CollectionTestCase):
         self.portal.portal_workflow.doActionFor(self.portal['collectionstestpage'], 'publish')
         self.request = TestRequest()      
         self.querybuilder = getMultiAdapter((self.portal, self.request), name='querybuilderresults')
+        self.query = [{
+            'i': 'Title',
+            'o': 'plone.app.collection.operation.string.is',
+            'v': 'Collectionstestpage',
+        }]
         
     def testQueryBuilderQuery(self):
-        query = [{
-            'i': 'Title',
-            'o': 'plone.app.collection.operation.string.is',
-            'v': 'Collectionstestpage',
-        }]
-        results = self.querybuilder(query=query)
+        results = self.querybuilder(query=self.query)
         self.assertEqual(results[0].Title(), "Collectionstestpage")
 
-    def testQueryBuildeNumberOfResults(self):
-        query = [{
-            'i': 'Title',
-            'o': 'plone.app.collection.operation.string.is',
-            'v': 'Collectionstestpage',
-        }]
-        self.assertEqual(self.querybuilder.getNumberOfResults(query),1)
+    def testQueryBuilderNumberOfResults(self):
+        self.assertEqual(self.querybuilder.number_of_results(self.query),1)
+
+    def testQueryBuilderHTML(self):        
+        self.failUnless('Collectionstestpage' in self.querybuilder.html_results(self.query))
+
 
 
 
