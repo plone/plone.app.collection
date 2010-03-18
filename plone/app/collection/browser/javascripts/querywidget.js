@@ -122,7 +122,7 @@
                         )
                         .append($(document.createElement('span'))
                             .addClass('arrowDownAlternative')
-                            .html('▼')
+                            .html('&#09660;')
                         )
                     )
                 var dd = $(document.createElement('dd')).addClass('hiddenStructure widgetPulldownMenu')
