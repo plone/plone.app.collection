@@ -68,6 +68,12 @@ def _contains(context, row):
 def _equal(context, row):
     return {row.index: {'query': row.values, }}
 
+def _isTrue(context, row):
+    return {row.index: {'query': True, }}
+
+def _isFalse(context, row):
+    return {row.index: {'query': False, }}
+
 
 # http://localhost:8080/Plone/@@querybuilder_html_results?query.i:records=modified&query.o:records=plone.app.collection.operation.date.between&query.v:records:list=2010/03/18&query.v:records:list=2010/03/19
 def _between(context, row):
