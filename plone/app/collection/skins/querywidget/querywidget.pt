@@ -30,7 +30,7 @@
                          addoperatorselected python:request.has_key('addoperator') and request.addoperator != ''">
                         
                         <fieldset>
-                            <legend>Criteria</legend>
+                            <legend i18n:translate="collection_label_search_terms">Search terms</legend>
                             <tal:counter tal:define="dummy python:request.set('querystringwidgetcounter', 0)"/>
                             <tal:row repeat="row python:accessor(raw=True)">
                                 <div class="criteria"
@@ -94,7 +94,7 @@
                                            tal:attributes="name python:str(fieldName)+'.v:records'; value python:row['v']"
                                            tal:condition="python:indexes[row.i]['operators'][row.o]['widget'] == 'RelativePathWidget'"/>
                                     
-                                    <input type="submit" class="removecriteria discreet" value="Remove criterion"
+                                    <input type="submit" class="removecriteria discreet" value="Remove term"
                                            tal:attributes="name python:'removecriteria.%s' % request.get('querystringwidgetcounter')"/>
                                     <tal:counter tal:define="dummy python:request.set('querystringwidgetcounter', request.get('querystringwidgetcounter') + 1)"/>
                                 </div>
@@ -156,7 +156,7 @@
                                        autocomplete="off" type="text" name="query.v:records" tal:attributes="name python:str(fieldName)+'.v:records';" value=""
                                        tal:condition="python:indexes[request.form['addindex']]['operators'][request.form['addoperator']]['widget'] == 'RelativePathWidget'"/>
                                 
-                                <input type="submit" name="removecriteria" class="removecriteria discreet" value="Remove criterion">
+                                <input type="submit" name="removecriteria" class="removecriteria discreet" value="Remove term">
                             </div>
                             
                             <div class="criteria">
