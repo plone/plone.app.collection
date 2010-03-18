@@ -205,7 +205,7 @@
     </records>
 
     <records interface="plone.app.collection.interfaces.IQueryField"
-             prefix="plone.app.collection.field.creator">
+             prefix="plone.app.collection.field.Creator">
         <value key="title">Creator</value>
         <value key="description">The person that created an item</value>
         <value key="enabled">True</value>
