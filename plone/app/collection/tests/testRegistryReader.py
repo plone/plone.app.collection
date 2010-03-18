@@ -4,8 +4,9 @@ from plone.app.collection.tests.base import CollectionRegistryReaderCase
 import plone.app.collection.tests.registry_testdata as td
 from plone.app.collection.interfaces import ICollectionRegistryReader
 
+
 class TestRegistryReader(CollectionRegistryReaderCase):
-        
+
     def test_parse_registry(self):
         """tests if the parsed registry data is correct"""
         registry = self.createRegistry(td.minimal_correct_xml)
@@ -33,22 +34,22 @@ class TestRegistryReader(CollectionRegistryReaderCase):
         operators = result.get('plone.app.collection.field.created.operators').keys()
         assert 'plone.app.collection.operation.date.lessThan' in operators
         assert 'plone.app.collection.operation.date.largerThan' not in operators
-        
-        
+
     def test_sortable_indexes(self):
         registry = self.createRegistry(td.minimal_missing_operator_xml)
         reader = ICollectionRegistryReader(registry)
         result = reader.parseRegistry()
         result = reader.mapOperations(result)
         result = reader.mapSortableIndexes(result)
-        sortables = result.get('plone.app.collection.field')
+        sortables = result['sortable']
 
         # there should be at least one sortable index
-        assert len(sortables)
-        
+        assert len(sortables) > 0
+
         # confirm that every sortable really is sortable
         for field in sortables.values():
-            assert not field['sortable']
+            assert field['sortable'] == True
+
 
 def test_suite():
     suite = unittest.TestSuite()
