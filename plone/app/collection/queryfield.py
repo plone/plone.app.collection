@@ -4,10 +4,6 @@
 
 from __future__ import nested_scopes
 
-__docformat__ = 'epytext'
-__author__ = 'Maarten Kling <maarten@fourdigits.nl>, Ralph Jacobs <ralph@fourdigits.nl>'
-
-
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.Field import ObjectField
 from Products.Archetypes.Field import registerField
@@ -43,7 +39,7 @@ class QueryField(ObjectField):
         
         value = self.getRaw(instance)
         querybuilder = instance.restrictedTraverse("querybuilderresults")
-        return querybuilder.results(value)
+        return querybuilder(value)
     
     def getRaw(self, instance, **kwargs):
         return ObjectField.get(self, instance, **kwargs) or ()
