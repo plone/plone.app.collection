@@ -1,6 +1,8 @@
 from collections import namedtuple
 from copy import deepcopy
 
+import logging
+
 from Acquisition import aq_parent
 from DateTime import DateTime
 from plone.registry.interfaces import IRegistry
@@ -8,10 +10,6 @@ from Products.CMFCore.utils import getToolByName
 from zope.component import getUtility
 
 Row = namedtuple('Row', ['index', 'operator', 'values'])
-
-
-class InvalidCatalogIndexException(Exception):
-    """The profile does not exist."""
 
 
 class QueryParser(object):
@@ -24,6 +22,8 @@ class QueryParser(object):
         if not formquery:
             return {}
         reg = getUtility(IRegistry)
+
+        logger = logging.getLogger('plone.app.collection')
 
         # make sure the things in formquery are dicts, not crazy things
         formquery = map(dict, formquery)
@@ -59,14 +59,12 @@ class QueryParser(object):
             # If the query is empty fall back onto the equality query
             query = _equal(self.context, row)
 
-
         # make sure that all the used indexes really are indexes
-        # It raises an exception because it is really wrong here.
         catalog = getToolByName(self.context, 'portal_catalog')
         indexes = catalog.indexes()
         for index in query:
             if not index in indexes:
-                raise InvalidCatalogIndexException("'%s' is not an valid catalog index." % index)
+                logger.info("'%s' is an invalid catalog index" % index)
 
         return query
 
