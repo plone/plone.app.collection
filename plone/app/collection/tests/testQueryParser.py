@@ -26,10 +26,14 @@ class MockCatalog(object):
     def lookupObject(self, uid):
         return MockObject(uid='00000000000000001', path="/site/foo")
 
+    def indexes(self):
+        return ['Title', 'effectiveRange', 'object_provides', 'Type', 'id', 'cmf_uid', 'end', 'Description', 'is_folderish', 'getId', 'start', 'meta_type', 'is_default_page', 'Date', 'review_state', 'portal_type', 'expires', 'allowedRolesAndUsers', 'getObjPositionInParent', 'path', 'in_reply_to', 'UID', 'effective', 'created', 'Creator', 'modified', 'SearchableText', 'sortable_title', 'getRawRelatedItems', 'Subject']
+
 
 class MockSite(object):
     def __init__(self, portal_membership=None):
         self.reference_catalog = MockCatalog()
+        self.portal_catalog = MockCatalog()
         self.portal_membership = portal_membership
 
 
@@ -58,7 +62,7 @@ class TestQueryParserBase(unittest.TestCase):
     def setUp(self):
         super(TestQueryParserBase, self).setUp()
 
-        self.parser = queryparser.QueryParser(None, None)
+        self.parser = queryparser.QueryParser(MockSite(), None)
 
         self.setFunctionForOperation('plone.app.collection.operation.string.is.operation', 'plone.app.collection.queryparser:_equal')
         self.setFunctionForOperation('plone.app.collection.operation.string.path.operation', 'plone.app.collection.queryparser:_path')
