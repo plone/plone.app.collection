@@ -209,6 +209,18 @@ class TestQueryGenerators(TestQueryParserBase):
         expected = {'path': {'query': '/site/foo'}}
         self.assertEqual(parsed, expected)
 
+    def test__relativePath(self):
+        context = MockObject(uid='00000000000000001', path="/foo/bar/fizz")
+        context.__parent__ = MockObject(uid='00000000000000002', path="/foo/bar")
+        context.__parent__.__parent__ = MockObject(uid='00000000000000003', path="/foo")
+
+        data = Row(index='path',
+                  operator='_relativePath',
+                  values='../../')
+        parsed = queryparser._relativePath(context, data)
+        expected = {'path': {'query': '/foo'}}
+        self.assertEqual(parsed, expected)
+
 
 def test_suite():
     suite = unittest.TestSuite()
