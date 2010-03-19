@@ -155,6 +155,11 @@
                 dl.append(dd);
                 return dl;
                 break;
+            default:
+                return $(document.createElement('div'))
+                    .html('&nbsp;')
+                    .addClass('querywidget queryvalue emptyWidget');
+                break;
         }
     };
 
