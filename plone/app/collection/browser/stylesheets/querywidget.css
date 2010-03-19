@@ -25,6 +25,7 @@
     padding: 0;
     background: transparent;
     cursor: pointer;
+    margin-left: 20px;
 }
 .querywidget dt {
     border: 1px solid #8CACBB;
