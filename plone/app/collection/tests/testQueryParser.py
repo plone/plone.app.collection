@@ -177,6 +177,20 @@ class TestQueryGenerators(TestQueryParserBase):
         test(2)
         test(-2)
 
+    def test__moreThanRelativeDate(self):
+        def test(days):
+            now = DateTime()
+            mydate = now + days
+            mydate = mydate.latestTime()
+            data = Row(index='modified',
+                      operator='_moreThanRelativeDate',
+                      values=days)
+            parsed = queryparser._moreThanRelativeDate(MockSite(), data)
+            expected = {'modified': {'query': mydate, 'range': 'min'}}
+            self.assertEqual(parsed, expected)
+
+        test(2)
+        test(-2)
 
 def test_suite():
     suite = unittest.TestSuite()
