@@ -221,6 +221,10 @@ class TestQueryGenerators(TestQueryParserBase):
         expected = {'path': {'query': '/foo'}}
         self.assertEqual(parsed, expected)
 
+    def test_getPathByUID(self):
+        actual = queryparser.getPathByUID(MockSite(), '00000000000000001')
+        self.assertEqual(actual, ['', 'site', 'foo'])
+
 
 def test_suite():
     suite = unittest.TestSuite()
