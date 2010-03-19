@@ -14,15 +14,27 @@
         // Create select
         var select = $(document.createElement('select'))
                             .addClass(className)
-                            .attr('name', name)
+                            .attr('name', name);
         $.each(values, function (i, val) {
             var option = $(document.createElement('option'))
                             .attr('value', i)
-                            .html(val.title)
+                            .html(val.title);
             if (i == selectedvalue) {
                 option.attr('selected', 'selected');
             }
-            select.append(option);
+            if (typeof(val.group) != "undefined") {
+                var optgroup = select.find("optgroup[label=" + val.group + "]");
+                if (optgroup.length == 0) {
+                    optgroup = $(document.createElement('optgroup'))
+                                .attr('label', val.group);
+                    optgroup.append(option);
+                    select.append(optgroup);
+                } else {
+                    optgroup.append(option);
+                }
+            } else {
+                select.append(option);
+            }
         });
         return select;
     };
@@ -257,12 +269,12 @@
         });
 
         $('.queryindex').live('change', function () {
-            var index = $(this).children(':selected')[0].value;
-            $(this).parent().children('.queryoperator')
+            var index = $(this).find(':selected')[0].value;
+            $(this).parents(".criteria").children('.queryoperator')
                 .replaceWith($.querywidget.createQueryOperator(index, ''));
             var operatorvalue = $(this).parents('.criteria').children('.queryoperator').val();
             var widget = $.querywidget.config.indexes[index].operators[operatorvalue].widget;
-            var querywidget = $(this).parent().children('.querywidget');
+            var querywidget = $(this).parent(".criteria").children('.querywidget');
             if ((widget != $.querywidget.getCurrentWidget(querywidget)) || (widget == 'MultipleSelectionWidget')) {
                 querywidget.replaceWith($.querywidget.createWidget(widget, index));
             }
