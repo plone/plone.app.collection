@@ -159,7 +159,6 @@
                 return dl;
                 break;
             default:
-                console.log('kek');
                 return $(document.createElement('div'))
                     .html('&nbsp;')
                     .addClass('querywidget queryvalue emptyWidget');
@@ -184,8 +183,6 @@
             var results = $(this).parents('.criteria').children('.queryresults');
             var index = $(this).val();
             var operator = $(this).parents('.criteria').children('.queryoperator').val();
-            console.log(index);
-            console.log(operator);
             var widget = $.querywidget.config.indexes[index].operators[operator].widget;
             querylist.push('query.i:records=' + index);
             querylist.push('query.o:records=' + operator);
