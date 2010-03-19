@@ -26,20 +26,21 @@ class QueryWidget(TypesWidget):
     security = ClassSecurityInfo()
 
     security.declarePublic('process_form')
+
     def process_form(self, instance, field, form, empty_marker=None,
                      emptyReturnsMarker=False, validating=True):
         """A custom implementation for the widget form processing."""
         value = form.get(field.getName())
         # check if form.button.addcriteria is in request,
         # this only happends when javascript is disabled
-        
-        if 'form.button.addcriteria' or 'removecriteria' in form:
+
+        if 'form.button.addcriteria' in form or 'removecriteria' in form:
             return {}, {}
         if value:
             return value, {}
 
-
     def getConfig(self):
+        """get the config"""
         registry = getUtility(IRegistry)
         registryreader = ICollectionRegistryReader(registry)
         config = registryreader()
