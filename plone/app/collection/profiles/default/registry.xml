@@ -3,7 +3,7 @@
 
     <records interface="plone.app.collection.interfaces.IQueryOperation"
              prefix="plone.app.collection.operation.boolean.isTrue">
-        <value key="title">Is true</value>
+        <value key="title">Yes</value>
         <value key="description"></value>
         <value key="operation">plone.app.collection.queryparser:_isTrue</value>
         <value key="widget"></value>
@@ -11,7 +11,7 @@
 
     <records interface="plone.app.collection.interfaces.IQueryOperation"
              prefix="plone.app.collection.operation.boolean.isFalse">
-        <value key="title">Is false</value>
+        <value key="title">No</value>
         <value key="description"></value>
         <value key="operation">plone.app.collection.queryparser:_isFalse</value>
         <value key="widget"></value>
