@@ -5,6 +5,8 @@ from plone.app.collection.queryparser import QueryParser
 from zope.component import getMultiAdapter, getUtility
 from plone.app.collection.interfaces import ICollectionRegistryReader
 from plone.app.contentlisting.interfaces import IContentListing
+from Products.ATContentTypes import ATCTMessageFactory as _
+
 import json
 
 class ContentListingView(BrowserView):
@@ -40,7 +42,7 @@ class QueryBuilder(BrowserView):
         return getMultiAdapter((self.context, self.request), name='searchResults')(query=parsedquery)
 
     def number_of_results(self, query):
-        return len(self(query))
+        return "%s %s" % (len(self(query)), _("item(s) match your search term"))
 
 class RegistryConfiguration(BrowserView):
 
