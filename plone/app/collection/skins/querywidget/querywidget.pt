@@ -92,7 +92,8 @@
                                        tal:attributes="name python:str(fieldName)+'.v:records'; value python:row['v']"
                                        tal:condition="python:indexes[row.i]['operators'][row.o]['widget'] == 'RelativePathWidget'"/>
 
-                                <input type="submit" class="removecriteria discreet" value="Remove term"
+                                <input type="submit" class="removecriteria discreet" value="Remove line"
+                                       i18n:translate="removeline"
                                        tal:attributes="name python:'removecriteria.%s' % request.get('querystringwidgetcounter')"/>
                                 <tal:counter tal:define="dummy python:request.set('querystringwidgetcounter', request.get('querystringwidgetcounter') + 1)"/>
                             </div>
@@ -183,7 +184,7 @@
                                 </tal:index>
                             </select>
 
-                            <input type="submit" value="Add" i18n:translate="addcriteria" name="form.button.addcriteria" class="context addIndexButton"/>
+                            <input type="submit" value="Add" i18n:translate="addterm" name="form.button.addcriteria" class="context addIndexButton"/>
                         </div>
 
                         <div class="sortingField">
