@@ -377,6 +377,7 @@
         <value key="enabled">False</value>
         <value key="sortable">False</value>
         <value key="operations">
+            <element>plone.app.collection.operation.selection.is</element>
         </value>
         <value key="vocabulary">plone.app.vocabularies.PortalTypes</value>
        <value key="group">Metadata</value>
@@ -389,8 +390,7 @@
         <value key="enabled">True</value>
         <value key="sortable">True</value>
         <value key="operations">
-            <element>plone.app.collection.operation.int.is</element>
-            <element>plone.app.collection.operation.list.contains</element>
+            <element>plone.app.collection.operation.selection.is</element>
         </value>
         <value key="vocabulary">plone.app.vocabularies.WorkflowStates</value>
        <value key="group">Metadata</value>
@@ -472,7 +472,7 @@
         <value key="operations">
             <element>plone.app.collection.operation.selection.is</element>
         </value>
-        <value key="vocabulary">plone.app.vocabularies.UserFriendlyTypes</value>
+        <value key="vocabulary">plone.app.vocabularies.ReallyUserFriendlyTypes</value>
        <value key="group">Metadata</value>
     </records>
 
