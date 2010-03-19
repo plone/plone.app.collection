@@ -27,6 +27,11 @@
     cursor: pointer;
     margin-left: 1em;
 }
+.error.ArchetypesQueryWidget {
+    background-color:transparent;
+    border:0;
+    padding:0;
+}
 .sortingField {
     clear: both;
     padding-top: 1em;
