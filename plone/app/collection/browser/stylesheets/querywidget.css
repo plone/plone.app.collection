@@ -36,6 +36,16 @@
     clear: both;
     padding-top: 1em;
 }
+.previewresultsLabel {
+    padding-top: 1em;
+    display: block;
+}
+.previewresults {
+    border-width: 1px;
+    border-style: solid;
+    height: 16em;
+    overflow: auto;
+}
 .querywidget dt {
     border-width: 1px;
     border-style: solid;

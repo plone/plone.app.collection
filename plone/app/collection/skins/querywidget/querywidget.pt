@@ -214,6 +214,7 @@
                             <label for="sort_order">Reversed order</label>
                         </div>
 
+                        <label class="previewresultsLabel">Preview</label>
                         <div class="previewresults" tal:content="structure python:widget.SearchResults(request, context, accessor)">
                         </div>
                     </div>

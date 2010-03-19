@@ -347,7 +347,7 @@
 
                 $(document.createElement('input'))
                     .attr({
-                        'value': 'Remove term',
+                        'value': 'Remove line',
                         'type': 'submit',
                         'name': 'removecriteria'
                     })
