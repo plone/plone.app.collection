@@ -218,7 +218,7 @@
     </records>
     
     <records interface="plone.app.collection.interfaces.IQueryField"
-             prefix="plone.app.collection.field.description">
+             prefix="plone.app.collection.field.Description">
         <value key="title">Description</value>
         <value key="description">An item's description</value>
         <value key="enabled">True</value>
@@ -278,7 +278,7 @@
         <value key="description">The order of an item in its parent folder</value>
         <value key="enabled">False</value>
         <value key="sortable">False</value>
-        <value key="operations">
+        <value key="operations">    
             <element>plone.app.collection.operation.int.is</element>
             <element>plone.app.collection.operation.int.lessThan</element>
             <element>plone.app.collection.operation.int.greaterThan</element>
@@ -355,7 +355,7 @@
     </records>    
 
     <records interface="plone.app.collection.interfaces.IQueryField"
-             prefix="plone.app.collection.field.expired">
+             prefix="plone.app.collection.field.expires">
         <value key="title">Expiration date</value>
         <value key="description">The time and date an item was expired</value>
         <value key="enabled">True</value>
@@ -371,7 +371,7 @@
     </records>  
     
     <records interface="plone.app.collection.interfaces.IQueryField"
-             prefix="plone.app.collection.field.portalType">
+             prefix="plone.app.collection.field.portal_type">
         <value key="title">Item type (internal)</value>
         <value key="description"></value>
         <value key="enabled">False</value>
@@ -383,7 +383,7 @@
     </records>
     
     <records interface="plone.app.collection.interfaces.IQueryField"
-             prefix="plone.app.collection.field.reviewState">
+             prefix="plone.app.collection.field.review_state">
         <value key="title">Review state</value>
         <value key="description">An item's workflow state (e.g.published)</value>
         <value key="enabled">True</value>
@@ -397,7 +397,7 @@
     </records>
     
     <records interface="plone.app.collection.interfaces.IQueryField"
-             prefix="plone.app.collection.field.searchableText">
+             prefix="plone.app.collection.field.SearchableText">
         <value key="title">Searchable text</value>
         <value key="description">Text search of an item's contents</value>
         <value key="enabled">True</value>
@@ -409,7 +409,7 @@
     </records>
 
     <records interface="plone.app.collection.interfaces.IQueryField"
-             prefix="plone.app.collection.field.sortableTitle">
+             prefix="plone.app.collection.field.sortable_title">
         <value key="title">Sortable Title</value>
         <value key="description">The item's title, transformed for sorting</value>
         <value key="enabled">False</value>
@@ -438,7 +438,7 @@
     </records>    
 
     <records interface="plone.app.collection.interfaces.IQueryField"
-             prefix="plone.app.collection.field.subject">
+             prefix="plone.app.collection.field.Subject">
         <value key="title">Category</value>
         <value key="description">Categories are used for organization of content</value>
         <value key="enabled">True</value>
@@ -452,7 +452,7 @@
     </records>
 
     <records interface="plone.app.collection.interfaces.IQueryField"
-             prefix="plone.app.collection.field.title">
+             prefix="plone.app.collection.field.Title">
         <value key="title">Title</value>
         <value key="description">Text search of an item's title</value>
         <value key="enabled">True</value>
