@@ -180,6 +180,13 @@
                                 </tal:index>
                             </select>
 
+                            <div class="addIndex" tal:condition="python: addindexselected and not(addoperatorselected)"> 
+                                <input type="hidden" name="addindex" 
+                                      tal:attributes="value context/REQUEST/form/addindex"/> 
+ 
+                                <span tal:content="python:indexes[request.form['addindex']]['title']"/> 
+                            </div> 
+
                             <select class="addOperator" name="addoperator" tal:condition="python: addindexselected and not(addoperatorselected)">
                                 <option value="" selected="selected">Select&hellip;</option>
                                 <tal:index repeat="index python:indexes[request.form['addindex']]['operators'].keys()">
