@@ -160,7 +160,9 @@
                                    autocomplete="off" type="text" name="query.v:records" tal:attributes="name python:str(fieldName)+'.v:records';" value=""
                                    tal:condition="python:indexes[request.form['addindex']]['operators'][request.form['addoperator']]['widget'] == 'RelativePathWidget'"/>
 
-                            <input type="submit" name="removecriteria" class="removecriteria discreet" value="Remove term">
+                            <input type="submit" name="removecriteria" class="removecriteria discreet"
+                                   i18n:translate="removeline"
+                                   value="Remove line">
                         </div>
 
                         <div class="criteria">
