@@ -3,15 +3,15 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       i18n:domain="querystringwidget">
-    
+
     <head><title></title></head>
-    
+
     <body>
         <metal:view_macro define-macro="view">
             <div class="previewresults" tal:content="structure python:widget.SearchResults(request, context, accessor)">
             </div>
         </metal:view_macro>
-        
+
         <metal:view_macro define-macro="tabular">
             tabular view
             <div class="previewresults" tal:content="structure python:widget.SearchResults(request, context, accessor)">
@@ -25,12 +25,13 @@
 
                     <div tal:define="config widget/getConfig;
                          indexes config/indexes;
+                         rows python:request.get('query',accessor(raw=True));
                          sortable_indexes config/sortable_indexes;
                          addindexselected python:request.has_key('addindex') and request.addindex != '';
                          addoperatorselected python:request.has_key('addoperator') and request.addoperator != ''">
 
                         <tal:counter tal:define="dummy python:request.set('querystringwidgetcounter', 0)"/>
-                        <tal:row repeat="row python:accessor(raw=True)">
+                        <tal:row repeat="row rows">
                             <div class="criteria"
                                  tal:condition="python:not request.has_key('removecriteria.%s' % repeat['row'].index)">
                                 <div class="queryindex">
