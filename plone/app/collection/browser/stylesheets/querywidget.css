@@ -37,7 +37,8 @@
     padding-top: 1em;
 }
 .querywidget dt {
-    border: 1px solid #8CACBB;
+    border-width: 1px;
+    border-style: solid;
     cursor: pointer;
 }
 .querywidget .arrowDownAlternative {
@@ -47,9 +48,14 @@
 .widgetPulldownMenu {
     position: absolute;
 }
+dl.multipleSelectionWidget,
+#content dl.multipleSelectionWidget {
+    margin: 0;
+ }
 .multipleSelectionWidget dd {
-    width: 200px;
-    border: 1px solid #8CACBB;
+    width: 198px;
+    border-width: 1px;
+    border-style: solid;
     background: white;
     overflow:auto;
     height:6.5em;
@@ -60,7 +66,6 @@
 .querywidget {
     float: left;
     width: 200px;
-    border-width: 1px;
 }
 .referenceWidget input {
     width: 200px;
@@ -73,10 +78,7 @@ dl.querywidget dd {
     margin: 0;
 }
 .dateRangeWidget input {
-    width: 80px;
-}
-div.dateRangeWidget, dl.multipleSelectionWidget {
-    border: solid 1px transparent;
+    width: 78px;
 }
 .criteria {
     clear: both;

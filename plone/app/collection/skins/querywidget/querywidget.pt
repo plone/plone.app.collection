@@ -92,6 +92,11 @@
                                        tal:attributes="name python:str(fieldName)+'.v:records'; value python:row['v']"
                                        tal:condition="python:indexes[row.i]['operators'][row.o]['widget'] == 'RelativePathWidget'"/>
 
+                                <div class="querywidget queryvalue emptyWidget"
+                                     tal:condition="python:indexes[row.i]['operators'][row.o]['widget'] == None">
+                                     &nbsp;
+                                </div>
+
                                 <input type="submit" class="removecriteria discreet" value="Remove line"
                                        i18n:translate="removeline"
                                        tal:attributes="name python:'removecriteria.%s' % request.get('querystringwidgetcounter')"/>

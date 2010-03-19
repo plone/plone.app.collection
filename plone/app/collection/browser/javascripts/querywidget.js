@@ -156,6 +156,7 @@
                 return dl;
                 break;
             default:
+                console.log('kek');
                 return $(document.createElement('div'))
                     .html('&nbsp;')
                     .addClass('querywidget queryvalue emptyWidget');
