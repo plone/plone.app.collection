@@ -10,6 +10,10 @@ from zope.component import getUtility
 Row = namedtuple('Row', ['index', 'operator', 'values'])
 
 
+class InvalidCatalogIndexException(Exception):
+    """The profile does not exist."""
+
+
 class QueryParser(object):
 
     def __init__(self, context, request):
@@ -54,6 +58,15 @@ class QueryParser(object):
         if not query:
             # If the query is empty fall back onto the equality query
             query = _equal(self.context, row)
+
+
+        # make sure that all the used indexes really are indexes
+        # It raises an exception because it is really wrong here.
+        catalog = getToolByName(self.context, 'portal_catalog')
+        indexes = catalog.indexes()
+        for index in query:
+            if not index in indexes:
+                raise InvalidCatalogIndexException("'%s' is not an valid catalog index." % index)
 
         return query
 
