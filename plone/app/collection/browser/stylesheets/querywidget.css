@@ -52,6 +52,11 @@ dl.multipleSelectionWidget,
 #content dl.multipleSelectionWidget {
     margin: 0;
  }
+.multipleSelectionWidget dt {
+    width: 198px;
+    height: 1.5em;
+    overflow: hidden;
+}
 .multipleSelectionWidget dd {
     width: 198px;
     border-width: 1px;

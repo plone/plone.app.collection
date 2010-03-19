@@ -52,7 +52,7 @@
 
                                 <dl class="querywidget queryvalue multipleSelectionWidget"
                                     tal:condition="python:indexes[row.i]['operators'][row.o]['widget'] == 'MultipleSelectionWidget'">
-                                    <dt class="hiddenStructure"><span>Select&hellip;</span><span class="arrowDownAlternative">&#09660;</span></dt>
+                                    <dt class="hiddenStructure"><span class="arrowDownAlternative">&#09660;</span><span>Select&hellip;</span></dt>
                                     <dd>
                                         <tal:values repeat="index python:indexes[row.i]['values'].keys()">
                                             <label>

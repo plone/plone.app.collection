@@ -130,11 +130,11 @@
                     .addClass('querywidget multipleSelectionWidget')
                     .append($(document.createElement('dt'))
                         .append($(document.createElement('span'))
-                            .html('Select...')
-                        )
-                        .append($(document.createElement('span'))
                             .addClass('arrowDownAlternative')
                             .html('&#09660;')
+                        )
+                        .append($(document.createElement('span'))
+                            .html('Select...')
                         )
                     )
                 var dd = $(document.createElement('dd')).addClass('hiddenStructure widgetPulldownMenu')
@@ -298,7 +298,11 @@
             $.querywidget.updateSearch();
         });
 
-        $('#sort_on,#sort_order,.multipleSelectionWidget input').live('change', function () {
+        $('#sort_on,#sort_order').live('change', function () {
+            $.querywidget.updateSearch();
+        });
+
+        $('.multipleSelectionWidget input').live('change', function () {
             $.querywidget.updateSearch();
         });
 
