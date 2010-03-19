@@ -57,18 +57,6 @@ CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
                     description=''
                     ),
              ),
-    BooleanField('customView',
-                required=False,
-                mode="rw",
-                default=False,
-                write_permission = ModifyPortalContent,
-                widget=BooleanWidget(
-                        label=_(u'label_custom_view', default=u'Display as Table'),
-                        description=_(u'help_custom_view',
-                                      default=u"Columns in the table are controlled "
-                                               "by 'Table Columns' below.")
-                        ),
-                 ),
     LinesField('customViewFields',
                 required=False,
                 mode="rw",
