@@ -25,7 +25,11 @@
     padding: 0;
     background: transparent;
     cursor: pointer;
-    margin-left: 20px;
+    margin-left: 1em;
+}
+.sortingField {
+    clear: both;
+    padding-top: 1em;
 }
 .querywidget dt {
     border: 1px solid #8CACBB;
