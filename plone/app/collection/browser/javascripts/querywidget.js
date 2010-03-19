@@ -135,6 +135,7 @@
                         )
                         .append($(document.createElement('span'))
                             .html('Select...')
+                            .addClass('multipleSelectionWidgetTitle')
                         )
                     )
                 var dd = $(document.createElement('dd')).addClass('hiddenStructure widgetPulldownMenu')
@@ -303,6 +304,14 @@
         });
 
         $('.multipleSelectionWidget input').live('change', function () {
+            var widget = $(this).parents('.multipleSelectionWidget');
+            var selected_values = [];
+            widget.find('input:checked').each(function () {
+                selected_values.push($(this).parent().children('span').html());
+            });
+            widget.find('.multipleSelectionWidgetTitle')
+                .attr('title', selected_values.join(', '))
+                .html(selected_values.join(', '));
             $.querywidget.updateSearch();
         });
 
@@ -317,7 +326,7 @@
         });
 
         $('.addIndex').live('change', function () {
-            var index = $(this).children(':selected')[0].value;
+            var index = $(this).find(':selected')[0].value;
             var criteria = $(this).parents('.criteria');
             var newcriteria = $(document.createElement('div'))
                                 .addClass('criteria');
