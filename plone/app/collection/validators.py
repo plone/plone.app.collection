@@ -15,10 +15,6 @@ class NonJavascriptValidator:
         """
             Validates the given value
         """
-        # note: postback isn't handled correctly yet,
-        # when added a new lines of terms and the collection
-        # isn't save yet in non javascript mode
-        
         # value  is only empty when not using javascript
         if len(value) == 0:
             return u"Please finish your search terms / criteria"
