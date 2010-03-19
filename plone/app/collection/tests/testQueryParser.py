@@ -26,8 +26,27 @@ class MockCatalog(object):
 
 
 class MockSite(object):
-    def __init__(self):
+    def __init__(self, portal_membership=None):
         self.reference_catalog = MockCatalog()
+        self.portal_membership = portal_membership
+
+
+class MockUser(object):
+    def __init__(self, username=None):
+        self.username = 'Anonymous User'
+        if username:
+            self.username = username
+
+    def getUserName(self):
+        return self.username
+
+
+class MockPortal_membership(object):
+    def __init__(self, user):
+        self.user = user
+
+    def getAuthenticatedMember(self):
+        return self.user
 
 
 class TestQueryParserBase(unittest.TestCase):
@@ -87,9 +106,58 @@ class TestQueryGenerators(TestQueryParserBase):
         data = Row(index='modified',
                   operator='_between',
                   values=['2009/08/12', '2009/08/14'])
-        parsed = queryparser._between(None, data)
+        parsed = queryparser._between(MockSite(), data)
         expected = {'modified': {'query': ['2009/08/12', '2009/08/14'],
                     'range': 'minmax'}}
+        self.assertEqual(parsed, expected)
+
+    def test__between_reversed_dates(self):
+        data = Row(index='modified',
+                  operator='_between',
+                  values=['2009/08/14', '2009/08/12'])
+        parsed = queryparser._between(MockSite(), data)
+        expected = {'modified': {'query': ['2009/08/12', '2009/08/14'],
+                    'range': 'minmax'}}
+        self.assertEqual(parsed, expected)
+
+    def test__largerThan(self):
+        data = Row(index='modified',
+                  operator='_largerThan',
+                  values='2010/03/18')
+        parsed = queryparser._largerThan(MockSite(), data)
+        expected = {'modified': {'query': '2010/03/18', 'range': 'min'}}
+        self.assertEqual(parsed, expected)
+
+    def test__lessThan(self):
+        data = Row(index='modified',
+                  operator='_lessThan',
+                  values='2010/03/18')
+        parsed = queryparser._lessThan(MockSite(), data)
+        expected = {'modified': {'query': '2010/03/18', 'range': 'max'}}
+        self.assertEqual(parsed, expected)
+
+    def test__currentUser(self):
+
+        # Anonymous user
+        u = MockUser()
+        pm = MockPortal_membership(user=u)
+        context = MockSite(portal_membership=pm)
+        data = Row(index='Creator',
+                  operator='_currentUser',
+                  values=None)
+        parsed = queryparser._currentUser(context, data)
+        expected = {'Creator': {'query': 'Anonymous User'}}
+        self.assertEqual(parsed, expected)
+
+        # Logged in user 'admin'
+        u = MockUser(username='admin')
+        pm = MockPortal_membership(user=u)
+        context = MockSite(portal_membership=pm)
+        data = Row(index='Creator',
+                  operator='_currentUser',
+                  values=None)
+        parsed = queryparser._currentUser(context, data)
+        expected = {'Creator': {'query': 'admin'}}
         self.assertEqual(parsed, expected)
 
 

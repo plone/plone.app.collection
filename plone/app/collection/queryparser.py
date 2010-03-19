@@ -59,17 +59,18 @@ class QueryParser(object):
 
 
 # operators
-# http://localhost:8080/Plone/@@querybuilder_html_results?query.i:records=Creator&query.o:records=plone.app.collection.operation.string.is&query.v:records=admin
-# http://localhost:8080/Plone/@@querybuilder_html_results?query.i:records=Creator&query.o:records=plone.app.collection.operation.string.is&query.v:records=joshenken
-
 def _contains(context, row):
     return _equal(context, row)
 
+# http://localhost:8080/Plone/@@querybuilder_html_results?query.i:records=Creator&query.o:records=plone.app.collection.operation.string.is&query.v:records=admin
+# http://localhost:8080/Plone/@@querybuilder_html_results?query.i:records=Creator&query.o:records=plone.app.collection.operation.string.is&query.v:records=joshenken
 def _equal(context, row):
     return {row.index: {'query': row.values, }}
 
+
 def _isTrue(context, row):
     return {row.index: {'query': True, }}
+
 
 def _isFalse(context, row):
     return {row.index: {'query': False, }}
@@ -78,7 +79,7 @@ def _isFalse(context, row):
 # http://localhost:8080/Plone/@@querybuilder_html_results?query.i:records=modified&query.o:records=plone.app.collection.operation.date.between&query.v:records:list=2010/03/18&query.v:records:list=2010/03/19
 def _between(context, row):
     tmp = {row.index: {
-              'query': row.values,
+              'query': sorted(row.values),
               'range': 'minmax',
               },
           }
@@ -106,13 +107,10 @@ def _lessThan(context, row):
 
 
 # http://localhost:8080/Plone/@@querybuilder_html_results?query.i:records=Creator&query.o:records=plone.app.collection.operation.string.currentUser
-# Anonymous users are represented by the 'Anonymous User' username. Normally there will not be any results for that user.
 def _currentUser(context, row):
     mt = getToolByName(context, 'portal_membership')
     user = mt.getAuthenticatedMember()
-    username = 'Anonymous User'
-    if user:
-        username = user.getUserName()
+    username = user.getUserName()
 
     return {row.index: {
               'query': username,
