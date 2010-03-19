@@ -224,7 +224,7 @@
         <value key="enabled">True</value>
         <value key="sortable">False</value>
         <value key="operations">
-            <element>plone.app.collection.operation.string.is</element>
+            <element>plone.app.collection.operation.string.contains</element>
         </value>
        <value key="group">Text</value>
     </records>
@@ -459,7 +459,6 @@
         <value key="sortable">False</value>
         <value key="operations">
             <element>plone.app.collection.operation.string.contains</element>
-            <element>plone.app.collection.operation.string.is</element>
         </value>
        <value key="group">Text</value>
     </records>
