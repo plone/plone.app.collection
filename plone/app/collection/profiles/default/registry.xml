@@ -218,22 +218,6 @@
     </records>
     
     <records interface="plone.app.collection.interfaces.IQueryField"
-             prefix="plone.app.collection.field.date">
-        <value key="title">Modification date</value>
-        <value key="description">The date an item was last modified</value>
-        <value key="enabled">False</value>
-        <value key="sortable">False</value>
-        <value key="operations">
-            <element>plone.app.collection.operation.date.lessThan</element>
-            <element>plone.app.collection.operation.date.largerThan</element>
-            <element>plone.app.collection.operation.date.between</element>
-            <element>plone.app.collection.operation.date.lessThanRelativeDate</element>
-            <element>plone.app.collection.operation.date.largerThanRelativeDate</element>
-        </value>
-       <value key="group">Dates</value>
-    </records>
-    
-    <records interface="plone.app.collection.interfaces.IQueryField"
              prefix="plone.app.collection.field.description">
         <value key="title">Description</value>
         <value key="description">An item's description</value>
@@ -276,22 +260,6 @@
              prefix="plone.app.collection.field.end">
         <value key="title">End date</value>
         <value key="description">The end date and time of an event</value>
-        <value key="enabled">True</value>
-        <value key="sortable">True</value>
-        <value key="operations">
-            <element>plone.app.collection.operation.date.lessThan</element>
-            <element>plone.app.collection.operation.date.largerThan</element>
-            <element>plone.app.collection.operation.date.between</element>
-            <element>plone.app.collection.operation.date.lessThanRelativeDate</element>
-            <element>plone.app.collection.operation.date.largerThanRelativeDate</element>
-        </value>
-       <value key="group">Dates</value>
-    </records>    
-
-    <records interface="plone.app.collection.interfaces.IQueryField"
-             prefix="plone.app.collection.field.expires">
-        <value key="title">Expiration date</value>
-        <value key="description">The time and date an item is no longer publicly available</value>
         <value key="enabled">True</value>
         <value key="sortable">True</value>
         <value key="operations">
@@ -391,7 +359,7 @@
         <value key="title">Expiration date</value>
         <value key="description">The time and date an item was expired</value>
         <value key="enabled">True</value>
-        <value key="sortable">False</value>
+        <value key="sortable">True</value>
         <value key="operations">
             <element>plone.app.collection.operation.date.lessThan</element>
             <element>plone.app.collection.operation.date.largerThan</element>
