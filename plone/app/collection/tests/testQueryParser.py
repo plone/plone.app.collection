@@ -7,6 +7,8 @@ from plone.registry import Record
 from base import UnittestWithRegistryLayer
 from plone.app.collection.queryparser import Row
 
+from DateTime import DateTime
+
 
 class MockObject(object):
     def __init__(self, uid, path):
@@ -159,6 +161,21 @@ class TestQueryGenerators(TestQueryParserBase):
         parsed = queryparser._currentUser(context, data)
         expected = {'Creator': {'query': 'admin'}}
         self.assertEqual(parsed, expected)
+
+    def test__lessThanRelativeDate(self):
+        def test(days):
+            now = DateTime()
+            mydate = now + days
+            mydate = mydate.earliestTime()
+            data = Row(index='modified',
+                      operator='_lessThanRelativeDate',
+                      values=days)
+            parsed = queryparser._lessThanRelativeDate(MockSite(), data)
+            expected = {'modified': {'query': mydate, 'range': 'max'}}
+            self.assertEqual(parsed, expected)
+
+        test(2)
+        test(-2)
 
 
 def test_suite():
