@@ -183,7 +183,7 @@
                                 </tal:index>
                             </select>
 
-                            <input type="submit" value="Add criterion" name="form.button.addcriteria" class="context addIndexButton"/>
+                            <input type="submit" value="Add" i18n:translate="addcriteria" name="form.button.addcriteria" class="context addIndexButton"/>
                         </div>
 
                         <div class="sortingField">
