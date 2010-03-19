@@ -62,6 +62,7 @@ class QueryParser(object):
 def _contains(context, row):
     return _equal(context, row)
 
+
 # http://localhost:8080/Plone/@@querybuilder_html_results?query.i:records=Creator&query.o:records=plone.app.collection.operation.string.is&query.v:records=admin
 # http://localhost:8080/Plone/@@querybuilder_html_results?query.i:records=Creator&query.o:records=plone.app.collection.operation.string.is&query.v:records=joshenken
 def _equal(context, row):
@@ -151,14 +152,14 @@ def _moreThanRelativeDate(context, row):
     return _largerThan(context, row)
 
 
-# http://localhost:8080/Plone/@@querybuilder_html_results?query.i:records=path&query.o:records=plone.app.collection.operation.string.path&query.v:records=/news/
+# http://localhost:8080/Plone/@@querybuilder_html_results?query.i:records=path&query.o:records=plone.app.collection.operation.string.path&query.v:records=/Plone/news/
 # http://localhost:8080/Plone/@@querybuilder_html_results?query.i:records=path&query.o:records=plone.app.collection.operation.string.path&query.v:records=718f66a14bda3688d64bb36309e0d76e
 def _path(context, row):
     values = row.values
 
     # UID
     if not '/' in values:
-        values = getPathByUID(context, values)
+        values = '/'.join(getPathByUID(context, values))
 
     tmp = {row.index: {'query': values, }}
 
@@ -188,6 +189,6 @@ def getPathByUID(context, uid):
     obj = reference_tool.lookupObject(uid)
 
     if obj:
-        return '/'.join(obj.getPhysicalPath())
+        return obj.getPhysicalPath()
 
     return ""

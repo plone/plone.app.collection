@@ -192,6 +192,24 @@ class TestQueryGenerators(TestQueryParserBase):
         test(2)
         test(-2)
 
+    def test__path(self):
+        # normal path
+        data = Row(index='path',
+                  operator='_path',
+                  values='/Plone/news/')
+        parsed = queryparser._path(MockSite(), data)
+        expected = {'path': {'query': '/Plone/news/'}}
+        self.assertEqual(parsed, expected)
+
+        # by uid
+        data = Row(index='path',
+                  operator='_path',
+                  values='00000000000000001')
+        parsed = queryparser._path(MockSite(), data)
+        expected = {'path': {'query': '/site/foo'}}
+        self.assertEqual(parsed, expected)
+
+
 def test_suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TestQueryParser))
