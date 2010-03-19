@@ -44,6 +44,21 @@ class QueryWidget(TypesWidget):
         registry = getUtility(IRegistry)
         registryreader = ICollectionRegistryReader(registry)
         config = registryreader()
+
+        # Group indices by "group", order alphabetically
+        groupedIndexes = {}
+        for indexName in config['indexes']:
+            index = config['indexes'][indexName]
+            if index['enabled']:
+                group = index['group']
+                if group not in groupedIndexes:
+                    groupedIndexes[group] = []
+                groupedIndexes[group].append((index['title'], indexName))
+
+        # Sort each index list
+        [a.sort() for a in groupedIndexes.values()]
+
+        config['groupedIndexes'] = groupedIndexes
         return config
 
     def SearchResults(self, request, context, accessor):
