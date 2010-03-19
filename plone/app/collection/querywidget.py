@@ -31,10 +31,10 @@ class QueryWidget(TypesWidget):
                      emptyReturnsMarker=False, validating=True):
         """A custom implementation for the widget form processing."""
         value = form.get(field.getName())
-        # check if form.button.addcriteria is in request,
+        # check if form.button.addcriteria, or removecriteria is in request
         # this only happends when javascript is disabled
-
-        if 'form.button.addcriteria' in form or 'removecriteria' in form:
+        removeresult = [x for x in form if x.find('removecriteria') == 0]
+        if 'form.button.addcriteria' in form or removeresult:
             return {}, {}
         if value:
             return value, {}
