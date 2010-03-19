@@ -444,8 +444,7 @@
         <value key="enabled">True</value>
         <value key="sortable">True</value>
         <value key="operations">
-            <element>plone.app.collection.operation.string.is</element>
-            <element>plone.app.collection.operation.string.contains</element>
+            <element>plone.app.collection.operation.selection.is</element>
         </value>
        <value key="vocabulary">plone.app.vocabularies.Keywords</value>
        <value key="group">Text</value>
