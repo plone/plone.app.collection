@@ -16,24 +16,26 @@
                             .addClass(className)
                             .attr('name', name);
         $.each(values, function (i, val) {
-            var option = $(document.createElement('option'))
-                            .attr('value', i)
-                            .html(val.title);
-            if (i == selectedvalue) {
-                option.attr('selected', 'selected');
-            }
-            if (typeof(val.group) != "undefined") {
-                var optgroup = select.find("optgroup[label=" + val.group + "]");
-                if (optgroup.length == 0) {
-                    optgroup = $(document.createElement('optgroup'))
-                                .attr('label', val.group);
-                    optgroup.append(option);
-                    select.append(optgroup);
-                } else {
-                    optgroup.append(option);
+            if ((typeof(val.enabled) == "undefined") || (val.enabled)) {
+                var option = $(document.createElement('option'))
+                                .attr('value', i)
+                                .html(val.title);
+                if (i == selectedvalue) {
+                    option.attr('selected', 'selected');
                 }
-            } else {
-                select.append(option);
+                if (typeof(val.group) != "undefined") {
+                    var optgroup = select.find("optgroup[label=" + val.group + "]");
+                    if (optgroup.length == 0) {
+                        optgroup = $(document.createElement('optgroup'))
+                                    .attr('label', val.group);
+                        optgroup.append(option);
+                        select.append(optgroup);
+                    } else {
+                        optgroup.append(option);
+                    }
+                } else {
+                    select.append(option);
+                }
             }
         });
         return select;
@@ -182,6 +184,8 @@
             var results = $(this).parents('.criteria').children('.queryresults');
             var index = $(this).val();
             var operator = $(this).parents('.criteria').children('.queryoperator').val();
+            console.log(index);
+            console.log(operator);
             var widget = $.querywidget.config.indexes[index].operators[operator].widget;
             querylist.push('query.i:records=' + index);
             querylist.push('query.o:records=' + operator);
