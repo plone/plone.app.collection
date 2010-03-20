@@ -7,6 +7,8 @@ from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from zope.component import getUtility
 
+import logging
+
 Row = namedtuple('Row', ['index', 'operator', 'values'])
 
 
@@ -54,6 +56,16 @@ class QueryParser(object):
         if not query:
             # If the query is empty fall back onto the equality query
             query = _equal(self.context, row)
+
+        # Check for valid indexes
+        logger = logging.getLogger('plone.app.collection')
+        catalog = getToolByName(self.context, 'portal_catalog')
+        valid_indexes = [index for index in query if index in catalog.indexes()]
+
+        # We'll ignore any invalid index, but will return an empty set if none of the indexes are valid.
+        if not valid_indexes:
+            logger.warning("Using empty query because there are no valid indexes used.")
+            return {}
 
         return query
 
