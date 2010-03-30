@@ -48,12 +48,15 @@ class TestQuerybuilder(CollectionTestCase):
         self.assertEqual(results[0].Title(), "Collectionstestpage")
 
     def testQueryBuilderNumberOfResults(self):
-        self.assertEqual(self.querybuilder.number_of_results(self.query),1)
+        results = self.querybuilder.number_of_results(self.query)
+        numeric = int(results.split(' ')[0])
+        self.assertEqual(numeric,1)
 
     def testQueryBuilderNumberOfResults2(self):
         length_of_results = self.folder.restrictedTraverse('@@querybuildernumberofresults').browserDefault(None)[0](self.query)
         # apparently brower travelsal is different from the traversal we get from restrictedTraverse. This did hurt a bit.
-        self.assertEqual(length_of_results, 1)
+        numeric = int(length_of_results.split(' ')[0])
+        self.assertEqual(numeric,1)
         
     def testQueryBuilderHTML(self):
         self.failUnless('Collectionstestpage' in self.querybuilder.html_results(self.query))
