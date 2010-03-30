@@ -62,8 +62,6 @@ class TestQueryParserBase(unittest.TestCase):
     def setUp(self):
         super(TestQueryParserBase, self).setUp()
 
-        self.parser = queryparser.QueryParser(MockSite(), None)
-
         self.setFunctionForOperation('plone.app.collection.operation.string.is.operation', 'plone.app.collection.queryparser:_equal')
         self.setFunctionForOperation('plone.app.collection.operation.string.path.operation', 'plone.app.collection.queryparser:_path')
 
@@ -82,7 +80,7 @@ class TestQueryParser(TestQueryParserBase):
             'o': 'plone.app.collection.operation.string.is',
             'v': 'Welcome to Plone',
         }
-        parsed = self.parser.parseFormquery([data, ])
+        parsed = queryparser.parseFormquery(MockSite(), [data, ])
         self.assertEqual(parsed, {'Title': {'query': 'Welcome to Plone'}})
 
     def test_path_explicit(self):
@@ -91,7 +89,7 @@ class TestQueryParser(TestQueryParserBase):
             'o': 'plone.app.collection.operation.string.path',
             'v': '/site/foo',
         }
-        parsed = self.parser.parseFormquery([data, ])
+        parsed = queryparser.parseFormquery(MockSite(), [data, ])
         self.assertEqual(parsed, {'path': {'query': '/site/foo'}})
 
     def test_path_computed(self):
@@ -101,8 +99,7 @@ class TestQueryParser(TestQueryParserBase):
             'v': '00000000000000001',
         }
 
-        self.parser.context = MockSite()
-        parsed = self.parser.parseFormquery([data, ])
+        parsed = queryparser.parseFormquery(MockSite(), [data, ])
         self.assertEqual(parsed, {'path': {'query': '/site/foo'}})
 
 

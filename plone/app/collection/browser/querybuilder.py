@@ -1,7 +1,7 @@
 from Products.Five.browser import BrowserView
 from plone.registry.interfaces import IRegistry
 
-from plone.app.collection.queryparser import QueryParser
+from plone.app.collection import queryparser
 from zope.component import getMultiAdapter, getUtility
 from plone.app.collection.interfaces import ICollectionRegistryReader
 from plone.app.contentlisting.interfaces import IContentListing
@@ -35,8 +35,7 @@ class QueryBuilder(BrowserView):
         return getMultiAdapter((self(query), self.request), name='display_query_results')()
 
     def _makequery(self, query=None):
-        queryparser = QueryParser(self.context, self.request)
-        parsedquery = queryparser.parseFormquery(query)
+        parsedquery = queryparser.parseFormquery(self.context, query)
         if not parsedquery:
             return IContentListing([])
         return getMultiAdapter((self.context, self.request), name='searchResults')(query=parsedquery)

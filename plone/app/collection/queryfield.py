@@ -9,7 +9,9 @@ from Products.Archetypes.Field import ObjectField
 from Products.Archetypes.Field import registerField
 from plone.app.collection.interfaces import IQueryField
 from zope.interface import implements
+from zope.app.component.hooks import getSite
 
+from plone.app.collection.browser.querybuilder import QueryBuilder
 
 class QueryField(ObjectField):
     """QueryField for storing query"""
@@ -33,12 +35,11 @@ class QueryField(ObjectField):
     def get(self, instance, **kwargs):
         """Get the query dict from the request or from the object"""
         raw = kwargs.get('raw', None)
+        value = self.getRaw(instance)
         if raw == True:
             # We actually wanted the raw value, should have called getRaw
-            return self.getRaw(instance)
-        
-        value = self.getRaw(instance)
-        querybuilder = instance.restrictedTraverse("querybuilderresults")
+            return value
+        querybuilder = QueryBuilder(instance, getSite().REQUEST)
         return querybuilder(value)
     
     def getRaw(self, instance, **kwargs):

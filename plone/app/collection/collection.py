@@ -10,6 +10,7 @@ from Products.Archetypes.atapi import IntegerField
 from Products.Archetypes.atapi import LinesField
 from Products.Archetypes.atapi import IntegerWidget
 from Products.Archetypes.atapi import InAndOutWidget
+from Products.Archetypes.fieldproperty import ATToolDependentFieldProperty
 from Products.ATContentTypes.content import document
 from Products.ATContentTypes.content import schemata
 from plone.app.collection.interfaces import ICollection
@@ -32,6 +33,7 @@ CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
             description="""Define the search terms for the items you want to list by choosing what to match on.
             The list of results will be dynamically updated""",
         ),
+        storage=atapi.AnnotationStorage(),
         validators=('javascriptDisabled',)
     ),
     BooleanField(
@@ -46,17 +48,19 @@ CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
                           default=u"If selected, only the 'Number of Items' "
                                    "indicated below will be displayed.")
         ),
+        storage=atapi.AnnotationStorage(),
     ),
     IntegerField(
         name='itemCount',
-            required=False,
-            mode="rw",
-            default=0,
-            widget=IntegerWidget(
+        required=False,
+        mode="rw",
+        default=0,
+        widget=IntegerWidget(
                     label=_(u'label_item_count', default=u'Number of Items'),
                     description=''
-                    ),
-             ),
+                ),
+        storage=atapi.AnnotationStorage(),
+        ),
     LinesField('customViewFields',
                 required=False,
                 mode="rw",
@@ -93,8 +97,9 @@ class Collection(document.ATDocument):
     meta_type = "Collection"
     schema = CollectionSchema
 
-    title = atapi.ATFieldProperty('title')
-    description = atapi.ATFieldProperty('description')
+    query = ATToolDependentFieldProperty('query')
+    limitNumber = atapi.ATFieldProperty('limitNumber')
+    itemCount = atapi.ATFieldProperty('itemCount')
 
     security = ClassSecurityInfo()
 

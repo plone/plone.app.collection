@@ -11,63 +11,56 @@ import logging
 
 Row = namedtuple('Row', ['index', 'operator', 'values'])
 
+def parseFormquery(context, formquery):
+    if not formquery:
+        return {}
+    reg = getUtility(IRegistry)
 
-class QueryParser(object):
+    # make sure the things in formquery are dicts, not crazy things
+    formquery = map(dict, formquery)
 
-    def __init__(self, context, request):
-        self.context = context
-        self.request = request
+    formquery = deepcopy(formquery)
+    query = {}
+    for row in formquery:
 
-    def parseFormquery(self, formquery):
-        if not formquery:
-            return {}
-        reg = getUtility(IRegistry)
+        operator = row.get('o', None)
+        function_path = reg["%s.operation" % operator]
 
-        # make sure the things in formquery are dicts, not crazy things
-        formquery = map(dict, formquery)
+        # The functions expect this pattern of object, so lets give it to
+        # them in a named tuple instead of jamming things onto the request
+        row = Row(index=row.get('i', None),
+                  operator=function_path,
+                  values=row.get('v', None))
 
-        formquery = deepcopy(formquery)
-        query = {}
-        for row in formquery:
+        kwargs = {}
 
-            operator = row.get('o', None)
-            function_path = reg["%s.operation" % operator]
+        module, function = row.operator.split(":")
+        fromlist = module.split(".")[:-1]
+        try:
+            module = __import__(module, fromlist=fromlist)
+            parser = getattr(module, function)
+        except (ImportError, AttributeError):
+            raise  # XXX: Be more friendly
+        else:
+            kwargs = parser(context, row)
 
-            # The functions expect this pattern of object, so lets give it to
-            # them in a named tuple instead of jamming things onto the request
-            row = Row(index=row.get('i', None),
-                      operator=function_path,
-                      values=row.get('v', None))
+        query.update(kwargs)
 
-            kwargs = {}
+    if not query:
+        # If the query is empty fall back onto the equality query
+        query = _equal(context, row)
 
-            module, function = row.operator.split(":")
-            fromlist = module.split(".")[:-1]
-            try:
-                module = __import__(module, fromlist=fromlist)
-                parser = getattr(module, function)
-            except (ImportError, AttributeError):
-                raise  # XXX: Be more friendly
-            else:
-                kwargs = parser(self.context, row)
+    # Check for valid indexes
+    logger = logging.getLogger('plone.app.collection')
+    catalog = getToolByName(context, 'portal_catalog')
+    valid_indexes = [index for index in query if index in catalog.indexes()]
 
-            query.update(kwargs)
+    # We'll ignore any invalid index, but will return an empty set if none of the indexes are valid.
+    if not valid_indexes:
+        logger.warning("Using empty query because there are no valid indexes used.")
+        return {}
 
-        if not query:
-            # If the query is empty fall back onto the equality query
-            query = _equal(self.context, row)
-
-        # Check for valid indexes
-        logger = logging.getLogger('plone.app.collection')
-        catalog = getToolByName(self.context, 'portal_catalog')
-        valid_indexes = [index for index in query if index in catalog.indexes()]
-
-        # We'll ignore any invalid index, but will return an empty set if none of the indexes are valid.
-        if not valid_indexes:
-            logger.warning("Using empty query because there are no valid indexes used.")
-            return {}
-
-        return query
+    return query
 
 
 # operators

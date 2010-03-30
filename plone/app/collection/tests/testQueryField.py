@@ -17,8 +17,8 @@ class TestQueryField(CollectionTestCase):
         }]
         self.collection.setQuery(query)
         self.assertEqual(query, self.collection.getRawQuery())
-        self.assertEqual(len(self.collection.getQuery()), 1)
-        self.assertEqual(self.collection.getQuery()[0].Title(), "Welcome to Plone")
+        self.assertEqual(len(self.collection.query), 1)
+        self.assertEqual(self.collection.query[0].Title(), "Welcome to Plone")
 
 def test_suite():
     suite = unittest.TestSuite()
