@@ -16,7 +16,7 @@
 .previewSearchResultsHeading {
     margin-top: 1em;
 }
-.ArchetypesQueryWidget .criteria {
+.QueryWidget .criteria {
     margin: 0 1em 0.5em 0;
     clear: both;
 }
@@ -27,7 +27,7 @@
     cursor: pointer;
     margin-left: 1em;
 }
-.error.ArchetypesQueryWidget {
+.error.QueryWidget {
     background-color:transparent;
     border:0;
     padding:0;

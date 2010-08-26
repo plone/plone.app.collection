@@ -179,7 +179,7 @@
     $.querywidget.updateSearch = function () {
         var query = portal_url + "/@@querybuilder_html_results?";
         var querylist  = [];
-        $('.ArchetypesQueryWidget .queryindex').each(function () {
+        $('.QueryWidget .queryindex').each(function () {
             var results = $(this).parents('.criteria').children('.queryresults');
             var index = $(this).val();
             var operator = $(this).parents('.criteria').children('.queryoperator').val();
@@ -212,7 +212,7 @@
         if ($('#sort_order:checked').length > 0) {
             query += '&sort_order=reverse'
         }
-        $.get(query, {}, function (data) { $('.ArchetypesQueryWidget .previewresults').html(data); });
+        $.get(query, {}, function (data) { $('.QueryWidget .previewresults').html(data); });
     };
 
     // Enhance for javascript browsers
@@ -242,7 +242,7 @@
             $.querywidget.config = data;
 
             // Find querywidgets
-            $(".ArchetypesQueryWidget").each(function () {
+            $(".QueryWidget").each(function () {
 
                 // Get object
                 var obj = $(this);
