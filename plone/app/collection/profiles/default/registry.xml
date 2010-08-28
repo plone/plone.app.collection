@@ -372,14 +372,14 @@
     
     <records interface="plone.app.collection.interfaces.IQueryField"
              prefix="plone.app.collection.field.portal_type">
-        <value key="title">Item type (internal)</value>
-        <value key="description"></value>
-        <value key="enabled">False</value>
+        <value key="title">Type</value>
+        <value key="description">An item's type (e.g. Event)</value>
+        <value key="enabled">True</value>
         <value key="sortable">False</value>
         <value key="operations">
             <element>plone.app.collection.operation.selection.is</element>
         </value>
-        <value key="vocabulary">plone.app.vocabularies.PortalTypes</value>
+        <value key="vocabulary">plone.app.vocabularies.ReallyUserFriendlyTypes</value>
        <value key="group">Metadata</value>
     </records>
     
@@ -460,19 +460,6 @@
             <element>plone.app.collection.operation.string.contains</element>
         </value>
        <value key="group">Text</value>
-    </records>
-
-    <records interface="plone.app.collection.interfaces.IQueryField"
-             prefix="plone.app.collection.field.Type">
-        <value key="title">Type</value>
-        <value key="description">An item's type (e.g. Event)</value>
-        <value key="enabled">True</value>
-        <value key="sortable">True</value>
-        <value key="operations">
-            <element>plone.app.collection.operation.selection.is</element>
-        </value>
-        <value key="vocabulary">plone.app.vocabularies.ReallyUserFriendlyTypes</value>
-       <value key="group">Metadata</value>
     </records>
 
 </registry>
