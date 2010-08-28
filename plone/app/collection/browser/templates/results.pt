@@ -41,6 +41,7 @@
                           <a href="#"
                              tal:content="author/fullname"
                              tal:omit-tag="not:item/Creator"
+                             tal:on-error="string:no normal context"
                              tal:attributes="href string:${context/@@plone_portal_state/navigation_root_url}/author/${author/username}"
                              i18n:name="author">
                             Bob Dobalina
@@ -66,6 +67,7 @@
                                    class="link-category"
                                    rel="tag"
                                    tal:content="category"
+                                   tal:on-error="string:no normal context"
                                    tal:attributes="href string:${context/@@plone_portal_state/navigation_root_url}/search?Subject%3Alist=${category}">
                                    Category
                                 </a><tal:separator condition="not: repeat/category/end">,</tal:separator>
