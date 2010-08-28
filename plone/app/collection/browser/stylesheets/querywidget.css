@@ -1,12 +1,12 @@
 .queryindex, .addIndex {
     display: block;
-    width: 200px;
+    width: 180px;
     float: left;
     margin-right: 0.5em;
 }
 .queryoperator, .addOperator {
     display: block;
-    width: 150px;
+    width: 120px;
     float: left;
     margin-right: 0.5em;
 }
