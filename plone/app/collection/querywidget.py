@@ -63,7 +63,9 @@ class QueryWidget(TypesWidget):
 
     def SearchResults(self, request, context, accessor):
         """search results"""
-        return getMultiAdapter((accessor(), request), name='display_query_results')()
+        options = dict(original_context=context)
+        return getMultiAdapter((accessor(), request), name='display_query_results')(
+            **options)
 
 
 __all__ = ('QueryWidget')

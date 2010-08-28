@@ -15,8 +15,8 @@ class ContentListingView(BrowserView):
         self.context = context
         self.request = request
 
-    def __call__(self):
-        return self.index()
+    def __call__(self, **kw):
+        return self.index(**kw)
 
 class QueryBuilder(BrowserView):
     """ This view is used by the javascripts, fetching configuration or results"""
@@ -32,7 +32,9 @@ class QueryBuilder(BrowserView):
         return self._results
 
     def html_results(self, query):
-        return getMultiAdapter((self(query), self.request), name='display_query_results')()
+        options = dict(original_context=self.context)
+        return getMultiAdapter((self(query), self.request), name='display_query_results')(
+            **options)
 
     def _makequery(self, query=None):
         parsedquery = queryparser.parseFormquery(self.context, query)

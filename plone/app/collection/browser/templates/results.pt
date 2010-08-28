@@ -8,7 +8,9 @@
 <head>
 </head>
 <body>
-<div tal:define="results context">
+<div tal:define="results context;
+                 original_context nocall:options/original_context|nocall:context;
+                 toLocalizedTime nocall:original_context/@@plone/toLocalizedTime;">
     <h2 class="searchResultsHeading">
         <span>
             Search results
@@ -41,8 +43,7 @@
                           <a href="#"
                              tal:content="author/fullname"
                              tal:omit-tag="not:item/Creator"
-                             tal:on-error="string:no normal context"
-                             tal:attributes="href string:${context/@@plone_portal_state/navigation_root_url}/author/${author/username}"
+                             tal:attributes="href string:${original_context/@@plone_portal_state/navigation_root_url}/author/${author/username}"
                              i18n:name="author">
                             Bob Dobalina
                           </a>
@@ -53,7 +54,8 @@
                         <span i18n:translate="box_last_modified">
                         last modified
                         </span>
-                        <span tal:replace="item/ModificationDate">
+                        <span tal:replace="python:toLocalizedTime(item.ModificationDate())"
+                              tal:on-error="string:?">
                         August 16, 2001 at 23:35:59
                         </span>
                     </span>
@@ -67,8 +69,7 @@
                                    class="link-category"
                                    rel="tag"
                                    tal:content="category"
-                                   tal:on-error="string:no normal context"
-                                   tal:attributes="href string:${context/@@plone_portal_state/navigation_root_url}/search?Subject%3Alist=${category}">
+                                   tal:attributes="href string:${original_context/@@plone_portal_state/navigation_root_url}/search?Subject%3Alist=${category}">
                                    Category
                                 </a><tal:separator condition="not: repeat/category/end">,</tal:separator>
                             </span>
