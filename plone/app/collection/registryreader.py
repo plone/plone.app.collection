@@ -31,6 +31,9 @@ class CollectionRegistryReader(object):
         """Make a dictionary structure for the values in the registry"""
         result = DottedDict()
         for record in self.context.records:
+            if not record.startswith(self.prefix):
+                continue
+
             splitted = record.split('.')
             current = result
             for x in splitted[:-1]:
