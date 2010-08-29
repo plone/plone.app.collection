@@ -9,6 +9,7 @@ from Products.ATContentTypes import ATCTMessageFactory as _
 
 import json
 
+
 class ContentListingView(BrowserView):
 
     def __init__(self, context, request):
@@ -18,9 +19,11 @@ class ContentListingView(BrowserView):
     def __call__(self, **kw):
         return self.index(**kw)
 
+
 class QueryBuilder(BrowserView):
-    """ This view is used by the javascripts, fetching configuration or results"""
-    
+    """ This view is used by the javascripts,
+        fetching configuration or results"""
+
     def __init__(self, context, request):
         self._results = None
         self.context = context
@@ -33,17 +36,21 @@ class QueryBuilder(BrowserView):
 
     def html_results(self, query):
         options = dict(original_context=self.context)
-        return getMultiAdapter((self(query), self.request), name='display_query_results')(
+        return getMultiAdapter((self(query), self.request),
+            name='display_query_results')(
             **options)
 
     def _makequery(self, query=None):
         parsedquery = queryparser.parseFormquery(self.context, query)
         if not parsedquery:
             return IContentListing([])
-        return getMultiAdapter((self.context, self.request), name='searchResults')(query=parsedquery)
+        return getMultiAdapter((self.context, self.request),
+            name='searchResults')(query=parsedquery)
 
     def number_of_results(self, query):
-        return "%s %s" % (len(self(query)), _("item(s) match your search term"))
+        return "%s %s" % (len(self(query)),
+                          _("item(s) match your search term"))
+
 
 class RegistryConfiguration(BrowserView):
 
@@ -54,5 +61,3 @@ class RegistryConfiguration(BrowserView):
 
     def __call__(self):
         return json.dumps(ICollectionRegistryReader(getUtility(IRegistry))())
-
-        
