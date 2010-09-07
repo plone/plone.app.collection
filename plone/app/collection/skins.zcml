@@ -1,7 +1,7 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:cmf="http://namespaces.zope.org/cmf"
-    i18n_domain="plone.app.collection">>
+    i18n_domain="plone">>
 
   <!-- File System Directory Views registration -->
     <cmf:registerDirectory name="querywidget" />
