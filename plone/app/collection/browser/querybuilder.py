@@ -48,8 +48,9 @@ class QueryBuilder(BrowserView):
             name='searchResults')(query=parsedquery)
 
     def number_of_results(self, query):
-        return "%s %s" % (len(self(query)),
-                          _("item(s) match your search term"))
+        return _(u"batch_x_items_matching_your_criteria",
+                 default=u"${number} items matching your search terms",
+                 mapping={'number': len(self(query))})
 
 
 class RegistryConfiguration(BrowserView):
