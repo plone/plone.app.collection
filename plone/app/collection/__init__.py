@@ -9,6 +9,8 @@ from Products.CMFCore.permissions import setDefaultRoles
 from plone.app.collection.validators import NonJavascriptValidator
 from Products.validation.config import validation
 
+PloneMessageFactory = MessageFactory('plone')
+
 
 def initialize(context):
     """Initializer called when used as a Zope 2 product.

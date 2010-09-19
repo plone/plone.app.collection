@@ -16,7 +16,7 @@ from Products.ATContentTypes.content import schemata
 from plone.app.collection.interfaces import ICollection
 from plone.app.collection.config import PROJECTNAME
 from plone.app.collection.config import TOOLNAME
-from Products.ATContentTypes import ATCTMessageFactory as _
+from plone.app.collection import PloneMessageFactory as _
 from archetypes.querywidget.field import QueryField
 from archetypes.querywidget.widget import QueryWidget
 from Products.CMFCore.utils import getToolByName
@@ -43,11 +43,9 @@ CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
         mode="rw",
         default=False,
         widget=BooleanWidget(
-            label=_(u'label_limit_number',
-                    default=u'Limit Search Results'),
-            description=_(u'help_limit_number',
-                          default=u"If selected, only the 'Number of Items' "
-                                   "indicated below will be displayed.")
+            label=_(u'Limit Search Results'),
+            description=_(u"If selected, only the 'Number of Items' "
+                          u"indicated below will be displayed.")
         ),
         storage=atapi.AnnotationStorage(),
     ),
@@ -57,7 +55,7 @@ CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
         mode="rw",
         default=0,
         widget=IntegerWidget(
-                    label=_(u'label_item_count', default=u'Number of Items'),
+                    label=_(u'Number of Items'),
                     description=''
                 ),
         storage=atapi.AnnotationStorage(),
@@ -68,12 +66,11 @@ CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
                 default=('Title',),
                 vocabulary='listMetaDataFields',
                 enforceVocabulary=True,
-                write_permission = ModifyPortalContent,
+                write_permission=ModifyPortalContent,
                 widget=InAndOutWidget(
-                        label=_(u'label_custom_view_fields', default=u'Table Columns'),
-                        description=_(u'help_custom_view_fields',
-                                      default=u"Select which fields to display when "
-                                               "'Display as Table' is checked.")
+                        label=_(u'Table Columns'),
+                        description=_(u"Select which fields to display when "
+                                      u"'Display as Table' is checked.")
                         ),
                  ),
 ))
@@ -105,6 +102,7 @@ class Collection(document.ATDocument):
     security = ClassSecurityInfo()
 
     security.declareProtected(View, 'listMetaDataFields')
+
     def listMetaDataFields(self, exclude=True):
         """Return a list of metadata fields from portal_catalog.
         """
