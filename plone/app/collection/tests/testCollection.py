@@ -7,20 +7,20 @@ from zope.publisher.browser import TestRequest
 
 
 class TestCollection(CollectionFunctionalTestCase):
-    
+
     def afterSetUp(self):
         self.loginAsPortalOwner()
         collection_id = self.portal.invokeFactory("Collection", "NewCollection")
         self.collection = self.portal[collection_id]
         self.portal.portal_workflow.doActionFor(self.collection, 'publish')
-    
+
         testpage_id = self.portal.invokeFactory("Document",'collectionstestpage', title="Collectionstestpage")
         self.portal.portal_workflow.doActionFor(self.portal['collectionstestpage'], 'publish')
-        
+
     def test_viewingCollection(self):
         query = [{
             'i': 'Title',
-            'o': 'plone.app.collection.operation.string.is',
+            'o': 'plone.app.querystring.operation.string.is',
             'v': 'Collectionstestpage',
         }]
         self.collection.setQuery(query)
@@ -39,10 +39,10 @@ class TestQuerybuilder(CollectionTestCase):
         self.querybuilder = getMultiAdapter((self.portal, self.request), name='querybuilderresults')
         self.query = [{
             'i': 'Title',
-            'o': 'plone.app.collection.operation.string.is',
+            'o': 'plone.app.querystring.operation.string.is',
             'v': 'Collectionstestpage',
         }]
-        
+
     def testQueryBuilderQuery(self):
         results = self.querybuilder(query=self.query)
         self.assertEqual(results[0].Title(), "Collectionstestpage")
@@ -57,7 +57,7 @@ class TestQuerybuilder(CollectionTestCase):
         # apparently brower travelsal is different from the traversal we get from restrictedTraverse. This did hurt a bit.
         numeric = int(length_of_results.split(' ')[0])
         self.assertEqual(numeric,1)
-        
+
     def testQueryBuilderHTML(self):
         self.failUnless('Collectionstestpage' in self.querybuilder.html_results(self.query))
 
@@ -70,7 +70,6 @@ class TestConfigurationFetcher(CollectionTestCase):
     def testGettingJSONConfiguration(self):
         configuration = self.folder.restrictedTraverse('@@querybuilderjsonconfig')()
 
-        
 
 def test_suite():
     suite = unittest.TestSuite()

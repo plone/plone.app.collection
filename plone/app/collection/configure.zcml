@@ -7,39 +7,30 @@
 
   <five:registerPackage package="." initialize=".initialize" />
 
-  <include package="plone.app.registry" />
   <include package="plone.app.contentlisting" />
   <include package="plone.app.vocabularies" />
-  
-  <include package=".browser" />
-  <include file="skins.zcml" />
 
+  <include package=".browser" />
 
   <genericsetup:registerProfile
     name="default"
-    title="plone.app.collection"
+    title="Collections"
     directory="profiles/default"
-    description="Add new collections (saved searches) to Plone"
+    description="Add collections (saved searches) to Plone"
     provides="Products.GenericSetup.interfaces.EXTENSION"
     />
-  
+
   <!-- Create Zope2 permissions -->
   <permission
     id="plone.app.collection.addCollection"
     title="plone.app.collection: Add Collection"
-  />
- 
-    
+    />
+
   <class class=".collection.Collection">
     <require
       permission="zope2.View"
       interface=".interfaces.ICollection"
-    />
+      />
   </class>
 
-
-  <adapter
-    factory=".registryreader.CollectionRegistryReader"
-  />
-    
 </configure>

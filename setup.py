@@ -24,12 +24,12 @@ setup(name='plone.app.collection',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          # -*- Extra requirements: -*-
-          'plone.app.registry',
           'plone.app.contentlisting',
           'plone.app.vocabularies',
           'collective.testcaselayer',
           'plone.directives.form',
+          'plone.app.querystring',
+          'archetypes.querywidget',
       ],
       entry_points="""
       # -*- Entry points: -*-

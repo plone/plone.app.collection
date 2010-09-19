@@ -8,21 +8,6 @@
         directory="images"
         />
 
-    <browser:resourceDirectory
-        name="plone.app.collection.javascripts"
-        directory="javascripts"
-        />
-
-    <browser:resourceDirectory
-        name="plone.app.collection.stylesheets"
-        directory="stylesheets"
-        />
-
-    <browser:resourceDirectory
-        name="plone.app.collection.templates"
-        directory="templates"
-        />
-
     <!-- Views for in Display menu -->
     <browser:page
         name="collection_summary_view"
@@ -37,49 +22,5 @@
         for="plone.app.collection.interfaces.ICollection"
         template="templates/tabular_view.pt"
         />
-
-    <!--- Helper views -->
-
-    <browser:page
-        name="display_query_results"
-        class=".querybuilder.ContentListingView"
-        permission="zope2.View"
-        for="*"
-        template="templates/results.pt"
-        />
-
-
-    <browser:page
-        name="querybuilderresults"
-        class=".querybuilder.QueryBuilder"
-        permission="zope2.View"
-        for="*"
-        />
-
-    <browser:page
-        name="querybuilder_html_results"
-        class=".querybuilder.QueryBuilder"
-        permission="zope2.View"
-        attribute="html_results"
-        for="*"
-        />
-
-    <!--- others -->
-
-    <browser:page
-        name="querybuildernumberofresults"
-        class=".querybuilder.QueryBuilder"
-        permission="zope2.View"
-        for="*"
-        attribute="number_of_results"
-        />
-
-    <browser:page
-        name="querybuilderjsonconfig"
-        class=".querybuilder.RegistryConfiguration"
-        permission="zope2.View"
-        for="*"
-        />
-
 
 </configure>

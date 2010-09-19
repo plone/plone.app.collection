@@ -17,8 +17,8 @@ from plone.app.collection.interfaces import ICollection
 from plone.app.collection.config import PROJECTNAME
 from plone.app.collection.config import TOOLNAME
 from Products.ATContentTypes import ATCTMessageFactory as _
-from queryfield import QueryField
-from querywidget import QueryWidget
+from archetypes.querywidget.field import QueryField
+from archetypes.querywidget.widget import QueryWidget
 from Products.CMFCore.utils import getToolByName
 
 from Products.CMFCore.permissions import ModifyPortalContent
@@ -30,7 +30,8 @@ CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
         name='query',
         widget=QueryWidget(
             label="Search terms",
-            description="""Define the search terms for the items you want to list by choosing what to match on.
+            description="""Define the search terms for the items you want to
+            list by choosing what to match on.
             The list of results will be dynamically updated""",
         ),
         storage=atapi.AnnotationStorage(),

@@ -1,5 +1,5 @@
 plone.app.collection Installation
-=======================
+=================================
 
  * When you're reading this you have probably already run
    ``easy_install plone.app.collection``. Find out how to install setuptools
