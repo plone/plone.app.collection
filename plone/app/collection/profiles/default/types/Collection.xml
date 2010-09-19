@@ -12,9 +12,8 @@
   <property name="immediate_view">base_view</property>
   <property name="global_allow">True</property>
   <property name="allow_discussion">False</property>
-  <property name="default_view">base_view</property>
+  <property name="default_view">collection_summary_view</property>
   <property name="view_methods">
-    <element value="base_view" />
     <element value="collection_summary_view" />
     <element value="collection_tabular_view" />
   </property>
