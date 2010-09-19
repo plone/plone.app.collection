@@ -28,7 +28,6 @@ setup(name='plone.app.collection',
           'plone.app.vocabularies',
           'collective.testcaselayer',
           'plone.directives.form',
-          'plone.app.querystring',
           'archetypes.querywidget',
       ],
       entry_points="""

@@ -7,7 +7,6 @@
 
   <five:registerPackage package="." initialize=".initialize" />
 
-  <include package="plone.app.querystring" />
   <include package="plone.app.contentlisting" />
   <include package="plone.app.vocabularies" />
   <include package="archetypes.querywidget" />
