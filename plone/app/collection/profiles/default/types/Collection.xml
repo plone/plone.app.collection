@@ -9,7 +9,6 @@
   <property name="content_icon">++resource++plone.app.collection.images/collection_icon.png</property>
   <property name="product">plone.app.collection</property>
   <property name="factory">addCollection</property>
-  <property name="immediate_view">base_view</property>
   <property name="global_allow">True</property>
   <property name="allow_discussion">False</property>
   <property name="default_view">standard_view</property>
