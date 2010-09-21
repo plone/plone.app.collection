@@ -12,10 +12,13 @@
   <property name="immediate_view">base_view</property>
   <property name="global_allow">True</property>
   <property name="allow_discussion">False</property>
-  <property name="default_view">collection_summary_view</property>
+  <property name="default_view">standard_view</property>
   <property name="view_methods">
-    <element value="collection_summary_view" />
-    <element value="collection_tabular_view" />
+    <element value="standard_view" />
+    <element value="summary_view" />
+    <element value="all_content" />
+    <element value="tabular_view" />
+    <element value="thumbnail_view" />
   </property>
   <alias from="(Default)" to="(dynamic view)" />
   <alias from="edit" to="atct_edit" />
