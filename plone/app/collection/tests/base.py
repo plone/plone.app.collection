@@ -1,48 +1,54 @@
-from plone.registry.interfaces import IRegistry
-from plone.registry import Registry
-from zope.component import getGlobalSiteManager
-from Products.PloneTestCase import PloneTestCase as ptc
-from Testing import ZopeTestCase as ztc
-
-from collective.testcaselayer import ptc as tcl_ptc
-from collective.testcaselayer import common
-from collective.testcaselayer.layer import Layer as BaseLayer
-
-# What follows are the class definitions for the test case layers. Don't use
-# these directly, use the instances beneath
+from plone.app.testing import PloneSandboxLayer
+from plone.app.testing import PLONE_FIXTURE
+from plone.app.testing import applyProfile
+from plone.app.testing import login
+from zope.configuration import xmlconfig
+from plone.app.testing.layers import FunctionalTesting
+from plone.testing import z2
 
 
-class RealGSProfile(tcl_ptc.PTCLayer):
-    """A PloneTestCase layer that runs the plone.app.collection GenericSetup
-       profile.
-    """
+class PACollection(PloneSandboxLayer):
+    defaultBases = (PLONE_FIXTURE,)
 
-    def afterSetUp(self):
-        self.addProfile('plone.app.collection:default')
-
-
-class CollectionInstalled(tcl_ptc.BasePTCLayer):
-    """A PloneTestCase layer that loads the ZCML for plone.app.collection and
-       installs the package into zope.
-    """
-
-    def afterSetUp(self):
+    def setUpZope(self, app, configurationContext):
+        # load ZCML
         import plone.app.collection
-        self.loadZCML('configure.zcml', package=plone.app.collection)
-        ztc.installPackage('plone.app.collection')
+        xmlconfig.file('configure.zcml', plone.app.collection,
+                       context=configurationContext)
+        z2.installProduct(app, 'plone.app.collection')
 
-# The layers available to test authors
+    def setUpPloneSite(self, portal):
+        # install into the Plone site
+        applyProfile(portal, 'plone.app.collection:default')
 
-UninstalledLayer = tcl_ptc.BasePTCLayer([common.common_layer, ])
-InstalledLayer = CollectionInstalled([UninstalledLayer, ])
-FullProfilelayer = RealGSProfile([InstalledLayer, ])
+        # create admin user
+        # z2.setRoles(portal, TEST_USER_NAME, ['Manager']) does not work
+        # setRoles(portal, TEST_USER_NAME, ['Manager']) is not working either
+        portal.acl_users.userFolderAddUser('admin',
+                                           'secret',
+                                           ['Manager'],
+                                           [])
+        login(portal, 'admin')
 
-# Convenient base classes for PloneTestCase
+        # enable workflow for browser tests
+        workflow = portal.portal_workflow
+        workflow.setDefaultChain('plone_workflow')
+
+        # add a page, so we can test with it
+        portal.invokeFactory("Document",
+                             "collectiontestpage",
+                             title="Collection Test Page")
+        workflow.doActionFor(portal.collectiontestpage, "publish")
+
+        # add a collection, so we can add a query to it
+        portal.invokeFactory("Collection",
+                             "collection",
+                             title="New Collection")
+        workflow.doActionFor(portal.collection, "publish")
 
 
-class CollectionTestCase(ptc.PloneTestCase):
-    layer = FullProfilelayer
+PACOLLECTION_FIXTURE = PACollection()
 
-
-class CollectionFunctionalTestCase(ptc.FunctionalTestCase, CollectionTestCase):
-    pass
+PACOLLECTION_FUNCTIONAL_TESTING =\
+                            FunctionalTesting(bases=(PACOLLECTION_FIXTURE,),
+                                              name="PACollection:Functional")
