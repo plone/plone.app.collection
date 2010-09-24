@@ -17,7 +17,7 @@
     name="default"
     title="Collections"
     directory="profiles/default"
-    description="Add collections (saved searches) to Plone"
+    description="Add support for collections to Plone"
     provides="Products.GenericSetup.interfaces.EXTENSION"
     />
 
