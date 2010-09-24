@@ -40,12 +40,6 @@ class PACollection(PloneSandboxLayer):
                              title="Collection Test Page")
         workflow.doActionFor(portal.collectiontestpage, "publish")
 
-        # add a collection, so we can add a query to it
-        portal.invokeFactory("Collection",
-                             "collection",
-                             title="New Collection")
-        workflow.doActionFor(portal.collection, "publish")
-
 
 PACOLLECTION_FIXTURE = PACollection()
 
