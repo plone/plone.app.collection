@@ -3,27 +3,28 @@
 """
 
 from zope.interface import implements
+from AccessControl import ClassSecurityInfo
+
+from Products.CMFCore.utils import getToolByName
+from Products.CMFCore.permissions import ModifyPortalContent, View
+
 from Products.Archetypes import atapi
-from Products.Archetypes.atapi import BooleanField
-from Products.Archetypes.atapi import BooleanWidget
-from Products.Archetypes.atapi import IntegerField
-from Products.Archetypes.atapi import LinesField
-from Products.Archetypes.atapi import IntegerWidget
-from Products.Archetypes.atapi import InAndOutWidget
+from Products.Archetypes.atapi import (BooleanField,
+                                       BooleanWidget,
+                                       IntegerField,
+                                       LinesField,
+                                       IntegerWidget,
+                                       InAndOutWidget)
 from Products.Archetypes.fieldproperty import ATToolDependentFieldProperty
-from Products.ATContentTypes.content import document
-from Products.ATContentTypes.content import schemata
+from Products.ATContentTypes.content import document, schemata
+
 from plone.app.collection.interfaces import ICollection
-from plone.app.collection.config import PROJECTNAME
-from plone.app.collection.config import TOOLNAME
+from plone.app.collection.config import PROJECTNAME, TOOLNAME
 from plone.app.collection import PloneMessageFactory as _
+
 from archetypes.querywidget.field import QueryField
 from archetypes.querywidget.widget import QueryWidget
-from Products.CMFCore.utils import getToolByName
 
-from Products.CMFCore.permissions import ModifyPortalContent
-from AccessControl import ClassSecurityInfo
-from Products.CMFCore.permissions import View
 
 CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
     QueryField(
