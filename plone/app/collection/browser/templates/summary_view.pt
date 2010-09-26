@@ -28,7 +28,8 @@
             <h2 class="tileHeadline"
                 metal:define-macro="listitem">
                 <a href="#" class="summary url"
-                   tal:attributes="href item/getURL"
+                   tal:attributes="href item/getURL;
+                                   title item/Title"
                    tal:content="item/Title">Item Title
                 </a>
             </h2>

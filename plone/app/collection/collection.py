@@ -123,7 +123,6 @@ class Collection(document.ATDocument):
             _mapping[field[0]] = field
         return [_mapping[field] for field in self.customViewFields]
 
-    # Helper functions
     def getFoldersAndImages(self):
         catalog = getToolByName(self, 'portal_catalog')
         folders = [item for item in self.results() if item.Type() == 'Folder']
