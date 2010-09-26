@@ -11,6 +11,15 @@
     <div metal:fill-slot="content-core"
          tal:define="results context/results">
 
+         <div metal:define-macro="text-field-view"
+              id="parent-fieldname-text" class="stx"
+              tal:define="has_text exists:context/getText;
+                          text python:has_text and here.getText() or ''"
+              tal:condition="text"
+              tal:attributes="class python:here.Format() in ('text/structured', 'text/x-rst', ) and 'stx' or 'plain'">
+             <div metal:define-slot="inside" tal:replace="structure text">The body</div>
+         </div>
+
         <p tal:condition="not: results"><strong>Nothing to list</strong></p>
 
         <table class="listing" summary="Content listing"
