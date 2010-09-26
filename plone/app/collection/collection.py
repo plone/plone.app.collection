@@ -19,7 +19,7 @@ from Products.Archetypes.fieldproperty import ATToolDependentFieldProperty
 from Products.ATContentTypes.content import document, schemata
 
 from plone.app.collection.interfaces import ICollection
-from plone.app.collection.config import PROJECTNAME, TOOLNAME
+from plone.app.collection.config import PROJECTNAME, ATCT_TOOLNAME
 from plone.app.collection import PloneMessageFactory as _
 
 from archetypes.querywidget.field import QueryField
@@ -64,7 +64,7 @@ CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
     LinesField('customViewFields',
                 required=False,
                 mode="rw",
-                default=('Title',),
+                default=('Title', 'Creator', 'Type', 'ModificationDate'),
                 vocabulary='listMetaDataFields',
                 enforceVocabulary=True,
                 write_permission=ModifyPortalContent,
@@ -107,12 +107,18 @@ class Collection(document.ATDocument):
     def listMetaDataFields(self, exclude=True):
         """Return a list of metadata fields from portal_catalog.
         """
-        tool = getToolByName(self, TOOLNAME)
+        tool = getToolByName(self, ATCT_TOOLNAME)
         return tool.getMetadataDisplay(exclude)
 
     def results(self):
         if self.limitNumber:
             return self.query[:self.itemCount]
         return self.query
+
+    def selectedViewFields(self):
+        _mapping = {}
+        for field in self.listMetaDataFields().items():
+            _mapping[field[0]] = field
+        return [_mapping[field] for field in self.customViewFields]
 
 atapi.registerType(Collection, PROJECTNAME)

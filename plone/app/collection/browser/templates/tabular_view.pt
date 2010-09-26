@@ -9,63 +9,51 @@
 <body>
 
     <div metal:fill-slot="content-core"
-         tal:define="results python:context.results()">
+         tal:define="results context/results">
 
         <p tal:condition="not: results"><strong>Nothing to list</strong></p>
 
         <table class="listing" summary="Content listing"
             i18n:attributes="summary"
-            tal:condition="results">
-        <thead>
-        <tr>
-            <th class="nosort" i18n:translate="">Title</th>
-            <th class="nosort" i18n:translate="">Author</th>
-            <th class="nosort" i18n:translate="">Type</th>
-            <th class="nosort" i18n:translate="">Modified</th>
-        </tr>
-        </thead>
-        <tbody>
-          <tal:results repeat="item results">
-              <tal:block tal:define="item_url item/getURL;
-                                     item_title_or_id item/title_or_id;
-                                     item_type item/Type;
-                                     item_description item/Description;
-                                     item_creator item/Creator;
-                                     item_modified item/ModificationDate">
-
-              <tr tal:define="oddrow repeat/item/odd;"
-                  tal:attributes="class python:oddrow and 'even' or 'odd'" >
-                  <td>
-                      <a href="#" tal:attributes="href item_url" tal:content="item_title_or_id">
-                          Item Title
-                      </a>
-                  </td>
-                  <td>
-                      <tal:name tal:condition="item_creator" tal:define="author item_creator">
-
-                          <a href="#"
-                             tal:attributes="href string:author/${author/username}"
-                             tal:content="author/username"
-                             tal:omit-tag="not:author">
-                              Bob Dobalina
-                          </a>
-                      </tal:name>
-                  </td>
-                  <td tal:content="item_type">
-                      Page
-                  </td>
-
-                  <td tal:content="item_modified">
-                      Date
-                  </td>
-
-              </tr>
-          </tal:block>
-
-          </tal:results>
-        </tbody>
+            tal:condition="results"
+            tal:define="fields context/selectedViewFields">
+            <thead>
+                <tr>
+                    <th class="nosort"
+                        i18n:translate=""
+                        tal:repeat="field fields"
+                        tal:content="python: field[1]">Field name</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tal:block tal:repeat="item results">
+                <tr tal:define="oddrow repeat/item/odd;"
+                    tal:attributes="class python:oddrow and 'even' or 'odd'" >
+                <tal:block tal:repeat="field fields">
+                    <td tal:condition="python:field[0] not in ['Title', 'Creator', ]"
+                        tal:define="field_data python:getattr(item, field[0])">
+                        <tal:block tal:replace="field_data" />
+                    </td>
+                    <td tal:condition="python:field[0] == 'Title'">
+                        <a href="#"
+                           tal:attributes="href item/getURL;
+                                           title item/Title"
+                           tal:content="item/Title">Item Title</a>
+                    </td>
+                    <td tal:condition="python:field[0] == 'Creator'"
+                        tal:define="creator item/Creator;
+                                    name python:creator['fullname'] or creator['username']">
+                        <a href="#"
+                           tal:condition="creator"
+                           tal:attributes="href string:author/${creator/username};
+                                           title name"
+                           tal:content="name">Jos Henken</a>
+                    </td>
+                </tal:block>
+                </tr>
+            </tal:block>
+            </tbody>
         </table>
-
   </div>
 
 </body>

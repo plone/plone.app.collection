@@ -6,4 +6,4 @@ PROJECTNAME = 'plone.app.collection'
 ADD_PERMISSIONS = {
     'Collection': 'plone.app.collection: Add Collection',
 }
-TOOLNAME = 'portal_atct'
+ATCT_TOOLNAME = 'portal_atct'
