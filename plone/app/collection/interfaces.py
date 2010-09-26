@@ -2,5 +2,5 @@ from zope.interface import Interface
 
 
 class ICollection(Interface):
-    """ """
-    pass
+    """ Collection marker interface
+    """

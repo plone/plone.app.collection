@@ -110,4 +110,9 @@ class Collection(document.ATDocument):
         tool = getToolByName(self, TOOLNAME)
         return tool.getMetadataDisplay(exclude)
 
+    def results(self):
+        if self.limitNumber:
+            return self.query[:self.itemCount]
+        return self.query
+
 atapi.registerType(Collection, PROJECTNAME)
