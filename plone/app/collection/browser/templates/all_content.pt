@@ -11,6 +11,8 @@
     <metal:content-core fill-slot="content-core"
                         tal:define="results context/results">
 
+    <div tal:replace="structure context/getText" />
+
     <div class="item" tal:repeat="item results">
     <tal:block tal:define="item_type item/Type">
         <a href="#"
