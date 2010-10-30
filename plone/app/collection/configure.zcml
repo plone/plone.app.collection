@@ -15,7 +15,7 @@
 
   <genericsetup:registerProfile
     name="default"
-    title="Collections"
+    title="plone.app.collections"
     directory="profiles/default"
     description="Add support for collections to Plone"
     provides="Products.GenericSetup.interfaces.EXTENSION"
