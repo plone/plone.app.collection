@@ -3,6 +3,7 @@
 """
 
 from zope.interface import implements
+from zope.component import getMultiAdapter
 from AccessControl import ClassSecurityInfo
 
 from Products.CMFCore.utils import getToolByName
@@ -22,6 +23,7 @@ from plone.app.collection.interfaces import ICollection
 from plone.app.collection.config import PROJECTNAME, ATCT_TOOLNAME
 from plone.app.collection import PloneMessageFactory as _
 
+from plone.app.querystring import queryparser
 from plone.app.contentlisting.interfaces import IContentListing
 
 from archetypes.querywidget.field import QueryField
@@ -122,6 +124,23 @@ class Collection(document.ATDocument):
         for field in self.listMetaDataFields().items():
             _mapping[field[0]] = field
         return [_mapping[field] for field in self.customViewFields]
+
+    def getFolderContents(self, contentFilter=None, batch=False, b_size=100,
+                                full_objects=False):
+        query = queryparser.parseFormquery(self, self.getRawQuery())
+        if not query:
+            query = {}
+
+        if contentFilter:
+            query = contentFilter.update(query)
+
+        items = getMultiAdapter((self, self.REQUEST),
+                                name='searchResults')(query=query,
+                                                      batch=batch,
+                                                      b_size=b_size)
+        if full_objects:
+            return [x.realobject for x in items]
+        return [x._brain for x in items]
 
     def getFoldersAndImages(self):
         catalog = getToolByName(self, 'portal_catalog')
