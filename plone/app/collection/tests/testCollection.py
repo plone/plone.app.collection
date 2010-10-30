@@ -5,6 +5,7 @@ from plone.app.testing import login
 from plone.app.testing import logout
 from transaction import commit
 
+# default test query
 query = [{
     'i': 'Title',
     'o': 'plone.app.querystring.operation.string.is',
@@ -81,7 +82,7 @@ class TestCollection(unittest.TestCase):
                              title="Folder1")
         folder = portal['folder1']
 
-        # add example image
+        # add example image into the folder
         folder.invokeFactory("Image",
                              "image",
                              title="Image example")
@@ -103,12 +104,12 @@ class TestCollection(unittest.TestCase):
                              "collection",
                              title="New Collection")
         collection = portal['collection']
+
+        # add two folders as example content
         portal.invokeFactory("Folder",
                              "folder1",
                              title="Folder1")
-        folder = portal['folder1']
 
-        # add example image
         portal.invokeFactory("Folder",
                              "folder2",
                              title="Folder2")
@@ -122,6 +123,16 @@ class TestCollection(unittest.TestCase):
         collection.setLimitNumber(True)
         collection.setItemCount(1)
         results = collection.results()
+        # fail test if there is more than one result
         self.failUnless(len(results) == 1)
 
-
+    def test_selectedViewFields(self):
+        portal = self.layer['portal']
+        login(portal, 'admin')
+        # add a collection, so we can add a query to it
+        portal.invokeFactory("Collection",
+                             "collection",
+                             title="New Collection")
+        collection = portal['collection']
+        # check if there are selectedViewFields
+        self.failUnless(len(collection.selectedViewFields()) > 0)
