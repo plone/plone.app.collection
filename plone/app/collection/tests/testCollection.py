@@ -4,6 +4,15 @@ from plone.testing.z2 import Browser
 from plone.app.testing import login
 from plone.app.testing import logout
 from transaction import commit
+from zope.component import getUtility, getMultiAdapter
+from plone.portlets.interfaces import IPortletType
+from plone.portlets.interfaces import IPortletManager
+from plone.portlets.interfaces import IPortletAssignment
+from plone.portlets.interfaces import IPortletDataProvider
+from plone.portlets.interfaces import IPortletRenderer
+
+from plone.app.portlets.storage import PortletAssignmentMapping
+
 
 # default test query
 query = [{
@@ -136,3 +145,11 @@ class TestCollection(unittest.TestCase):
         collection = portal['collection']
         # check if there are selectedViewFields
         self.failUnless(len(collection.selectedViewFields()) > 0)
+
+
+class TestCollectionPortlet(unittest.TestCase):
+
+    layer = PACOLLECTION_FUNCTIONAL_TESTING
+    #TODO: implement collection portlet tests
+
+
