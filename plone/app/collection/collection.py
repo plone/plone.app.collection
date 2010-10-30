@@ -134,13 +134,6 @@ class Collection(document.ATDocument):
 
     security.declareProtected(View, 'listMetaDataFields')
 
-    def update(self):
-        return
-        sort_order = 'ascending'
-        if 'sort_order' in self.request.keys():
-            sort_order = 'descending'
-        self.request['sort_order'] = sort_order
-
     def listMetaDataFields(self, exclude=True):
         """Return a list of metadata fields from portal_catalog.
         """
