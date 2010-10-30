@@ -8,119 +8,60 @@
 
 <body>
 
-    <div metal:fill-slot="content-core"
-         tal:define="results context/results">
+<metal:content-core fill-slot="content-core">
+<metal:block use-macro="context/standard_view/macros/content-core">
 
-        <div class="tileItem" tal:repeat="item results">
-        <tal:block tal:define="item_type item/Type">
+    <metal:entries fill-slot="entries">
+    <metal:block use-macro="context/standard_view/macros/entries">
+    <metal:entry fill-slot="entry">
+
+        <div class="tileItem visualIEFloatFix"
+             tal:define="obj python:item.realobject">
 
             <a href="#"
-                  tal:condition="item/getImage|nothing"
+                  tal:condition="obj/image|nothing"
                   tal:attributes="href item/getURL">
                   <div class="tileImage">
                   <img src="" alt=""
-                       tal:define="obj python:item.realobject;
-                                   scale obj/@@images"
+                       tal:define="scale obj/@@images"
                        tal:replace="structure python: scale.scale('image', scale='thumb').tag(css_class='tileImage')" />
                    </div>
             </a>
 
-            <h2 class="tileHeadline"
-                metal:define-macro="listitem">
-                <a href="#" class="summary url"
-                   tal:attributes="href item/getURL;
-                                   title item/Title"
-                   tal:content="item/Title">Item Title
+            <h2 class="tileHeadline" metal:define-macro="listitem">
+                <a href="#"
+                   class="summary url"
+                   tal:attributes="href python:item_type in use_view_action and item_url+'/view' or item_url;"
+                   tal:content="item/Title">
+                    Item Title
                 </a>
             </h2>
 
-            <div class="documentByLine">
-            <tal:event tal:condition="python: item_type == 'Event'">
-            <tal:block tal:define="item_start item/start/ISO|item/StartDate|nothing;
-                                   item_end item/end/ISO|item/EndDate|nothing;
-                                   item_modified item/ModificationDate;">
-                <span tal:condition="python: item_type == 'Event' and item.location"
-                      i18n:translate="">
-                (
-                <span class="location"
-                      tal:content="string:${item/location}"
-                      i18n:name="location">
-                Oslo
-                </span>
-                , from
-                <abbr class="dtstart"
-                      tal:attributes="title item_start"
-                      tal:content="item_modified"
-                      i18n:name="start">
-                from date
-                </abbr>
-                to
-                <abbr class="dtend"
-                      tal:attributes="title python:item_end"
-                      tal:content="item_modified"
-                      i18n:name="end">
-                to date
-                </abbr>
-                )
-                </span>
-                <span tal:condition="python: item_type == 'Event' and not item.location"
-                      i18n:translate="">
-                (from
-                <abbr class="dtstart"
-                      tal:attributes="title python:item_start"
-                      tal:content="item_modified"
-                      i18n:name="start">
-                from date
-                </abbr>
-                to
-                <abbr class="dtend"
-                      tal:attributes="title python:item_end"
-                      tal:content="item_modified"
-                      i18n:name="end">
-                to date
-                </abbr>
-                )
-                </span>
-            </tal:block>
-            </tal:event>
+            <div metal:use-macro="context/standard_view/macros/document_byline"></div>
 
-            <tal:newsitem condition="python: item_type == 'News Item'">
-                <tal:name tal:condition="item/Creator"
-                          tal:define="creator item/Creator;
-                                      name python:creator['fullname'] or creator['username']">
-                <a href="#"
-                   tal:condition="creator"
-                   tal:attributes="href string:author/${creator/username};
-                                   title name"
-                   tal:content="name">Jos Henken</a>
-                </tal:name>
-                &mdash;
-                <span class="documentModified">
-                <tal:mod i18n:translate="">last modified</tal:mod>
-                <span tal:content="item/ModificationDate">August 16, 2001 at 23:35:59</span>
+            <p class="tileBody" tal:condition="item_description">
+                <span class="description" tal:content="item_description">
+                    description
                 </span>
-            </tal:newsitem>
-            </div>
-
-            <p class="tileBody description"
-               tal:condition="item/Description"
-               tal:content="item/Description">
-               description
             </p>
 
             <p class="tileFooter">
                 <a href=""
-                   tal:attributes="href item/getURL;
-                                  title item/Title"
-                   i18n:translate="">
-                   Read More&hellip;
+                   tal:attributes="href python:item_type in use_view_action and item_url+'/view' or item_url;"
+                   i18n:translate="read_more">
+                Read More&hellip;
                 </a>
             </p>
 
             <div class="visualClear"><!-- --></div>
-        </tal:block>
         </div>
-    </div>
+
+    </metal:entry>
+    </metal:block>
+    </metal:entries>
+
+</metal:block>
+</metal:content-core>
 
 </body>
 </html>

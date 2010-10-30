@@ -73,6 +73,7 @@
                             </a>
                         </span>
 
+                        <metal:block metal:define-macro="document_byline">
                         <span class="documentByLine">
                             <span tal:condition="python: item_type == 'Event' and item_sametime"
                                   i18n:translate="label_event_byline_onlyfrom">
@@ -155,6 +156,7 @@
                                 </metal:description>
                             </tal:byline>
                         </span>
+                        </metal:block>
 
                     </dt>
 
