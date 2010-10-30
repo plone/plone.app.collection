@@ -10,5 +10,12 @@
         >
       <role name="Manager" />
     </permission>
+    <permission
+        name="plone.app.collection: Add collection portlet"
+        acquire="True"
+        >
+      <role name="Manager" />
+    </permission>
+
   </permissions>
 </rolemap>

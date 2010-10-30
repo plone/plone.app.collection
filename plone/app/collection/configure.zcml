@@ -10,8 +10,8 @@
   <include package="plone.app.contentlisting" />
   <include package="plone.app.vocabularies" />
   <include package="archetypes.querywidget" />
-
   <include package=".browser" />
+  <include package=".portlets" />
 
   <genericsetup:registerProfile
     name="default"
