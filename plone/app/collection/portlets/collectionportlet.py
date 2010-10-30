@@ -61,8 +61,7 @@ class Assignment(base.Assignment):
     def __init__(self, header=u"",
                  target_collection=None,
                  limit=None,
-                 show_more=True,
-                 show_dates=False):
+                 show_more=True, show_dates=False):
         self.header = header
         self.target_collection = target_collection
         self.limit = limit
