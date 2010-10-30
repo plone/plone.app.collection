@@ -26,7 +26,7 @@ class TestCollection(unittest.TestCase):
         self.assertEqual(collection.Title(), "New Collection")
 
     def test_searchResults(self):
-        portal = self.layer['portal']        
+        portal = self.layer['portal']
         login(portal, 'admin')
         # add a collection, so we can add a query to it
         portal.invokeFactory("Collection",
@@ -37,8 +37,19 @@ class TestCollection(unittest.TestCase):
         self.assertEqual(collection.getQuery()[0].Title(),
                          "Collection Test Page")
 
+    def test_listMetaDataFields(self):
+        portal = self.layer['portal']
+        login(portal, 'admin')
+        # add a collection, so we can add a query to it
+        portal.invokeFactory("Collection",
+                             "collection",
+                             title="New Collection")
+        collection = portal['collection']
+        metadatafields = collection.listMetaDataFields()
+        self.failUnless(len(metadatafields) > 0)
+
     def test_viewingCollection(self):
-        portal = self.layer['portal']        
+        portal = self.layer['portal']
         login(portal, 'admin')
         # add a collection, so we can add a query to it
         portal.invokeFactory("Collection",
@@ -55,3 +66,31 @@ class TestCollection(unittest.TestCase):
         browser = Browser(self.layer['app'])
         browser.open(collection.absolute_url())
         self.failUnless("Collection Test Page" in browser.contents)
+
+    def test_getFoldersAndImages(self):
+        portal = self.layer['portal']
+        login(portal, 'admin')
+        # add a collection, so we can add a query to it
+        portal.invokeFactory("Collection",
+                             "collection",
+                             title="New Collection")
+
+        # add example folder
+        portal.invokeFactory("Folder",
+                             "folder1",
+                             title="Folder1")
+        folder = portal['folder1']
+
+        # add example image
+        folder.invokeFactory("Image",
+                             "image",
+                             title="Image example")
+        query = [{
+            'i': 'Type',
+            'o': 'plone.app.querystring.operation.string.is',
+            'v': 'Folder',
+        }]
+        collection = portal['collection']
+        collection.setQuery(query)
+        imagecount = collection.getFoldersAndImages()['total_number_of_images']
+        self.failUnless(imagecount == 1)
