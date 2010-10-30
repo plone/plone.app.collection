@@ -133,7 +133,8 @@
                                        tal:condition="creator"
                                        tal:attributes="href string:author/${creator/username};
                                                        title name"
-                                       tal:content="name">Jos Henken</a>
+                                       tal:content="name"
+                                       i18n:name="author">Jos Henken</a>
                                     </tal:name>
                                   </span>
 
