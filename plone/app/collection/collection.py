@@ -14,7 +14,9 @@ from Products.Archetypes.atapi import (BooleanField,
                                        IntegerField,
                                        LinesField,
                                        IntegerWidget,
-                                       InAndOutWidget)
+                                       InAndOutWidget,
+                                       StringField,
+                                       StringWidget)
 from Products.Archetypes.fieldproperty import ATToolDependentFieldProperty
 from Products.ATContentTypes.content import document, schemata
 
@@ -40,6 +42,32 @@ CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
         storage=atapi.AnnotationStorage(),
         validators=('javascriptDisabled',)
     ),
+    StringField(
+        name='sort_on',
+        required=False,
+        mode="rw",
+        visible=False,
+        default='sortable_title',
+        widget=StringWidget(
+                    label=_(u'Sort the collection on this index'),
+                    description='',
+                    visible=False,
+                ),
+        storage=atapi.AnnotationStorage(),
+        ),
+    StringField(
+        name='sort_order',
+        required=False,
+        mode="rw",
+        visible=False,
+        default='ascending',
+        widget=StringWidget(
+                    label=_(u'The sort order, ascending or descending'),
+                    description='',
+                    visible=False,
+                ),
+        storage=atapi.AnnotationStorage(),
+        ),
     BooleanField(
         name='limitNumber',
         required=False,
@@ -105,6 +133,13 @@ class Collection(document.ATDocument):
     security = ClassSecurityInfo()
 
     security.declareProtected(View, 'listMetaDataFields')
+
+    def update(self):
+        return
+        sort_order = 'ascending'
+        if 'sort_order' in self.request.keys():
+            sort_order = 'descending'
+        self.request['sort_order'] = sort_order
 
     def listMetaDataFields(self, exclude=True):
         """Return a list of metadata fields from portal_catalog.
