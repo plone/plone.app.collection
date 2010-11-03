@@ -9,11 +9,12 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.app.vocabularies.catalog import SearchableTextSourceBinder
 from plone.app.form.widgets.uberselectionwidget import UberSelectionWidget
 from plone.app.collection.interfaces import ICollection
-from plone.portlet.collection import PloneMessageFactory as _
+from plone.app.collection import PloneMessageFactory as _
 
 
 class ICollectionPortlet(IPortletDataProvider):
-    """A portlet which renders the results of a collection object.
+    """
+        A portlet which renders the results of a collection object.
     """
 
     header = schema.TextLine(title=_(u"Portlet header"),
@@ -21,7 +22,8 @@ class ICollectionPortlet(IPortletDataProvider):
                              required=True)
 
     target_collection = schema.Choice(title=_(u"Target collection"),
-                                  description=_(u"Find the collection which provides the items to list"),
+                                  description=_(u"Find the collection which \
+                                                provides the items to list"),
                                   required=True,
                                   source=SearchableTextSourceBinder({'object_provides': ICollection.__identifier__},
                                                                     default_query='path:'))
@@ -45,9 +47,9 @@ class ICollectionPortlet(IPortletDataProvider):
 
 class Assignment(base.Assignment):
     """
-    Portlet assignment.
-    This is what is actually managed through the portlets UI and associated
-    with columns.
+        Portlet assignment.
+        This is what is actually managed through the portlets UI and associated
+        with columns.
     """
 
     implements(ICollectionPortlet)
@@ -61,7 +63,8 @@ class Assignment(base.Assignment):
     def __init__(self, header=u"",
                  target_collection=None,
                  limit=None,
-                 show_more=True, show_dates=False):
+                 show_more=True,
+                 show_dates=False):
         self.header = header
         self.target_collection = target_collection
         self.limit = limit
@@ -103,7 +106,9 @@ class Renderer(base.Renderer):
             return collection.absolute_url()
 
     def results(self):
-        """Get the results"""
+        """ Get the actual result brains from the collection.
+            This is a wrapper so that we can memoize if and only if we aren't
+            selecting random items."""
         return self._standard_results()
 
     @memoize
@@ -111,7 +116,7 @@ class Renderer(base.Renderer):
         results = []
         collection = self.collection()
         if collection is not None:
-            results = collection.results()
+            results = collection.queryCatalog()
             if self.data.limit and self.data.limit > 0:
                 results = results[:self.data.limit]
         return results
@@ -133,15 +138,17 @@ class Renderer(base.Renderer):
         portal_state = getMultiAdapter((self.context, self.request),
             name=u'plone_portal_state')
         portal = portal_state.portal()
+        if isinstance(collection_path, unicode):
+            #restrictedTraverse accept only strings
+            collection_path = str(collection_path)
         return portal.restrictedTraverse(collection_path, default=None)
 
 
 class AddForm(base.AddForm):
     """Portlet add form.
-
-    This is registered in configure.zcml. The form_fields variable tells
-    zope.formlib which fields to display. The create() method actually
-    constructs the assignment that is being added.
+        This is registered in configure.zcml. The form_fields variable tells
+        zope.formlib which fields to display. The create() method actually
+        constructs the assignment that is being added.
     """
     form_fields = form.Fields(ICollectionPortlet)
     form_fields['target_collection'].custom_widget = UberSelectionWidget
@@ -154,10 +161,10 @@ class AddForm(base.AddForm):
 
 
 class EditForm(base.EditForm):
-    """Portlet edit form.
-
-    This is registered with configure.zcml. The form_fields variable tells
-    zope.formlib which fields to display.
+    """
+        Portlet edit form.
+        This is registered with configure.zcml. The form_fields variable tells
+        zope.formlib which fields to display.
     """
 
     form_fields = form.Fields(ICollectionPortlet)
