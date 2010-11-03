@@ -13,6 +13,7 @@ from plone.portlets.interfaces import IPortletRenderer
 from plone.app.collection.portlets import collectionportlet
 from plone.app.portlets.storage import PortletAssignmentMapping
 from plone.app.portlets.tests.base import PortletsTestCase
+from Products.CMFCore.utils import getToolByName
 
 
 # default test query
@@ -196,3 +197,50 @@ class TestCollectionPortlet(PortletsTestCase):
         assignment = collectionportlet.Assignment(header=u"title")
         renderer = getMultiAdapter((context, request, view, manager, assignment), IPortletRenderer)
         self.failUnless(isinstance(renderer, collectionportlet.Renderer))
+
+    def _createType(self, context, portal_type, id, **kwargs):
+        """
+            Helper method to create a new type
+        """
+        ttool = getToolByName(context, 'portal_types')
+        cat = self.portal.portal_catalog
+        fti = ttool.getTypeInfo(portal_type)
+        fti.constructInstance(context, id, **kwargs)
+        obj = getattr(context.aq_inner.aq_explicit, id)
+        cat.indexObject(obj)
+        return obj
+
+    def renderer(self, context=None, request=None, view=None, manager=None, assignment=None):
+        context = context or self.folder
+        request = request or self.folder.REQUEST
+        view = view or self.folder.restrictedTraverse('@@plone')
+        manager = manager or getUtility(IPortletManager, name='plone.leftcolumn', context=self.portal)
+        assignment = assignment
+        return getMultiAdapter((context, request, view, manager, assignment), IPortletRenderer)
+
+    def testSimpleQuery(self):
+        portal = self.layer['portal']
+        login(portal, 'admin')
+        collection = portal['collection']
+        # query for folders
+        query = [{
+            'i': 'Type',
+            'o': 'plone.app.querystring.operation.string.is',
+            'v': 'Folder',
+        }]
+
+        # set the query
+        collection.setQuery(query)
+        collection_num_items = len(collection.results())
+
+        # fail if there are less then 6 results
+        self.failUnless(collection_num_items >= 6)
+        mapping = PortletAssignmentMapping()
+        mapping['example'] = collectionportlet.Assignment(header=u"title", target_collection='/collection')
+        collectionrenderer = self.renderer(context=None,
+                                           request=None,
+                                           view=None,
+                                           manager=None,
+                                           assignment=mapping['example'])
+        # we want the portlet to return us the same results as the collection
+        self.assertEquals(collection_num_items, len(collectionrenderer.results()))
