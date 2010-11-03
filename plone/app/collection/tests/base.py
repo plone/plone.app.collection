@@ -38,6 +38,12 @@ class PACollection(PloneSandboxLayer):
         portal.invokeFactory("Document",
                              "collectiontestpage",
                              title="Collection Test Page")
+
+        # add 6 folders, so we can test with them
+        for i in range(6):
+            portal.invokeFactory('Folder', 'folder_%s'%i)
+            getattr(portal, 'folder_%s'%i).reindexObject()
+
         workflow.doActionFor(portal.collectiontestpage, "publish")
 
 
