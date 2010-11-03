@@ -10,8 +10,9 @@ from plone.portlets.interfaces import IPortletManager
 from plone.portlets.interfaces import IPortletAssignment
 from plone.portlets.interfaces import IPortletDataProvider
 from plone.portlets.interfaces import IPortletRenderer
-
+from plone.app.collection.portlets import collectionportlet
 from plone.app.portlets.storage import PortletAssignmentMapping
+from plone.app.portlets.tests.base import PortletsTestCase
 
 
 # default test query
@@ -147,9 +148,51 @@ class TestCollection(unittest.TestCase):
         self.failUnless(len(collection.selectedViewFields()) > 0)
 
 
-class TestCollectionPortlet(unittest.TestCase):
+class TestCollectionPortlet(PortletsTestCase):
+    """Test the collection portlet"""
 
     layer = PACOLLECTION_FUNCTIONAL_TESTING
-    #TODO: implement collection portlet tests
+    def afterSetUp(self):
+        self.setRoles(('Manager',))
 
+    def testPortletTypeRegistered(self):
+        portlet = getUtility(IPortletType,
+                             name='plone.app.collection.portlets.Collection')
+        self.assertEquals(portlet.addview,
+                          'plone.app.collection.portlets.Collection')
 
+    def testInterfaces(self):
+        portlet = collectionportlet.Assignment(header=u"title")
+        self.failUnless(IPortletAssignment.providedBy(portlet))
+        self.failUnless(IPortletDataProvider.providedBy(portlet.data))
+
+    def testInvokeAddview(self):
+        portlet = getUtility(IPortletType,
+                             name='plone.app.collection.portlets.Collection')
+        portal = self.layer['portal']
+        login(portal, 'admin')
+        mapping = portal.restrictedTraverse('++contextportlets++plone.leftcolumn')
+
+        for m in mapping.keys():
+            del mapping[m]
+        addview = mapping.restrictedTraverse('+/' + portlet.addview)
+        addview.createAndAdd(data={'header' : u"test title"})
+        self.assertEquals(len(mapping), 1)
+        self.failUnless(isinstance(mapping.values()[0],
+                                   collectionportlet.Assignment))
+
+    def testInvokeEditView(self):
+        mapping = PortletAssignmentMapping()
+        request = self.folder.REQUEST
+        mapping['foo'] = collectionportlet.Assignment(header=u"title")
+        editview = getMultiAdapter((mapping['foo'], request), name='edit')
+        self.failUnless(isinstance(editview, collectionportlet.EditForm))
+
+    def testRenderer(self):
+        context = self.folder
+        request = self.folder.REQUEST
+        view = self.folder.restrictedTraverse('@@plone')
+        manager = getUtility(IPortletManager, name='plone.rightcolumn', context=self.portal)
+        assignment = collectionportlet.Assignment(header=u"title")
+        renderer = getMultiAdapter((context, request, view, manager, assignment), IPortletRenderer)
+        self.failUnless(isinstance(renderer, collectionportlet.Renderer))
