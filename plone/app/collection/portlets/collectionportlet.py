@@ -95,13 +95,12 @@ class Renderer(base.Renderer):
 
     @property
     def available(self):
-        return len(self.results())
+        return len(self.results()) > 0
 
     def collection_url(self):
         collection = self.collection()
         if collection:
             return collection.absolute_url()
-        return None
 
     def results(self):
         """ Get the actual result brains from the collection.
