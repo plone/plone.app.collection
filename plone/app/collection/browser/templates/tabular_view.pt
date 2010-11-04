@@ -25,7 +25,8 @@
         <table class="listing" summary="Content listing"
             i18n:attributes="summary"
             tal:condition="results"
-            tal:define="fields context/selectedViewFields">
+            tal:define="fields context/selectedViewFields;
+                        pas_member context/@@pas_member">
             <thead>
                 <tr>
                     <th class="nosort"
@@ -50,11 +51,11 @@
                            tal:content="item/Title">Item Title</a>
                     </td>
                     <td tal:condition="python:field[0] == 'Creator'"
-                        tal:define="creator item/Creator;
-                                    name python:creator['fullname'] or creator['username']">
+                        tal:define="author python:pas_member.info(item.Creator());
+                                    name python:author['fullname'] or author['username']">
                         <a href="#"
-                           tal:condition="creator"
-                           tal:attributes="href string:author/${creator/username};
+                           tal:condition="author"
+                           tal:attributes="href string:author/${author/username};
                                            title name"
                            tal:content="name">Jos Henken</a>
                     </td>
