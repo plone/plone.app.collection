@@ -38,7 +38,8 @@
                              normalizeString nocall: context/plone_utils/normalizeString;
                              toLocalizedTime nocall: context/@@plone/toLocalizedTime;
                              show_about python:not isAnon or site_properties.allowAnonymousViewAbout;
-                             navigation_root_url context/@@plone_portal_state/navigation_root_url;">
+                             navigation_root_url context/@@plone_portal_state/navigation_root_url;
+                             pas_member context/@@pas_member;">
         <tal:listing condition="batch">
 
             <dl metal:define-slot="entries">
@@ -50,9 +51,8 @@
                                        item_modified item/ModificationDate;
                                        item_created item/CreationDate;
                                        item_icon item/getIcon;
-                                       item_type_class python:'contenttype-' + normalizeString(item_type);
-                                       item_wf_state item/review_state|python: context.portal_workflow.getInfoFor(item, 'review_state', '');
-                                       item_wf_state_class python:'state-' + normalizeString(item_wf_state);
+                                       item_type_class item/ContentTypeClass;
+                                       item_wf_state_class python:'state-' + normalizeString(item.review_state());
                                        item_creator item/Creator;
                                        item_start item/start|item/StartDate|nothing;
                                        item_end item/end|item/EndDate|nothing;
@@ -119,23 +119,20 @@
                                 &mdash;
 
                                 <tal:name tal:condition="item_creator"
-                                    tal:define="author python:item_creator;
+                                    tal:define="author python:pas_member.info(item_creator);
                                                 creator_short_form author/username;
                                                 creator_long_form string:?author=${author/username};
                                                 creator_is_openid python:'/' in creator_short_form;
                                                 creator_id python:(creator_short_form, creator_long_form)[creator_is_openid];">
                                   <span i18n:translate="label_by_author">
                                     by
-                                    <tal:name tal:condition="item/Creator"
-                                              tal:define="creator item/Creator;
-                                                          name python:creator['fullname'] or creator['username']">
-                                    <a href="#"
-                                       tal:condition="creator"
-                                       tal:attributes="href string:author/${creator/username};
-                                                       title name"
-                                       tal:content="name"
-                                       i18n:name="author">Jos Henken</a>
-                                    </tal:name>
+                                  <a href="#"
+                                     tal:attributes="href string:${navigation_root_url}/author/${item_creator}"
+                                     tal:content="author/name_or_id"
+                                     tal:omit-tag="not:author"
+                                     i18n:name="author">
+                                    Bob Dobalina
+                                  </a>
                                   </span>
 
                                 </tal:name>
@@ -145,7 +142,7 @@
                                     <tal:mod i18n:translate="box_last_modified">
                                       last modified
                                     </tal:mod>
-                                    <span tal:replace="python:toLocalizedTime(item_modified, long_format=1)">
+                                    <span tal:replace="python:toLocalizedTime(item_modified,long_format=1)">
                                       August 16, 2001 at 23:35:59
                                     </span>
                                 </tal:modified>
