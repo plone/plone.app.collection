@@ -153,6 +153,7 @@ class TestCollectionPortlet(PortletsTestCase):
     """Test the collection portlet"""
 
     layer = PACOLLECTION_FUNCTIONAL_TESTING
+
     def afterSetUp(self):
         self.setRoles(('Manager',))
 
@@ -177,31 +178,29 @@ class TestCollectionPortlet(PortletsTestCase):
         for m in mapping.keys():
             del mapping[m]
         addview = mapping.restrictedTraverse('+/' + portlet.addview)
-        addview.createAndAdd(data={'header' : u"test title"})
+        addview.createAndAdd(data={'header': u"test title"})
         self.assertEquals(len(mapping), 1)
         self.failUnless(isinstance(mapping.values()[0],
                                    collectionportlet.Assignment))
 
     def testInvokeEditView(self):
         mapping = PortletAssignmentMapping()
-        request = self.folder.REQUEST
+        request = self.portal.REQUEST
         mapping['foo'] = collectionportlet.Assignment(header=u"title")
         editview = getMultiAdapter((mapping['foo'], request), name='edit')
         self.failUnless(isinstance(editview, collectionportlet.EditForm))
 
     def testRenderer(self):
-        context = self.folder
-        request = self.folder.REQUEST
-        view = self.folder.restrictedTraverse('@@plone')
+        context = self.portal
+        request = self.portal.REQUEST
+        view = self.portal.restrictedTraverse('@@plone')
         manager = getUtility(IPortletManager, name='plone.rightcolumn', context=self.portal)
         assignment = collectionportlet.Assignment(header=u"title")
         renderer = getMultiAdapter((context, request, view, manager, assignment), IPortletRenderer)
         self.failUnless(isinstance(renderer, collectionportlet.Renderer))
 
     def _createType(self, context, portal_type, id, **kwargs):
-        """
-            Helper method to create a new type
-        """
+        """Helper method to create a new type"""
         ttool = getToolByName(context, 'portal_types')
         cat = self.portal.portal_catalog
         fti = ttool.getTypeInfo(portal_type)
@@ -211,14 +210,15 @@ class TestCollectionPortlet(PortletsTestCase):
         return obj
 
     def renderer(self, context=None, request=None, view=None, manager=None, assignment=None):
-        context = context or self.folder
-        request = request or self.folder.REQUEST
-        view = view or self.folder.restrictedTraverse('@@plone')
+        context = context or self.portal
+        request = request or self.portal.REQUEST
+        view = view or self.portal.restrictedTraverse('@@plone')
         manager = manager or getUtility(IPortletManager, name='plone.leftcolumn', context=self.portal)
         assignment = assignment
         return getMultiAdapter((context, request, view, manager, assignment), IPortletRenderer)
 
     def testSimpleQuery(self):
+        """We test if the portlet is returning the same results as the collection"""
         portal = self.layer['portal']
         login(portal, 'admin')
         collection = portal['collection']
@@ -232,9 +232,11 @@ class TestCollectionPortlet(PortletsTestCase):
         # set the query
         collection.setQuery(query)
         collection_num_items = len(collection.results())
-
         # fail if there are less then 6 results
         self.failUnless(collection_num_items >= 6)
+
+        # we need to commit the changes, otherwise the collection is not updated
+        commit()
         mapping = PortletAssignmentMapping()
         mapping['example'] = collectionportlet.Assignment(header=u"title", target_collection='/collection')
         collectionrenderer = self.renderer(context=None,
