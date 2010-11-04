@@ -175,8 +175,6 @@ class TestCollectionPortlet(PortletsTestCase):
         login(portal, 'admin')
         mapping = portal.restrictedTraverse('++contextportlets++plone.leftcolumn')
 
-        for m in mapping.keys():
-            del mapping[m]
         addview = mapping.restrictedTraverse('+/' + portlet.addview)
         addview.createAndAdd(data={'header': u"test title"})
         self.assertEquals(len(mapping), 1)
