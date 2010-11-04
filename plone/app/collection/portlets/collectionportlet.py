@@ -4,7 +4,6 @@ from plone.portlets.interfaces import IPortletDataProvider
 from plone.app.portlets.portlets import base
 from zope import schema
 from zope.formlib import form
-from plone.memoize.instance import memoize
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.app.vocabularies.catalog import SearchableTextSourceBinder
 from plone.app.form.widgets.uberselectionwidget import UberSelectionWidget
@@ -100,10 +99,9 @@ class Renderer(base.Renderer):
 
     def collection_url(self):
         collection = self.collection()
-        if collection is None:
-            return None
-        else:
+        if collection:
             return collection.absolute_url()
+        return None
 
     def results(self):
         """ Get the actual result brains from the collection.
@@ -111,17 +109,15 @@ class Renderer(base.Renderer):
             selecting random items."""
         return self._standard_results()
 
-    @memoize
     def _standard_results(self):
-        results = []
         collection = self.collection()
-        if collection is not None:
-            results = collection.queryCatalog()
-            if self.data.limit and self.data.limit > 0:
-                results = results[:self.data.limit]
+        if not collection:
+            return []
+        results = collection.results()
+        if self.data.limit and self.data.limit > 0:
+            results = results[:self.data.limit]
         return results
 
-    @memoize
     def collection(self):
         """ get the collection the portlet is pointing to"""
 
