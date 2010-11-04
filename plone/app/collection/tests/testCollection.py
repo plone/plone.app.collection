@@ -217,11 +217,13 @@ class TestCollectionPortlet(PortletsTestCase):
         assignment = assignment
         return getMultiAdapter((context, request, view, manager, assignment), IPortletRenderer)
 
-    def testSimpleQuery(self):
-        """We test if the portlet is returning the same results as the collection"""
+    def testPortlet(self):
+        """We test if the basic functionality of the portlet is working and if
+           the portlet is returning the same results as the collection"""
         portal = self.layer['portal']
         login(portal, 'admin')
         collection = portal['collection']
+
         # query for folders
         query = [{
             'i': 'Type',
@@ -237,12 +239,28 @@ class TestCollectionPortlet(PortletsTestCase):
 
         # we need to commit the changes, otherwise the collection is not updated
         commit()
+
         mapping = PortletAssignmentMapping()
-        mapping['example'] = collectionportlet.Assignment(header=u"title", target_collection='/collection')
+        mapping['example'] = collectionportlet.Assignment(header=u"title",
+                                                          target_collection='/collection',
+                                                          limit=10)
         collectionrenderer = self.renderer(context=None,
                                            request=None,
                                            view=None,
                                            manager=None,
                                            assignment=mapping['example'])
-        # we want the portlet to return us the same results as the collection
+        
+        # we want the portlet to return the same number of results as the collection
         self.assertEquals(collection_num_items, len(collectionrenderer.results()))
+        
+        # We test if the portlet is returning the collection url correct
+        self.assertEquals(collectionrenderer.collection_url(),
+                          "%s/collection" % self.portal.absolute_url())
+
+        # set the target_collection to an empty value, so we should get an empty result
+        collectionrenderer.data.target_collection = ''
+        self.assertEquals(len(collectionrenderer.results()), 0)
+
+        # set the target_collection to /, so we should get an empty result
+        collectionrenderer.data.target_collection = '/'
+        self.assertEquals(len(collectionrenderer.results()), 0)
