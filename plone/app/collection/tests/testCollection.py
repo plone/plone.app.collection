@@ -199,16 +199,6 @@ class TestCollectionPortlet(PortletsTestCase):
         renderer = getMultiAdapter((context, request, view, manager, assignment), IPortletRenderer)
         self.failUnless(isinstance(renderer, collectionportlet.Renderer))
 
-    def _createType(self, context, portal_type, id, **kwargs):
-        """Helper method to create a new type"""
-        ttool = getToolByName(context, 'portal_types')
-        cat = self.portal.portal_catalog
-        fti = ttool.getTypeInfo(portal_type)
-        fti.constructInstance(context, id, **kwargs)
-        obj = getattr(context.aq_inner.aq_explicit, id)
-        cat.indexObject(obj)
-        return obj
-
     def renderer(self, context=None, request=None, view=None, manager=None, assignment=None):
         context = context or self.portal
         request = request or self.portal.REQUEST
@@ -249,10 +239,17 @@ class TestCollectionPortlet(PortletsTestCase):
                                            view=None,
                                            manager=None,
                                            assignment=mapping['example'])
-        
+
         # we want the portlet to return the same number of results as the collection
         self.assertEquals(collection_num_items, len(collectionrenderer.results()))
-        
+
+        # let's see if the portlet is available as well
+        self.assertEquals(collectionrenderer.available, True)
+
+        # set the target_collection to an unicode string, this should work as well
+        collectionrenderer.data.target_collection = u"/collection"
+        self.assertEquals(collection_num_items, len(collectionrenderer.results()))
+
         # We test if the portlet is returning the collection url correct
         self.assertEquals(collectionrenderer.collection_url(),
                           "%s/collection" % self.portal.absolute_url())
