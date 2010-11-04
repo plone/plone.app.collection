@@ -46,7 +46,6 @@ CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
         name='sort_on',
         required=False,
         mode="rw",
-        visible=False,
         default='sortable_title',
         widget=StringWidget(
                     label=_(u'Sort the collection on this index'),
@@ -55,14 +54,13 @@ CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
                 ),
         storage=atapi.AnnotationStorage(),
         ),
-    StringField(
-        name='sort_order',
+    BooleanField(
+        name='sort_reversed',
         required=False,
         mode="rw",
-        visible=False,
         default='ascending',
-        widget=StringWidget(
-                    label=_(u'The sort order, ascending or descending'),
+        widget=BooleanWidget(
+                    label=_(u'Sort the results in reversed order'),
                     description='',
                     visible=False,
                 ),
