@@ -21,15 +21,15 @@ class ICollectionPortlet(IPortletDataProvider):
                              required=True)
 
     target_collection = schema.Choice(title=_(u"Target collection"),
-                                  description=_(u"Find the collection which \
-                                                provides the items to list"),
+                                  description=_(u"Find the collection which "
+                                                 "provides the items to list"),
                                   required=True,
                                   source=SearchableTextSourceBinder({'object_provides': ICollection.__identifier__},
                                                                     default_query='path:'))
 
     limit = schema.Int(title=_(u"Limit"),
                        description=_(u"Specify the maximum number of items to show in the portlet. "
-                                       "Leave this blank to show all items."),
+                                      "Leave this blank to show all items."),
                        required=False)
 
     show_more = schema.Bool(title=_(u"Show more... link"),
