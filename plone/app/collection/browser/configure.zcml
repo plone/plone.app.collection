@@ -46,6 +46,14 @@
       template="templates/thumbnail_view.pt"
       />
 
+  <browser:page
+      name="collection_upgrade"
+      permission="cmf.ManagePortal"
+      for="*"
+      class=".upgrade.Upgrade"
+      template="templates/upgrade.pt"
+      />
+
   <browser:menuItems
       for="plone.app.collection.interfaces.ICollection"
       menu="plone_displayviews">
