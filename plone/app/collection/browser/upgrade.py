@@ -3,6 +3,7 @@ import traceback
 import logging
 
 import transaction
+
 from Acquisition import aq_parent
 from zope.app.component import hooks
 from zope.component import getUtility
@@ -11,10 +12,13 @@ from Products.Five import BrowserView
 from Products.CMFCore.utils import getToolByName
 
 from plone.registry.interfaces import IRegistry
+from plone.app.querystring.interfaces import IQuerystringRegistryReader
 
 
 logger = logging.getLogger('plone.app.collection')
-prefix = "plone.app.querystring.operation"
+prefix = "plone.app.querystring"
+
+INVALID_OPERATION = 'Invalid operation %s for criterion: %s'
 
 
 class Erreur(object):
@@ -33,32 +37,80 @@ class Erreur(object):
         return map(format, self.traceback)
 
 
-# Covertors
-def ATDateCriteria(formquery, criterion):
-    reg = getUtility(IRegistry)
-    operations = {'max': 'lessThan',
-                  'min': 'moreThan', }
+# Convertors
+def ATDateCriteria(formquery, criterion, registry):
+    operator = {'max': 'lessThan',
+                'min': 'moreThan', }
     messages = []
-    for key, value in criterion.getCriteriaItems():
-        index = key
-        operation = "%s.date.%s" % (prefix, operations[value['range']])
-        values = value['query'].ISO8601()
+    for index, value in criterion.getCriteriaItems():
+        operations = registry.get('%s.field.%s.operations' % (prefix, index))
+        operation = "%s.operation.date.%s" % (prefix, operator[value['range']])
 
-        operation_key = "%s.operation" % operation
-        if not reg.get(operation_key, False):
-            msg = 'Invalid key %s for criterion: %s' % (key, criterion)
+        if not operation in operations:
+            msg = INVALID_OPERATION % (operation, criterion)
             messages.append(msg)
             continue
 
         row = {'i': index,
                'o': operation,
-               'v': values}
+               'v': value['query'].ISO8601()}
         formquery.append(row)
     return messages
 
 
-def ATSimpleStringCriterion(formquery, criterion):
-    return []
+def ATSimpleStringCriterion(formquery, criterion, registry):
+    messages = []
+    for index, value in criterion.getCriteriaItems():
+        operations = registry.get('%s.field.%s.operations' % (prefix, index))
+        operation = "%s.operation.string.contains" % prefix
+
+        if not operation in operations:
+            msg = INVALID_OPERATION % (operation, criterion)
+            messages.append(msg)
+            continue
+
+        row = {'i': index,
+               'o': operation,
+               'v': value['query']}
+        formquery.append(row)
+    return messages
+
+
+def ATCurrentAuthorCriterion(formquery, criterion, registry):
+    messages = []
+    for index, value in criterion.getCriteriaItems():
+        operations = registry.get('%s.field.%s.operations' % (prefix, index))
+        operation = "%s.operation.string.currentUser" % prefix
+
+        if not operation in operations:
+            msg = INVALID_OPERATION % (operation, criterion)
+            messages.append(msg)
+            continue
+
+        row = {'i': index,
+               'o': operation,
+               'v': value}
+        formquery.append(row)
+    return messages
+
+
+def ATListCriterion(formquery, criterion, registry):
+    messages = []
+    for index, value in criterion.getCriteriaItems():
+        key = '%s.field.%s.operations' % (prefix, index)
+        operations = registry.get(key)
+        operation = "%s.operation.list.contains" % prefix
+
+        if not operation in operations:
+            msg = INVALID_OPERATION % (operation, criterion)
+            messages.append(msg)
+            continue
+
+        row = {'i': index,
+               'o': operation,
+               'v': value['query']}
+        formquery.append(row)
+    return messages
 
 
 class Upgrade(BrowserView):
@@ -83,6 +135,7 @@ class Upgrade(BrowserView):
                     error = Erreur(ob=ob, messages=messages)
                     self.failed.append(error)
             except Exception, e:
+                raise
                 tb = traceback.extract_tb(sys.exc_info()[2])
                 error = Erreur(ob=ob, exception=e, traceback=tb)
                 self.failed.append(error)
@@ -140,9 +193,14 @@ class Upgrade(BrowserView):
                 messages.append('Unsupported criterion %s' % type_)
                 continue
             else:
-                messages_ = convertor(formquery, criterion)
+                reg = getUtility(IRegistry)
+                reader = IQuerystringRegistryReader(reg)
+                result = reader.parseRegistry()
+
+                messages_ = convertor(formquery, criterion, result)
                 messages.extend(messages_)
 
+        logger.info("formquery: %s" % formquery)
         new_ob.setQuery(formquery)
 
         # Set collection attributes
