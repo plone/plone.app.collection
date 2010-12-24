@@ -6,9 +6,7 @@
     i18n_domain="plone">
 
   <five:registerPackage package="." initialize=".initialize" />
-
   <include package="plone.app.contentlisting" />
-  <include package="plone.app.vocabularies" />
   <include package="archetypes.querywidget" />
   <include package=".browser" />
   <include package=".portlets" />
