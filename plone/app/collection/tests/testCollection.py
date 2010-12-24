@@ -1,5 +1,5 @@
-import unittest2 as unittest
 from plone.app.collection.tests.base import PACOLLECTION_FUNCTIONAL_TESTING
+import unittest2 as unittest
 from plone.testing.z2 import Browser
 from plone.app.testing import login
 from plone.app.testing import logout
@@ -12,9 +12,7 @@ from plone.portlets.interfaces import IPortletDataProvider
 from plone.portlets.interfaces import IPortletRenderer
 from plone.app.collection.portlets import collectionportlet
 from plone.app.portlets.storage import PortletAssignmentMapping
-from plone.app.portlets.tests.base import PortletsTestCase
-from Products.CMFCore.utils import getToolByName
-
+from base import CollectionTestCase, CollectionPortletTestCase
 
 # default test query
 query = [{
@@ -24,9 +22,7 @@ query = [{
 }]
 
 
-class TestCollection(unittest.TestCase):
-
-    layer = PACOLLECTION_FUNCTIONAL_TESTING
+class TestCollection(CollectionTestCase):
 
     def test_addCollection(self):
         portal = self.layer['portal']
@@ -149,7 +145,7 @@ class TestCollection(unittest.TestCase):
         self.failUnless(len(collection.selectedViewFields()) > 0)
 
 
-class TestCollectionPortlet(PortletsTestCase):
+class TestCollectionPortlet(CollectionPortletTestCase):
     """Test the collection portlet"""
 
     layer = PACOLLECTION_FUNCTIONAL_TESTING
@@ -253,9 +249,18 @@ class TestCollectionPortlet(PortletsTestCase):
                           "%s/collection" % self.portal.absolute_url())
 
         # set the target_collection to an empty value, so we should get an empty result
-        collectionrenderer.data.target_collection = ''
+        collectionrenderer.data.toarget_collection = ''
         self.assertEquals(len(collectionrenderer.results()), 0)
 
         # set the target_collection to /, so we should get an empty result
         collectionrenderer.data.target_collection = '/'
         self.assertEquals(len(collectionrenderer.results()), 0)
+
+
+def test_suite():
+    """This sets up a test suite that actually runs the tests in the class
+    above
+    """
+    suite = unittest.TestSuite()
+    suite.addTest(unittest.makeSuite(TestCollection))
+    return suite
