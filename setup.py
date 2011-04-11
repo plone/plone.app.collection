@@ -9,7 +9,7 @@ setup(name='plone.app.collection',
       version=version,
       description="",
       long_description=open("README.txt").read() + "\n" +
-                       open(os.path.join("docs", "HISTORY.txt")).read(),
+                       open(os.path.join("CHANGES.txt")).read(),
       classifiers=[
         "Framework :: Plone",
         "Programming Language :: Python",
