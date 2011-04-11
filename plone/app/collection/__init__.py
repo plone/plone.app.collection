@@ -5,7 +5,7 @@ from zope.i18nmessageid import MessageFactory
 from plone.app.collection import config
 from Products.Archetypes import atapi
 from Products.CMFCore import utils
-from Products.CMFCore.permissions import setDefaultRoles
+#from Products.CMFCore.permissions import setDefaultRoles
 from plone.app.collection.validators import NonJavascriptValidator
 from Products.validation.config import validation
 
@@ -42,9 +42,9 @@ def initialize(context):
 
     for atype, constructor in zip(content_types, constructors):
         utils.ContentInit('%s: %s' % (config.PROJECTNAME, atype.portal_type),
-            content_types=(atype,),
+            content_types=(atype, ),
             permission=config.ADD_PERMISSIONS[atype.portal_type],
-            extra_constructors=(constructor,),
+            extra_constructors=(constructor, ),
             ).initialize(context)
 
 # register validator

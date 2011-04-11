@@ -20,6 +20,7 @@ class NonJavascriptValidator:
             return u"Please finish your search terms / criteria"
         return 1
 
+
 validatorList = [
     NonJavascriptValidator('javascriptDisabled', title='', description=''),
     ]
