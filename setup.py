@@ -1,15 +1,27 @@
-from setuptools import setup, find_packages
 import os
+from setuptools import setup, find_packages
+
+
+def read(*rnames):
+    return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
 version = '0.1'
+
+long_description = (
+    read('README.txt')
+    + '\n' +
+#    read('plone', 'app', 'collection', 'README.txt')
+#    + '\n' +
+    read('CHANGES.txt')
+    + '\n'
+    )
 
 tests_require = ['collective.testcaselayer']
 
 setup(name='plone.app.collection',
       version=version,
       description="",
-      long_description=open("README.txt").read() + "\n" +
-                       open(os.path.join("CHANGES.txt")).read(),
+      long_description=long_description,
       classifiers=[
         "Framework :: Plone",
         "Programming Language :: Python",
