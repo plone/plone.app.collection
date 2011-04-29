@@ -43,7 +43,7 @@ setup(name='plone.app.collection',
           'archetypes.querywidget',
       ],
       tests_require=tests_require,
-      extras_require={'test': tests_require},
+      extras_require={'tests': tests_require},
       entry_points="""
       # -*- Entry points: -*-
       [z3c.autoinclude.plugin]
