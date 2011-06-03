@@ -105,7 +105,7 @@ CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
         widget=InAndOutWidget(
             label=_(u'Table Columns'),
             description=_(u"Select which fields to display when "
-                u"'Display as Table' is checked.")
+                          u"'Tabular view' is selected in the display menu.")
             ),
         ),
 ))
