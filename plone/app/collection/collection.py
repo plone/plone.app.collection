@@ -130,7 +130,6 @@ schemata.finalizeATCTSchema(
 class Collection(document.ATDocument):
     """A Plone Collection"""
     implements(ICollection)
-    ##TODO: do we need IDisabledExport as well?
 
     meta_type = "Collection"
     schema = CollectionSchema
