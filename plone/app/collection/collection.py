@@ -116,6 +116,11 @@ CollectionSchema['title'].storage = atapi.AnnotationStorage()
 CollectionSchema['description'].storage = atapi.AnnotationStorage()
 CollectionSchema.moveField('query', after='description')
 
+# Hide 'presentation' and 'ToC' fields
+CollectionSchema['presentation'].widget.visible = False
+CollectionSchema['tableContents'].widget.visible = False
+
+
 schemata.finalizeATCTSchema(
     CollectionSchema,
     folderish=False,
