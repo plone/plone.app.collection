@@ -150,9 +150,6 @@ class TestCollectionPortlet(CollectionPortletTestCase):
 
     layer = PACOLLECTION_FUNCTIONAL_TESTING
 
-    def afterSetUp(self):
-        self.setRoles(('Manager',))
-
     def testPortletTypeRegistered(self):
         portlet = getUtility(IPortletType,
                              name='plone.app.collection.portlets.Collection')
