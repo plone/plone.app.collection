@@ -178,26 +178,29 @@ class TestCollectionPortlet(CollectionPortletTestCase):
                                    collectionportlet.Assignment))
 
     def testInvokeEditView(self):
+        portal = self.layer['portal']
         mapping = PortletAssignmentMapping()
-        request = self.portal.REQUEST
+        request = portal.REQUEST
         mapping['foo'] = collectionportlet.Assignment(header=u"title")
         editview = getMultiAdapter((mapping['foo'], request), name='edit')
         self.failUnless(isinstance(editview, collectionportlet.EditForm))
 
     def testRenderer(self):
-        context = self.portal
-        request = self.portal.REQUEST
-        view = self.portal.restrictedTraverse('@@plone')
-        manager = getUtility(IPortletManager, name='plone.rightcolumn', context=self.portal)
+        portal = self.layer['portal']
+        context = portal
+        request = portal.REQUEST
+        view = portal.restrictedTraverse('@@plone')
+        manager = getUtility(IPortletManager, name='plone.rightcolumn', context=context)
         assignment = collectionportlet.Assignment(header=u"title")
         renderer = getMultiAdapter((context, request, view, manager, assignment), IPortletRenderer)
         self.failUnless(isinstance(renderer, collectionportlet.Renderer))
 
     def renderer(self, context=None, request=None, view=None, manager=None, assignment=None):
-        context = context or self.portal
-        request = request or self.portal.REQUEST
-        view = view or self.portal.restrictedTraverse('@@plone')
-        manager = manager or getUtility(IPortletManager, name='plone.leftcolumn', context=self.portal)
+        portal = self.layer['portal']
+        context = context or portal
+        request = request or portal.REQUEST
+        view = view or portal.restrictedTraverse('@@plone')
+        manager = manager or getUtility(IPortletManager, name='plone.leftcolumn', context=context)
         assignment = assignment
         return getMultiAdapter((context, request, view, manager, assignment), IPortletRenderer)
 
@@ -206,6 +209,9 @@ class TestCollectionPortlet(CollectionPortletTestCase):
            the portlet is returning the same results as the collection"""
         portal = self.layer['portal']
         login(portal, 'admin')
+        portal.invokeFactory("Collection",
+                             "collection",
+                             title="New Collection")
         collection = portal['collection']
 
         # query for folders
@@ -246,7 +252,7 @@ class TestCollectionPortlet(CollectionPortletTestCase):
 
         # We test if the portlet is returning the collection url correct
         self.assertEquals(collectionrenderer.collection_url(),
-                          "%s/collection" % self.portal.absolute_url())
+                          "%s/collection" % portal.absolute_url())
 
         # set the target_collection to an empty value, so we should get an empty result
         collectionrenderer.data.toarget_collection = ''
@@ -263,4 +269,5 @@ def test_suite():
     """
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TestCollection))
+    suite.addTest(unittest.makeSuite(TestCollectionPortlet))
     return suite

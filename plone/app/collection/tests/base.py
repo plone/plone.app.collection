@@ -6,7 +6,7 @@ from plone.app.testing import login
 from zope.configuration import xmlconfig
 from plone.app.testing.layers import FunctionalTesting
 from plone.testing import z2
-from plone.app.portlets.tests.base import PortletsTestCase
+#from plone.app.portlets.tests.base import PortletsTestCase
 
 
 class PACollection(PloneSandboxLayer):
@@ -59,6 +59,6 @@ class CollectionTestCase(unittest.TestCase):
     layer = PACOLLECTION_FUNCTIONAL_TESTING
 
 
-class CollectionPortletTestCase(PortletsTestCase):
+class CollectionPortletTestCase(unittest.TestCase):
 
     layer = PACOLLECTION_FUNCTIONAL_TESTING
