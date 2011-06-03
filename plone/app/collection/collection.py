@@ -33,78 +33,78 @@ from archetypes.querywidget.widget import QueryWidget
 CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
 
     QueryField(
-        name = 'query',
-        widget = QueryWidget(
-            label = "Search terms",
-            description = """Define the search terms for the items you want to
+        name='query',
+        widget=QueryWidget(
+            label="Search terms",
+            description="""Define the search terms for the items you want to
                 list by choosing what to match on.
                 The list of results will be dynamically updated""",
             ),
-        storage = atapi.AnnotationStorage(),
-        validators = ('javascriptDisabled', )
+        storage=atapi.AnnotationStorage(),
+        validators=('javascriptDisabled', )
         ),
 
     StringField(
-        name = 'sort_on',
-        required = False,
-        mode = 'rw',
-        default = 'sortable_title',
-        widget = StringWidget(
-            label = _(u'Sort the collection on this index'),
-            description = '',
-            visible = False,
+        name='sort_on',
+        required=False,
+        mode='rw',
+        default='sortable_title',
+        widget=StringWidget(
+            label=_(u'Sort the collection on this index'),
+            description='',
+            visible=False,
             ),
-        storage = atapi.AnnotationStorage(),
+        storage=atapi.AnnotationStorage(),
         ),
 
     BooleanField(
-        name = 'sort_reversed',
-        required = False,
-        mode = 'rw',
-        default = 'ascending',
-        widget = BooleanWidget(
-            label = _(u'Sort the results in reversed order'),
-            description = '',
-            visible = False,
+        name='sort_reversed',
+        required=False,
+        mode='rw',
+        default='ascending',
+        widget=BooleanWidget(
+            label=_(u'Sort the results in reversed order'),
+            description='',
+            visible=False,
             ),
-        storage = atapi.AnnotationStorage(),
+        storage=atapi.AnnotationStorage(),
         ),
 
     BooleanField(
-        name = 'limitNumber',
-        required = False,
-        mode = 'rw',
-        default = False,
-        widget = BooleanWidget(
-            label = _(u'Limit Search Results'),
-            description = _(u"If selected, only the 'Number of Items' "
+        name='limitNumber',
+        required=False,
+        mode='rw',
+        default=False,
+        widget=BooleanWidget(
+            label=_(u'Limit Search Results'),
+            description=_(u"If selected, only the 'Number of Items' "
                 u"indicated below will be displayed.")
             ),
-        storage = atapi.AnnotationStorage(),
+        storage=atapi.AnnotationStorage(),
         ),
 
     IntegerField(
-        name = 'itemCount',
-        required = False,
-        mode = 'rw',
-        default = 0,
-        widget = IntegerWidget(
-            label = _(u'Number of Items'),
-            description = ''
+        name='itemCount',
+        required=False,
+        mode='rw',
+        default=0,
+        widget=IntegerWidget(
+            label=_(u'Number of Items'),
+            description=''
             ),
-        storage = atapi.AnnotationStorage(),
+        storage=atapi.AnnotationStorage(),
         ),
 
     LinesField('customViewFields',
-        required = False,
-        mode = 'rw',
-        default = ('Title', 'Creator', 'Type', 'ModificationDate'),
-        vocabulary = 'listMetaDataFields',
-        enforceVocabulary = True,
-        write_permission = ModifyPortalContent,
-        widget = InAndOutWidget(
-            label = _(u'Table Columns'),
-            description = _(u"Select which fields to display when "
+        required=False,
+        mode='rw',
+        default=('Title', 'Creator', 'Type', 'ModificationDate'),
+        vocabulary='listMetaDataFields',
+        enforceVocabulary=True,
+        write_permission=ModifyPortalContent,
+        widget=InAndOutWidget(
+            label=_(u'Table Columns'),
+            description=_(u"Select which fields to display when "
                 u"'Display as Table' is checked.")
             ),
         ),
@@ -168,7 +168,8 @@ class Collection(document.ATDocument):
             }
             _mapping['images'][folder.id] = IContentListing(catalog(query))
 
-        _mapping['total_number_of_images'] = sum(map(len, _mapping['images'].values()))
+        _mapping['total_number_of_images'] = sum(map(len,
+                                                _mapping['images'].values()))
         return _mapping
 
 
