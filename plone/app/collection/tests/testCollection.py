@@ -255,7 +255,7 @@ class TestCollectionPortlet(CollectionPortletTestCase):
                           "%s/collection" % portal.absolute_url())
 
         # set the target_collection to an empty value, so we should get an empty result
-        collectionrenderer.data.toarget_collection = ''
+        collectionrenderer.data.target_collection = ''
         self.assertEquals(len(collectionrenderer.results()), 0)
 
         # set the target_collection to /, so we should get an empty result
