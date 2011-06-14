@@ -29,7 +29,7 @@ from plone.app.contentlisting.interfaces import IContentListing
 from archetypes.querywidget.field import QueryField
 from archetypes.querywidget.widget import QueryWidget
 
-
+# Define the schema for the collection AT based contenttype
 CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
 
     QueryField(
@@ -128,7 +128,7 @@ schemata.finalizeATCTSchema(
 
 
 class Collection(document.ATDocument):
-    """A Plone Collection"""
+    """A (new style) Plone Collection"""
     implements(ICollection)
 
     meta_type = "Collection"
@@ -149,17 +149,20 @@ class Collection(document.ATDocument):
         return tool.getMetadataDisplay(exclude)
 
     def results(self):
+        """Get results"""
         if self.limitNumber:
             return self.query[:self.itemCount]
         return self.query
 
     def selectedViewFields(self):
+        """Get which metadata field are selected"""
         _mapping = {}
         for field in self.listMetaDataFields().items():
             _mapping[field[0]] = field
         return [_mapping[field] for field in self.customViewFields]
 
     def getFoldersAndImages(self):
+        """Get folders and images"""
         catalog = getToolByName(self, 'portal_catalog')
         folders = [item for item in self.results() if item.Type() == 'Folder']
         _mapping = {'folders': folders,

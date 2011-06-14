@@ -20,15 +20,16 @@
     provides="Products.GenericSetup.interfaces.EXTENSION"
     />
 
-    <!-- hide profiles for our widget/field dependencies -->
-    <utility
-      factory=".integration.HiddenProfiles"
-      provides="Products.CMFPlone.interfaces.INonInstallable" />
 
-    <utility
-      zcml:condition="installed Products.CMFQuickInstallerTool"
-      factory=".integration.HiddenProfiles"
-      provides="Products.CMFQuickInstallerTool.interfaces.INonInstallable" />
+  <!-- hide profiles for our widget/field dependencies -->
+  <utility
+    factory=".integration.HiddenProfiles"
+    provides="Products.CMFPlone.interfaces.INonInstallable" />
+
+  <utility
+    zcml:condition="installed Products.CMFQuickInstallerTool"
+    factory=".integration.HiddenProfiles"
+    provides="Products.CMFQuickInstallerTool.interfaces.INonInstallable" />
 
   <!-- Create Zope2 permissions -->
   <permission
