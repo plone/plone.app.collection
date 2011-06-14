@@ -13,7 +13,11 @@ class NonJavascriptValidator:
 
     def __call__(self, value, instance, *args, **kwargs):
         """
-            Validates the given value
+            This validator is added when accessing the new style collections
+            without javascript.
+            the validation error is needed to stay in in the current form,
+            which keeps archetypes from creating a temp object in
+            portal_factory keeps archetypes from losing the request/parser info
         """
         # value  is only empty when not using javascript
         if len(value) == 0:
