@@ -2,6 +2,7 @@
   xmlns="http://namespaces.zope.org/zope"
   xmlns:five="http://namespaces.zope.org/five"
   xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+  xmlns:zcml="http://namespaces.zope.org/zcml"
   xmlns:cmf="http://namespaces.zope.org/cmf"
   i18n_domain="plone">
 
@@ -18,6 +19,16 @@
     description="Adds support for new style collections to Plone"
     provides="Products.GenericSetup.interfaces.EXTENSION"
     />
+
+    <!-- hide profiles for our widget/field dependencies -->
+    <utility
+      factory=".integration.HiddenProfiles"
+      provides="Products.CMFPlone.interfaces.INonInstallable" />
+
+    <utility
+      zcml:condition="installed Products.CMFQuickInstallerTool"
+      factory=".integration.HiddenProfiles"
+      provides="Products.CMFQuickInstallerTool.interfaces.INonInstallable" />
 
   <!-- Create Zope2 permissions -->
   <permission
