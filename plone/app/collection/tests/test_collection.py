@@ -54,7 +54,7 @@ class TestCollection(CollectionTestCase):
                              title="New Collection")
         collection = portal['collection']
         metadatafields = collection.listMetaDataFields()
-        self.failUnless(len(metadatafields) > 0)
+        self.assertTrue(len(metadatafields) > 0)
 
     def test_viewingCollection(self):
         portal = self.layer['portal']
@@ -73,7 +73,7 @@ class TestCollection(CollectionTestCase):
         # open a browser to see if our page is in the results
         browser = Browser(self.layer['app'])
         browser.open(collection.absolute_url())
-        self.failUnless("Collection Test Page" in browser.contents)
+        self.assertTrue("Collection Test Page" in browser.contents)
 
     def test_getFoldersAndImages(self):
         portal = self.layer['portal']
@@ -101,7 +101,7 @@ class TestCollection(CollectionTestCase):
         collection = portal['collection']
         collection.setQuery(query)
         imagecount = collection.getFoldersAndImages()['total_number_of_images']
-        self.failUnless(imagecount == 1)
+        self.assertTrue(imagecount == 1)
 
     def test_limitNumber(self):
         portal = self.layer['portal']
@@ -131,7 +131,7 @@ class TestCollection(CollectionTestCase):
         collection.setItemCount(1)
         results = collection.results()
         # fail test if there is more than one result
-        self.failUnless(len(results) == 1)
+        self.assertTrue(len(results) == 1)
 
     def test_selectedViewFields(self):
         portal = self.layer['portal']
@@ -142,7 +142,7 @@ class TestCollection(CollectionTestCase):
                              title="New Collection")
         collection = portal['collection']
         # check if there are selectedViewFields
-        self.failUnless(len(collection.selectedViewFields()) > 0)
+        self.assertTrue(len(collection.selectedViewFields()) > 0)
 
 
 class TestCollectionPortlet(CollectionPortletTestCase):
@@ -152,13 +152,13 @@ class TestCollectionPortlet(CollectionPortletTestCase):
     def testPortletTypeRegistered(self):
         portlet = getUtility(IPortletType,
                              name='plone.app.collection.portlets.Collection')
-        self.assertEquals(portlet.addview,
-                          'plone.app.collection.portlets.Collection')
+        self.assertEqual(portlet.addview,
+                         'plone.app.collection.portlets.Collection')
 
     def testInterfaces(self):
         portlet = collectionportlet.Assignment(header=u"title")
-        self.failUnless(IPortletAssignment.providedBy(portlet))
-        self.failUnless(IPortletDataProvider.providedBy(portlet.data))
+        self.assertTrue(IPortletAssignment.providedBy(portlet))
+        self.assertTrue(IPortletDataProvider.providedBy(portlet.data))
 
     def testInvokeAddview(self):
         portlet = getUtility(IPortletType,
@@ -169,8 +169,8 @@ class TestCollectionPortlet(CollectionPortletTestCase):
 
         addview = mapping.restrictedTraverse('+/' + portlet.addview)
         addview.createAndAdd(data={'header': u"test title"})
-        self.assertEquals(len(mapping), 1)
-        self.failUnless(isinstance(mapping.values()[0],
+        self.assertEqual(len(mapping), 1)
+        self.assertTrue(isinstance(mapping.values()[0],
                                    collectionportlet.Assignment))
 
     def testInvokeEditView(self):
@@ -179,7 +179,7 @@ class TestCollectionPortlet(CollectionPortletTestCase):
         request = portal.REQUEST
         mapping['foo'] = collectionportlet.Assignment(header=u"title")
         editview = getMultiAdapter((mapping['foo'], request), name='edit')
-        self.failUnless(isinstance(editview, collectionportlet.EditForm))
+        self.assertTrue(isinstance(editview, collectionportlet.EditForm))
 
     def testRenderer(self):
         portal = self.layer['portal']
@@ -189,7 +189,7 @@ class TestCollectionPortlet(CollectionPortletTestCase):
         manager = getUtility(IPortletManager, name='plone.rightcolumn', context=context)
         assignment = collectionportlet.Assignment(header=u"title")
         renderer = getMultiAdapter((context, request, view, manager, assignment), IPortletRenderer)
-        self.failUnless(isinstance(renderer, collectionportlet.Renderer))
+        self.assertTrue(isinstance(renderer, collectionportlet.Renderer))
 
     def renderer(self, context=None, request=None, view=None, manager=None, assignment=None):
         portal = self.layer['portal']
@@ -221,7 +221,7 @@ class TestCollectionPortlet(CollectionPortletTestCase):
         collection.setQuery(query)
         collection_num_items = len(collection.results())
         # fail if there are less then 6 results
-        self.failUnless(collection_num_items >= 6)
+        self.assertTrue(collection_num_items >= 6)
 
         # we need to commit the changes, otherwise the collection is not updated
         commit()
@@ -237,23 +237,23 @@ class TestCollectionPortlet(CollectionPortletTestCase):
                                            assignment=mapping['example'])
 
         # we want the portlet to return the same number of results as the collection
-        self.assertEquals(collection_num_items, len(collectionrenderer.results()))
+        self.assertEqual(collection_num_items, len(collectionrenderer.results()))
 
         # let's see if the portlet is available as well
-        self.assertEquals(collectionrenderer.available, True)
+        self.assertEqual(collectionrenderer.available, True)
 
         # set the target_collection to an unicode string, this should work as well
         collectionrenderer.data.target_collection = u"/collection"
-        self.assertEquals(collection_num_items, len(collectionrenderer.results()))
+        self.assertEqual(collection_num_items, len(collectionrenderer.results()))
 
         # We test if the portlet is returning the collection url correct
-        self.assertEquals(collectionrenderer.collection_url(),
-                          "%s/collection" % portal.absolute_url())
+        self.assertEqual(collectionrenderer.collection_url(),
+                         "%s/collection" % portal.absolute_url())
 
         # set the target_collection to an empty value, so we should get an empty result
         collectionrenderer.data.target_collection = ''
-        self.assertEquals(len(collectionrenderer.results()), 0)
+        self.assertEqual(len(collectionrenderer.results()), 0)
 
         # set the target_collection to /, so we should get an empty result
         collectionrenderer.data.target_collection = '/'
-        self.assertEquals(len(collectionrenderer.results()), 0)
+        self.assertEqual(len(collectionrenderer.results()), 0)
