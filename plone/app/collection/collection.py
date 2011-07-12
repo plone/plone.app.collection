@@ -1,13 +1,8 @@
-"""
-    Definition of the Collection content type
-"""
-
-from zope.interface import implements
 from AccessControl import ClassSecurityInfo
-
-from Products.CMFCore.utils import getToolByName
-from Products.CMFCore.permissions import ModifyPortalContent, View
-
+from archetypes.querywidget.field import QueryField
+from archetypes.querywidget.widget import QueryWidget
+from plone.app.contentlisting.interfaces import IContentListing
+from Products.ATContentTypes.content import document, schemata
 from Products.Archetypes import atapi
 from Products.Archetypes.atapi import (BooleanField,
                                        BooleanWidget,
@@ -18,18 +13,15 @@ from Products.Archetypes.atapi import (BooleanField,
                                        StringField,
                                        StringWidget)
 from Products.Archetypes.fieldproperty import ATToolDependentFieldProperty
-from Products.ATContentTypes.content import document, schemata
+from Products.CMFCore.permissions import ModifyPortalContent, View
+from Products.CMFCore.utils import getToolByName
+from zope.interface import implements
 
-from plone.app.collection.interfaces import ICollection
-from plone.app.collection.config import PROJECTNAME, ATCT_TOOLNAME
 from plone.app.collection import PloneMessageFactory as _
+from plone.app.collection.config import ATCT_TOOLNAME, PROJECTNAME
+from plone.app.collection.interfaces import ICollection
 
-from plone.app.contentlisting.interfaces import IContentListing
 
-from archetypes.querywidget.field import QueryField
-from archetypes.querywidget.widget import QueryWidget
-
-# Define the schema for the collection AT based contenttype
 CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
 
     QueryField(
@@ -141,7 +133,6 @@ class Collection(document.ATDocument):
     security = ClassSecurityInfo()
 
     security.declareProtected(View, 'listMetaDataFields')
-
     def listMetaDataFields(self, exclude=True):
         """Return a list of metadata fields from portal_catalog.
         """

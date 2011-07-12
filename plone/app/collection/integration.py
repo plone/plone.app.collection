@@ -1,11 +1,8 @@
-"""
-    Miscellaneous things to help integrate new style collections into Plone.
-"""
-from zope.interface import implements
 from Products.CMFPlone.interfaces import INonInstallable \
-as IPloneFactoryNonInstallable
+    as IPloneFactoryNonInstallable
 from Products.CMFQuickInstallerTool.interfaces import INonInstallable \
-as IQuickInstallerNonInstallable
+    as IQuickInstallerNonInstallable
+from zope.interface import implements
 
 
 class HiddenProfiles(object):

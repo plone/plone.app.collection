@@ -1,12 +1,12 @@
-from zope.interface import implements
 from Products.validation.interfaces.IValidator import IValidator
+from zope.interface import implements
 
 
 class NonJavascriptValidator:
     """
         This validator is added when accessing the new style collections
         without javascript.
-        the validation error is needed to stay in in the current form,
+        The validation error is needed to stay in in the current form,
         which keeps archetypes from creating a temp object in
         portal_factory keeps archetypes from losing the request/parser info
     """

@@ -1,6 +1,3 @@
-"""Common configuration constants
-"""
-
 PROJECTNAME = 'plone.app.collection'
 
 ADD_PERMISSIONS = {

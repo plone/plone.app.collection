@@ -3,12 +3,12 @@
   xmlns:five="http://namespaces.zope.org/five"
   xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
   xmlns:zcml="http://namespaces.zope.org/zcml"
-  xmlns:cmf="http://namespaces.zope.org/cmf"
   i18n_domain="plone">
 
   <five:registerPackage package="." initialize=".initialize" />
-  <include package="plone.app.contentlisting" />
+
   <include package="archetypes.querywidget" />
+  <include package="plone.app.contentlisting" />
   <include package=".browser" />
   <include package=".portlets" />
 
@@ -20,18 +20,18 @@
     provides="Products.GenericSetup.interfaces.EXTENSION"
     />
 
-
   <!-- hide profiles for our widget/field dependencies -->
   <utility
     factory=".integration.HiddenProfiles"
+    name="plone.app.collection"
     provides="Products.CMFPlone.interfaces.INonInstallable" />
 
   <utility
     zcml:condition="installed Products.CMFQuickInstallerTool"
     factory=".integration.HiddenProfiles"
+    name="plone.app.collection"
     provides="Products.CMFQuickInstallerTool.interfaces.INonInstallable" />
 
-  <!-- Create Zope2 permissions -->
   <permission
     id="plone.app.collection.addCollection"
     title="plone.app.collection: Add Collection"
