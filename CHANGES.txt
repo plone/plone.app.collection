@@ -7,5 +7,3 @@ Changelog
 
 - Add MANIFEST.in.
   [WouterVH]
-
-- Initial release

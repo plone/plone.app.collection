@@ -1,13 +1,10 @@
-"""Main product initializer
-"""
-
-from zope.i18nmessageid import MessageFactory
 from plone.app.collection import config
 from Products.Archetypes import atapi
 from Products.CMFCore import utils
-#from Products.CMFCore.permissions import setDefaultRoles
-from plone.app.collection.validators import NonJavascriptValidator
 from Products.validation.config import validation
+from zope.i18nmessageid import MessageFactory
+
+from plone.app.collection.validators import NonJavascriptValidator
 
 PloneMessageFactory = MessageFactory('plone')
 
