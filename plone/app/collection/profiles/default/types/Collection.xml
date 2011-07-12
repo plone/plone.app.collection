@@ -5,11 +5,14 @@
   <property name="title" i18n:translate="">Collection</property>
   <property name="description"
     i18n:translate="">Collection of searchable information</property>
+  <property name="icon_expr"></property>
   <property name="content_meta_type">Collection</property>
-  <property name="content_icon">++resource++plone.app.collection.images/collection_icon.png</property>
   <property name="product">plone.app.collection</property>
   <property name="factory">addCollection</property>
+  <property name="immediate_view">standard_view</property>
   <property name="global_allow">True</property>
+  <property name="filter_content_types">True</property>
+  <property name="allowed_content_types"/>
   <property name="allow_discussion">False</property>
   <property name="default_view">standard_view</property>
   <property name="view_methods">
