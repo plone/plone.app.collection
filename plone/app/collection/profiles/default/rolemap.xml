@@ -4,20 +4,14 @@
     <role name="Manager"></role>
   </roles>
   <permissions>
-    <permission
-        name="plone.app.collection: Add Collection"
-        acquire="True"
-        >
+    <permission name="plone.app.collection: Add Collection" acquire="True">
       <role name="Manager" />
       <role name="Site Administrator" />
     </permission>
-    <permission
-        name="plone.app.collection: Add collection portlet"
-        acquire="True"
-        >
+    <permission name="plone.app.collection: Add collection portlet"
+                acquire="True">
       <role name="Manager" />
       <role name="Site Administrator" />
     </permission>
-
   </permissions>
 </rolemap>
