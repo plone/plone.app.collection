@@ -5,11 +5,6 @@
 
   <include package="plone.app.contentmenu" />
 
-  <browser:resourceDirectory
-      name="plone.app.collection.images"
-      directory="images"
-      />
-
   <!-- Views for in Display menu -->
   <browser:page
       name="standard_view"
