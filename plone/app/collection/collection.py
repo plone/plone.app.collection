@@ -12,7 +12,6 @@ from Products.Archetypes.atapi import (BooleanField,
                                        InAndOutWidget,
                                        StringField,
                                        StringWidget)
-from Products.Archetypes.fieldproperty import ATToolDependentFieldProperty
 from Products.CMFCore.permissions import ModifyPortalContent, View
 from Products.CMFCore.utils import getToolByName
 from zope.interface import implements
@@ -32,7 +31,6 @@ CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
                 list by choosing what to match on.
                 The list of results will be dynamically updated""",
             ),
-        storage=atapi.AnnotationStorage(),
         validators=('javascriptDisabled', )
         ),
 
@@ -46,7 +44,6 @@ CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
             description='',
             visible=False,
             ),
-        storage=atapi.AnnotationStorage(),
         ),
 
     BooleanField(
@@ -59,7 +56,6 @@ CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
             description='',
             visible=False,
             ),
-        storage=atapi.AnnotationStorage(),
         ),
 
     BooleanField(
@@ -72,7 +68,6 @@ CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
             description=_(u"If selected, only the 'Number of Items' "
                 u"indicated below will be displayed.")
             ),
-        storage=atapi.AnnotationStorage(),
         ),
 
     IntegerField(
@@ -84,7 +79,6 @@ CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
             label=_(u'Number of Items'),
             description=''
             ),
-        storage=atapi.AnnotationStorage(),
         ),
 
     LinesField('customViewFields',
@@ -102,13 +96,7 @@ CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
         ),
 ))
 
-# Set storage on fields copied from ATDocumentSchema, making sure
-# they work well with the python bridge properties.
-CollectionSchema['title'].storage = atapi.AnnotationStorage()
-CollectionSchema['description'].storage = atapi.AnnotationStorage()
 CollectionSchema.moveField('query', after='description')
-
-# Hide 'presentation' and 'ToC' fields
 CollectionSchema['presentation'].widget.visible = False
 CollectionSchema['tableContents'].widget.visible = False
 
@@ -126,10 +114,6 @@ class Collection(document.ATDocument):
     meta_type = "Collection"
     schema = CollectionSchema
 
-    query = ATToolDependentFieldProperty('query')
-    limitNumber = atapi.ATFieldProperty('limitNumber')
-    itemCount = atapi.ATFieldProperty('itemCount')
-
     security = ClassSecurityInfo()
 
     security.declareProtected(View, 'listMetaDataFields')
@@ -141,9 +125,9 @@ class Collection(document.ATDocument):
 
     def results(self):
         """Get results"""
-        if self.limitNumber:
-            return self.query[:self.itemCount]
-        return self.query
+        if self.getLimitNumber():
+            return self.getQuery()[:self.getItemCount()]
+        return self.getQuery()
 
     def selectedViewFields(self):
         """Get which metadata field are selected"""
