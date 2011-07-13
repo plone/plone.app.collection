@@ -58,26 +58,14 @@ CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
             ),
         ),
 
-    BooleanField(
-        name='limitNumber',
-        required=False,
-        mode='rw',
-        default=False,
-        widget=BooleanWidget(
-            label=_(u'Limit Search Results'),
-            description=_(u"If selected, only the 'Number of Items' "
-                u"indicated below will be displayed.")
-            ),
-        ),
-
     IntegerField(
-        name='itemCount',
+        name='limit',
         required=False,
         mode='rw',
-        default=0,
+        default=1000,
         widget=IntegerWidget(
-            label=_(u'Number of Items'),
-            description=''
+            label=_(u'Limit Search Results'),
+            description=_(u"Specify the maximum number of items to show.")
             ),
         ),
 
@@ -125,8 +113,6 @@ class Collection(document.ATDocument):
 
     def results(self):
         """Get results"""
-        if self.getLimitNumber():
-            return self.getQuery()[:self.getItemCount()]
         return self.getQuery()
 
     def selectedViewFields(self):
@@ -139,9 +125,10 @@ class Collection(document.ATDocument):
     def getFoldersAndImages(self):
         """Get folders and images"""
         catalog = getToolByName(self, 'portal_catalog')
-        folders = [item for item in self.results() if item.Type() == 'Folder']
-        _mapping = {'folders': folders,
-                    'images': {}}
+        folders = [item for item in self.results()
+                   if item.portal_type() == 'Folder']
+
+        _mapping = {'folders': folders, 'images': {}}
 
         for folder in folders:
             query = {

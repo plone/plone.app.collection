@@ -103,7 +103,7 @@ class TestCollection(CollectionTestCase):
         imagecount = collection.getFoldersAndImages()['total_number_of_images']
         self.assertTrue(imagecount == 1)
 
-    def test_limitNumber(self):
+    def test_limit(self):
         portal = self.layer['portal']
         login(portal, 'admin')
         # add a collection, so we can add a query to it
@@ -127,8 +127,7 @@ class TestCollection(CollectionTestCase):
         }]
 
         collection.setQuery(query)
-        collection.setLimitNumber(True)
-        collection.setItemCount(1)
+        collection.setLimit(1)
         results = collection.results()
         # fail test if there is more than one result
         self.assertTrue(len(results) == 1)
