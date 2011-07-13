@@ -46,12 +46,10 @@
     </tal:folders>
     <div class="visualClear"><!-- --></div>
 
-
     <p class="discreet"
-       i18n:domain="atcontenttypes"
-       i18n:translate="text_no_albums_uploaded"
+       i18n:translate=""
        tal:condition="not: total_number_of_images">
-        No albums or photos uploaded yet.
+        No images found in this collection.
     </p>
 
 </metal:main_macro>

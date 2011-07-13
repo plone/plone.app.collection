@@ -9,7 +9,8 @@
 <body>
 
     <div metal:fill-slot="content-core"
-         tal:define="results context/results">
+         tal:define="b_start python:request.get('b_start', 0);
+                     batch python:context.results(b_start=b_start);">
 
          <div metal:define-macro="text-field-view"
               id="parent-fieldname-text" class="stx"
@@ -20,11 +21,15 @@
              <div metal:define-slot="inside" tal:replace="structure text">The body</div>
          </div>
 
-        <p tal:condition="not: results"><strong>Nothing to list</strong></p>
+        <p class="discreet"
+           tal:condition="not: batch"
+           i18n:translate="description_no_items_in_folder">
+            There are currently no items in this folder.
+        </p>
 
         <table class="listing" summary="Content listing"
             i18n:attributes="summary"
-            tal:condition="results"
+            tal:condition="batch"
             tal:define="fields context/selectedViewFields;
                         pas_member context/@@pas_member">
             <thead>
@@ -36,7 +41,7 @@
                 </tr>
             </thead>
             <tbody>
-            <tal:block tal:repeat="item results">
+            <tal:block tal:repeat="item batch">
                 <tr tal:define="oddrow repeat/item/odd;"
                     tal:attributes="class python:oddrow and 'even' or 'odd'" >
                 <tal:block tal:repeat="field fields">

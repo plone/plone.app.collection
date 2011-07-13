@@ -125,7 +125,7 @@ class Collection(document.ATDocument):
     def getFoldersAndImages(self):
         """Get folders and images"""
         catalog = getToolByName(self, 'portal_catalog')
-        folders = [item for item in self.results()
+        folders = [item for item in self.results(batch=False)
                    if item.portal_type == 'Folder']
 
         _mapping = {'folders': folders, 'images': {}}
