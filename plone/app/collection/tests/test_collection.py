@@ -128,7 +128,7 @@ class TestCollection(CollectionTestCase):
 
         collection.setQuery(query)
         collection.setLimit(1)
-        results = collection.results()
+        results = collection.results(batch=False)
         # fail test if there is more than one result
         self.assertTrue(len(results) == 1)
 

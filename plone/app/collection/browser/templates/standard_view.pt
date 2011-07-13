@@ -26,14 +26,10 @@
         </div>
 
         <metal:listingmacro define-macro="listing">
-        <tal:results define="results context/results;
+        <tal:results define="b_start python:request.get('b_start', 0);
+                             batch python:context.results(b_start=b_start);
                              site_properties context/portal_properties/site_properties;
-                             limit_display limit_display|request/limit_display|nothing;
-                             limit_display python:limit_display and int(limit_display) or None;
                              use_view_action site_properties/typesUseViewActionInListings|python:();
-                             Batch python:modules['Products.CMFPlone'].Batch;
-                             b_start python:request.get('b_start', 0);
-                             batch python:isinstance(results, Batch) and results or Batch(results, limit_display or 100, int(b_start), orphan=1);
                              isAnon context/@@plone_portal_state/anonymous;
                              normalizeString nocall: context/plone_utils/normalizeString;
                              toLocalizedTime nocall: context/@@plone/toLocalizedTime;
@@ -174,7 +170,7 @@
         </tal:listing>
         <metal:empty metal:define-slot="no_items_in_listing">
             <p class="discreet"
-               tal:condition="not: results"
+               tal:condition="not: batch"
                i18n:translate="description_no_items_in_folder">
                 There are currently no items in this folder.
             </p>

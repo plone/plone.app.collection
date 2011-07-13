@@ -31,8 +31,9 @@ class ICollectionPortlet(IPortletDataProvider):
     limit = schema.Int(
         title=_(u"Limit"),
         description=_(u"Specify the maximum number of items to show in the "
-            "portlet. Leave this blank to show all items."),
-        required=False)
+            "portlet."),
+        required=False,
+        default=10)
 
     show_more = schema.Bool(
         title=_(u"Show more... link"),
@@ -55,13 +56,13 @@ class Assignment(base.Assignment):
 
     header = u""
     target_collection = None
-    limit = None
+    limit = 10
     show_more = True
     show_dates = False
 
     def __init__(self, header=u"",
                  target_collection=None,
-                 limit=None,
+                 limit=10,
                  show_more=True,
                  show_dates=False):
         self.header = header
@@ -106,10 +107,7 @@ class Renderer(base.Renderer):
         collection = self.collection()
         if not collection:
             return []
-        results = collection.results()
-        if self.data.limit and self.data.limit > 0:
-            results = results[:self.data.limit]
-        return results
+        return collection.getQuery(batch=False, limit=self.data.limit)
 
     def collection(self):
         """Get the collection the portlet is pointing to"""

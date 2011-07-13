@@ -111,9 +111,9 @@ class Collection(document.ATDocument):
         tool = getToolByName(self, ATCT_TOOLNAME)
         return tool.getMetadataDisplay(exclude)
 
-    def results(self):
+    def results(self, batch=True, b_start=0, b_size=30):
         """Get results"""
-        return self.getQuery()
+        return self.getQuery(batch=batch, b_start=b_start, b_size=b_size)
 
     def selectedViewFields(self):
         """Get which metadata field are selected"""
