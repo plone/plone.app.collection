@@ -28,7 +28,7 @@
          tal:define="images_album python:data['images'][folder.id];
                      number_of_images python:len(images_album);
                      random python:modules['random'];
-                     random_image python:number_of_images and random.choice(images_album).realobject or None">
+                     random_image python:number_of_images and random.choice(images_album).getObject() or None">
                 <a tal:attributes="href folder/getURL;
                                    title folder/Description">
                     <span class="photoAlbumEntryWrapper"

@@ -69,6 +69,8 @@
             </tal:block>
             </tbody>
         </table>
+
+        <div metal:use-macro="context/batch_macros/macros/navigation" />
   </div>
 
 </body>

@@ -15,7 +15,8 @@
     <metal:block use-macro="context/standard_view/macros/entries">
     <metal:entry fill-slot="entry">
 
-        <div tal:replace="structure item/realobject/folder_full_view_item" />
+        <div tal:define="realobject python:item.getObject()"
+             tal:replace="structure realobject/folder_full_view_item" />
 
     </metal:entry>
     </metal:block>
