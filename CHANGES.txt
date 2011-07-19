@@ -1,12 +1,10 @@
 Changelog
 =========
 
-1.0 - unreleased
+1.0 - 2011-07-19
 ----------------
 
-
-0.1 (2011-06-14)
-----------------
+- Initial release
 
 - Add MANIFEST.in.
   [WouterVH]
