@@ -14,10 +14,17 @@ plone.formwidget.querystring::
 
 http://svn.plone.org/svn/plone/plone.formwidget.querystring/branches/tisto/
 
-Current status::
 
-  - The basic dexterity-based collection type is in place.
-  - Class methods of the old collection type are still missing.
-  - The edit view of the collection is basically working. Some functionality
-    might be broken though.
-  - The collection views are currently not working at all.
+Todo::
+
+  [X] Create basic dexterity-based collection type.
+  
+  [X] Use QueryStringWidget (plone.formwidget.querystring) for the query field.
+  
+  [ ] Make sure the edit view is fully functional.
+  
+  [ ] Re-create class/view methods of the old collection type.
+  
+  [ ] Make the standard collection views work.
+  
+  [ ] Make the collection portlet work.
