@@ -1,0 +1,4 @@
+<layers>
+ <layer name="plone.app.collection"
+        interface="plone.app.collection.interfaces.IPloneAppCollectionLayer" />
+</layers>

@@ -1,0 +1,28 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:grok="http://namespaces.zope.org/grok"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="plone.app.collection">
+
+  <genericsetup:registerProfile
+      name="default"
+      title="Collection"
+      directory="profiles/default"
+      description="Dexterity-based collection"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <i18n:registerTranslations directory="locales" />
+
+  <include package=".browser" />
+
+  <include file="permissions.zcml" />
+
+  <includeDependencies package="." />
+
+  <grok:grok package="." />
+
+</configure>

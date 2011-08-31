@@ -1,0 +1,59 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="plone">
+
+<body>
+
+<metal:content-core fill-slot="content-core">
+<metal:main_macro define-macro="content-core"
+     tal:define="data context/getFoldersAndImages;
+                total_number_of_images data/total_number_of_images">
+
+    <div metal:define-macro="text-field-view"
+         id="parent-fieldname-text" class="stx"
+         tal:define="has_text exists:context/getText;
+                     text python:has_text and here.getText() or ''"
+         tal:condition="text"
+         tal:attributes="class python:here.Format() in ('text/structured', 'text/x-rst', ) and 'stx' or 'plain'">
+        <div metal:define-slot="inside" tal:replace="structure text">The body</div>
+    </div>
+
+    <tal:folders tal:repeat="folder data/folders"
+                 tal:condition="total_number_of_images">
+    <div class="photoAlbumEntry photoAlbumFolder"
+         tal:define="images_album python:data['images'][folder.id];
+                     number_of_images python:len(images_album);
+                     random python:modules['random'];
+                     random_image python:number_of_images and random.choice(images_album).getObject() or None">
+                <a tal:attributes="href folder/getURL;
+                                   title folder/Description">
+                    <span class="photoAlbumEntryWrapper"
+                          tal:condition="number_of_images">
+                     <img src="" alt=""
+                          tal:define="scale random_image/@@images"
+                          tal:replace="structure python: scale.scale('image', scale='thumb').tag(title=folder.Description())" />
+                    </span>
+                    <span class="photoAlbumEntryTitle">
+                       <tal:title content="folder/Title">Title</tal:title>
+                    (<tal:number content="number_of_images" />)
+                    </span>
+                </a>
+    </div>
+    </tal:folders>
+    <div class="visualClear"><!-- --></div>
+
+    <p class="discreet"
+       i18n:translate=""
+       tal:condition="not: total_number_of_images">
+        No images found in this collection.
+    </p>
+
+</metal:main_macro>
+</metal:content-core>
+
+</body>
+</html>
