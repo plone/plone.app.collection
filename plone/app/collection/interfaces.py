@@ -16,12 +16,14 @@ class IPloneAppCollectionLayer(interface.Interface):
 class ICollection(form.Schema):
 
     form.widget(query=QueryStringFieldWidget)
-    query = schema.TextLine(
+    query = schema.List(
         title=_(u'label_query', default=u'Search terms'),
         description=_(u"""Define the search terms for the items you want to
             list by choosing what to match on.
             The list of results will be dynamically updated"""),
-        required=False,
+        value_type=schema.Dict(value_type=schema.Field(),
+                               key_type=schema.TextLine()),
+        required=False
         )
 
     sort_on = schema.TextLine(
