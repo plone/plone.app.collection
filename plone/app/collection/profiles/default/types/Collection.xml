@@ -16,6 +16,7 @@
   <property name="klass">plone.dexterity.content.Item</property>
   <property name="add_permission">plone.app.collection.addCollection</property>
   <property name="behaviors">
+    <element value="plone.app.dexterity.behaviors.metadata.IBasic" />
     <element value="plone.app.content.interfaces.INameFromTitle"/>
   </property>
 
