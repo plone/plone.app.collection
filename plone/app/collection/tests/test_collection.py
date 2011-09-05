@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+from Acquisition import aq_inner
+
 import unittest2 as unittest
 
 from zope.component import createObject
@@ -11,6 +14,18 @@ from plone.app.collection.testing import \
 from plone.app.testing import TEST_USER_ID, TEST_USER_NAME, setRoles, login
 
 from plone.app.collection.interfaces import ICollection
+
+query = [{
+    'i': 'Title',
+    'o': 'plone.app.querystring.operation.string.is',
+    'v': 'Collection Test Page',
+}]
+
+#query = [{
+#    'i': 'SearchableText',
+#    'o': 'plone.app.querystring.operation.string.contains',
+#    'v': 'Autoren'
+#}]
 
 
 class PloneAppCollectionIntegrationTest(unittest.TestCase):
@@ -49,51 +64,49 @@ class PloneAppCollectionIntegrationTest(unittest.TestCase):
         p1 = self.folder['collection1']
         self.failUnless(ICollection.providedBy(p1))
 
-    def test_view(self):
+
+class PloneAppCollectionViewsTest(unittest.TestCase):
+
+    layer = PLONEAPPCOLLECTION_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.portal = self.layer['portal']
+
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        login(self.portal, TEST_USER_NAME)
+        self.portal.invokeFactory('Folder', 'test-folder')
+        self.folder = self.portal['test-folder']
         self.folder.invokeFactory('Collection', 
                                   'collection1')
-        p1 = self.folder['collection1']
-        view = p1.restrictedTraverse('@@view')
+        self.collection = aq_inner(self.folder['collection1'])
+
+    def test_view(self):
+        view = self.collection.restrictedTraverse('@@view')
         self.failUnless(view)
         self.assertEquals(view.request.response.status, 200)
 
     def test_standard_view(self):
-        self.folder.invokeFactory('Collection', 
-                                  'collection1')
-        c1 = self.folder['collection1']
-        view = c1.restrictedTraverse('standard_view')
+        view = self.collection.restrictedTraverse('standard_view')
         self.failUnless(view)
         self.assertEquals(view.request.response.status, 200)
 
     def test_summary_view(self):
-        self.folder.invokeFactory('Collection', 
-                                  'collection1')
-        c1 = self.folder['collection1']
-        view = c1.restrictedTraverse('summary_view')
+        view = self.collection.restrictedTraverse('summary_view')
         self.failUnless(view)
         self.assertEquals(view.request.response.status, 200)
 
     def test_all_content(self):
-        self.folder.invokeFactory('Collection', 
-                                  'collection1')
-        c1 = self.folder['collection1']
-        view = c1.restrictedTraverse('all_content')
+        view = self.collection.restrictedTraverse('all_content')
         self.failUnless(view)
         self.assertEquals(view.request.response.status, 200)
 
     def test_tabular_view(self):
-        self.folder.invokeFactory('Collection', 
-                                  'collection1')
-        c1 = self.folder['collection1']
-        view = c1.restrictedTraverse('tabular_view')
+        view = self.collection.restrictedTraverse('tabular_view')
         self.failUnless(view)
         self.assertEquals(view.request.response.status, 200)
 
     def test_thumbnail_view(self):
-        self.folder.invokeFactory('Collection', 
-                                  'collection1')
-        c1 = self.folder['collection1']
-        view = c1.restrictedTraverse('thumbnail_view')
+        view = self.collection.restrictedTraverse('thumbnail_view')
         self.failUnless(view)
         self.assertEquals(view.request.response.status, 200)
 
