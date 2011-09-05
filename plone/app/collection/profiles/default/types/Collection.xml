@@ -13,7 +13,7 @@
   <property name="allowed_content_types" />
   <property name="allow_discussion">False</property>
   <property name="schema">plone.app.collection.interfaces.ICollection</property> 
-  <property name="klass">plone.dexterity.content.Item</property>
+  <property name="klass">plone.app.collection.collection.Collection</property>
   <property name="add_permission">plone.app.collection.addCollection</property>
   <property name="behaviors">
     <element value="plone.app.dexterity.behaviors.metadata.IBasic" />
