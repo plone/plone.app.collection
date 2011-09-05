@@ -28,3 +28,16 @@ Todo::
   [ ] Make the standard collection views work.
   
   [ ] Make the collection portlet work.
+
+
+Problems::
+
+  - plone.app.querystring results.pt "LocationError: ([], 'actual_result_count')"::
+  - Fix: comment out section::
+    
+    <!--<span i18n:translate="batch_x_items_matching_your_criteria">
+        <strong i18n:name="number" id="search-results-number"
+                tal:content="results/actual_result_count">234</strong>
+        items matching your search terms.
+    </span>-->
+    
