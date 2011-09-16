@@ -27,7 +27,11 @@ Todo::
   
   [ ] Make the standard collection views work.
   
+  [ ] Make enableSyndication/RSS work. Syndication is not working for 
+      plone.app.collection trunk either.
+
   [ ] Make the collection portlet work.
+
 
 
 Problems::
