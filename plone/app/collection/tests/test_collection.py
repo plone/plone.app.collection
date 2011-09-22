@@ -10,6 +10,8 @@ from plone.dexterity.interfaces import IDexterityFTI
 
 from plone.app.collection.testing import \
     PLONEAPPCOLLECTION_INTEGRATION_TESTING
+from plone.app.collection.testing import \
+    PLONEAPPCOLLECTION_FUNCTIONAL_TESTING
 
 from plone.app.testing import TEST_USER_ID, TEST_USER_NAME, setRoles, login
 
@@ -67,11 +69,11 @@ class PloneAppCollectionIntegrationTest(unittest.TestCase):
 
 class PloneAppCollectionViewsTest(unittest.TestCase):
 
-    layer = PLONEAPPCOLLECTION_INTEGRATION_TESTING
+    layer = PLONEAPPCOLLECTION_FUNCTIONAL_TESTING
 
     def setUp(self):
         self.portal = self.layer['portal']
-
+        self.request = self.layer['request']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
         login(self.portal, TEST_USER_NAME)
         self.portal.invokeFactory('Folder', 'test-folder')
@@ -79,36 +81,67 @@ class PloneAppCollectionViewsTest(unittest.TestCase):
         self.folder.invokeFactory('Collection', 
                                   'collection1')
         self.collection = aq_inner(self.folder['collection1'])
+        self.request.set('URL', self.collection.absolute_url())
+        self.request.set('ACTUAL_URL', self.collection.absolute_url())
 
     def test_view(self):
         view = self.collection.restrictedTraverse('@@view')
-        self.failUnless(view)
+        self.assertTrue(view())
         self.assertEquals(view.request.response.status, 200)
 
     def test_standard_view(self):
         view = self.collection.restrictedTraverse('standard_view')
-        self.failUnless(view)
+        self.assertTrue(view())
         self.assertEquals(view.request.response.status, 200)
 
     def test_summary_view(self):
         view = self.collection.restrictedTraverse('summary_view')
-        self.failUnless(view)
+        self.assertTrue(view())
         self.assertEquals(view.request.response.status, 200)
 
     def test_all_content(self):
         view = self.collection.restrictedTraverse('all_content')
-        self.failUnless(view)
+        self.assertTrue(view())
         self.assertEquals(view.request.response.status, 200)
 
     def test_tabular_view(self):
         view = self.collection.restrictedTraverse('tabular_view')
-        self.failUnless(view)
+        self.assertTrue(view())
         self.assertEquals(view.request.response.status, 200)
 
     def test_thumbnail_view(self):
         view = self.collection.restrictedTraverse('thumbnail_view')
-        self.failUnless(view)
+        self.assertTrue(view())
         self.assertEquals(view.request.response.status, 200)
+
+
+class PloneAppCollectionEditIntegrationTest(unittest.TestCase):
+
+    layer = PLONEAPPCOLLECTION_FUNCTIONAL_TESTING
+
+    def setUp(self):
+        self.portal = self.layer['portal']
+        self.request = self.layer['request']
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        login(self.portal, TEST_USER_NAME)
+        self.portal.invokeFactory('Folder', 'test-folder')
+        self.folder = self.portal['test-folder']
+        self.folder.invokeFactory('Collection', 
+                                  'collection1')
+        self.collection = aq_inner(self.folder['collection1'])
+        self.request.set('URL', self.collection.absolute_url())
+        self.request.set('ACTUAL_URL', self.collection.absolute_url())
+
+    def test_search_result(self):
+        view = self.collection.restrictedTraverse('@@edit')
+        html = view()
+        self.assertTrue('form-widgets-query' in html)
+        self.assertTrue('No results were found.' in html)
+        #from plone.app.contentlisting.interfaces import IContentListing
+        #self.assertTrue(IContentListing.providedBy(view.accessor()))
+        #self.assertTrue(getattr(accessor(), "actual_result_count"))
+        #self.assertEquals(accessor().actual_result_count, 0)
 
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)
+
