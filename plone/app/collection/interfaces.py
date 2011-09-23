@@ -54,6 +54,7 @@ class ICollection(form.Schema):
     #customViewFields = schema.Choice(
     #    title=_(u'label_sort_on', default=u'sortable_title'),
     #    description=_(u"Sort the collection on this index"),
+    #    source=listMetaDataFields,
     #    required=False,
     #    )
 
