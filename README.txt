@@ -21,7 +21,7 @@ Todo::
   
   [X] Use QueryStringWidget (plone.formwidget.querystring) for the query field.
   
-  [ ] Make sure the edit view is fully functional.
+  [X] Make sure the edit view is fully functional.
   
   [ ] Re-create class/view methods of the old collection type.
   
