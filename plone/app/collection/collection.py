@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_base
 
+from Products.CMFCore.utils import getToolByName
+
 from zope.component import getMultiAdapter
 from zope.component.hooks import getSite
 
@@ -34,7 +36,6 @@ class Collection(Item):
         return [_mapping[field] for field in self.customViewFields]
 
     def getFoldersAndImages(self):
-        return
         catalog = getToolByName(self, 'portal_catalog')
         folders = [item for item in self.results(batch=False)
                    if item.portal_type == 'Folder']
