@@ -1,0 +1,9 @@
+*** Settings ***
+
+Resource  plone.txt
+
+*** Testcases ***
+
+Test foo
+
+    Goto homepage
