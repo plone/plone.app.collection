@@ -17,14 +17,6 @@ Goto homepage
     Go to  ${PLONE_URL}
     Page should contain  Plone site
 
-Menu should contain
-    [Arguments]  ${text}
-    Frame should contain  plone-cmsui-menu  ${text}
-
-Log out
-    Go to  ${PLONE_URL}/logout
-    Page should contain  logged out
-
 Log in
     [Arguments]  ${userid}  ${password}
     Go to  ${PLONE_URL}/login_form
@@ -35,3 +27,6 @@ Log in
     Go to  ${PLONE_URL}
     Page should contain  ${userid}
 
+Log out
+    Go to  ${PLONE_URL}/logout
+    Page should contain  logged out
