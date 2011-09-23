@@ -1,0 +1,13 @@
+*** Settings ***
+
+Resource  collection.txt
+
+*** Test cases ***
+
+Test collection
+
+    Goto homepage
+    Add collection
+    Fill out title
+    Choose criteria
+    Save collection

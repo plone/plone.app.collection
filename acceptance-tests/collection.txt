@@ -1,9 +1,24 @@
 *** Settings ***
+Library  SeleniumLibrary  run_on_failure=Capture Page Screenshot
 
 Resource  plone.txt
 
-*** Testcases ***
+*** Keywords ***
 
-Test collection
+Add collection
+    Go to  ${PLONE_URL}/++add++Collection
+    Page should contain  Add Collection
+    Page should contain  Description
+    Page should contain  Search terms
 
-    Goto homepage
+Fill out title
+    Input text  form.widgets.IBasic.title  My Collection
+
+Choose criteria
+    Select From List  xpath=//select[@name="addindex"]  Description
+    Input text  form.widgets.query.v:records  Plone
+
+Save collection
+    Click Button  Save
+    Page should contain  My Collection
+    Page should contain  Welcome to Plone

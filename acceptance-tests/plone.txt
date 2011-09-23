@@ -3,7 +3,7 @@ Library  SeleniumLibrary  run_on_failure=Capture Page Screenshot
 
 *** Variables ***
 
-${PLONE_URL} =  http://localhost:${PORT}/Plone/
+${PLONE_URL} =  http://localhost:${PORT}/Plone
 
 *** Keywords ***
 
@@ -11,7 +11,6 @@ Start browser and wake plone up
     Open browser  ${PLONE_URL}
     Set Selenium timeout  30
     Log in  admin  admin
-    Log out
     Set Selenium timeout  7
 
 Goto homepage
