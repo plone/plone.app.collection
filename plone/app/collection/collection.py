@@ -3,22 +3,28 @@ from Acquisition import aq_base
 
 from Products.CMFCore.utils import getToolByName
 
+from zope.component import queryUtility
 from zope.component import getMultiAdapter
+
 from zope.component.hooks import getSite
+
+from plone.app.querystring import queryparser
+from plone.app.querystring.interfaces import IQuerystringRegistryReader
 
 from plone.dexterity.content import Item
 
-from plone.app.querystring import queryparser
+from plone.registry.interfaces import IRegistry
 
 
 class Collection(Item):
 
     #security.declareProtected(View, 'listMetaDataFields')
-    #def listMetaDataFields(self, exclude=True):
-    #    """Return a list of metadata fields from portal_catalog.
-    #    """
-    #    tool = getToolByName(self, ATCT_TOOLNAME)
-    #    return tool.getMetadataDisplay(exclude)
+    def listMetaDataFields(self, exclude=True):
+        """Return a list of all metadata fields from portal_catalog.
+        """
+        return []
+        #tool = getToolByName(self, ATCT_TOOLNAME)
+        #return tool.getMetadataDisplay(exclude)
     
     def results(self, batch=True, b_start=0, b_size=30):
         queryparser.parseFormquery(self, self.query)
@@ -29,11 +35,14 @@ class Collection(Item):
                             sort_on=None, sort_order=None, limit=0)
 
     def selectedViewFields(self):
-        return
-        _mapping = {}
-        for field in self.listMetaDataFields().items():
-            _mapping[field[0]] = field
-        return [_mapping[field] for field in self.customViewFields]
+        """Returns a list of all metadata fields from the catalog that were
+           selected.
+        """
+        return []
+        #_mapping = {}
+        #for field in self.listMetaDataFields().items():
+        #    _mapping[field[0]] = field
+        #return [_mapping[field] for field in self.customViewFields]
 
     def getFoldersAndImages(self):
         catalog = getToolByName(self, 'portal_catalog')

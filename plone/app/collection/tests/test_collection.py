@@ -16,6 +16,7 @@ from plone.app.collection.testing import \
 from plone.app.testing import TEST_USER_ID, TEST_USER_NAME, setRoles, login
 
 from plone.app.collection.interfaces import ICollection
+from plone.app.collection.collection import Collection
 
 query = [{
     'i': 'Title',
@@ -28,6 +29,31 @@ query = [{
 #    'o': 'plone.app.querystring.operation.string.contains',
 #    'v': 'Autoren'
 #}]
+
+
+class PloneAppCollectionClassTest(unittest.TestCase):
+
+    layer = PLONEAPPCOLLECTION_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.portal = self.layer['portal']
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        login(self.portal, TEST_USER_NAME)
+        self.portal.invokeFactory('Folder', 'test-folder')
+        self.folder = self.portal['test-folder']
+        self.collection = Collection()
+
+    def test_listMetaDataFields(self):
+        self.assertEquals(self.collection.listMetaDataFields(), [])
+
+    def test_results(self):
+        pass
+
+    def test_selectedViewFields(self):
+        self.assertEquals(self.collection.selectedViewFields(), [])
+
+    def test_getFoldersAndImages(self):
+        pass
 
 
 class PloneAppCollectionIntegrationTest(unittest.TestCase):
@@ -67,7 +93,7 @@ class PloneAppCollectionIntegrationTest(unittest.TestCase):
         self.failUnless(ICollection.providedBy(p1))
 
 
-class PloneAppCollectionViewsTest(unittest.TestCase):
+class PloneAppCollectionViewsIntegrationTest(unittest.TestCase):
 
     layer = PLONEAPPCOLLECTION_FUNCTIONAL_TESTING
 
@@ -115,7 +141,7 @@ class PloneAppCollectionViewsTest(unittest.TestCase):
         self.assertEquals(view.request.response.status, 200)
 
 
-class PloneAppCollectionEditIntegrationTest(unittest.TestCase):
+class PloneAppCollectionEditViewsIntegrationTest(unittest.TestCase):
 
     layer = PLONEAPPCOLLECTION_FUNCTIONAL_TESTING
 
