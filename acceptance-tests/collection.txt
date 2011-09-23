@@ -4,6 +4,6 @@ Resource  plone.txt
 
 *** Testcases ***
 
-Test foo
+Test collection
 
     Goto homepage
