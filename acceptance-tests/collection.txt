@@ -3,6 +3,18 @@ Library  SeleniumLibrary  run_on_failure=Capture Page Screenshot
 
 Resource  plone.txt
 
+
+*** Test cases ***
+
+Test add collection
+
+    Goto homepage
+    Add collection
+    Fill out title
+    Choose criteria
+    Save collection
+
+
 *** Keywords ***
 
 Add collection
