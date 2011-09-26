@@ -7,7 +7,14 @@
   <include package="plone.app.contentmenu" />
 
   <!-- COLLECTION VIEWS -->
-  
+
+  <browser:page
+    name="view"
+    permission="zope2.View"
+    for="plone.app.collection.interfaces.ICollection"
+    template="templates/standard_view.pt"
+    />
+
   <browser:page
     name="standard_view"
     permission="zope2.View"
