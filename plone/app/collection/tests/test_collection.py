@@ -130,10 +130,10 @@ class PloneAppCollectionViewsIntegrationTest(unittest.TestCase):
         self.assertTrue(view())
         self.assertEquals(view.request.response.status, 200)
 
-    def test_tabular_view(self):
-        view = self.collection.restrictedTraverse('tabular_view')
-        self.assertTrue(view())
-        self.assertEquals(view.request.response.status, 200)
+#    def test_tabular_view(self):
+#        view = self.collection.restrictedTraverse('tabular_view')
+#        self.assertTrue(view())
+#        self.assertEquals(view.request.response.status, 200)
 
     def test_thumbnail_view(self):
         view = self.collection.restrictedTraverse('thumbnail_view')
