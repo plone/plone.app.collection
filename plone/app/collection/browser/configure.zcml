@@ -6,65 +6,75 @@
 
   <include package="plone.app.contentmenu" />
 
-  <!-- Views for in Display menu -->
+  <!-- COLLECTION VIEWS -->
+  
   <browser:page
-      name="standard_view"
-      permission="zope2.View"
-      for="plone.app.collection.interfaces.ICollection"
-      template="templates/standard_view.pt"
-      />
+    name="standard_view"
+    permission="zope2.View"
+    for="plone.app.collection.interfaces.ICollection"
+    template="templates/standard_view.pt"
+    />
 
   <browser:page
-      name="summary_view"
-      permission="zope2.View"
-      for="plone.app.collection.interfaces.ICollection"
-      template="templates/summary_view.pt"
-      />
+    name="summary_view"
+    permission="zope2.View"
+    for="plone.app.collection.interfaces.ICollection"
+    template="templates/summary_view.pt"
+    />
 
   <browser:page
-      name="all_content"
-      permission="zope2.View"
-      for="plone.app.collection.interfaces.ICollection"
-      template="templates/all_content.pt"
-      />
+    name="all_content"
+    permission="zope2.View"
+    for="plone.app.collection.interfaces.ICollection"
+    template="templates/all_content.pt"
+    />
 
   <browser:page
-      name="tabular_view"
-      permission="zope2.View"
-      for="plone.app.collection.interfaces.ICollection"
-      template="templates/tabular_view.pt"
-      />
+    name="tabular_view"
+    permission="zope2.View"
+    for="plone.app.collection.interfaces.ICollection"
+    template="templates/tabular_view.pt"
+    />
 
   <browser:page
-      name="thumbnail_view"
-      permission="zope2.View"
-      for="plone.app.collection.interfaces.ICollection"
-      template="templates/thumbnail_view.pt"
-      />
+    name="thumbnail_view"
+    permission="zope2.View"
+    for="plone.app.collection.interfaces.ICollection"
+    template="templates/thumbnail_view.pt"
+    />
 
+  <browser:page
+    name="RSS"
+    permission="zope2.View"
+    for="plone.app.collection.interfaces.ICollection"
+    template="templates/rss.pt"
+    />
+
+  <!-- MENU ITEMS -->
+  
   <browser:menuItems
-      for="plone.app.collection.interfaces.ICollection"
-      menu="plone_displayviews">
+    for="plone.app.collection.interfaces.ICollection"
+    menu="plone_displayviews">
     <browser:menuItem
-        title="Standard view"
-        action="standard_view"
-        />
+      title="Standard view"
+      action="standard_view"
+      />
     <browser:menuItem
-        title="Summary view"
-        action="summary_view"
-        />
+      title="Summary view"
+      action="summary_view"
+      />
     <browser:menuItem
-        title="All content"
-        action="all_content"
-        />
+      title="All content"
+      action="all_content"
+      />
     <browser:menuItem
-        title="Tabular view"
-        action="tabular_view"
-        />
+      title="Tabular view"
+      action="tabular_view"
+      />
     <browser:menuItem
-        title="Thumbnail view"
-        action="thumbnail_view"
-        />
+      title="Thumbnail view"
+      action="thumbnail_view"
+      />
   </browser:menuItems>
 
 </configure>

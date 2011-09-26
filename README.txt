@@ -25,9 +25,9 @@ Todo::
 
   [X] Re-create class/view methods of the old collection type.
 
-  [ ] Make the standard collection views work.
+  [X] Make the standard collection views work.
 
-  [ ] Make enableSyndication/RSS work. Syndication is not working for 
+  [X] Make enableSyndication/RSS work. Syndication is not working for 
       plone.app.collection trunk either.
 
   [ ] Make the tabular_view and the in-out-widget for the customViewFields field work.

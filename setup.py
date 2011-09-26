@@ -31,6 +31,7 @@ setup(name='plone.app.collection',
       ],
       extras_require={
           'test': [
+              'lxml',
               'plone.app.testing',
            ],
       },
