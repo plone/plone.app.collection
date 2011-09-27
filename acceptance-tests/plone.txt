@@ -15,7 +15,7 @@ Start browser and wake plone up
 
 Goto homepage
     Go to  ${PLONE_URL}
-    Page should contain  Plone site
+    Page should contain  Welcome to Plone
 
 Log in
     [Arguments]  ${userid}  ${password}
