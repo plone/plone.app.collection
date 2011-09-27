@@ -9,6 +9,7 @@ from zope.component import getMultiAdapter
 from zope.component.hooks import getSite
 
 from plone.app.querystring import queryparser
+from plone.app.querystring.querybuilder import QueryBuilder
 from plone.app.querystring.interfaces import IQuerystringRegistryReader
 
 from plone.dexterity.content import Item
@@ -27,12 +28,12 @@ class Collection(Item):
         #return tool.getMetadataDisplay(exclude)
     
     def results(self, batch=True, b_start=0, b_size=30):
-        queryparser.parseFormquery(self, self.query)
-        querybuilder = getMultiAdapter((self, self.REQUEST),
-                                       name="querybuilderresults")
+        querybuilder = QueryBuilder(self, self.REQUEST)
+        sort_order = 'reverse' if self.sort_reversed else 'ascending'
         return querybuilder(query=self.query,
                             batch=batch, b_start=b_start, b_size=b_size,
-                            sort_on=None, sort_order=None, limit=0)
+                            sort_on=self.sort_on, sort_order=sort_order, 
+                            limit=self.limit)
 
     def selectedViewFields(self):
         """Returns a list of all metadata fields from the catalog that were
