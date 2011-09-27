@@ -26,12 +26,14 @@ class ICollection(form.Schema):
         required=False
         )
 
+    form.mode(sort_on='hidden')
     sort_on = schema.TextLine(
         title=_(u'label_sort_on', default=u'sortable_title'),
         description=_(u"Sort the collection on this index"),
         required=False,
         )
 
+    form.mode(sort_reversed='hidden')
     sort_reversed = schema.Bool(
         title=_(u'label_sort_reversed', default=u'sort_reversed'),
         description=_(u'Sort the results in reversed order'),
@@ -45,19 +47,11 @@ class ICollection(form.Schema):
         default=1000,
         )
 
-    sort_on = schema.TextLine(
-        title=_(u'label_sort_on', default=u'sortable_title'),
-        description=_(u"Sort the collection on this index"),
-        required=False,
-        )
-
     #customViewFields = schema.Choice(
     #    title=_(u'label_sort_on', default=u'sortable_title'),
     #    description=_(u"Sort the collection on this index"),
-    #    source=listMetaDataFields,
     #    required=False,
     #    )
 
     #form.order_before(title='*')
     #form.order_after(description='title')
-
