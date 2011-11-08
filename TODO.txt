@@ -1,0 +1,19 @@
+ToDo
+====
+
+  [X] Create basic dexterity-based collection type.
+
+  [X] Use QueryStringWidget (plone.formwidget.querystring) for the query field.
+
+  [X] Make sure the edit view is fully functional.
+
+  [X] Re-create class/view methods of the old collection type.
+
+  [X] Make the standard collection views work.
+
+  [X] Make enableSyndication/RSS work. Syndication is not working for 
+      plone.app.collection trunk either.
+
+  [ ] Make the tabular_view and the in-out-widget for the customViewFields field work.
+
+  [ ] Make the collection portlet work.
