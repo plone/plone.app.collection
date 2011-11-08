@@ -1,7 +1,8 @@
 Changelog
 =========
 
-1.0.1-dxdev (unreleased)
-------------------------
+2.0a1 (2011-11-07)
+------------------
 
-- Initial release
+- Initial release of the dexterity-based version.
+

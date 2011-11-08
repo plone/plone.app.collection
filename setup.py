@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.0.1-dx'
+version = '2.0a1'
 
 setup(name='plone.app.collection',
       version=version,
@@ -15,9 +15,9 @@ setup(name='plone.app.collection',
         "Programming Language :: Python",
         ],
       keywords='',
-      author='Timo Stollenwerk',
+      author='Timo Stollenwerk - Plone Foundation',
       author_email='contact@timostollenwerk.net',
-      url='http://svn.plone.org/svn/plone/plone.app.collection/branches/dexterity-tisto',
+      url='http://github.com/plone/plone.app.collection/tree/dexterity-tisto',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),
       namespace_packages=['plone', 'plone.app'],
