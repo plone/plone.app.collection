@@ -6,6 +6,10 @@
 
   <include package="plone.app.contentmenu" />
 
+  <browser:resource
+      name="plone.app.collection.css"
+      file="collection.css" />
+
   <!-- COLLECTION VIEWS -->
 
   <browser:page
