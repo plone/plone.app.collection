@@ -19,3 +19,6 @@
 /.pydevproject
 /src/*
 *.mo
+/.coverage
+coverage.xml
+zptlint.log
