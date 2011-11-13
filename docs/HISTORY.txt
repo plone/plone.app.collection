@@ -1,8 +1,12 @@
 Changelog
 =========
 
-2.0a1 (2011-11-07)
+2.0a1 (2011-11-13)
 ------------------
 
 - Initial release of the dexterity-based version.
 
+1.0 (2011-07-19)
+----------------
+
+- Initial release.
