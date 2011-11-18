@@ -4,7 +4,8 @@ Changelog
 1.0.1 - Unreleased
 ------------------
 
-- Nothing changed yet.
+- Fix i18n of query widget.
+  [vincentfretin]
 
 
 1.0 - 2011-07-19

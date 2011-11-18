@@ -26,10 +26,10 @@ CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
     QueryField(
         name='query',
         widget=QueryWidget(
-            label="Search terms",
-            description="""Define the search terms for the items you want to
-                list by choosing what to match on.
-                The list of results will be dynamically updated""",
+            label=_(u"Search terms"),
+            description=_(u"Define the search terms for the items you want to "
+                          u"list by choosing what to match on. "
+                          u"The list of results will be dynamically updated"),
             ),
         validators=('javascriptDisabled', )
         ),
