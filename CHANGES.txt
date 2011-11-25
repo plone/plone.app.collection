@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0.1 - Unreleased
+1.0.1 (2011-11-24)
 ------------------
 
 - Fix i18n of query widget.
