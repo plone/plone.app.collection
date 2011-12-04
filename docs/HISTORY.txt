@@ -1,10 +1,18 @@
 Changelog
 =========
 
+2.0a2 (unreleased)
+------------------
+
+- Remove archetypes-based Topic content type on install.
+  [timo]
+
+
 2.0a1 (2011-11-13)
 ------------------
 
 - Initial release of the dexterity-based version.
+
 
 1.0 (2011-07-19)
 ----------------
