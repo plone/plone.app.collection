@@ -18,3 +18,40 @@ and site managers can create complex search queries with ease.
   looking for the ATContentTypes-based version that is included in Plone
   since version 4.2, stay with the 1.x branch of plone.app.collection.
 
+
+How to add your own criteria to a collection
+--------------------------------------------
+
+plone.app.collection and (or more precisely the underlying 
+plone.app.querystring) uses plone.app.registry records to define possible 
+search criteria for a collection.
+
+If you want to add your own criteria, say to choose a value from a custom
+index, you have to create a plone.app.registry record for this index in your
+generic setup profile (e.g profiles/default/registry.xml)::
+
+    <registry>
+      <records interface="plone.app.querystring.interfaces.IQueryField"
+               prefix="plone.app.querystring.field.department">
+        <value key="title">Department</value>
+        <value key="description">A custom department index</value>
+        <value key="enabled">True</value>
+        <value key="sortable">False</value>
+        <value key="operations">
+            <element>plone.app.querystring.operation.string.is</element>
+        </value>
+        <value key="group">Metadata</value>
+      </records>
+    </registry>
+
+The title-value refers to the custom index ("Department"), the operations-value
+is used to filter the items and the group-value defines under which group the
+entry shows up in the selection widget.
+
+.. note::
+    
+    For a full list of all existing QueryField declarations see
+    https://github.com/plone/plone.app.querystring/blob/master/plone/app/querystring/profiles/default/registry.xml#L164
+
+    For a full list of all existing operations see
+    https://github.com/plone/plone.app.querystring/blob/master/plone/app/querystring/profiles/default/registry.xml#L1
