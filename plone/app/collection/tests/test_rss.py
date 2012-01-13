@@ -5,17 +5,10 @@ import unittest2 as unittest
 
 from plone.app.collection.testing import \
     PLONEAPPCOLLECTION_INTEGRATION_TESTING
-from plone.app.collection.testing import \
-    PLONEAPPCOLLECTION_FUNCTIONAL_TESTING
 
 from plone.app.testing import TEST_USER_ID, TEST_USER_NAME, setRoles, login
 
-from plone.app.collection.interfaces import ICollection
-from plone.app.collection.collection import Collection
-
 from lxml import etree
-
-from plone.app.contentlisting.interfaces import IContentListing
 
 query = [{
     'i': 'Title',
@@ -35,7 +28,7 @@ class RSSViewTest(unittest.TestCase):
         login(self.portal, TEST_USER_NAME)
         self.portal.invokeFactory('Folder', 'test-folder')
         self.folder = self.portal['test-folder']
-        self.folder.invokeFactory('Collection', 
+        self.folder.invokeFactory('Collection',
                                   'collection1')
         self.collection = aq_inner(self.folder['collection1'])
         self.request.set('URL', self.collection.absolute_url())
@@ -54,7 +47,7 @@ class RSSViewTest(unittest.TestCase):
         view = self.collection.restrictedTraverse('@@RSS')
         self.assertTrue(view())
         self.assertEquals(view.request.response.status, 200)
-    
+
     def test_view_is_valid(self):
         view = self.collection.restrictedTraverse('@@RSS')
         self.assertIsValidRSS(view())

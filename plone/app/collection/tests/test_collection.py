@@ -69,25 +69,25 @@ class PloneAppCollectionIntegrationTest(unittest.TestCase):
         self.folder = self.portal['test-folder']
 
     def test_schema(self):
-        fti = queryUtility(IDexterityFTI, 
+        fti = queryUtility(IDexterityFTI,
                            name='Collection')
         schema = fti.lookupSchema()
         self.assertEquals(ICollection, schema)
 
     def test_fti(self):
-        fti = queryUtility(IDexterityFTI, 
+        fti = queryUtility(IDexterityFTI,
                            name='Collection')
         self.assertNotEquals(None, fti)
 
     def test_factory(self):
-        fti = queryUtility(IDexterityFTI, 
+        fti = queryUtility(IDexterityFTI,
                            name='Collection')
         factory = fti.factory
         new_object = createObject(factory)
         self.failUnless(ICollection.providedBy(new_object))
 
     def test_adding(self):
-        self.folder.invokeFactory('Collection', 
+        self.folder.invokeFactory('Collection',
                                   'collection1')
         p1 = self.folder['collection1']
         self.failUnless(ICollection.providedBy(p1))
@@ -104,7 +104,7 @@ class PloneAppCollectionViewsIntegrationTest(unittest.TestCase):
         login(self.portal, TEST_USER_NAME)
         self.portal.invokeFactory('Folder', 'test-folder')
         self.folder = self.portal['test-folder']
-        self.folder.invokeFactory('Collection', 
+        self.folder.invokeFactory('Collection',
                                   'collection1')
         self.collection = aq_inner(self.folder['collection1'])
         self.request.set('URL', self.collection.absolute_url())
@@ -152,7 +152,7 @@ class PloneAppCollectionEditViewsIntegrationTest(unittest.TestCase):
         login(self.portal, TEST_USER_NAME)
         self.portal.invokeFactory('Folder', 'test-folder')
         self.folder = self.portal['test-folder']
-        self.folder.invokeFactory('Collection', 
+        self.folder.invokeFactory('Collection',
                                   'collection1')
         self.collection = aq_inner(self.folder['collection1'])
         self.request.set('URL', self.collection.absolute_url())
@@ -168,6 +168,6 @@ class PloneAppCollectionEditViewsIntegrationTest(unittest.TestCase):
         #self.assertTrue(getattr(accessor(), "actual_result_count"))
         #self.assertEquals(accessor().actual_result_count, 0)
 
+
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)
-

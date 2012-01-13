@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest2 as unittest
 
-from plone.dexterity.interfaces import IDexterityFTI
-
 from plone.app.collection.testing import \
     PLONEAPPCOLLECTION_INTEGRATION_TESTING
 
@@ -21,10 +19,10 @@ class PloneAppCollectionClassTest(unittest.TestCase):
         self.folder = self.portal['test-folder']
         self.types = self.portal.portal_types
 
-	def test_css_registered(self):
-	    cssreg = getattr(self.portal, 'portal_css')
-	    stylesheets_ids = cssreg.getResourceIds()
-	    self.failUnless('collection.css' in stylesheets_ids)
+    def test_css_registered(self):
+        cssreg = getattr(self.portal, 'portal_css')
+        stylesheets_ids = cssreg.getResourceIds()
+        self.failUnless('collection.css' in stylesheets_ids)
 
     def test_old_topic_disabled(self):
         self.assertTrue('Topic' not in self.types.objectIds())
