@@ -22,7 +22,8 @@ class PloneAppCollectionClassTest(unittest.TestCase):
     def test_css_registered(self):
         cssreg = getattr(self.portal, 'portal_css')
         stylesheets_ids = cssreg.getResourceIds()
-        self.failUnless('collection.css' in stylesheets_ids)
+        self.failUnless(
+            '++resource++plone.app.collection.css' in stylesheets_ids)
 
     def test_old_topic_disabled(self):
         self.assertTrue('Topic' not in self.types.objectIds())
