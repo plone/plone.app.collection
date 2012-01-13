@@ -14,7 +14,7 @@ class PloneAppCollectionLayer(PloneSandboxLayer):
         import plone.app.collection
         xmlconfig.file('configure.zcml', plone.app.collection,
                        context=configurationContext)
-    
+
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'plone.app.collection:default')
 

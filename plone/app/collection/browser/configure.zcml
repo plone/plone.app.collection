@@ -62,7 +62,7 @@
     />
 
   <!-- MENU ITEMS -->
-  
+
   <browser:menuItems
     for="plone.app.collection.interfaces.ICollection"
     menu="plone_displayviews">

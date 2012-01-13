@@ -1,20 +1,11 @@
 # -*- coding: utf-8 -*-
-from Acquisition import aq_base
-
 from Products.CMFCore.utils import getToolByName
 
-from zope.component import queryUtility
-from zope.component import getMultiAdapter
+from plone.app.contentlisting.interfaces import IContentListing
 
-from zope.component.hooks import getSite
-
-from plone.app.querystring import queryparser
 from plone.app.querystring.querybuilder import QueryBuilder
-from plone.app.querystring.interfaces import IQuerystringRegistryReader
 
 from plone.dexterity.content import Item
-
-from plone.registry.interfaces import IRegistry
 
 
 class Collection(Item):
@@ -26,13 +17,13 @@ class Collection(Item):
         return []
         #tool = getToolByName(self, ATCT_TOOLNAME)
         #return tool.getMetadataDisplay(exclude)
-    
+
     def results(self, batch=True, b_start=0, b_size=30):
         querybuilder = QueryBuilder(self, self.REQUEST)
         sort_order = 'reverse' if self.sort_reversed else 'ascending'
         return querybuilder(query=self.query,
                             batch=batch, b_start=b_start, b_size=b_size,
-                            sort_on=self.sort_on, sort_order=sort_order, 
+                            sort_on=self.sort_on, sort_order=sort_order,
                             limit=self.limit)
 
     def selectedViewFields(self):
