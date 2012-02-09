@@ -29,7 +29,7 @@ CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
             label=_(u"Search terms"),
             description=_(u"Define the search terms for the items you want to "
                           u"list by choosing what to match on. "
-                          u"The list of results will be dynamically updated"),
+                          u"The list of results will be dynamically updated."),
             ),
         validators=('javascriptDisabled', )
         ),
