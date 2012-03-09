@@ -22,8 +22,8 @@ and site managers can create complex search queries with ease.
 How to add your own criteria to a collection
 --------------------------------------------
 
-plone.app.collection and (or more precisely the underlying 
-plone.app.querystring) uses plone.app.registry records to define possible 
+plone.app.collection and (or more precisely the underlying
+plone.app.querystring) uses plone.app.registry records to define possible
 search criteria for a collection.
 
 If you want to add your own criteria, say to choose a value from a custom
@@ -49,7 +49,7 @@ is used to filter the items and the group-value defines under which group the
 entry shows up in the selection widget.
 
 .. note::
-    
+
     For a full list of all existing QueryField declarations see
     https://github.com/plone/plone.app.querystring/blob/master/plone/app/querystring/profiles/default/registry.xml#L164
 
