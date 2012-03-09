@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.0b1 (unreleased)
+2.0b1 (2012-03-09)
 ------------------
 
 - Remove archetypes-based Topic content type on install.
