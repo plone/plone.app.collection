@@ -1,10 +1,16 @@
 Changelog
 =========
 
-2.0a2 (unreleased)
+2.0b1 (unreleased)
 ------------------
 
 - Remove archetypes-based Topic content type on install.
+  [timo]
+
+- Do not hide sort_on and sort_reversed on the field level, since this will
+  break the JS code for sorting in plone.formwidget.querystring. At some
+  point we have to refactor the code to make plone.formwidget.querystring use
+  z3c.form only for sorting.
   [timo]
 
 
@@ -12,9 +18,3 @@ Changelog
 ------------------
 
 - Initial release of the dexterity-based version.
-
-
-1.0 (2011-07-19)
-----------------
-
-- Initial release.

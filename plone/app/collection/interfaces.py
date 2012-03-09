@@ -26,16 +26,14 @@ class ICollection(form.Schema):
         required=False
         )
 
-    form.mode(sort_on='hidden')
     sort_on = schema.TextLine(
-        title=_(u'label_sort_on', default=u'sortable_title'),
+        title=_(u'label_sort_on', default=u'Sort on'),
         description=_(u"Sort the collection on this index"),
         required=False,
         )
 
-    form.mode(sort_reversed='hidden')
     sort_reversed = schema.Bool(
-        title=_(u'label_sort_reversed', default=u'sort_reversed'),
+        title=_(u'label_sort_reversed', default=u'Reversed order'),
         description=_(u'Sort the results in reversed order'),
         required=False,
         )
