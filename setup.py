@@ -23,7 +23,7 @@ setup(name='plone.app.collection',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          'archetypes.querywidget',
+          'archetypes.querywidget>=1.0.2dev',
           'plone.app.contentlisting',
           'plone.app.form',
           'plone.app.portlets',

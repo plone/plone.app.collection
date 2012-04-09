@@ -111,10 +111,17 @@ class Collection(document.ATDocument):
         tool = getToolByName(self, ATCT_TOOLNAME)
         return tool.getMetadataDisplay(exclude)
 
-    def results(self, batch=True, b_start=0, b_size=30):
+    security.declareProtected(View, 'results')
+    def results(self, batch=True, b_start=0, b_size=30, brains=False):
         """Get results"""
-        return self.getQuery(batch=batch, b_start=b_start, b_size=b_size)
+        return self.getQuery(batch=batch, b_start=b_start, b_size=b_size, brains=brains)
 
+    # for BBB with ATTopic
+    security.declareProtected(View, 'queryCatalog')
+    def queryCatalog(self, batch=True, b_start=0, b_size=30):
+        return self.results(batch, b_start, b_size, brains=True)
+
+    security.declareProtected(View, 'selectedViewFields')
     def selectedViewFields(self):
         """Get which metadata field are selected"""
         _mapping = {}
@@ -122,6 +129,7 @@ class Collection(document.ATDocument):
             _mapping[field[0]] = field
         return [_mapping[field] for field in self.customViewFields]
 
+    security.declareProtected(View, 'getFoldersAndImages')
     def getFoldersAndImages(self):
         """Get folders and images"""
         catalog = getToolByName(self, 'portal_catalog')

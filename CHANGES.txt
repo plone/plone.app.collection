@@ -4,6 +4,9 @@ Changelog
 1.0.3 (unreleased)
 ------------------
 
+- Support a 'queryCatalog' method for backwards-compatibility with ATTopic.
+  [davisagli]
+
 - Only display the batch navigation in tabular_view if there are items to 
   display.
   [esteele]
