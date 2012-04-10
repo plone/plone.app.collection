@@ -112,14 +112,14 @@ class Collection(document.ATDocument):
         return tool.getMetadataDisplay(exclude)
 
     security.declareProtected(View, 'results')
-    def results(self, batch=True, b_start=0, b_size=30, brains=False):
+    def results(self, batch=True, b_start=0, b_size=30, sort_on=None, brains=False):
         """Get results"""
-        return self.getQuery(batch=batch, b_start=b_start, b_size=b_size, brains=brains)
+        return self.getQuery(batch=batch, b_start=b_start, b_size=b_size, sort_on=sort_on, brains=brains)
 
     # for BBB with ATTopic
     security.declareProtected(View, 'queryCatalog')
-    def queryCatalog(self, batch=True, b_start=0, b_size=30):
-        return self.results(batch, b_start, b_size, brains=True)
+    def queryCatalog(self, batch=True, b_start=0, b_size=30, sort_on=None):
+        return self.results(batch, b_start, b_size, sort_on=sort_on, brains=True)
 
     security.declareProtected(View, 'selectedViewFields')
     def selectedViewFields(self):
