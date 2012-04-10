@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<portlets>
-  <portlet
-    addview="plone.app.collection.portlets.Collection"
-    title="Collection portlet"
-    description="A portlet which displays the results of a collection query"
-    />
-</portlets>

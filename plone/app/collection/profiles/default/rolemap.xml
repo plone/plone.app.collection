@@ -8,10 +8,5 @@
       <role name="Manager" />
       <role name="Site Administrator" />
     </permission>
-    <permission name="plone.app.collection: Add collection portlet"
-                acquire="True">
-      <role name="Manager" />
-      <role name="Site Administrator" />
-    </permission>
   </permissions>
 </rolemap>

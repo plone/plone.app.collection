@@ -9,8 +9,7 @@
   <include package="archetypes.querywidget" />
   <include package="plone.app.contentlisting" />
   <include package=".browser" />
-  <include package=".portlets" />
-
+  
   <genericsetup:registerProfile
     name="default"
     title="plone.app.collection"
