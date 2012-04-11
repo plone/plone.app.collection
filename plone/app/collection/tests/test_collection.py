@@ -9,6 +9,7 @@ from plone.portlets.interfaces import IPortletType
 from plone.testing.z2 import Browser
 from transaction import commit
 from zope.component import getUtility, getMultiAdapter
+from Products.CMFCore.utils import getToolByName
 
 from plone.app.collection.portlets import collectionportlet
 from .base import CollectionTestCase, CollectionPortletTestCase
@@ -142,6 +143,18 @@ class TestCollection(CollectionTestCase):
         collection = portal['collection']
         # check if there are selectedViewFields
         self.assertTrue(len(collection.selectedViewFields()) > 0)
+
+    def test_syndication_enabled_by_default(self):
+        portal = self.layer['portal']
+        login(portal, 'admin')
+        # add a collection, so we can add a query to it
+        portal.invokeFactory("Collection",
+                             "collection",
+                             title="New Collection")
+        collection = portal['collection']
+        syn = getToolByName(portal, 'portal_syndication')
+        self.assertTrue(syn.isSyndicationAllowed(collection))
+
 
 
 class TestCollectionPortlet(CollectionPortletTestCase):
