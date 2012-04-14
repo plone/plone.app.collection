@@ -1,4 +1,5 @@
 from AccessControl import ClassSecurityInfo
+from OFS.ObjectManager import ObjectManager
 from archetypes.querywidget.field import QueryField
 from archetypes.querywidget.widget import QueryWidget
 from plone.app.contentlisting.interfaces import IContentListing
@@ -95,7 +96,7 @@ schemata.finalizeATCTSchema(
     moveDiscussion=False)
 
 
-class Collection(document.ATDocument):
+class Collection(document.ATDocument, ObjectManager):
     """A (new style) Plone Collection"""
     implements(ICollection)
 
@@ -103,6 +104,17 @@ class Collection(document.ATDocument):
     schema = CollectionSchema
 
     security = ClassSecurityInfo()
+
+    # Override initializeArchetype to turn on syndication by default
+    def initializeArchetype(self, **kwargs):
+        ret_val = document.ATDocument.initializeArchetype(self, **kwargs)
+        # Enable syndication by default
+        syn_tool = getToolByName(self, 'portal_syndication', None)
+        if syn_tool is not None:
+            if (syn_tool.isSiteSyndicationAllowed() and
+                                    not syn_tool.isSyndicationAllowed(self)):
+                syn_tool.enableSyndication(self)
+        return ret_val
 
     security.declareProtected(View, 'listMetaDataFields')
     def listMetaDataFields(self, exclude=True):
