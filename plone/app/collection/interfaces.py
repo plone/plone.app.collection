@@ -45,6 +45,13 @@ class ICollection(form.Schema):
         default=1000,
         )
 
+    item_count = schema.Int(
+        title=_(u'label_item_count', default=u'Item count'),
+        description=_(u'Number of items that will show up in one batch.'),
+        required=False,
+        default=30,
+        )
+
     #customViewFields = schema.Choice(
     #    title=_(u'label_sort_on', default=u'sortable_title'),
     #    description=_(u"Sort the collection on this index"),

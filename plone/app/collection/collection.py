@@ -18,9 +18,11 @@ class Collection(Item):
         #tool = getToolByName(self, ATCT_TOOLNAME)
         #return tool.getMetadataDisplay(exclude)
 
-    def results(self, batch=True, b_start=0, b_size=30):
+    def results(self, batch=True, b_start=0, b_size=None):
         querybuilder = QueryBuilder(self, self.REQUEST)
         sort_order = 'reverse' if self.sort_reversed else 'ascending'
+        if not b_size:
+            b_size = self.item_count
         return querybuilder(query=self.query,
                             batch=batch, b_start=b_start, b_size=b_size,
                             sort_on=self.sort_on, sort_order=sort_order,

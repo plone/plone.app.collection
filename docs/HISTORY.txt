@@ -4,7 +4,8 @@ Changelog
 2.0b2 (unreleased)
 ------------------
 
-- nothing
+- Item count attribute added to control the number of items in a batch.
+  [timo]
 
 
 2.0b1 (2012-03-09)
