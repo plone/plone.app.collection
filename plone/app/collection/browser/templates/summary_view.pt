@@ -48,8 +48,8 @@
             <p class="tileFooter">
                 <a href=""
                    tal:attributes="href python:item_type in use_view_action and item_url+'/view' or item_url;">
-                   <span class="hiddenStructure"><span tal:replace="item/Title" /> - </span>
-                   <span i18n:translate="read_more">Read More&hellip;</span>
+                    <span class="hiddenStructure"><span tal:replace="item/Title" /> - </span>
+                    <span i18n:translate="read_more">Read More&hellip;</span>
                 </a>
             </p>
 

@@ -5,7 +5,7 @@ Changelog
 ------------------
 
 - accessibility improvements for screen readers regarding "more" links, see https://dev.plone.org/ticket/11982 
-  [rmattb, applied by polyester] 
+  [rmattb, applied by polyester and par117] 
 
 
 1.0.3 (2012-04-15)
