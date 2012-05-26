@@ -15,6 +15,8 @@ from plone.app.collection.portlets import collectionportlet
 from .base import CollectionTestCase, CollectionPortletTestCase
 from .base import PACOLLECTION_FUNCTIONAL_TESTING
 
+import time
+
 # default test query
 query = [{
     'i': 'Title',
@@ -154,3 +156,41 @@ class TestCollection(CollectionTestCase):
         collection = portal['collection']
         syn = getToolByName(portal, 'portal_syndication')
         self.assertTrue(syn.isSyndicationAllowed(collection))
+
+    def test_sorting_1(self):
+        portal = self.layer['portal']
+        login(portal, 'admin')
+        query = [{
+            'i': 'portal_type',
+            'o': 'plone.app.querystring.operation.string.is',
+            'v': 'News Item',
+        }]
+        portal.invokeFactory("Collection",
+                             "collection",
+                             title="New Collection",
+                             query=query,
+                             sort_on='created',
+                             sort_reversed=True,
+                             )
+
+        # News Item 1
+        portal.invokeFactory(id='newsitem1',
+                             type_name='News Item')
+        time.sleep(2)
+        # News Item 1
+        portal.invokeFactory(id='newsitem2',
+                             type_name='News Item')
+        time.sleep(2)
+        # News Item 1
+        portal.invokeFactory(id='newsitem3',
+                             type_name='News Item')
+
+        collection = portal['collection']
+        results = collection.results(batch=False)
+        ritem0 = results[0]
+        ritem1 = results[1]
+        ritem2 = results[2]
+
+        self.assertTrue(ritem0.CreationDate() > ritem1.CreationDate())
+        self.assertTrue(ritem1.CreationDate() > ritem2.CreationDate())
+
