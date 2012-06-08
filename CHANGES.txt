@@ -1,10 +1,14 @@
 Changelog
 =========
 
-1.0.4 (unreleased)
+1.0.4 (2012-06-08)
 ------------------
 
-- accessibility improvements for screen readers regarding "more" links, see https://dev.plone.org/ticket/11982 
+- Fix an ommission that prevented sorting from working.
+  [erral]
+
+- accessibility improvements for screen readers regarding "more" links, 
+  see http://dev.plone.org/ticket/11982 
   [rmattb, applied by polyester and par117] 
 
 
