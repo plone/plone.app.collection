@@ -5,10 +5,10 @@ from plone.app.contentlisting.interfaces import IContentListing
 
 from plone.app.querystring.querybuilder import QueryBuilder
 
-from plone.dexterity.content import Item
+from plone.dexterity.content import Container
 
 
-class Collection(Item):
+class Collection(Container):
 
     #security.declareProtected(View, 'listMetaDataFields')
     def listMetaDataFields(self, exclude=True):

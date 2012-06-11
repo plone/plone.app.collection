@@ -7,6 +7,9 @@ Changelog
 - Item count attribute added to control the number of items in a batch.
   [timo]
 
+- Make the collection type folderish and allow nested collections.
+  [timo]
+
 
 2.0b1 (2012-03-09)
 ------------------

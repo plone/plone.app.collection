@@ -9,8 +9,10 @@
     i18n:translate="">Collection</property>
   <property name="content_icon"></property>
   <property name="global_allow">True</property>
-  <property name="filter_content_types">False</property>
-  <property name="allowed_content_types" />
+  <property name="filter_content_types">True</property>
+  <property name="allowed_content_types">
+    <element value="Collection" />
+  </property>
   <property name="allow_discussion">False</property>
   <property name="schema">plone.app.collection.interfaces.ICollection</property>
   <property name="klass">plone.app.collection.collection.Collection</property>

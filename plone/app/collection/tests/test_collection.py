@@ -92,6 +92,13 @@ class PloneAppCollectionIntegrationTest(unittest.TestCase):
         p1 = self.folder['collection1']
         self.failUnless(ICollection.providedBy(p1))
 
+    def test_nested_collections(self):
+        self.folder.invokeFactory('Collection',
+                                  'collection1')
+        p1 = self.folder['collection1']
+        p1.invokeFactory('Collection', 'collection2')
+        self.failUnless(ICollection.providedBy(p1.collection2))
+
 
 class PloneAppCollectionViewsIntegrationTest(unittest.TestCase):
 

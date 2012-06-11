@@ -11,7 +11,7 @@
       name="default"
       title="Collection"
       directory="profiles/default"
-      description="Dexterity-based collection"
+      description="Dexterity-based collection type"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
