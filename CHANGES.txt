@@ -10,6 +10,10 @@ Changelog
 - BBB methods added to collection class.
   [timo]
 
+- Remove code to remove the ATContentTypes 'Topic' type since this type is not
+  present in Plone 4.2 any longer.
+  [timo]
+
 
 2.0b1 (2012-03-09)
 ------------------
