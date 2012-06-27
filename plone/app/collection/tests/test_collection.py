@@ -39,9 +39,8 @@ class PloneAppCollectionClassTest(unittest.TestCase):
         self.portal = self.layer['portal']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
         login(self.portal, TEST_USER_NAME)
-        self.portal.invokeFactory('Folder', 'test-folder')
-        self.folder = self.portal['test-folder']
-        self.collection = Collection()
+        self.portal.invokeFactory('Collection', 'collection')
+        self.collection = self.portal['collection']
 
     def test_listMetaDataFields(self):
         self.assertEquals(self.collection.listMetaDataFields(), [])
@@ -54,6 +53,22 @@ class PloneAppCollectionClassTest(unittest.TestCase):
 
     def test_getFoldersAndImages(self):
         pass
+
+    def test_bbb_setQuery(self):
+        self.collection.setQuery(query)
+        self.assertEqual(self.collection.query, query)
+
+    def test_bbb_getQuery(self):
+        self.collection.query = query
+        self.assertEqual(self.collection.getQuery(), query)
+
+    def test_bbb_setSort_on(self):
+        self.collection.setSort_on('start')
+        self.assertEqual(self.collection.sort_on, 'start')
+
+    def test_bbb_setSort_reversed(self):
+        self.collection.setSort_reversed(True)
+        self.assertEqual(self.collection.sort_reversed, True)
 
 
 class PloneAppCollectionIntegrationTest(unittest.TestCase):

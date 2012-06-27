@@ -10,6 +10,9 @@ Changelog
 - Make the collection type folderish and allow nested collections.
   [timo]
 
+- BBB methods added to collection class.
+  [timo]
+
 
 2.0b1 (2012-03-09)
 ------------------
