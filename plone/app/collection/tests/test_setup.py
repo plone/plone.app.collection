@@ -25,8 +25,5 @@ class PloneAppCollectionClassTest(unittest.TestCase):
         self.failUnless(
             '++resource++plone.app.collection.css' in stylesheets_ids)
 
-    def test_old_topic_disabled(self):
-        self.assertTrue('Topic' not in self.types.objectIds())
-
     def test_atcontenttypes_replaced_by_dexterity_types(self):
         self.assertEquals(self.types['Collection'].meta_type, 'Dexterity FTI')
