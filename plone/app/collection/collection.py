@@ -55,3 +55,17 @@ class Collection(Item):
         _mapping['total_number_of_images'] = sum(map(len,
                                                 _mapping['images'].values()))
         return _mapping
+
+    # BBB
+
+    def setQuery(self, query):
+        self.query = query
+
+    def getQuery(self):
+        return self.query
+
+    def setSort_on(self, sort_on):
+        self.sort_on = sort_on
+
+    def setSort_reversed(self, sort_reversed):
+        self.sort_reversed = sort_reversed
