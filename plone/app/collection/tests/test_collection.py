@@ -16,7 +16,6 @@ from plone.app.collection.testing import \
 from plone.app.testing import TEST_USER_ID, TEST_USER_NAME, setRoles, login
 
 from plone.app.collection.interfaces import ICollection
-from plone.app.collection.collection import Collection
 
 query = [{
     'i': 'Title',
