@@ -1,8 +1,11 @@
 Changelog
 =========
 
-2.0b2 (unreleased)
-------------------
+2.0b2-fr (unreleased)
+---------------------
+
+- BBB methods added to collection class.
+  [timo]
 
 - Item count attribute added to control the number of items in a batch.
   [timo]
