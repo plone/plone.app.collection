@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '2.0b2-fr'
+version = '2.0b4-fr'
 
 setup(name='plone.app.collection',
       version=version,
