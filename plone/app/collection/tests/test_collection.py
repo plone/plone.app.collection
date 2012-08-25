@@ -25,6 +25,14 @@ query = [{
 }]
 
 
+def getData(filename):
+    from os.path import dirname, join
+    from plone.app.collection import tests
+    filename = join(dirname(tests.__file__), filename)
+    data = open(filename).read()
+    return data
+
+
 class TestCollection(CollectionTestCase):
 
     def test_addCollection(self):
@@ -77,6 +85,47 @@ class TestCollection(CollectionTestCase):
         browser = Browser(self.layer['app'])
         browser.open(collection.absolute_url())
         self.assertTrue("Collection Test Page" in browser.contents)
+
+    def test_collection_templates(self):
+        portal = self.layer['portal']
+        login(portal, 'admin')
+        data = getData('image.png')
+        # add an image that will be listed by the collection
+        portal.invokeFactory("Image",
+                             "image",
+                             title="Image example",
+                             image=data)
+        # add a collection, so we can add a query to it
+        portal.invokeFactory("Collection",
+                             "collection",
+                             title="New Collection")
+        collection = portal['collection']
+        # Search for images
+        query = [{
+            'i': 'Type',
+            'o': 'plone.app.querystring.operation.string.is',
+            'v': 'Image',
+        }]
+        # set the query and publish the collection
+        collection.setQuery(query)
+        workflow = portal.portal_workflow
+        workflow.doActionFor(collection, "publish")
+        commit()
+        logout()
+        # open a browser to see if our image is in the results
+        browser = Browser(self.layer['app'])
+        browser.handleErrors = False
+        browser.open(collection.absolute_url())
+        self.assertTrue("Image example" in browser.contents)
+        # open summary_view template
+        browser.open('%s/summary_view' % collection.absolute_url())
+        self.assertTrue("Image example" in browser.contents)
+        # open folder_summary_view template
+        browser.open('%s/folder_summary_view' % collection.absolute_url())
+        self.assertTrue("Image example" in browser.contents)
+        # open thumbnail_view template
+        browser.open('%s/thumbnail_view' % collection.absolute_url())
+        self.assertTrue("Image example" in browser.contents)
 
     def test_getFoldersAndImages(self):
         portal = self.layer['portal']
