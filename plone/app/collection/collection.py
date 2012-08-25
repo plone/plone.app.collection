@@ -147,17 +147,20 @@ class Collection(document.ATDocument, ObjectManager):
     def getFoldersAndImages(self):
         """Get folders and images"""
         catalog = getToolByName(self, 'portal_catalog')
-        folders = [item for item in self.results(batch=False)
-                   if item.portal_type == 'Folder']
+        results = self.results(batch=False)
 
-        _mapping = {'folders': folders, 'images': {}}
+        _mapping = {'results': results, 'images': {}}
 
-        for folder in folders:
-            query = {
-                'portal_type': 'Image',
-                'path': folder.getPath(),
-            }
-            _mapping['images'][folder.id] = IContentListing(catalog(query))
+        for item in results:
+            item_path = item.getPath()
+            if item.portal_type == 'Folder':
+                query = {
+                    'portal_type': 'Image',
+                    'path': item_path,
+                }
+                _mapping['images'][item_path] = IContentListing(catalog(query))
+            elif item.portal_type in ('Image', 'News Item'):
+                _mapping['images'][item_path] = [item, ]
 
         _mapping['total_number_of_images'] = sum(map(len,
                                                 _mapping['images'].values()))
