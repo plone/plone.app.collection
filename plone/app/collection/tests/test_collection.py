@@ -112,7 +112,9 @@ class TestCollection(CollectionTestCase):
         collection = portal['collection']
         collection.setQuery(query)
         imagecount = collection.getFoldersAndImages()['total_number_of_images']
-        self.assertTrue(imagecount == 2)
+        # The current implementation for getFoldersAndImages will return
+        # another_image under subfolder and also under folder
+        self.assertTrue(imagecount == 3)
 
     def test_getFoldersAndImages_returning_images(self):
         portal = self.layer['portal']
