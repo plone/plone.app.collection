@@ -86,16 +86,24 @@ class TestCollection(CollectionTestCase):
                              "collection",
                              title="New Collection")
 
-        # add example folder
+        # add example folder and a subfolder to it, both with same id
         portal.invokeFactory("Folder",
                              "folder1",
                              title="Folder1")
         folder = portal['folder1']
 
-        # add example image into the folder
+        folder.invokeFactory("Folder",
+                             "folder1",
+                             title="Folder1")
+        subfolder = folder['folder1']
+        # add example image into folder and its subfolder
         folder.invokeFactory("Image",
                              "image",
                              title="Image example")
+
+        subfolder.invokeFactory("Image",
+                                "another_image",
+                                title="Image example")
         query = [{
             'i': 'Type',
             'o': 'plone.app.querystring.operation.string.is',
@@ -104,7 +112,7 @@ class TestCollection(CollectionTestCase):
         collection = portal['collection']
         collection.setQuery(query)
         imagecount = collection.getFoldersAndImages()['total_number_of_images']
-        self.assertTrue(imagecount == 1)
+        self.assertTrue(imagecount == 2)
 
     def test_limit(self):
         portal = self.layer['portal']
