@@ -33,6 +33,7 @@ setup(name='plone.app.collection',
           'test': [
               'lxml',
               'plone.app.testing',
+              'gocept.selenium [plonetesting]',
            ],
       },
       entry_points="""
