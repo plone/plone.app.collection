@@ -41,6 +41,13 @@
       template="templates/thumbnail_view.pt"
       />
 
+  <browser:page
+      name="folder_summary_view"
+      permission="zope2.View"
+      for="plone.app.collection.interfaces.ICollection"
+      template="templates/summary_view.pt"
+      />
+
   <browser:menuItems
       for="plone.app.collection.interfaces.ICollection"
       menu="plone_displayviews">
