@@ -114,6 +114,39 @@ class TestCollection(CollectionTestCase):
         imagecount = collection.getFoldersAndImages()['total_number_of_images']
         self.assertTrue(imagecount == 2)
 
+    def test_getFoldersAndImages_returning_images(self):
+        portal = self.layer['portal']
+        login(portal, 'admin')
+        # add a collection, so we can add a query to it
+        portal.invokeFactory("Collection",
+                             "collection",
+                             title="New Collection")
+
+        # add example folder
+        portal.invokeFactory("Folder",
+                             "folder1",
+                             title="Folder1")
+        folder = portal['folder1']
+
+        # add example image into this folder
+        folder.invokeFactory("Image",
+                             "image",
+                             title="Image example")
+
+        # add another image into the portal root
+        portal.invokeFactory("Image",
+                             "image",
+                             title="Image example")
+        query = [{
+            'i': 'Type',
+            'o': 'plone.app.querystring.operation.string.is',
+            'v': 'Image',
+        }]
+        collection = portal['collection']
+        collection.setQuery(query)
+        imagecount = collection.getFoldersAndImages()['total_number_of_images']
+        self.assertTrue(imagecount == 2)
+
     def test_limit(self):
         portal = self.layer['portal']
         login(portal, 'admin')
