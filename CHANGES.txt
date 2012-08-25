@@ -4,7 +4,15 @@ Changelog
 1.0.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add an alias folder_summary_view pointing to summary_view. This allows
+  existing installs to display results for news/aggregator and
+  events/aggregator see http://dev.plone.org/ticket/13010 [ericof]
+
+- Fix summary_view so shows thumbnails for contents with the image field,
+  see http://dev.plone.org/ticket/13010 [ericof]
+
+- Fix thumbnail_view so it works when Images or News Items are listed,
+  see http://dev.plone.org/ticket/13010 [ericof]
 
 
 1.0.4 (2012-06-08)
