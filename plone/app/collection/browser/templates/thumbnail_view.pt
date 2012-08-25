@@ -22,28 +22,36 @@
         <div metal:define-slot="inside" tal:replace="structure text">The body</div>
     </div>
 
-    <tal:folders tal:repeat="folder data/folders"
+    <tal:results tal:repeat="item data/results"
                  tal:condition="total_number_of_images">
     <div class="photoAlbumEntry photoAlbumFolder"
-         tal:define="images_album python:data['images'][folder.id];
+         tal:define="item_path item/getPath;
+                     is_album python:item.portal_type=='Folder';
+                     images_album python:data['images'][item_path];
                      number_of_images python:len(images_album);
+                     item_title item/Title;
+                     item_url item/getURL;
+                     item_description item/Description;
+                     item_view python:'%s/%s' % (item_url, 
+                                                 is_album and '' or 'view');
                      random python:modules['random'];
-                     random_image python:number_of_images and random.choice(images_album).getObject() or None">
-                <a tal:attributes="href folder/getURL;
-                                   title folder/Description">
+                     random_image python:number_of_images and random.choice(images_album).getObject() or None"
+          tal:attributes="class python:is_album and 'photoAlbumEntry photoAlbumFolder' or 'photoAlbumEntry'">
+                <a tal:attributes="href item_view;
+                                   title item_description">
                     <span class="photoAlbumEntryWrapper"
                           tal:condition="number_of_images">
                      <img src="" alt=""
                           tal:define="scale random_image/@@images"
-                          tal:replace="structure python: scale.scale('image', scale='thumb').tag(title=folder.Description())" />
+                          tal:replace="structure python: scale.scale('image', scale='thumb').tag(title=item_description)" />
                     </span>
                     <span class="photoAlbumEntryTitle">
-                       <tal:title content="folder/Title">Title</tal:title>
-                    (<tal:number content="number_of_images" />)
+                       <tal:title content="item_title">Title</tal:title>
+                       <tal:count condition="is_album">(<tal:number content="number_of_images" />)</tal:count>
                     </span>
                 </a>
     </div>
-    </tal:folders>
+    </tal:results>
     <div class="visualClear"><!-- --></div>
 
     <p class="discreet"
