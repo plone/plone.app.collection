@@ -1,5 +1,7 @@
 import doctest
 
+import gocept.selenium.plonetesting.testing_plone
+
 from zope.configuration import xmlconfig
 
 from plone.app.testing import PloneSandboxLayer
@@ -26,6 +28,11 @@ PLONEAPPCOLLECTION_INTEGRATION_TESTING = IntegrationTesting(\
     name="PloneAppCollectionLayer:Integration")
 PLONEAPPCOLLECTION_FUNCTIONAL_TESTING = FunctionalTesting(\
     bases=(PLONEAPPCOLLECTION_FIXTURE,),
+    name="PloneAppCollectionLayer:Functional")
+PLONEAPPCOLLECTION_SELENIUM_TESTING = FunctionalTesting(\
+    bases=(
+        PLONEAPPCOLLECTION_FIXTURE,
+        gocept.selenium.plonetesting.testing_plone.selenium_layer),
     name="PloneAppCollectionLayer:Functional")
 
 optionflags = (doctest.ELLIPSIS | doctest.NORMALIZE_WHITESPACE)
