@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0.5 (unreleased)
+1.0.5 (2012-08-27)
 ------------------
 
 - Add an alias folder_summary_view pointing to summary_view. This allows
