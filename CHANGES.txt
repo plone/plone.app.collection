@@ -4,7 +4,11 @@ Changelog
 1.0.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Added a validator 'isInt' to field limit for the purpose avoid a exception
+  [hersonrodrigues]
+
+- Fix the limit of number of items to show in batch results
+  see https://dev.plone.org/ticket/13129 [hersonrodrigues]
 
 
 1.0.5 (2012-08-27)
