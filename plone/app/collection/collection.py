@@ -32,7 +32,7 @@ CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
                           u"list by choosing what to match on. "
                           u"The list of results will be dynamically updated."),
             ),
-        validators=('javascriptDisabled', )
+        validators=('javascriptDisabled',)
         ),
 
     StringField(
@@ -68,6 +68,7 @@ CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
             label=_(u'Limit Search Results'),
             description=_(u"Specify the maximum number of items to show.")
             ),
+        validators=('isInt',)
         ),
 
     LinesField('customViewFields',
