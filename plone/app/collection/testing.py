@@ -2,6 +2,8 @@ import doctest
 
 from zope.configuration import xmlconfig
 
+from plone.testing.z2 import ZSERVER_FIXTURE
+
 from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import applyProfile
 from plone.app.testing.layers import FunctionalTesting
@@ -27,5 +29,8 @@ PLONEAPPCOLLECTION_INTEGRATION_TESTING = IntegrationTesting(\
 PLONEAPPCOLLECTION_FUNCTIONAL_TESTING = FunctionalTesting(\
     bases=(PLONEAPPCOLLECTION_FIXTURE,),
     name="PloneAppCollectionLayer:Functional")
+PLONEAPPCOLLECTION_ACCEPTANCE_TESTING = FunctionalTesting(
+    bases=(PLONEAPPCOLLECTION_FIXTURE, ZSERVER_FIXTURE),
+    name="PloneAppCollectionLayer:Acceptance")
 
 optionflags = (doctest.ELLIPSIS | doctest.NORMALIZE_WHITESPACE)
