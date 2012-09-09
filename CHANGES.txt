@@ -4,6 +4,10 @@ Changelog
 1.0.6 (unreleased)
 ------------------
 
+- Provide a synContentValues method for compatibility with syndication
+  in Plone <= 4.2.
+  [davisagli]
+
 - Added a validator 'isInt' to field limit for the purpose avoid a exception
   [hersonrodrigues]
 

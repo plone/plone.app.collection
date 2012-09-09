@@ -138,6 +138,14 @@ class Collection(document.ATDocument, ObjectManager):
     def queryCatalog(self, batch=True, b_start=0, b_size=30, sort_on=None):
         return self.results(batch, b_start, b_size, sort_on=sort_on, brains=True)
 
+    # for BBB with ATTopic
+    # This is used in Plone 4.2 but no longer in Plone 4.3
+    security.declareProtected(View, 'synContentValues')
+    def synContentValues(self):
+        syn_tool = getToolByName(self, 'portal_syndication')
+        limit = int(syn_tool.getMaxItems(self))
+        return self.queryCatalog(batch=False, b_size=limit)[:limit]
+
     security.declareProtected(View, 'selectedViewFields')
     def selectedViewFields(self):
         """Get which metadata field are selected"""
