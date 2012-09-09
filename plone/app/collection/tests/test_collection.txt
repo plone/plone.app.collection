@@ -1,16 +1,20 @@
 *** Settings ***
 
 Library  Selenium2Library  timeout=10  implicit_wait=0.5
+Library  plone.app.collection.testing_keywords.Keywords
 
 Suite Setup  Start browser
 Suite Teardown  Close All Browsers
 
+
 *** Test Cases ***
 
-Plone Accessibility
+Plone add Collection
+    Log in as site owner
     Goto homepage
-    Click link  Accessibility
-    Page should contain  Accessibility Statement
+    Add collection
+    Page should contain  My Collection
+
 
 *** Keywords ***
 
@@ -20,3 +24,43 @@ Start browser
 Goto homepage
     Go to  http://localhost:55001/plone/
     Page should contain  Plone site
+
+Log in
+    ${TEST_USER_NAME} =  Get test user name
+    ${TEST_USER_PASSWORD} =  Get test user password
+    Go to  http://localhost:55001/plone/login_form
+    Page should contain element  __ac_name
+    Input text  __ac_name  ${TEST_USER_NAME}
+    Input text  __ac_password  ${TEST_USER_PASSWORD}
+    Click Button  Log in
+    Page should contain element  css=#user-name
+
+Log in as site owner
+    ${TEST_USER_NAME} =  Get test site owner name
+    ${TEST_USER_PASSWORD} =  Get test site owner password
+    Go to  http://localhost:55001/plone/login_form
+    Page should contain element  __ac_name
+    Input text  __ac_name  ${TEST_USER_NAME}
+    Input text  __ac_password  ${TEST_USER_PASSWORD}
+    Click Button  Log in
+    Page should contain element  css=#user-name
+
+Log out
+    Go to http://localhost:55001/plone/logout
+    Page should contain logged out
+
+Add collection
+    Click Link  Collection
+
+Foo
+    Page should contain  Add Collection
+    Page should contain  Description
+    Page should contain  Search terms
+    Input text  form.widgets.IBasic.title  My Collection
+
+    Select From List  xpath=//select[@name="addindex"]  Description
+    Input text  form.widgets.query.v:records  Plone
+
+    Click Button  Save
+    Page should contain  My Collection
+    Page should contain  Welcome to Plone
