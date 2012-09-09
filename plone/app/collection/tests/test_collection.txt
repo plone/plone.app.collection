@@ -50,8 +50,9 @@ Log out
     Page should contain logged out
 
 Add collection
-    Go to  http://localhost:55001/plone/++add++Collection
-    #Click Link  Collection
+    Go to  http://localhost:55001/plone
+    Click Link  xpath=//a[@title='Add new items inside this item']
+    Click Link  collection
     Page should contain  Add Collection
     Page should contain  Description
     Page should contain  Search terms
