@@ -3,32 +3,35 @@
 Library  Selenium2Library  timeout=10  implicit_wait=0.5
 Library  plone.app.collection.testing_keywords.Keywords
 
-Suite Setup  Start browser
-Suite Teardown  Close All Browsers
+Suite Setup  Suite Setup
+Suite Teardown  Suite Teardown
+
+*** Variables ***
+
+${front-page}  http://localhost:55001/plone/
 
 
 *** Test Cases ***
 
 Plone add Collection
     Log in as site owner
-    Goto homepage
+    Go to  ${front-page}
     Add collection
     Page should contain  My Collection
 
 
 *** Keywords ***
 
-Start browser
-    Open browser  http://localhost:55001/plone/
+Suite Setup
+    Open browser  ${front-page}
 
-Goto homepage
-    Go to  http://localhost:55001/plone/
-    Page should contain  Plone site
+Suite Teardown
+    Close All Browsers
 
 Log in
     ${TEST_USER_NAME} =  Get test user name
     ${TEST_USER_PASSWORD} =  Get test user password
-    Go to  http://localhost:55001/plone/login_form
+    Go to  ${front-page}/login_form
     Page should contain element  __ac_name
     Input text  __ac_name  ${TEST_USER_NAME}
     Input text  __ac_password  ${TEST_USER_PASSWORD}
@@ -38,7 +41,7 @@ Log in
 Log in as site owner
     ${TEST_USER_NAME} =  Get test site owner name
     ${TEST_USER_PASSWORD} =  Get test site owner password
-    Go to  http://localhost:55001/plone/login_form
+    Go to  ${front-page}/login_form
     Page should contain element  __ac_name
     Input text  __ac_name  ${TEST_USER_NAME}
     Input text  __ac_password  ${TEST_USER_PASSWORD}
@@ -46,11 +49,11 @@ Log in as site owner
     Page should contain element  css=#user-name
 
 Log out
-    Go to http://localhost:55001/plone/logout
+    Go to ${front-page}/logout
     Page should contain logged out
 
 Add collection
-    Go to  http://localhost:55001/plone
+    Go to  ${front-page}
     Click Link  xpath=//a[@title='Add new items inside this item']
     Click Link  collection
     Page should contain  Add Collection
