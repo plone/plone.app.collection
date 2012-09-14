@@ -31,28 +31,31 @@ ${test-folder}  http://localhost:55001/plone/acceptance-test-folder
 
 Test Review state Criterion
     Log in as site owner
-    Create Document  My Document
-    Publish Document
-    Create News Item  My News Item
+    Create Document  Published Document
+    Publish Object
+    Create Document  Private Document
     Create Collection  My Collection
 
     Go to  ${test-folder}/my-collection/edit
     Set Review state Criterion
 
-    Page should contain  My Document
-    Page should not contain  My News Item
+    Live Preview number of results should be  1
+    Live Preview should contain  Published Document
+
+    Page should contain  Published Document
+    Page should not contain  Private Document
 
 Test Short name (id) Criterion
     Log in as site owner
-    Create Document  My Document
-    Create News Item  My News Item
+    Create Document  First Document
+    Create Document  Second Document
     Create Collection  My Collection
 
     Go to  ${test-folder}/my-collection/edit
     Set Short name (id) Criterion
 
-    Page should contain  My Document
-    Page should not contain  My News Item
+    Page should contain  First Document
+    Page should not contain  Second Document
 
 Test Type Criterion
     Log in as site owner
@@ -114,9 +117,9 @@ Create Document
     Go to  ${test-folder}/createObject?type_name=Document
     Input text  title  ${title}
     Click Button  Save
+    Page should contain  ${title}
 
-Publish Document
-    Go to  ${test-folder}/my-document
+Publish Object
     Click Element  xpath=//span[@class='state-private']
     Wait Until Page Contains  Publish
     Click Element  xpath=//span[text()="Publish"]
@@ -138,16 +141,21 @@ Set Review state Criterion
     Select From List  xpath=//select[@name="addindex"]  Review state
     Wait Until Page Contains Element  xpath=//select[@class='queryoperator']
     Select Checkbox  published
-    Wait Until Page Contains  1 items matching your search terms.
-    Page should contain  My Document
-    Click Button  Save
+
+Live Preview number of results should be
+    [Arguments]  ${number}
+    Wait Until Page Contains  ${number} items matching your search terms.
+
+Live Preview should contain
+    [Arguments]  ${title}
+    Page should contain  ${title}
 
 Set Short name (id) Criterion
     Select From List  xpath=//select[@name="addindex"]  Short name (id)
     Wait Until Page Contains Element  xpath=//select[@class='queryoperator']
-    Input Text  name=form.widgets.query.v:records  my-document
+    Input Text  name=form.widgets.query.v:records  first-document
     Wait Until Page Contains  1 items matching your search terms.
-    Page should contain  My Document
+    Page should contain  First Document
     Click Button  Save
 
 Set Type Criterion
