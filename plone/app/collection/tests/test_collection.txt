@@ -80,6 +80,18 @@ Test Type Criterion
 #    Then
 #        The page should contain  My Document
 
+# Test Sort On Sortable Title
+# Test Sort On Event end date
+# Test Sort On Effective date
+# Test Sort On Creation date
+# Test Sort On Expiration date
+# Test Sort On Modification date
+# Test Sort On Short name (id)
+# Test Sort On Event start date
+# Test Sort On Creator
+# Test Sort On Review state
+# Test Sort On Tag
+
 *** Keywords ***
 
 Suite Setup
