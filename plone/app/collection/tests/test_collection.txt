@@ -29,18 +29,18 @@ ${test-folder}  http://localhost:55001/plone/acceptance-test-folder
 #Test Creator Criterion
 #Test Location Criterion
 
-#Test Review state Criterion
-#    Log in as site owner
-#    Create Document  My Document
-#    Publish Document
-#    Create News Item  My News Item
-#    Create Collection  My Collection
-#
-#    Go to  ${test-folder}/my-collection/edit
-#    Set Review state Criterion
-#
-#    Page should contain  My Document
-#    Page should not contain  My News Item
+Test Review state Criterion
+    Log in as site owner
+    Create Document  My Document
+    Publish Document
+    Create News Item  My News Item
+    Create Collection  My Collection
+
+    Go to  ${test-folder}/my-collection/edit
+    Set Review state Criterion
+
+    Page should contain  My Document
+    Page should not contain  My News Item
 
 Test Short name (id) Criterion
     Log in as site owner
@@ -66,6 +66,16 @@ Test Type Criterion
     Page should contain  My Document
     Page should not contain  My News Item
 
+#Test Type Criterion
+#    Given a logged in user
+#        And a document  My Document
+#        And a news item  My News Item
+#        And a collection  My Collection
+#    When
+#        I go to ${test-folder}/my-collection/edit
+#        And set the type criterion to  Document
+#    Then
+#        The page should contain  My Document
 
 *** Keywords ***
 
@@ -105,11 +115,10 @@ Create Document
     Input text  title  ${title}
     Click Button  Save
 
-# XXX: Does not work because we do not have a default workflow
-#Publish Document
-#    Go to  ${test-folder}/my-document
-#    Click Element  xpath=//dl[@id='plone-contentmenu-workflow']
-#    Click Element  Publish
+Publish Document
+    Go to  ${test-folder}/my-document
+    Click Element  xpath=//dl[@id='plone-contentmenu-workflow']
+    Click Element  Publish
 
 Create News Item
     [Arguments]  ${title}

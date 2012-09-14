@@ -22,6 +22,7 @@ class PloneAppCollectionLayer(PloneSandboxLayer):
 
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'plone.app.collection:default')
+        portal.portal_workflow.setDefaultChain("simple_publication_workflow")
         setRoles(portal, TEST_USER_ID, ['Manager'])
         portal.invokeFactory(
             "Folder",
