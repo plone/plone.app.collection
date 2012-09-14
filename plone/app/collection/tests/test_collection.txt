@@ -14,17 +14,18 @@ ${test-folder}  http://localhost:55001/plone/acceptance-test-folder
 
 *** Test Cases ***
 
-Test Type Criterion
-    Log in as site owner
-    Create Document  My Document
-    Create News Item  My News Item
-    Create Collection  My Collection
-
-    Go to  ${test-folder}/my-collection/edit
-    Set Type Criterion
-
-    Page should contain  My Document
-    Page should not contain  My News Item
+#Test Review state Criterion
+#    Log in as site owner
+#    Create Document  My Document
+#    Publish Document
+#    Create News Item  My News Item
+#    Create Collection  My Collection
+#
+#    Go to  ${test-folder}/my-collection/edit
+#    Set Review state Criterion
+#
+#    Page should contain  My Document
+#    Page should not contain  My News Item
 
 Test Short name (id) Criterion
     Log in as site owner
@@ -34,6 +35,18 @@ Test Short name (id) Criterion
 
     Go to  ${test-folder}/my-collection/edit
     Set Short name (id) Criterion
+
+    Page should contain  My Document
+    Page should not contain  My News Item
+
+Test Type Criterion
+    Log in as site owner
+    Create Document  My Document
+    Create News Item  My News Item
+    Create Collection  My Collection
+
+    Go to  ${test-folder}/my-collection/edit
+    Set Type Criterion
 
     Page should contain  My Document
     Page should not contain  My News Item
@@ -68,7 +81,7 @@ Log in as site owner
     Page should contain element  css=#user-name
 
 Log out
-    Go to ${front-page}/logout
+    Go to  ${front-page}/logout
     Page should contain logged out
 
 Create Document
@@ -76,6 +89,12 @@ Create Document
     Go to  ${test-folder}/createObject?type_name=Document
     Input text  title  ${title}
     Click Button  Save
+
+# XXX: Does not work because we do not have a default workflow
+#Publish Document
+#    Go to  ${test-folder}/my-document
+#    Click Element  xpath=//dl[@id='plone-contentmenu-workflow']
+#    Click Element  Publish
 
 Create News Item
     [Arguments]  ${title}
@@ -89,10 +108,10 @@ Create Collection
     Input text  name=form.widgets.IBasic.title  ${title}
     Click Button  Save
 
-Set Type Criterion
-    Select From List  xpath=//select[@name="addindex"]  Type
+Set Review state Criterion
+    Select From List  xpath=//select[@name="addindex"]  Review state
     Wait Until Page Contains Element  xpath=//select[@class='queryoperator']
-    Select Checkbox  Document
+    Select Checkbox  published
     Wait Until Page Contains  1 items matching your search terms.
     Page should contain  My Document
     Click Button  Save
@@ -101,6 +120,14 @@ Set Short name (id) Criterion
     Select From List  xpath=//select[@name="addindex"]  Short name (id)
     Wait Until Page Contains Element  xpath=//select[@class='queryoperator']
     Input Text  name=form.widgets.query.v:records  my-document
+    Wait Until Page Contains  1 items matching your search terms.
+    Page should contain  My Document
+    Click Button  Save
+
+Set Type Criterion
+    Select From List  xpath=//select[@name="addindex"]  Type
+    Wait Until Page Contains Element  xpath=//select[@class='queryoperator']
+    Select Checkbox  Document
     Wait Until Page Contains  1 items matching your search terms.
     Page should contain  My Document
     Click Button  Save
