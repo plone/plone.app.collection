@@ -14,7 +14,7 @@ ${test-folder}  http://localhost:55001/plone/acceptance-test-folder
 
 *** Test Cases ***
 
-Test Collection Type Criterion
+Test Type Criterion
     Log in as site owner
     Create Document  My Document
     Create News Item  My News Item
@@ -22,6 +22,18 @@ Test Collection Type Criterion
 
     Go to  ${test-folder}/my-collection/edit
     Set Type Criterion
+
+    Page should contain  My Document
+    Page should not contain  My News Item
+
+Test Short name (id) Criterion
+    Log in as site owner
+    Create Document  My Document
+    Create News Item  My News Item
+    Create Collection  My Collection
+
+    Go to  ${test-folder}/my-collection/edit
+    Set Short name (id) Criterion
 
     Page should contain  My Document
     Page should not contain  My News Item
@@ -81,6 +93,14 @@ Set Type Criterion
     Select From List  xpath=//select[@name="addindex"]  Type
     Wait Until Page Contains Element  xpath=//select[@class='queryoperator']
     Select Checkbox  Document
+    Wait Until Page Contains  1 items matching your search terms.
+    Page should contain  My Document
+    Click Button  Save
+
+Set Short name (id) Criterion
+    Select From List  xpath=//select[@name="addindex"]  Short name (id)
+    Wait Until Page Contains Element  xpath=//select[@class='queryoperator']
+    Input Text  name=form.widgets.query.v:records  my-document
     Wait Until Page Contains  1 items matching your search terms.
     Page should contain  My Document
     Click Button  Save
