@@ -117,8 +117,10 @@ Create Document
 
 Publish Document
     Go to  ${test-folder}/my-document
-    Click Element  xpath=//dl[@id='plone-contentmenu-workflow']
-    Click Element  Publish
+    Click Element  xpath=//span[@class='state-private']
+    Wait Until Page Contains  Publish
+    Click Element  xpath=//span[text()="Publish"]
+    Wait Until Page Contains  Published
 
 Create News Item
     [Arguments]  ${title}
