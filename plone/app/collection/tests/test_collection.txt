@@ -14,6 +14,21 @@ ${test-folder}  http://localhost:55001/plone/acceptance-test-folder
 
 *** Test Cases ***
 
+#Test Description Criterion
+#Test Searchable text Criterion
+#Test Tag Criterion
+#Test Title Criterion
+
+#Test Creation date Criterion
+#Test Effective date Criterion
+#Test Event end date Criterion
+#Test Event start date Criterion
+#Test Expiration date Criterion
+#Test Modification date Criterion
+
+#Test Creator Criterion
+#Test Location Criterion
+
 #Test Review state Criterion
 #    Log in as site owner
 #    Create Document  My Document
