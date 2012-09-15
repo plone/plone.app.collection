@@ -13,11 +13,12 @@ Live Preview should contain
     [Arguments]  ${title}
     Page should contain  ${title}
 
-Set Location Criterion
+Set Relative Location Criterion To
+    [Arguments]  ${relative_path_criterion}
     Select From List  xpath=//select[@name="addindex"]  Location
     Wait Until Page Contains Element  xpath=//select[@class='queryoperator']
     Select From List  xpath=//select[@class='queryoperator']  Relative path
-    Input Text  name=form.widgets.query.v:records  .
+    Input Text  name=form.widgets.query.v:records  ${relative_path_criterion}
     Wait Until Page Contains  1 items matching your search terms.
     Page should contain  Document inside My Folder
     Click Button  Save
