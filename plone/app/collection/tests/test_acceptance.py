@@ -10,7 +10,7 @@ import robotsuite
 def test_suite():
     suite = unittest.TestSuite()
     suite.addTests([
-        layered(robotsuite.RobotTestSuite("test_collection.txt"),
+        layered(robotsuite.RobotTestSuite("acceptance/test_collection.txt"),
         layer=PLONEAPPCOLLECTION_ACCEPTANCE_TESTING),
     ])
     return suite
