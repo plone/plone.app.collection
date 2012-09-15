@@ -13,6 +13,15 @@ Live Preview should contain
     [Arguments]  ${title}
     Page should contain  ${title}
 
+Set Location Criterion
+    Select From List  xpath=//select[@name="addindex"]  Location
+    Wait Until Page Contains Element  xpath=//select[@class='queryoperator']
+    Select From List  xpath=//select[@class='queryoperator']  Relative path
+    Input Text  name=form.widgets.query.v:records  .
+    Wait Until Page Contains  1 items matching your search terms.
+    Page should contain  Document inside My Folder
+    Click Button  Save
+
 Set Short name (id) Criterion
     Select From List  xpath=//select[@name="addindex"]  Short name (id)
     Wait Until Page Contains Element  xpath=//select[@class='queryoperator']

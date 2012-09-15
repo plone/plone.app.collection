@@ -32,6 +32,22 @@ ${test-folder}  http://localhost:55001/plone/acceptance-test-folder
 #Test Creator Criterion
 #Test Location Criterion
 
+Test Location Criterion
+    Log in as site owner
+    Create Document  Document outside My Folder
+    Create Folder  My Folder
+    Create Document  Document inside My Folder
+    Create Collection  Location Criteria Collection
+
+    Click Edit In Edit Bar
+    Set Location Criterion
+
+    Live Preview number of results should be  1
+    Live Preview should contain  Document inside My Folder
+
+    Page should contain  First Document
+    Page should not contain  Document outside My Folder
+
 Test Review state Criterion
     Log in as site owner
     Create Document  Published Document
@@ -39,7 +55,7 @@ Test Review state Criterion
     Create Document  Private Document
     Create Collection  My Collection
 
-    Go to  ${test-folder}/my-collection/edit
+    Click Edit In Edit Bar
     Set Review state Criterion
 
     Live Preview number of results should be  1
@@ -54,7 +70,7 @@ Test Short name (id) Criterion
     Create Document  Second Document
     Create Collection  My Collection
 
-    Go to  ${test-folder}/my-collection/edit
+    Click Edit In Edit Bar
     Set Short name (id) Criterion
 
     Page should contain  First Document
@@ -66,7 +82,7 @@ Test Type Criterion
     Create News Item  My News Item
     Create Collection  My Collection
 
-    Go to  ${test-folder}/my-collection/edit
+    Click Edit In Edit Bar
     Set Type Criterion
 
     Page should contain  My Document

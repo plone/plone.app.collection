@@ -30,9 +30,20 @@ Log out
     Go to  ${front-page}/logout
     Page should contain logged out
 
+Click ${name} In Edit Bar
+    Element Should Contain  css=div#edit-bar ul#content-views  ${name}
+    Click Link  ${name}
+
 Create Document
     [Arguments]  ${title}
     Go to  ${test-folder}/createObject?type_name=Document
+    Input text  title  ${title}
+    Click Button  Save
+    Page should contain  ${title}
+
+Create Folder
+    [Arguments]  ${title}
+    Go to  ${test-folder}/createObject?type_name=Folder
     Input text  title  ${title}
     Click Button  Save
     Page should contain  ${title}
