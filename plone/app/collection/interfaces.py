@@ -1,6 +1,9 @@
-from zope.interface import Interface
+try:
+    from Products.CMFPlone.interfaces.syndication import ISyndicatable
+except ImportError:
+    from zope.interface import Interface as ISyndicatable
 
 
-class ICollection(Interface):
+class ICollection(ISyndicatable):
     """ Collection marker interface
     """

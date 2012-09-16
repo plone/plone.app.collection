@@ -14,6 +14,9 @@ Changelog
 - Fix the limit of number of items to show in batch results
   see https://dev.plone.org/ticket/13129 [hersonrodrigues]
 
+- Implement ISyndicatable for 4.3
+  [vangheem]
+
 
 1.0.5 (2012-08-27)
 ------------------
