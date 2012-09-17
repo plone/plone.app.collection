@@ -22,3 +22,5 @@ ToDo
   [ ] Make the tabular_view and the in-out-widget for the customViewFields field work.
 
   [ ] Make the collection portlet work.
+
+  [ ] Add i18n support and l10ns
