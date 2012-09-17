@@ -6,54 +6,6 @@ Suite Setup
 Suite Teardown
     Close All Browsers
 
-Log in
-    ${TEST_USER_NAME} =  Get test user name
-    ${TEST_USER_PASSWORD} =  Get test user password
-    Go to  ${front-page}/login_form
-    Page should contain element  __ac_name
-    Input text  __ac_name  ${TEST_USER_NAME}
-    Input text  __ac_password  ${TEST_USER_PASSWORD}
-    Click Button  Log in
-    Page should contain element  css=#user-name
-
-Log in as site owner
-    ${TEST_USER_NAME} =  Get test site owner name
-    ${TEST_USER_PASSWORD} =  Get test site owner password
-    Go to  ${front-page}/login_form
-    Page should contain element  __ac_name
-    Input text  __ac_name  ${TEST_USER_NAME}
-    Input text  __ac_password  ${TEST_USER_PASSWORD}
-    Click Button  Log in
-    Page should contain element  css=#user-name
-
-Log out
-    Go to  ${front-page}/logout
-    Page should contain logged out
-
-Click ${name} In Edit Bar
-    Element Should Contain  css=div#edit-bar ul#content-views  ${name}
-    Click Link  ${name}
-
-Create Document
-    [Arguments]  ${title}
-    Go to  ${test-folder}/createObject?type_name=Document
-    Input text  title  ${title}
-    Click Button  Save
-    Page should contain  ${title}
-
-Create Folder
-    [Arguments]  ${title}
-    Go to  ${test-folder}/createObject?type_name=Folder
-    Input text  title  ${title}
-    Click Button  Save
-    Page should contain  ${title}
-
-Publish Object
-    Click Element  xpath=//span[@class='state-private']
-    Wait Until Page Contains  Publish
-    Click Element  xpath=//span[text()="Publish"]
-    Wait Until Page Contains  Published
-
 Create News Item
     [Arguments]  ${title}
     Go to  ${test-folder}/createObject?type_name=News+Item
