@@ -3,8 +3,7 @@
 Library  Selenium2Library  timeout=10  implicit_wait=0.5
 Library  plone.app.collection.testing_keywords.Keywords
 
-Resource  plone/act/plone.txt
-Resource  plone_keywords.txt
+Resource  plone/act/keywords.txt
 Resource  collection_keywords.txt
 
 Suite Setup  Suite Setup

@@ -1,5 +1,17 @@
 *** Keywords ***
 
+Suite Setup
+    Open browser  ${front-page}
+
+Suite Teardown
+    Close All Browsers
+
+Create Collection
+    [Arguments]  ${title}
+    Go to  ${test-folder}/++add++Collection
+    Input text  name=form.widgets.IBasic.title  ${title}
+    Click Button  Save
+
 Set Review state Criterion
     Select From List  xpath=//select[@name="addindex"]  Review state
     Wait Until Page Contains Element  xpath=//select[@class='queryoperator']
