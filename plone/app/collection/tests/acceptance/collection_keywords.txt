@@ -25,6 +25,16 @@ Live Preview should contain
     [Arguments]  ${title}
     Page should contain  ${title}
 
+Set Creator Criterion To
+    [Arguments]  ${creator_criterion}
+    Select From List  xpath=//select[@name="addindex"]  Location
+    Wait Until Page Contains Element  xpath=//select[@class='queryoperator']
+    Select From List  xpath=//select[@class='queryoperator']  Creator
+    Input Text  name=form.widgets.query.v:records  ${creator_criterion}
+    Wait Until Page Contains  1 items matching your search terms.
+    Page should contain  Test user document
+    Click Button  Save
+
 Set Relative Location Criterion To
     [Arguments]  ${relative_path_criterion}
     Select From List  xpath=//select[@name="addindex"]  Location

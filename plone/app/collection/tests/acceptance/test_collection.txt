@@ -34,8 +34,14 @@ ${BROWSER} =  Firefox
 #Test Expiration date Criterion
 #Test Modification date Criterion
 
-#Test Creator Criterion
-#Test Location Criterion
+Test Creator Criterion
+    Log in as site owner
+    Create Document  Site owner document
+    Logout
+    Log in as test user
+    Create Document  Test user document
+    Create Collection  Creator Criteria Collection
+
 
 Test Location Criterion
     Log in as site owner
