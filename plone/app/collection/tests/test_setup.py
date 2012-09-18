@@ -22,11 +22,11 @@ class PloneAppCollectionClassTest(unittest.TestCase):
     def test_css_registered(self):
         cssreg = getattr(self.portal, 'portal_css')
         stylesheets_ids = cssreg.getResourceIds()
-        self.failUnless(
+        self.assertTrue(
             '++resource++plone.app.collection.css' in stylesheets_ids)
 
     def test_old_topic_disabled(self):
         self.assertTrue('Topic' not in self.types.objectIds())
 
     def test_atcontenttypes_replaced_by_dexterity_types(self):
-        self.assertEquals(self.types['Collection'].meta_type, 'Dexterity FTI')
+        self.assertEqual(self.types['Collection'].meta_type, 'Dexterity FTI')
