@@ -7,6 +7,9 @@ Changelog
 - Fix summary_view so shows thumbnails for contents with the image field,
   see http://dev.plone.org/ticket/13010 [kroman0]
 
+- Fix thumbnail_view so it works when Images or News Items are listed,
+  see http://dev.plone.org/ticket/13010 [kroman0]
+
 
 2.0b2 (2012-08-31)
 ------------------
