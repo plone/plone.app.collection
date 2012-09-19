@@ -16,8 +16,7 @@
     <metal:entry fill-slot="entry">
 
         <div class="tileItem visualIEFloatFix"
-             tal:define="obj item">
-
+             tal:define="obj item/getObject">
             <a href="#"
                   tal:condition="obj/image|nothing"
                   tal:attributes="href item/getURL">
