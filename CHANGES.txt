@@ -13,6 +13,9 @@ Changelog
 - Avoid site error on thumbnail view if some scale generation have failed.
   [thomasdesvenain]
 
+- Avoid site error on summary view if some scale generation have failed.
+  [kroman0]
+
 2.0b2 (2012-08-31)
 ------------------
 
