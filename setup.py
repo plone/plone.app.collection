@@ -33,8 +33,11 @@ setup(name='plone.app.collection',
           'test': [
               'lxml',
               'plone.app.testing',
+              'plone.act',
               'robotsuite',
-              'robotframework-selenium2library'
+              'robotframework-selenium2library',
+              'decorator',
+              'selenium',
            ],
       },
       entry_points="""
