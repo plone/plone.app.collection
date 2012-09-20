@@ -2,11 +2,11 @@ import doctest
 
 from zope.configuration import xmlconfig
 
-from plone.testing.z2 import ZSERVER_FIXTURE
+from plone.testing import z2
 
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
-
+from plone.app.testing import login
 from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import applyProfile
 from plone.app.testing.layers import FunctionalTesting
@@ -19,9 +19,15 @@ class PloneAppCollectionLayer(PloneSandboxLayer):
         import plone.app.collection
         xmlconfig.file('configure.zcml', plone.app.collection,
                        context=configurationContext)
+        z2.installProduct(app, 'plone.app.collection')
 
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'plone.app.collection:default')
+        portal.acl_users.userFolderAddUser('admin',
+                                           'secret',
+                                           ['Manager'],
+                                           [])
+        login(portal, 'admin')
         portal.portal_workflow.setDefaultChain("simple_publication_workflow")
         setRoles(portal, TEST_USER_ID, ['Manager'])
         portal.invokeFactory(
@@ -40,7 +46,7 @@ PLONEAPPCOLLECTION_FUNCTIONAL_TESTING = FunctionalTesting(\
     bases=(PLONEAPPCOLLECTION_FIXTURE,),
     name="PloneAppCollectionLayer:Functional")
 PLONEAPPCOLLECTION_ACCEPTANCE_TESTING = FunctionalTesting(
-    bases=(PLONEAPPCOLLECTION_FIXTURE, ZSERVER_FIXTURE),
+    bases=(PLONEAPPCOLLECTION_FIXTURE, z2.ZSERVER_FIXTURE),
     name="PloneAppCollectionLayer:Acceptance")
 
 optionflags = (doctest.ELLIPSIS | doctest.NORMALIZE_WHITESPACE)
