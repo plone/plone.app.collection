@@ -21,10 +21,11 @@
                   tal:condition="obj/image|nothing"
                   tal:attributes="href item/getURL">
                   <div class="tileImage">
-                  <img src="" alt=""
-                       tal:define="scale obj/@@images"
-                       tal:replace="structure python: scale.scale('image', scale='thumb').tag(css_class='tileImage')" />
-                   </div>
+                      <img src="" alt=""
+                           tal:define="scales random_image/@@images;
+                                       scale python:scales.scale('image', 'thumb')"
+                           tal:replace="structure python:scale and scale.tag(css_class='tileImage') or None" />
+                  </div>
             </a>
 
             <h2 class="tileHeadline" metal:define-macro="listitem">
