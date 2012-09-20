@@ -51,12 +51,9 @@ Test Location Criterion
     Create Collection  Location Criteria Collection
 
     Click Edit In Edit Bar
-    Set Relative Location Criterion To  ..
+    Set Relative Location Criterion To  ../my-folder
 
-    Live Preview number of results should be  1
-    Live Preview should contain  Document inside My Folder
-
-    Page should contain  First Document
+    Page should contain  Document inside My Folder
     Page should not contain  Document outside My Folder
 
 Test Review state Criterion
@@ -68,9 +65,6 @@ Test Review state Criterion
 
     Click Edit In Edit Bar
     Set Review state Criterion
-
-    Live Preview number of results should be  1
-    Live Preview should contain  Published Document
 
     Page should contain  Published Document
     Page should not contain  Private Document

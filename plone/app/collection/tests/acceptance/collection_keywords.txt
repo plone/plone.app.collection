@@ -12,11 +12,6 @@ Create Collection
     Input text  name=form.widgets.IBasic.title  ${title}
     Click Button  Save
 
-Set Review state Criterion
-    Select From List  xpath=//select[@name="addindex"]  Review state
-    Wait Until Page Contains Element  xpath=//select[@class='queryoperator']
-    Select Checkbox  published
-
 Live Preview number of results should be
     [Arguments]  ${number}
     Wait Until Page Contains  ${number} items matching your search terms.
@@ -25,6 +20,14 @@ Live Preview should contain
     [Arguments]  ${title}
     Page should contain  ${title}
 
+Set Review state Criterion
+    Select From List  xpath=//select[@name="addindex"]  Review state
+    Wait Until Page Contains Element  xpath=//select[@class='queryoperator']
+    Select Checkbox  published
+    Live Preview number of results should be  1
+    Live Preview should contain  Published Document
+    Click Button  Save
+
 Set Creator Criterion To
     [Arguments]  ${creator_criterion}
     Select From List  xpath=//select[@name="addindex"]  Location
@@ -32,7 +35,7 @@ Set Creator Criterion To
     Select From List  xpath=//select[@class='queryoperator']  Creator
     Input Text  name=form.widgets.query.v:records  ${creator_criterion}
     Wait Until Page Contains  1 items matching your search terms.
-    Page should contain  Test user document
+    Live Preview should contain  Test user document
     Click Button  Save
 
 Set Relative Location Criterion To
@@ -41,8 +44,8 @@ Set Relative Location Criterion To
     Wait Until Page Contains Element  xpath=//select[@class='queryoperator']
     Select From List  xpath=//select[@class='queryoperator']  Relative path
     Input Text  name=form.widgets.query.v:records  ${relative_path_criterion}
-    Wait Until Page Contains  1 items matching your search terms.
-    Page should contain  Document inside My Folder
+    Wait Until Page Contains  2 items matching your search terms.
+    Live Preview should contain  Document inside My Folder
     Click Button  Save
 
 Set Short name (id) Criterion
