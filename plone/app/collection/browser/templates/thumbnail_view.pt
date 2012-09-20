@@ -44,8 +44,9 @@
                     <span class="photoAlbumEntryWrapper"
                           tal:condition="number_of_images">
                      <img src="" alt=""
-                          tal:define="scale random_image/@@images"
-                          tal:replace="structure python: scale.scale('image', scale='thumb').tag(title=item_description)" />
+                          tal:define="scales random_image/@@images;
+                                      scale python:scales.scale('image', 'thumb')"
+                          tal:replace="structure python: scale and scale.tag(title=item_description) or None" />
                     </span>
                     <span class="photoAlbumEntryTitle">
                        <tal:title content="item_title">Title</tal:title>
