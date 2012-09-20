@@ -22,7 +22,7 @@
                   tal:attributes="href item/getURL">
                   <div class="tileImage">
                       <img src="" alt=""
-                           tal:define="scales random_image/@@images;
+                           tal:define="scales obj/@@images;
                                        scale python:scales.scale('image', 'thumb')"
                            tal:replace="structure python:scale and scale.tag(css_class='tileImage') or None" />
                   </div>
