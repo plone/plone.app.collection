@@ -22,19 +22,19 @@ ${BROWSER} =  Firefox
 
 *** Test Cases ***
 
-Test Description Criterion
-    Log in as site owner
-    A document Apples with description Apples are green.
-    A document Oranges with description Oranges are orange.
-    Create Collection  Description Criterion Collection
-    Click Edit In Edit Bar
-    Set Description Criterion To  Apples are green.
-
-    Live Preview number of results should be  1
-    Live Preview should contain  Apples
-
-    Page should contain  Apples
-    Page should not contain  Oranges
+#Test Description Criterion
+#    Log in as site owner
+#    A document Apples with description Apples are green.
+#    A document Oranges with description Oranges are orange.
+#    Create Collection  Description Criterion Collection
+#    Click Edit In Edit Bar
+#    Set Description Criterion To  Apples are green.
+#
+#    Live Preview number of results should be  1
+#    Live Preview should contain  Apples
+#
+#    Page should contain  Apples
+#    Page should not contain  Oranges
 
 #Test Searchable text Criterion
 #Test Tag Criterion
