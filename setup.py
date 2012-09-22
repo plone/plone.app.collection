@@ -4,7 +4,7 @@ version = '1.0.6.dev0'
 
 setup(name='plone.app.collection',
       version=version,
-      description="",
+      description="This package adds 'saved search' functionality to Plone.",
       long_description=open("README.txt").read() + "\n" +
                        open("CHANGES.txt").read(),
       classifiers=[
