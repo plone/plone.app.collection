@@ -6,6 +6,8 @@ Library  plone.app.collection.testing_keywords.Keywords
 Resource  plone/act/keywords.txt
 Resource  collection_keywords.txt
 
+Variables  plone/app/testing/interfaces.py
+
 Suite Setup  Suite Setup
 Suite Teardown  Suite Teardown
 
