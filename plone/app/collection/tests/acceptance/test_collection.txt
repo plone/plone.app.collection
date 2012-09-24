@@ -55,7 +55,7 @@ Test Creator Criterion
     Create Document  Test user document
     Create Collection  Creator Criterion Collection
 
-Test Location Criterion
+Test Relative Location Criterion
     Log in as site owner
     Create Document  Document outside My Folder
     Create Folder  My Folder
@@ -63,7 +63,10 @@ Test Location Criterion
     Create Collection  Location Criteria Collection
 
     Click Edit In Edit Bar
-    Set Relative Location Criterion To  ../my-folder
+    Set Relative Location Criterion To  ../my-folder/
+
+#    Live Preview number of results should be  1
+#    Live Preview should contain  Document inside My Folder
 
     Page should contain  Document inside My Folder
     Page should not contain  Document outside My Folder

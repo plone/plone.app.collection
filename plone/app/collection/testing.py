@@ -17,9 +17,10 @@ class PloneAppCollectionLayer(PloneSandboxLayer):
 
     def setUpZope(self, app, configurationContext):
         import plone.app.collection
-        xmlconfig.file('configure.zcml', plone.app.collection,
-                       context=configurationContext)
-        z2.installProduct(app, 'plone.app.collection')
+        xmlconfig.file(
+            'configure.zcml',
+            plone.app.collection,
+            context=configurationContext)
 
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'plone.app.collection:default')
@@ -39,10 +40,10 @@ class PloneAppCollectionLayer(PloneSandboxLayer):
 
 PLONEAPPCOLLECTION_FIXTURE = PloneAppCollectionLayer()
 
-PLONEAPPCOLLECTION_INTEGRATION_TESTING = IntegrationTesting(\
+PLONEAPPCOLLECTION_INTEGRATION_TESTING = IntegrationTesting(
     bases=(PLONEAPPCOLLECTION_FIXTURE,),
     name="PloneAppCollectionLayer:Integration")
-PLONEAPPCOLLECTION_FUNCTIONAL_TESTING = FunctionalTesting(\
+PLONEAPPCOLLECTION_FUNCTIONAL_TESTING = FunctionalTesting(
     bases=(PLONEAPPCOLLECTION_FIXTURE,),
     name="PloneAppCollectionLayer:Functional")
 PLONEAPPCOLLECTION_ACCEPTANCE_TESTING = FunctionalTesting(

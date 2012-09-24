@@ -44,8 +44,6 @@ Set Relative Location Criterion To
     Wait Until Page Contains Element  xpath=//select[@class='queryoperator']
     Select From List  xpath=//select[@class='queryoperator']  Relative path
     Input Text  name=form.widgets.query.v:records  ${relative_path_criterion}
-    Wait Until Page Contains  2 items matching your search terms.
-    Live Preview should contain  Document inside My Folder
     Click Button  Save
 
 Set Short name (id) Criterion
