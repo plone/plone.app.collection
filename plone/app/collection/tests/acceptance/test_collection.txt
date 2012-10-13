@@ -67,9 +67,6 @@ Test Relative Location Criterion
     Click Edit In Edit Bar
     Set Relative Location Criterion To  ../my-folder/
 
-#    Live Preview number of results should be  1
-#    Live Preview should contain  Document inside My Folder
-
     Page should contain  Document inside My Folder
     Page should not contain  Document outside My Folder
 
