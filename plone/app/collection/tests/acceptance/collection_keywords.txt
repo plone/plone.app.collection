@@ -21,6 +21,7 @@ Live Preview should contain
     Page should contain  ${title}
 
 Set Review state Criterion
+    Wait Until Page Contains Element  xpath=//select[@name="addindex"]
     Select From List  xpath=//select[@name="addindex"]  Review state
     Wait Until Page Contains Element  xpath=//select[@class='queryoperator']
     Select Checkbox  published
@@ -30,6 +31,7 @@ Set Review state Criterion
 
 Set Creator Criterion To
     [Arguments]  ${creator_criterion}
+    Wait Until Page Contains Element  xpath=//select[@name="addindex"]
     Select From List  xpath=//select[@name="addindex"]  Location
     Wait Until Page Contains Element  xpath=//select[@class='queryoperator']
     Select From List  xpath=//select[@class='queryoperator']  Creator
@@ -40,6 +42,7 @@ Set Creator Criterion To
 
 Set Relative Location Criterion To
     [Arguments]  ${relative_path_criterion}
+    Wait Until Page Contains Element  xpath=//select[@name="addindex"]
     Select From List  xpath=//select[@name="addindex"]  Location
     Wait Until Page Contains Element  xpath=//select[@class='queryoperator']
     Select From List  xpath=//select[@class='queryoperator']  Relative path
@@ -47,6 +50,7 @@ Set Relative Location Criterion To
     Click Button  Save
 
 Set Short name (id) Criterion
+    Wait Until Page Contains Element  xpath=//select[@name="addindex"]
     Select From List  xpath=//select[@name="addindex"]  Short name (id)
     Wait Until Page Contains Element  xpath=//select[@class='queryoperator']
     Input Text  name=form.widgets.query.v:records  first-document
@@ -55,6 +59,7 @@ Set Short name (id) Criterion
     Click Button  Save
 
 Set Type Criterion
+    Wait Until Page Contains Element  xpath=//select[@name="addindex"]
     Select From List  xpath=//select[@name="addindex"]  Type
     Wait Until Page Contains Element  xpath=//select[@class='queryoperator']
     Select Checkbox  Document
@@ -71,6 +76,7 @@ Add collection
     Page should contain  Search terms
 
     Input text  form.widgets.IBasic.title  My Collection
+    Wait Until Page Contains Element  xpath=//select[@name="addindex"]
     Select From List  xpath=//select[@name="addindex"]  Description
     Input text  form.widgets.query.v:records  Plone
 
