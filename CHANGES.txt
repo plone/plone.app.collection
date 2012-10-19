@@ -4,6 +4,10 @@ Changelog
 2.0b3 (unreleased)
 ------------------
 
+- Fix thumbnail_view so it works with any portal_atct image types not just
+  with Image and News Items
+  [ichimdav]
+
 - Fix summary_view so shows thumbnails for contents with the image field,
   see http://dev.plone.org/ticket/13010 [kroman0]
 
