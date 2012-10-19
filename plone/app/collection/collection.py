@@ -48,9 +48,9 @@ class Collection(Item):
 
         for item in results:
             item_path = item.getPath()
-            if item.portal_type == 'Folder':
+            if item.isPrincipiaFolderish:
                 query = {
-                    'portal_type': 'Image',
+                    'portal_type': image_types,
                     'path': item_path,
                 }
                 _mapping['images'][item_path] = IContentListing(catalog(query))
