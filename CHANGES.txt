@@ -4,7 +4,9 @@ Changelog
 1.0.7 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix thumbnail_view so it works with any portal_atct image types not just
+  with Image and News Items
+  [ichimdav]
 
 
 1.0.6 (2012-09-21)
