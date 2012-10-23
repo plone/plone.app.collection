@@ -42,14 +42,14 @@ class ICollection(model.Schema):
     limit = schema.Int(
         title=_(u'label_limit', default=u'Limit'),
         description=_(u'Limit Search Results'),
-        required=False,
+        required=True,
         default=1000,
     )
 
     item_count = schema.Int(
         title=_(u'label_item_count', default=u'Item count'),
         description=_(u'Number of items that will show up in one batch.'),
-        required=False,
+        required=True,
         default=30,
     )
 
