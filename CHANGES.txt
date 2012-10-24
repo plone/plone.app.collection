@@ -4,6 +4,10 @@ Changelog
 1.0.7 (unreleased)
 ------------------
 
+- Check if item isPrincipiaFolderish instead of the harcoded portal_type
+  Folder when searching for images
+ [ichimdav]
+
 - Fix thumbnail_view so it works with any portal_atct image types not just
   with Image and News Items
   [ichimdav]
