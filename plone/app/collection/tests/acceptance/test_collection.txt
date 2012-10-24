@@ -51,16 +51,27 @@ ${BROWSER} =  Firefox
 
 Test Creator Criterion
     Log in as site owner
-    Create Document  Site owner document
+    Go to  ${test-folder}
+    Add Page  Site owner document
     Logout
     Log in as test user
-    Create Document  Test user document
+    Go to  ${test-folder}
+    Add Page  Test user document
     Create Collection  Creator Criterion Collection
+
+    Click Edit In Edit Bar
+    Set Creator Criterion To  ${TEST_USER_ID}
+
+    Page should not contain  Site owner document
+    Page should contain  Test user document
+
 
 Test Relative Location Criterion
     Log in as site owner
-    Create Document  Document outside My Folder
-    Create Folder  My Folder
+    Go to  ${test-folder}
+    Add Page  Document outside My Folder
+    Go to  ${test-folder}
+    Add folder  My Folder
     Add Page  Document inside My Folder
     Create Collection  Location Criteria Collection
 
@@ -72,9 +83,11 @@ Test Relative Location Criterion
 
 Test Review state Criterion
     Log in as site owner
-    Create Document  Published Document
+    Go to  ${test-folder}
+    Add Page  Published Document
     Publish Object
-    Create Document  Private Document
+    Go to  ${test-folder}
+    Add Page  Private Document
     Create Collection  My Collection
 
     Click Edit In Edit Bar
@@ -85,8 +98,10 @@ Test Review state Criterion
 
 Test Short name (id) Criterion
     Log in as site owner
-    Create Document  First Document
-    Create Document  Second Document
+    Go to  ${test-folder}
+    Add Page  First Document
+    Go to  ${test-folder}
+    Add Page  Second Document
     Create Collection  My Collection
 
     Click Edit In Edit Bar
@@ -97,8 +112,12 @@ Test Short name (id) Criterion
 
 Test Type Criterion
     Log in as site owner
-    Create Document  My Document
-    Create News Item  My News Item
+    Go to  ${test-folder}
+    Add Page  My Document
+    Go to  ${test-folder}/createObject?type_name=News+Item
+    Wait Until Page Contains Element  title
+    Input text  title  My News Item
+    Click Button  Save
     Create Collection  My Collection
 
     Click Edit In Edit Bar
