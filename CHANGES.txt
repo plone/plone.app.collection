@@ -12,6 +12,8 @@ Changelog
   with Image and News Items
   [ichimdav]
 
+- properly show dates on tabular view, fixes #12907
+  [maartenkling]
 
 1.0.6 (2012-09-21)
 ------------------
@@ -56,9 +58,9 @@ Changelog
 - Fix an ommission that prevented sorting from working.
   [erral]
 
-- accessibility improvements for screen readers regarding "more" links, 
-  see http://dev.plone.org/ticket/11982 
-  [rmattb, applied by polyester and par117] 
+- accessibility improvements for screen readers regarding "more" links,
+  see http://dev.plone.org/ticket/11982
+  [rmattb, applied by polyester and par117]
 
 
 1.0.3 (2012-04-15)
@@ -72,7 +74,7 @@ Changelog
 - Support a 'queryCatalog' method for backwards-compatibility with ATTopic.
   [davisagli]
 
-- Only display the batch navigation in tabular_view if there are items to 
+- Only display the batch navigation in tabular_view if there are items to
   display.
   [esteele]
 

@@ -10,7 +10,8 @@
 
     <div metal:fill-slot="content-core"
          tal:define="b_start python:request.get('b_start', 0);
-                     batch python:context.results(b_start=b_start);">
+                     batch python:context.results(b_start=b_start);
+                     toLocalizedTime nocall: context/@@plone/toLocalizedTime;">
 
          <div metal:define-macro="text-field-view"
               id="parent-fieldname-text" class="stx"
@@ -45,7 +46,10 @@
                   <tr tal:define="oddrow repeat/item/odd;"
                       tal:attributes="class python:oddrow and 'even' or 'odd'" >
                   <tal:block tal:repeat="field fields">
-                      <td tal:condition="python:field[0] not in ['Title', 'Creator', ]"
+                      <td tal:condition="python:field[0] not in [
+                            'Title', 'Creator', 'ModificationDate',
+                            'CreationDate', 'EffectiveDate',
+                            'ExpirationDate', ]"
                           tal:define="field_data python:getattr(item, field[0])">
                           <tal:block tal:replace="field_data" />
                       </td>
@@ -64,6 +68,16 @@
                                              title name"
                              tal:content="name">Jos Henken</a>
                       </td>
+
+                      <td tal:condition="python:field[0] in ['ModificationDate',
+                            'CreationDate', 'EffectiveDate',
+                            'ExpirationDate', ]"
+                          tal:define="field_data python:getattr(item, field[0])">
+                          <span tal:replace="python:toLocalizedTime(field_data(),long_format=1)">
+                            August 16, 2001 at 23:35:59
+                          </span>
+                      </td>
+
                   </tal:block>
                   </tr>
               </tal:block>
