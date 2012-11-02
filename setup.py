@@ -28,6 +28,7 @@ setup(name='plone.app.collection',
           'plone.app.dexterity',
           'plone.app.contentmenu',
           'plone.formwidget.querystring',
+          'plone.directives.form',
       ],
       extras_require={
           'test': [

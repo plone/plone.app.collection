@@ -4,6 +4,10 @@ Changelog
 2.0b3 (unreleased)
 ------------------
 
+- Added plone.directives.form to the requirements, as we currently
+  need it.
+  [maurits]
+
 - Check if item isPrincipiaFolderish instead of the hardcoded portal_type
   Folder when searching for images
   [ichimdav]
