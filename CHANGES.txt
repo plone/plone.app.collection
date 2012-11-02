@@ -4,9 +4,9 @@ Changelog
 2.0b3 (unreleased)
 ------------------
 
-- Check if item isPrincipiaFolderish instead of the harcoded portal_type
+- Check if item isPrincipiaFolderish instead of the hardcoded portal_type
   Folder when searching for images
- [ichimdav]
+  [ichimdav]
 
 - Fix thumbnail_view so it works with any portal_atct image types not just
   with Image and News Items
@@ -20,6 +20,7 @@ Changelog
 
 - Avoid site error on summary view if some scale generation have failed.
   [thomasdesvenain, kroman0]
+
 
 2.0b2 (2012-08-31)
 ------------------
