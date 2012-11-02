@@ -14,6 +14,9 @@ ToDo
   [X] Make enableSyndication/RSS work. Syndication is not working for
       plone.app.collection trunk either.
 
+  [ ] Get rid of plone.directives.form dependency. See: 
+      https://github.com/plone/plone.app.collection/commit/0e7a83b175339b734dba9b3e4f9b65d89fab7489#commitcomment-2094151
+
   [ ] Refactor plone.formwidget.querystring to not use sorting field
       duplicates as described here: https://github.com/plone/plone.formwidget.querystring/blob/master/plone/formwidget/querystring/querywidget.js#L222
       The '@@querybuilder_html_results' view from plone.app.querystring should
