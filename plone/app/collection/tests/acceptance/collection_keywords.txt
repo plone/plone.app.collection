@@ -62,6 +62,7 @@ Set Type Criterion
     Wait Until Page Contains Element  xpath=//select[@name="addindex"]
     Select From List  xpath=//select[@name="addindex"]  Type
     Wait Until Page Contains Element  xpath=//select[@class='queryoperator']
+    Click Element  xpath=//div[@class='criteria']/dl
     Select Checkbox  Document
     Wait Until Page Contains  1 items matching your search terms.
     Page should contain  My Document
