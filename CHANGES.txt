@@ -4,10 +4,6 @@ Changelog
 2.0b3 (unreleased)
 ------------------
 
-- Added plone.directives.form to the requirements, as we currently
-  need it.
-  [maurits]
-
 - Check if item isPrincipiaFolderish instead of the hardcoded portal_type
   Folder when searching for images
   [ichimdav]
@@ -24,6 +20,9 @@ Changelog
 
 - Avoid site error on summary view if some scale generation have failed.
   [thomasdesvenain, kroman0]
+
+- Remove plone.directives.form dependency.
+  [timo]
 
 
 2.0b2 (2012-08-31)
