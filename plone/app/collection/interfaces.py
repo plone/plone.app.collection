@@ -1,10 +1,6 @@
 from zope import schema
 from zope import interface
 
-from plone.directives import form
-
-from plone.formwidget.querystring.widget import QueryStringFieldWidget
-
 from plone.app.collection import _
 
 
@@ -13,9 +9,8 @@ class IPloneAppCollectionLayer(interface.Interface):
     """
 
 
-class ICollection(form.Schema):
+class ICollection(interface.Interface):
 
-    form.widget(query=QueryStringFieldWidget)
     query = schema.List(
         title=_(u'label_query', default=u'Search terms'),
         description=_(u"""Define the search terms for the items you want to

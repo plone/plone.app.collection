@@ -10,6 +10,30 @@
       name="plone.app.collection.css"
       file="collection.css" />
 
+  <!-- COLLECTION ADD AND EDIT VIEWS -->
+
+  <adapter
+      for="Products.CMFCore.interfaces.IFolderish
+           Products.CMFDefault.interfaces.ICMFDefaultSkin
+           plone.dexterity.interfaces.IDexterityFTI"
+      provides="zope.publisher.interfaces.browser.IBrowserPage"
+      factory=".collection.CollectionAddView"
+      name="Collection"
+      />
+  <class class=".collection.CollectionAddView">
+      <require
+          permission="plone.app.collection.addCollection"
+          interface="zope.publisher.interfaces.browser.IBrowserPage"
+          />
+  </class>
+
+  <browser:page
+      for="plone.app.collection.interfaces.ICollection"
+      name="edit"
+      class=".collection.CollectionEditView"
+      permission="cmf.ModifyPortalContent"
+      />
+
   <!-- COLLECTION VIEWS -->
 
   <browser:page
