@@ -46,13 +46,22 @@ Set Creator Criterion To
     Live Preview should contain  Test user documen
     Click Button  Save
 
+Set Absolute Location Criterion To
+    [Arguments]  ${absolute_path_criterion}
+    Wait Until Page Contains Element  xpath=//select[@name="addindex"]
+    Select From List  xpath=(//select[@name="addindex"])[last()]  Location
+    Wait Until Page Contains Element  xpath=//select[@class='queryoperator']
+    Select From List  xpath=(//select[@class='queryoperator'])[last()]  Absolute path
+    Input Text  xpath=(//input[@name="query.v:records"])[last()]  ${absolute_path_criterion}
+    Click Button  Save
+
 Set Relative Location Criterion To
     [Arguments]  ${relative_path_criterion}
     Wait Until Page Contains Element  xpath=//select[@name="addindex"]
-    Select From List  xpath=//select[@name="addindex"][last()]  Location
+    Select From List  xpath=(//select[@name="addindex"])[last()]  Location
     Wait Until Page Contains Element  xpath=//select[@class='queryoperator']
-    Select From List  xpath=//select[@class='queryoperator'][last()]  Relative path
-    Input Text  xpath=//input[@name="query.v:records"][last()]  ${relative_path_criterion}
+    Select From List  xpath=(//select[@class='queryoperator'])[last()]  Relative path
+    Input Text  xpath=(//input[@name="query.v:records"])[last()]  ${relative_path_criterion}
     Click Button  Save
 
 Set Short name (id) Criterion
