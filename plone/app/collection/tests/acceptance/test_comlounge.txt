@@ -24,7 +24,12 @@ ${BROWSER} =  Firefox
 
 *** Test Cases ***
 
+
 Test Double Relative Location Criterion
+    #
+    # test if contents of all locations that are added as criterion are shown;
+    # right now only the last location is shown
+    #
     Log in as site owner
     Go to  ${test-folder}
     Add folder  My Folder 1
@@ -36,6 +41,9 @@ Test Double Relative Location Criterion
     Go to  ${test-folder}
     Create Collection  Location Criteria Collection
 
+    # TODO: maybe it is better to leave the "Click Button  Save" keyword out of
+    # the criterion keywords, so multiple criterions can be added at once and
+    # tested
     Click Edit In Edit Bar
     Set Relative Location Criterion To  ../my-folder-1/
     Click Edit In Edit Bar
@@ -45,7 +53,43 @@ Test Double Relative Location Criterion
     Page should contain  Document inside My Folder 2
 
 
+Test Location Criterion with children
+    #
+    # we don't want the children of a reference to be shown, instead add a
+    # checkbox that when enabled shows the children of a reference;
+    # required for both (relative/absolute) location criterions
+    #
+    Log in as site owner
+    Go to  ${test-folder}
+    Add folder  My Folder
+    Add Page  Document inside My Folder
+    Add folder  My SubFolder
+    Add Page  Document inside My SubFolder
+
+    Go to  ${test-folder}
+    Create Collection  Location Criteria Collection
+
+    Click Edit In Edit Bar
+    Set Relative Location Criterion To  ../my-folder/
+
+    Page should contain  Document inside My Folder
+    Page should not contain  Document inside My SubFolder
+
+    Click Edit In Edit Bar
+    # TODO: implement criterion keyword
+    Set Subfolder Location Criterion To  True
+
+    Page should contain  Document inside My Folder
+    Page should contain  Document inside My SubFolder
+
+
 Test Absolute Location Criterion
+    #
+    # this currently successfully tests the absolute location criterion as it is,
+    # meaning inserting the path into an input field;
+    # we want to have a 'path picker' which let's us navigate to the desired
+    # object and select it
+    #
     Log in as site owner
     Go to  ${test-folder}
     Add folder  My Folder
@@ -55,7 +99,38 @@ Test Absolute Location Criterion
     Create Collection  Location Criteria Collection
 
     Click Edit In Edit Bar
-    Set Absolute Location Criterion To  ../my-folder/
-    Click Button  Save
+    Set Absolute Location Criterion To  /acceptance-test-folder/my-folder/
 
     Page should contain  Document inside My Folder
+
+
+#
+# additional features:
+# * make selectable types dependant on searchable types
+#
+
+
+
+
+##############################################
+
+#
+# Behavior Driven tests
+#
+
+
+#Scenario: Absolute Location Criterion
+#    Given a logged-in admin user
+#     And a Plone site with test folder
+#    When I create a new collection
+#     And I select the absolute path criterion with ""
+#    Then a preview of "Example theme" is shown in a new window
+
+
+*** Keywords ***
+
+#a logged-in admin user
+#    Log in as site owner
+
+#a Plone site with test folder
+#    Go to  ${test-folder}
