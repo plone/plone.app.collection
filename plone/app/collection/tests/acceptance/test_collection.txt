@@ -126,6 +126,75 @@ Test Type Criterion
     Page should contain  My Document
     Page should not contain  My News Item
 
+
+Test Absolute Location Criterion
+    #
+    # this currently successfully tests the absolute location criterion as it is,
+    # meaning inserting the path into an input field;
+    # we want to have a 'path picker' which let's us navigate to the desired
+    # object and select it
+    #
+    Log in as site owner
+    Go to  ${test-folder}
+    Add folder  My Folder
+    Add Page  Document inside My Folder
+
+    Go to  ${test-folder}
+    Create Collection  Location Criteria Collection
+
+    Click Edit In Edit Bar
+    Set Absolute Location Criterion To  /acceptance-test-folder/my-folder/
+
+    Page should contain  Document inside My Folder
+
+
+Test Double Relative Location Criterion
+    #
+    # test if contents of all locations that are added as criterion are shown;
+    # right now only the last location is shown
+    #
+    Log in as site owner
+    Go to  ${test-folder}
+    Add Page  Document outside My Folders
+    Go to  ${test-folder}
+    Add folder  My Folder 1
+    Add Page  Document inside My Folder 1
+    Go to  ${test-folder}
+    Add folder  My Folder 2
+    Add Page  Document inside My Folder 2
+
+    Go to  ${test-folder}
+    Create Collection  Location Criteria Collection
+
+    Click Edit In Edit Bar
+    Set Relative Location Criterion To  ../my-folder-1/
+    Click Edit In Edit Bar
+    Set Relative Location Criterion To  ../my-folder-2/
+
+    Page should contain  Document inside My Folder 1
+    Page should contain  Document inside My Folder 2
+    Page should not contain  Document outside My Folders
+
+
+Test Relative Location Without Subfolders
+    Log in as site owner
+    Go to  ${test-folder}
+    Add folder  My Folder
+    Add Page  Document inside My Folder
+    Go to  ${test-folder}/my-folder
+    Add folder  My SubFolder
+    Add Page  Document inside My SubFolder
+
+    Go to  ${test-folder}
+    Create Collection  Location Criteria Collection
+
+    Click Edit In Edit Bar
+    Set Relative Location Without Subfolders Criterion To  ../my-folder/
+
+    Page should contain  Document inside My Folder
+    Page should not contain  Document inside My SubFolder
+
+
 #Test Type Criterion
 #    Given a logged in user
 #        And a document  My Document
@@ -148,3 +217,61 @@ Test Type Criterion
 # Test Sort On Creator
 # Test Sort On Review state
 # Test Sort On Tag
+
+
+
+
+#Scenario: Title Criterion
+#    Given a logged-in administrator
+#     And a collection  My Collection
+#     And a document  My document
+#
+#    When I set the collection title criterion to  My document
+#
+#    Then the collection should show one result
+#     And the collection should contain  My document
+
+
+*** Keywords ***
+
+Suite Setup
+    Open browser  ${front-page}
+
+Suite Teardown
+    Close All Browsers
+
+a logged-in administrator
+    Log in as site owner
+
+a document
+    [Arguments]  ${title}
+    Go to  ${test-folder}/createObject?type_name=Document
+    Input text  name=title  ${title}
+    Click Button  Save
+
+a collection
+    [Arguments]  ${title}
+    Go to  ${test-folder}/createObject?type_name=Collection
+    Input text  name=title  ${title}
+    Click Button  Save
+
+I set the collection title criterion to
+    [Arguments]  ${title_criterion}
+    Go to  ${front-page}/my-collection/edit
+    Wait Until Page Contains Element  xpath=//select[@name="addindex"]
+    Select From List  xpath=//select[@name="addindex"]  Title
+    Wait Until Page Contains Element  xpath=//select[@class='queryoperator']
+    Input Text  name=query.v:records  ${title_criterion}
+    Wait Until Page Contains  1 items matching your search terms.
+    Page should contain  ${title_criterion}
+    Click Button  Save
+
+the collection should show one result
+    Go to  ${front-page}/my-collection
+    # XXX: needs to be fixed.
+    #Page should contain element  xpath=count(//span[@class="summary"])==1
+
+the collection should contain
+    [Arguments]  ${title}
+    Go to  ${front-page}/my-collection
+    Page should contain  ${title}
