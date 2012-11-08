@@ -7,6 +7,9 @@ from plone.app.collection.testing import PLONEAPPCOLLECTION_ACCEPTANCE_TESTING
 import robotsuite
 
 
+
+
+
 #def test_suite():
 #    suite = unittest.TestSuite()
 #    suite.addTests([
@@ -18,7 +21,7 @@ import robotsuite
 def test_suite():
     suite = unittest.TestSuite()
     suite.addTests([
-        layered(robotsuite.RobotTestSuite("acceptance/test_comlounge.txt"),
+        layered(robotsuite.RobotTestSuite("acceptance/test_bdd.txt"),
         layer=PLONEAPPCOLLECTION_ACCEPTANCE_TESTING),
     ])
     return suite

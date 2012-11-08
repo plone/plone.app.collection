@@ -4,6 +4,7 @@ Library  Selenium2Library  timeout=10  implicit_wait=0.5
 Library  plone.app.collection.testing_keywords.Keywords
 
 Resource  plone/act/keywords.txt
+Resource  collection_keywords.txt
 
 Variables  plone/app/testing/interfaces.py
 
@@ -14,7 +15,7 @@ Suite Teardown  Suite Teardown
 *** Variables ***
 
 ${front-page}  http://localhost:55001/plone
-${test-folder}  http://localhost:55001/plone
+${test-folder}  http://localhost:55001/plone/acceptance-test-folder
 
 ${PORT} =  55001
 ${ZOPE_URL} =  http://localhost:${PORT}
@@ -24,15 +25,63 @@ ${BROWSER} =  Firefox
 
 *** Test Cases ***
 
-Scenario: Title Criterion
-    Given a logged-in adminstrator
-     And a collection  My Collection
-     And a document  My document
+#Scenario: Title Criterion
+#    Given a logged-in administrator
+#     And a collection  My Collection
+#     And a document  My document
+#
+#    When I set the collection title criterion to  My document
+#
+#    Then the collection should show one result
+#     And the collection should contain  My document
 
-    When I set the collection title criterion to  My document
+Test Double Relative Location Criterion
+    #
+    # test if contents of all locations that are added as criterion are shown;
+    # right now only the last location is shown
+    #
+    Log in as site owner
+    Go to  ${test-folder}
+    Add Page  Document outside My Folders
+    Go to  ${test-folder}
+    Add folder  My Folder 1
+    Add Page  Document inside My Folder 1
+    Go to  ${test-folder}
+    Add folder  My Folder 2
+    Add Page  Document inside My Folder 2
 
-    Then the collection should show one result
-     And the collection should contain  My document
+    Go to  ${test-folder}
+    Create Collection  Location Criteria Collection
+
+    Click Edit In Edit Bar
+    Set Relative Location Criterion To  ../my-folder-1/
+    Click Edit In Edit Bar
+    Set Relative Location Criterion To  ../my-folder-2/
+
+    Page should contain  Document inside My Folder 1
+    Page should contain  Document inside My Folder 2
+    Page should not contain  Document outside My Folders
+
+
+Test Relative Location Without Subfolders
+    Log in as site owner
+    Go to  ${test-folder}
+    Add folder  My Folder
+    Add Page  Document inside My Folder
+    Go to  ${test-folder}/my-folder
+    Add folder  My SubFolder
+    Add Page  Document inside My SubFolder
+
+    Go to  ${test-folder}
+    Create Collection  Location Criteria Collection
+
+    Click Edit In Edit Bar
+    Set Relative Location Without Subfolders Criterion To  ../my-folder/
+
+    Page should contain  Document inside My Folder
+    Page should not contain  Document inside My SubFolder
+
+
 
 
 *** Keywords ***
@@ -43,7 +92,7 @@ Suite Setup
 Suite Teardown
     Close All Browsers
 
-a logged-in adminstrator
+a logged-in administrator
     Log in as site owner
 
 a document
