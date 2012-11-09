@@ -148,7 +148,7 @@ Test Absolute Location Criterion
     Page should contain  Document inside My Folder
 
 
-Test Double Relative Location Criterion
+Test Multiple Relative Location Criterion
     #
     # test if contents of all locations that are added as criterion are shown;
     # right now only the last location is shown
@@ -162,6 +162,9 @@ Test Double Relative Location Criterion
     Go to  ${test-folder}
     Add folder  My Folder 2
     Add Page  Document inside My Folder 2
+    Go to  ${test-folder}
+    Add folder  My Folder 3
+    Add Page  Document inside My Folder 3
 
     Go to  ${test-folder}
     Create Collection  Location Criteria Collection
@@ -170,9 +173,12 @@ Test Double Relative Location Criterion
     Set Relative Location Criterion To  ../my-folder-1/
     Click Edit In Edit Bar
     Set Relative Location Criterion To  ../my-folder-2/
+    Click Edit In Edit Bar
+    Set Relative Location Criterion To  ../my-folder-3/
 
     Page should contain  Document inside My Folder 1
     Page should contain  Document inside My Folder 2
+    Page should contain  Document inside My Folder 3
     Page should not contain  Document outside My Folders
 
 
