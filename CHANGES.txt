@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.0b3 (unreleased)
+2.0b3 (2012-11-26)
 ------------------
 
 - Check if item isPrincipiaFolderish instead of the hardcoded portal_type
