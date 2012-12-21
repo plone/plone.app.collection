@@ -46,7 +46,7 @@ class RSSViewTest(unittest.TestCase):
     def test_view(self):
         view = self.collection.restrictedTraverse('@@RSS')
         self.assertTrue(view())
-        self.assertEquals(view.request.response.status, 200)
+        self.assertEqual(view.request.response.status, 200)
 
     def test_view_is_valid(self):
         view = self.collection.restrictedTraverse('@@RSS')
