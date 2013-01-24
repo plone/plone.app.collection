@@ -24,7 +24,7 @@ Set Review state Criterion
     Wait Until Page Contains Element  xpath=//select[@name="addindex"]
     Select From List  xpath=//select[@name="addindex"]  Review state
     Wait Until Page Contains Element  xpath=//select[@class='queryoperator']
-    Click Element  xpath=//div[@class='criteria']/dl
+    Click Element  xpath=//span[@class='arrowDownAlternative']
     Select Checkbox  published
     Live Preview number of results should be  1
     Live Preview should contain  Published Document
@@ -63,7 +63,7 @@ Set Type Criterion
     Wait Until Page Contains Element  xpath=//select[@name="addindex"]
     Select From List  xpath=//select[@name="addindex"]  Type
     Wait Until Page Contains Element  xpath=//select[@class='queryoperator']
-    Click Element  xpath=//div[@class='criteria']/dl
+    Click Element  xpath=//span[@class='arrowDownAlternative']
     Select Checkbox  Document
     Wait Until Page Contains  1 items matching your search terms.
     Page should contain  My Document
