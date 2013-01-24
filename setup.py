@@ -48,7 +48,10 @@ setup(name='plone.app.collection',
           'test': [
               'plone.app.testing',
               'plone.testing',
+              'plone.act',
               'unittest2',
+              "robotsuite",
+              "robotframework-selenium2library"
               ],
       },
       entry_points="""
