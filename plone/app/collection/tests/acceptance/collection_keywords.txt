@@ -30,6 +30,17 @@ Set Review state Criterion
     Live Preview should contain  Published Document
     Click Button  Save
 
+Set Absolute Location Criterion To
+    [Arguments]  ${absolute_path_criterion}
+    Wait Until Page Contains Element  xpath=//select[@name="addindex"]
+    Select From List  xpath=(//select[@name="addindex"])[last()]  Location
+    Wait Until Page Contains Element  xpath=//select[@class='queryoperator']
+    Select From List  xpath=(//select[@class='queryoperator'])[last()]  Absolute path
+    #Set Selenium Timeout  600 seconds
+    #Wait For Condition  true
+    Input Text  xpath=(//input[@name="form.widgets.query.v:records"])  ${absolute_path_criterion}
+    Click Button  Save
+
 Set Creator Criterion To
     [Arguments]  ${creator_criterion}
     Wait Until Page Contains Element  xpath=//select[@name="addindex"]
@@ -47,7 +58,17 @@ Set Relative Location Criterion To
     Select From List  xpath=//select[@name="addindex"]  Location
     Wait Until Page Contains Element  xpath=//select[@class='queryoperator']
     Select From List  xpath=//select[@class='queryoperator']  Relative path
-    Input Text  name=form.widgets.query.v:records  ${relative_path_criterion}
+    Input Text  xpath=(//input[@name="form.widgets.query.v:records"])[last()]  ${relative_path_criterion}
+    Click Button  Save
+
+Set Relative Location Without Subfolders Criterion To
+    [Arguments]  ${relative_path_criterion}
+    Wait Until Page Contains Element  xpath=//select[@name="addindex"]
+    Select From List  xpath=(//select[@name="addindex"])[last()]  Location
+    Wait Until Page Contains Element  xpath=//select[@class='queryoperator']
+    Select From List  xpath=(//select[@class='queryoperator'])[last()]  Relative path (without subfolders)
+    Wait Until Page Contains Element  xpath=//input[@name="form.widgets.query.v:records"]
+    Input Text  xpath=(//input[@name="form.widgets.query.v:records"])  ${relative_path_criterion}
     Click Button  Save
 
 Set Short name (id) Criterion
