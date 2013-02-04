@@ -1,6 +1,16 @@
 Changelog
 =========
 
+2.0b5 (2013-02-04)
+------------------
+
+- Functional robot framework based tests added.
+  [Gomez]
+
+- Remove '!important' from collection.css. NEVER use !important in Plone css.
+  [timo]
+
+
 2.0b4 (2012-11-26)
 ------------------
 
