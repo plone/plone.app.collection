@@ -37,7 +37,6 @@ class PloneAppCollectionLayer(PloneSandboxLayer):
             title=u"Test Folder"
         )
 
-
 PLONEAPPCOLLECTION_FIXTURE = PloneAppCollectionLayer()
 
 PLONEAPPCOLLECTION_INTEGRATION_TESTING = IntegrationTesting(
