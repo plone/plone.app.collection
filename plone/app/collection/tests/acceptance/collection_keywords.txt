@@ -6,6 +6,90 @@ Suite Setup
 Suite Teardown
     Close All Browsers
 
+Log in
+    [Documentation]  Log in to the site as ${userid} using ${password}. There
+    ...              is no guarantee of where in the site you are once this is
+    ...              done. (You are responsible for knowing where you are and
+    ...              where you want to be)
+    [Arguments]  ${userid}  ${password}
+
+    Go to  ${PLONE_URL}/login_form
+    Page should contain element  __ac_name
+    Page should contain element  __ac_password
+    Page should contain button  Log in
+    Input text  __ac_name  ${userid}
+    Input text  __ac_password  ${password}
+    Click Button  Log in
+
+Log in as site owner
+    [Documentation]  Log in as the SITE_OWNER provided by plone.app.testing,
+    ...              with all the rights and privileges of that user.
+    Log in  ${SITE_OWNER_NAME}  ${SITE_OWNER_PASSWORD}
+
+Log in as test user
+
+    Log in  ${TEST_USER_NAME}  ${TEST_USER_PASSWORD}
+
+Log out
+    Go to  ${PLONE_URL}/logout
+    Page should contain  logged out
+
+Add Page
+    [arguments]  ${title}
+
+    Open Add New Menu
+    Click Link  link=Page
+    Wait Until Page Contains Element  title
+    Input Text  title  ${title}
+    Click button  name=form.button.save
+    Page Should Contain  Changes saved.
+
+Add folder
+    [arguments]  ${title}
+
+    Open Add New Menu
+    Click Link  css=#plone-contentmenu-factories a#folder
+    Wait Until Page Contains Element  css=#archetypes-fieldname-title input
+    Input Text  title  ${title}
+    Click Button  Save
+    Page should contain  ${title}
+    Element should contain  css=#parent-fieldname-title  ${title}
+
+Open Menu
+    [Arguments]  ${elementId}
+
+    Element Should Be Visible  css=dl#${elementId} span
+    Element Should Not Be Visible  css=dl#${elementId} dd.actionMenuContent
+    Click link  css=dl#${elementId} dt.actionMenuHeader a
+    Wait until keyword succeeds  1  5  Element Should Be Visible  css=dl#${elementId} dd.actionMenuContent
+
+Open Workflow Menu
+    Open Menu  plone-contentmenu-workflow
+
+Open Add New Menu
+    Open Menu  plone-contentmenu-factories
+
+Click ${name} In Edit Bar
+    Page Should Contain Element  id=edit-bar  Edit bar is not available : edit permission missing ?
+    Element Should Contain  css=div#edit-bar ul#content-views  ${name}
+    Click Link  ${name}
+
+Trigger Workflow Transition
+    [Arguments]  ${transitionId}
+
+    Open Workflow Menu
+    Click Link  workflow-transition-${transitionId}
+    Check Status Message  Item state changed.
+
+Workflow Publish
+    Trigger Workflow Transition  publish
+
+Check Status Message
+    [Arguments]  ${message}
+
+    Page Should Contain Element  css=dl.portalMessage dt  Info
+    Page Should Contain Element  css=dl.portalMessage dd  ${message}
+
 Create Collection
     [Arguments]  ${title}
     Go to  ${test-folder}/++add++Collection

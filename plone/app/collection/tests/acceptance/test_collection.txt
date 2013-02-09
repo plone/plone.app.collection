@@ -3,10 +3,9 @@
 Library  Selenium2Library  timeout=10  implicit_wait=0.5
 Library  plone.app.collection.testing_keywords.Keywords
 
-Resource  plone/act/keywords.txt
-Resource  collection_keywords.txt
-
 Variables  plone/app/testing/interfaces.py
+
+Resource  collection_keywords.txt
 
 Suite Setup  Suite Setup
 Suite Teardown  Suite Teardown
@@ -84,7 +83,7 @@ Test Review state Criterion
     Log in as site owner
     Go to  ${test-folder}
     Add Page  Published Document
-    Publish Object
+    Workflow Publish
     Go to  ${test-folder}
     Add Page  Private Document
     Create Collection  My Collection
