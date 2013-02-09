@@ -44,14 +44,9 @@ setup(name='plone.app.collection',
           'zope.schema',
           'Zope2',
       ],
-      extras_require = {
+      extras_require={
           'test': [
-              'plone.app.testing',
-              'plone.testing',
-              'plone.act',
-              'unittest2',
-              "robotsuite",
-              "robotframework-selenium2library"
+              'plone.app.testing [robot]',
               ],
       },
       entry_points="""
