@@ -3,19 +3,12 @@
 Library  Selenium2Library  timeout=10  implicit_wait=0.5
 
 Resource  Products/CMFPlone/tests/robot/keywords.txt
+
 Variables  plone/app/testing/interfaces.py
+Variables  Products/CMFPlone/tests/robot/variables.py
 
 Suite Setup  Suite Setup
 Suite Teardown  Suite Teardown
-
-
-*** Variables ***
-
-${PORT} =  55001
-${ZOPE_URL} =  http://localhost:${PORT}
-${PORTAL_URL}  ${ZOPE_URL}/plone
-${TEST_FOLDER}  ${PORTAL_URL}/test-folder
-${BROWSER} =  Firefox
 
 
 *** Test Cases ***
