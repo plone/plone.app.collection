@@ -11,6 +11,8 @@
 <metal:content-core fill-slot="content-core">
 <metal:main_macro define-macro="content-core"
      tal:define="data context/getFoldersAndImages;
+                otherContents data/others;
+                images data/images;
                 total_number_of_images data/total_number_of_images;
                 site_properties context/portal_properties/site_properties;
                 use_view_action site_properties/typesUseViewActionInListings|python:();">
@@ -26,11 +28,14 @@
 
     <tal:results tal:repeat="item data/results"
                  tal:condition="total_number_of_images">
+    <tal:defs tal:define="item_path item/getPath;
+                          item_type item/portal_type;
+                          is_album python:item_type=='Folder';
+                          has_album python: item_path in images"
+              tal:condition="has_album">
+
     <div class="photoAlbumEntry photoAlbumFolder"
-         tal:define="item_path item/getPath;
-                     item_type item/portal_type;
-                     is_album python:item_type=='Folder';
-                     images_album python:data['images'][item_path];
+         tal:define="images_album python:images[item_path];
                      number_of_images python:len(images_album);
                      item_title item/Title;
                      item_url item/getURL;
@@ -54,8 +59,16 @@
                     </span>
                 </a>
     </div>
+    </tal:defs>
     </tal:results>
     <div class="visualClear"><!-- --></div>
+    <tal:listing condition="otherContents"
+             define="folderContents otherContents">
+    <metal:listing metal:use-macro="here/folder_listing/macros/listing">
+        <metal:empty metal:fill-slot="no_items_in_listing"></metal:empty>
+    </metal:listing>
+
+    </tal:listing>
 
     <p class="discreet"
        i18n:translate=""

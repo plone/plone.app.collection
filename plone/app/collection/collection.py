@@ -160,7 +160,7 @@ class Collection(document.ATDocument, ObjectManager):
         catalog = getToolByName(self, 'portal_catalog')
         results = self.results(batch=False)
 
-        _mapping = {'results': results, 'images': {}}
+        _mapping = {'results': results, 'images': {}, 'others': []}
         portal_atct = getToolByName(self, 'portal_atct')
         image_types = getattr(portal_atct, 'image_types', [])
 
@@ -174,6 +174,8 @@ class Collection(document.ATDocument, ObjectManager):
                 _mapping['images'][item_path] = IContentListing(catalog(query))
             elif item.portal_type in image_types:
                 _mapping['images'][item_path] = [item, ]
+            else:
+                _mapping['others'].append(item._brain)
 
         _mapping['total_number_of_images'] = sum(map(len,
                                                 _mapping['images'].values()))
