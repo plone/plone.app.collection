@@ -4,7 +4,8 @@ Changelog
 1.0.8 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- fix album view if item does not have images
+  [vangheem]
 
 
 1.0.7 (2012-12-14)
