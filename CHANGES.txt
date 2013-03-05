@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0.8 (unreleased)
+1.0.8 (2013-03-05)
 ------------------
 
 - fix album view if item does not have images
