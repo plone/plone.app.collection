@@ -87,7 +87,8 @@ CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
 ))
 
 CollectionSchema.moveField('query', after='description')
-CollectionSchema['presentation'].widget.visible = False
+if 'presentation' in CollectionSchema:
+    CollectionSchema['presentation'].widget.visible = False
 CollectionSchema['tableContents'].widget.visible = False
 
 
