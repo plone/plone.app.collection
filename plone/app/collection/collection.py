@@ -18,15 +18,21 @@ class Collection(Item):
         #tool = getToolByName(self, ATCT_TOOLNAME)
         #return tool.getMetadataDisplay(exclude)
 
-    def results(self, batch=True, b_start=0, b_size=None):
+    def results(self, batch=True, b_start=0, b_size=None,
+                sort_on=None, limit=None):
         querybuilder = QueryBuilder(self, self.REQUEST)
         sort_order = 'reverse' if self.sort_reversed else 'ascending'
         if not b_size:
             b_size = self.item_count
-        return querybuilder(query=self.query,
-                            batch=batch, b_start=b_start, b_size=b_size,
-                            sort_on=self.sort_on, sort_order=sort_order,
-                            limit=self.limit)
+        if not sort_on:
+            sort_on = self.sort_on
+        if not limit:
+            limit = self.limit
+        return querybuilder(
+            query=self.query, batch=batch, b_start=b_start, b_size=b_size,
+            sort_on=sort_on, sort_order=sort_order,
+            limit=limit
+        )
 
     def selectedViewFields(self):
         """Returns a list of all metadata fields from the catalog that were
@@ -57,8 +63,10 @@ class Collection(Item):
             elif item.portal_type in image_types:
                 _mapping['images'][item_path] = [item, ]
 
-        _mapping['total_number_of_images'] = sum(map(len,
-                                                _mapping['images'].values()))
+        _mapping['total_number_of_images'] = sum(map(
+            len,
+            _mapping['images'].values()
+        ))
         return _mapping
 
     # BBB
@@ -74,3 +82,8 @@ class Collection(Item):
 
     def setSort_reversed(self, sort_reversed):
         self.sort_reversed = sort_reversed
+
+    def queryCatalog(self, batch=True, b_start=0, b_size=30, sort_on=None):
+        return self.results(
+            batch, b_start, b_size, sort_on=sort_on
+        )

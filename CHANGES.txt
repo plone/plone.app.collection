@@ -4,7 +4,9 @@ Changelog
 2.0b6 (unreleased)
 ------------------
 
--
+- Implement 'queryCatalog' BBB method for collection type for compability
+  with plone.portlet.collection >= 2.1.4.
+  [timo]
 
 
 2.0b5 (2013-02-04)
