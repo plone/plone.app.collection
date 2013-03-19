@@ -1,6 +1,7 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="plone">
 
   <include package="plone.app.contentmenu" />
@@ -72,5 +73,12 @@
         action="thumbnail_view"
         />
   </browser:menuItems>
+
+  <browser:page zcml:condition="not-have Plone-43"
+      name="RSS"
+      permission="zope2.View"
+      for="plone.app.collection.interfaces.ICollection"
+      template="templates/rss.pt"
+      />
 
 </configure>

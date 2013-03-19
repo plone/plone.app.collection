@@ -4,7 +4,9 @@ Changelog
 1.0.9 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Provide /RSS view for collection so we at least have an option
+  for syndication before 4.3
+  [vangheem]
 
 
 1.0.8 (2013-03-05)
