@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '2.0b5'
+version = '2.1dev'
 
 setup(name='plone.app.collection',
       version=version,
@@ -28,6 +28,7 @@ setup(name='plone.app.collection',
           'plone.app.dexterity',
           'plone.app.contentmenu',
           'plone.formwidget.querystring',
+          'rwproperty',
       ],
       extras_require={
           'test': [

@@ -6,6 +6,8 @@ import unittest2 as unittest
 from plone.app.collection.testing import \
     PLONEAPPCOLLECTION_INTEGRATION_TESTING
 
+from plone.dexterity.fti import DexterityFTI
+
 from plone.app.testing import TEST_USER_ID, TEST_USER_NAME, setRoles, login
 
 from lxml import etree
@@ -30,6 +32,10 @@ class RSSViewTest(unittest.TestCase):
         self.folder = self.portal['test-folder']
         self.folder.invokeFactory('Collection',
                                   'collection1')
+        #fti = DexterityFTI('Collection')
+        #fti.behaviors = (
+        #    'plone.app.collection.behaviors.collection.ICollectionBehavior',
+        #)
         self.collection = aq_inner(self.folder['collection1'])
         self.request.set('URL', self.collection.absolute_url())
         self.request.set('ACTUAL_URL', self.collection.absolute_url())

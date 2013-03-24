@@ -45,7 +45,7 @@ PLONEAPPCOLLECTION_INTEGRATION_TESTING = IntegrationTesting(
 PLONEAPPCOLLECTION_FUNCTIONAL_TESTING = FunctionalTesting(
     bases=(PLONEAPPCOLLECTION_FIXTURE,),
     name="PloneAppCollectionLayer:Functional")
-PLONEAPPCOLLECTION_ACCEPTANCE_TESTING = FunctionalTesting(
+PLONE_APP_COLLECTION_ACCEPTANCE_TESTING = FunctionalTesting(
     bases=(PLONEAPPCOLLECTION_FIXTURE, z2.ZSERVER_FIXTURE),
     name="PloneAppCollectionLayer:Acceptance")
 

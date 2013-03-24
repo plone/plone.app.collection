@@ -1,0 +1,19 @@
+<configure
+  xmlns="http://namespaces.zope.org/zope"
+  xmlns:browser="http://namespaces.zope.org/browser"
+  xmlns:plone="http://namespaces.plone.org/plone"
+  xmlns:zcml="http://namespaces.zope.org/zcml"
+  i18n_domain="plone.app.collection">
+
+  <include package="plone.behavior" file="meta.zcml"/>
+
+  <plone:behavior
+    title="Collection Behavior"
+    description="Adds image and image caption fields"
+    provides=".collection.ICollectionBehavior"
+    factory=".collection.ICollectionBehavior"
+    for="plone.dexterity.interfaces.IDexterityContent"
+    marker=".collection.ICollectionBehavior"
+    />
+
+</configure>

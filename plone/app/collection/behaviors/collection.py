@@ -1,18 +1,34 @@
 # -*- coding: utf-8 -*-
-from zope.interface import implements
+from Products.CMFCore.utils import getToolByName
+
+from rwproperty import getproperty, setproperty
+
+from plone.app.contentlisting.interfaces import IContentListing
+
+from plone.app.querystring.querybuilder import QueryBuilder
+
+from plone.dexterity.interfaces import IDexterityContent
 
 from plone.dexterity.content import Item
 
-from plone.app.collection.interfaces import ICollection
-
-# method requirements
-from plone.app.contentlisting.interfaces import IContentListing
-from plone.app.querystring.querybuilder import QueryBuilder
-from Products.CMFCore.utils import getToolByName
+from zope.interface import alsoProvides, implements
+from zope.component import adapts
+from zope import schema
+from plone.supermodel import model
 
 
-class Collection(Item):
-    implements(ICollection)
+from zope.interface import alsoProvides
+
+from plone.app.collection import MessageFactory as _
+from plone.app.collection.interfaces import ICollectionBehavior
+
+
+class CollectionBehavior(object):
+    implements(ICollectionBehavior)
+    adapts(IDexterityContent)
+
+    def __init__(self, context):
+        self.context = context
 
     #security.declareProtected(View, 'listMetaDataFields')
     def listMetaDataFields(self, exclude=True):

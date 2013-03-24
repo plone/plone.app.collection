@@ -11,6 +11,7 @@ from zope.component import queryUtility
 from transaction import commit
 
 from plone.dexterity.interfaces import IDexterityFTI
+from plone.dexterity.fti import DexterityFTI
 
 from plone.app.collection.testing import \
     PLONEAPPCOLLECTION_INTEGRATION_TESTING
@@ -54,6 +55,12 @@ class PloneAppCollectionClassTest(unittest.TestCase):
         login(self.portal, TEST_USER_NAME)
         self.portal.invokeFactory('Collection', 'collection')
         self.collection = self.portal['collection']
+
+        fti = DexterityFTI('Collection')
+        fti.behaviors = (
+            'plone.app.collection.interfaces.ICollectionBehavior',
+        )
+
 
     def test_listMetaDataFields(self):
         self.assertEqual(self.collection.listMetaDataFields(), [])
@@ -189,7 +196,7 @@ class PloneAppCollectionEditViewsIntegrationTest(unittest.TestCase):
     def test_search_result(self):
         view = self.collection.restrictedTraverse('@@edit')
         html = view()
-        self.assertTrue('form-widgets-query' in html)
+        self.assertTrue('form-widgets-ICollectionBehavior-query' in html)
         self.assertTrue('No results were found.' in html)
         #from plone.app.contentlisting.interfaces import IContentListing
         #self.assertTrue(IContentListing.providedBy(view.accessor()))

@@ -1,20 +1,27 @@
 from zope import schema
-from zope import interface
+from zope.interface import Interface
+from zope.interface import alsoProvides
 
-from plone.supermodel import model
 from plone.autoform import directives as form
 
+from plone.autoform.interfaces import IFormFieldProvider
 from plone.formwidget.querystring.widget import QueryStringFieldWidget
+
+from plone.supermodel import model
 
 from plone.app.collection import _
 
 
-class IPloneAppCollectionLayer(interface.Interface):
+class IPloneAppCollectionLayer(Interface):
     """Marker interface for the plone.app.collection browser layer.
     """
 
+class ICollection(Interface):
+    """
+    """
 
-class ICollection(model.Schema):
+
+class ICollectionBehavior(model.Schema):
 
     form.widget(query=QueryStringFieldWidget)
     query = schema.List(
@@ -61,3 +68,6 @@ class ICollection(model.Schema):
 
     #form.order_before(title='*')
     #form.order_after(description='title')
+
+
+alsoProvides(ICollectionBehavior, IFormFieldProvider)

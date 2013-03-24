@@ -1,6 +1,6 @@
 *** Settings ***
 
-Library  Selenium2Library  timeout=10  implicit_wait=0.5
+Library  Selenium2Library  timeout=2  implicit_wait=0
 Library  plone.app.collection.testing_keywords.Keywords
 
 Variables  plone/app/testing/interfaces.py
@@ -23,47 +23,6 @@ ${BROWSER} =  Firefox
 
 *** Test Cases ***
 
-#Test Description Criterion
-#    Log in as site owner
-#    A document Apples with description Apples are green.
-#    A document Oranges with description Oranges are orange.
-#    Create Collection  Description Criterion Collection
-#    Click Edit In Edit Bar
-#    Set Description Criterion To  Apples are green.
-#
-#    Live Preview number of results should be  1
-#    Live Preview should contain  Apples
-#
-#    Page should contain  Apples
-#    Page should not contain  Oranges
-
-#Test Searchable text Criterion
-#Test Tag Criterion
-#Test Title Criterion
-
-#Test Creation date Criterion
-#Test Effective date Criterion
-#Test Event end date Criterion
-#Test Event start date Criterion
-#Test Expiration date Criterion
-#Test Modification date Criterion
-
-Test Creator Criterion
-    Log in as site owner
-    Go to  ${test-folder}
-    Add Page  Site owner document
-    Logout
-    Log in as test user
-    Go to  ${test-folder}
-    Add Page  Test user document
-    Create Collection  Creator Criterion Collection
-
-    Click Edit In Edit Bar
-    Set Creator Criterion To  ${TEST_USER_ID}
-
-    Page should not contain  Site owner document
-    Page should contain  Test user document
-
 Test Relative Location Criterion
     Log in as site owner
     Go to  ${test-folder}
@@ -78,51 +37,6 @@ Test Relative Location Criterion
 
     Page should contain  Document inside My Folder
     Page should not contain  Document outside My Folder
-
-Test Review state Criterion
-    Log in as site owner
-    Go to  ${test-folder}
-    Add Page  Published Document
-    Workflow Publish
-    Go to  ${test-folder}
-    Add Page  Private Document
-    Create Collection  My Collection
-
-    Click Edit In Edit Bar
-    Set Review state Criterion
-
-    Page should contain  Published Document
-    Page should not contain  Private Document
-
-Test Short name (id) Criterion
-    Log in as site owner
-    Go to  ${test-folder}
-    Add Page  First Document
-    Go to  ${test-folder}
-    Add Page  Second Document
-    Create Collection  My Collection
-
-    Click Edit In Edit Bar
-    Set Short name (id) Criterion
-
-    Page should contain  First Document
-    Page should not contain  Second Document
-
-Test Type Criterion
-    Log in as site owner
-    Go to  ${test-folder}
-    Add Page  My Document
-    Go to  ${test-folder}/createObject?type_name=News+Item
-    Wait Until Page Contains Element  title
-    Input text  title  My News Item
-    Click Button  Save
-    Create Collection  My Collection
-
-    Click Edit In Edit Bar
-    Set Type Criterion
-
-    Page should contain  My Document
-    Page should not contain  My News Item
 
 Test Absolute Location Criterion
     #
@@ -193,26 +107,3 @@ Test Relative Location Without Subfolders
 
     Page should contain  Document inside My Folder
     Page should not contain  Document inside My SubFolder
-
-#Test Type Criterion
-#    Given a logged in user
-#        And a document  My Document
-#        And a news item  My News Item
-#        And a collection  My Collection
-#    When
-#        I go to ${test-folder}/my-collection/edit
-#        And set the type criterion to  Document
-#    Then
-#        The page should contain  My Document
-
-# Test Sort On Sortable Title
-# Test Sort On Event end date
-# Test Sort On Effective date
-# Test Sort On Creation date
-# Test Sort On Expiration date
-# Test Sort On Modification date
-# Test Sort On Short name (id)
-# Test Sort On Event start date
-# Test Sort On Creator
-# Test Sort On Review state
-# Test Sort On Tag
