@@ -1,19 +1,11 @@
-import sys
-import traceback
 import logging
 
-import transaction
-
-from Acquisition import aq_parent
-from zope.component.hooks import getSite
-from zope.component import getUtility
-
-from Products.Five import BrowserView
 from Products.CMFCore.utils import getToolByName
-
-from plone.registry.interfaces import IRegistry
+from Products.contentmigration.archetypes import ATItemMigrator
+from Products.contentmigration.basemigrator.walker import CatalogWalker
 from plone.app.querystring.interfaces import IQuerystringRegistryReader
-
+from plone.registry.interfaces import IRegistry
+from zope.component import getUtility
 
 logger = logging.getLogger('plone.app.collection')
 prefix = "plone.app.querystring"
@@ -159,85 +151,31 @@ def ATListCriterion(formquery, criterion, registry):
     return messages
 
 
-class Upgrade(BrowserView):
-    """ Allow upgrading old ATTopic collections to
-        new plone.app.collection collections
+class TopicMigrator(ATItemMigrator):
+    src_portal_type = 'Topic'
+    src_meta_type = 'ATTopic'
+    dst_portal_type = dst_meta_type = 'Collection'
 
-    TODO This approach misses things like setting the Author,
-    modification date, marker interfaces, archetypes.schemaextender
-    extensions, etcetera.  Products.contentmigration may be a better
-    basis.
-    """
+    def migrate_criteria(self):
+        messages = []  # TODO just use logging.
 
-    def __call__(self):
-        self.failed = []
+        # The old Topic has boolean limitNumber and integer itemCount,
+        # where the new Collection only has limit.
+        if self.old.getLimitNumber():
+            self.new.setLimit(self.old.getItemCount())
+        # TODO: Check the other fields, like sorting.  Might be taken
+        # care of already.
 
-        site = getSite()
-        # Allow collections globally
-        pt = getToolByName(site, 'portal_types')
-        old_global_allow = pt['Collection'].global_allow
-        pt['Collection'].global_allow = True
-
-        for path in self.request.get('paths', []):
-            try:
-                ob = site.restrictedTraverse(path)
-                messages = self.convert(ob)
-                if messages:
-                    error = Erreur(ob=ob, messages=messages)
-                    self.failed.append(error)
-            except Exception, e:
-                raise
-                tb = traceback.extract_tb(sys.exc_info()[2])
-                error = Erreur(ob=ob, exception=e, traceback=tb)
-                self.failed.append(error)
-
-        pt['Collection'].global_allow = old_global_allow
-
-        submitted = self.request.get('submitted', False)
-        dry_run = self.request.get('dry_run', False)
-        if not submitted or dry_run:
-            transaction.abort()
-
-        return self.index()
-
-    def getCollections(self):
-        catalog = getToolByName(self.context, 'portal_catalog')
-        query = {'portal_type': 'Topic',
-                 'path': '/'.join(self.context.getPhysicalPath()), }
-        return catalog(query)
-
-    def convert(self, ob):
-        messages = []
-        path = "/".join(ob.getPhysicalPath())
-        logger.info('Converting object %s at %s' % (ob, path))
-
-        old_id = ob.id
-
-        # Create new collection at id = '%s-new' % id
-        parent = aq_parent(ob)
-
-        # Allow collection to be added
-        pt = getToolByName(parent, 'portal_types')
-        myType = pt.getTypeInfo(parent)
-        old_fct = myType.filter_content_types
-        myType.filter_content_types = False
-
-        # Add Collection
-        id = parent.invokeFactory(type_name="Collection", id='%s-new' % old_id)
-        new_ob = parent[id]
-
-        # Set old values
-        myType.filter_content_types = old_fct
-
-        # Set criteria
+        # Get the old criteria.
         # See also Products.ATContentTypes.content.topic.buildQuery
-        criteria = ob.listCriteria()
+        criteria = self.old.listCriteria()
         formquery = []
         for criterion in criteria:
             type_ = criterion.__class__.__name__
             module = 'plone.app.collection.browser.upgrade'
             fromlist = module.split(".")[:-1]
             try:
+                # TODO: Make 'module' a class attribute.
                 module = __import__(module, fromlist=fromlist)
                 convertor = getattr(module, type_)
             except (ImportError, AttributeError):
@@ -255,50 +193,24 @@ class Upgrade(BrowserView):
                 messages.extend(messages_)
 
         logger.info("formquery: %s" % formquery)
-        new_ob.setQuery(formquery)
+        self.new.setQuery(formquery)
 
-        # Set collection attributes
-        new_ob.setTitle(ob.Title())
-        new_ob.setText(ob.getText())
-        if ob.getLimitNumber():
-            # getLimitNumber is a boolean, getItemCount is an integer.
-            new_ob.setLimit(ob.getItemCount())
 
-        # set UID for link-by-uid etc
-        new_ob._setUID(ob.UID())
+def migrate_topics(context):
+    """Migrate ATContentTypes Topics to plone.app.contenttypes Collections.
 
-        # Set Plone attributes
-        layout = ob.getLayout()
-        # TODO Check the available view methods and only change the
-        # layout if it is not available for the new collection.
-        layout = 'standard_view' if layout == 'atct_topic_view' else layout
-        new_ob.setLayout(layout)
+    This can be used as upgrade step.
 
-        # Set workflow
-        if False:
-            pw = getToolByName(self.context, 'portal_workflow')
-            state = pw.getInfoFor(ob, 'review_state')
+    The new-style Collections might again get some changes later.
+    They may become folderish or dexterity items or dexterity
+    containers or a dexterity behavior.
 
-            # get possible transitions for object in current state
-            transitions = [x['transition']
-                           for x in pw.getActionsFor(new_ob)
-                           if 'transition' in x]
-
-            # find transition that brings us to the state of parent object
-            for item in transitions:
-                if item.new_state_id == state:
-                    pw.doActionFor(new_ob, item.id)
-                    break
-
-        # remove old collection
-        # Make sure we have _p_jar
-        if False:
-            transaction.savepoint(optimistic=True)
-            parent.manage_delObjects([old_id, ])
-
-            # rename, reindex etc
-            parent.manage_renameObject(id, old_id)
-            new_ob.unmarkCreationFlag()
-            new_ob.reindexObject()
-
-        return messages
+    For the moment this is just for the 1.x Collections.  Nested
+    Topics cannot be migrated for the moment and may give an error.
+    """
+    site = getToolByName(context, 'portal_url').getPortalObject()
+    topic_walker = CatalogWalker(site, TopicMigrator)
+    # TODO: we could parse the registry and pass it as keyword
+    # argument to the 'go' method and use a custom migrator, to save
+    # recalculating it again and again.
+    topic_walker.go()
