@@ -155,6 +155,35 @@ class TopicMigrator(ATItemMigrator):
     src_portal_type = 'Topic'
     src_meta_type = 'ATTopic'
     dst_portal_type = dst_meta_type = 'Collection'
+    view_methods_mapping= {
+        'folder_listing': 'standard_view',
+        'folder_summary_view': 'summary_view',
+        'folder_full_view': 'all_content',
+        'folder_tabular_view': 'tabular_view',
+        'atct_album_view': 'thumbnail_view',
+        'atct_topic_view': 'standard_view',
+        }
+
+    def last_migrate_layout(self):
+        """Migrate the layout (view method).
+
+        This needs to be done last, as otherwise our changes in
+        migrate_criteria may get overriden by a later call to
+        migrate_properties.
+        """
+        if self.old.getCustomView():
+            # Previously, the atct_topic_view had logic for showing
+            # the results in a list or in tabular form.  If
+            # getCustomView is True, this means the new object should
+            # use the tabular view.
+            print 'setting tabular view'
+            self.new.setLayout('tabular_view')
+            return
+
+        layout = self.view_methods_mapping.get(self.old.getLayout())
+        if layout:
+            print 'Changing layout from %r to %r. new has %r' % (self.old.getLayout(), layout, self.new.getLayout())
+            self.new.setLayout(layout)
 
     def migrate_criteria(self):
         messages = []  # TODO just use logging.
@@ -163,8 +192,8 @@ class TopicMigrator(ATItemMigrator):
         # where the new Collection only has limit.
         if self.old.getLimitNumber():
             self.new.setLimit(self.old.getItemCount())
-        # TODO: Check the other fields, like sorting.  Might be taken
-        # care of already.
+
+        # TODO - sort criteria -> sort_order, sort_on
 
         # Get the old criteria.
         # See also Products.ATContentTypes.content.topic.buildQuery
