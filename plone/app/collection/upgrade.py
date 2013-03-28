@@ -163,14 +163,20 @@ class TopicMigrator(ATItemMigrator):
         if self.old.getLimitNumber():
             self.new.setLimit(self.old.getItemCount())
 
-        # TODO - sort criteria -> sort_order, sort_on
-
         # Get the old criteria.
         # See also Products.ATContentTypes.content.topic.buildQuery
         criteria = self.old.listCriteria()
         formquery = []
         for criterion in criteria:
             type_ = criterion.__class__.__name__
+            if type_ == 'ATSortCriterion':
+                # Sort order and direction are now stored in the Collection.
+                self.new.setSort_reversed(criterion.getReversed())
+                self.new.setSort_on(criterion.Field())
+                logger.info("Sort on %r, reverse: %s.",
+                            self.new.getSort_on(), self.new.getSort_reversed())
+                continue
+
             converter = CONVERTERS.get(type_)
             if converter is None:
                 msg = 'Unsupported criterion %s' % type_
