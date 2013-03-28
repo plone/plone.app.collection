@@ -25,7 +25,7 @@
     description="Topics are old style, Collections are the new hot stuff"
     source="1"
     destination="2"
-    handler="plone.app.collection.browser.upgrade.migrate_topics"
+    handler="plone.app.collection.upgrade.migrate_topics"
     profile="plone.app.collection:default"/>
 
   <!-- hide profiles for our widget/field dependencies -->
