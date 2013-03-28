@@ -3,7 +3,7 @@ from OFS.ObjectManager import ObjectManager
 from archetypes.querywidget.field import QueryField
 from archetypes.querywidget.widget import QueryWidget
 from plone.app.contentlisting.interfaces import IContentListing
-from Products.ATContentTypes.content import document, schemata
+from Products.ATContentTypes.content import document, schemata, folder
 from Products.Archetypes import atapi
 from Products.Archetypes.atapi import (BooleanField,
                                        BooleanWidget,
@@ -21,8 +21,7 @@ from plone.app.collection import PloneMessageFactory as _
 from plone.app.collection.config import ATCT_TOOLNAME, PROJECTNAME
 from plone.app.collection.interfaces import ICollection
 
-
-CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
+CollectionSchema = folder.ATFolderSchema.copy() + document.ATDocumentSchema.copy() + atapi.Schema((
 
     QueryField(
         name='query',
@@ -94,12 +93,12 @@ CollectionSchema['tableContents'].widget.visible = False
 
 schemata.finalizeATCTSchema(
     CollectionSchema,
-    folderish=False,
+    folderish=True,
     moveDiscussion=False)
 
 
-class Collection(document.ATDocument, ObjectManager):
-    """A (new style) Plone Collection"""
+class Collection(folder.ATFolder, document.ATDocumentBase, ObjectManager):
+    """A (new style) folderish Plone Collection"""
     implements(ICollection)
 
     meta_type = "Collection"
@@ -109,7 +108,7 @@ class Collection(document.ATDocument, ObjectManager):
 
     # Override initializeArchetype to turn on syndication by default
     def initializeArchetype(self, **kwargs):
-        ret_val = document.ATDocument.initializeArchetype(self, **kwargs)
+        ret_val = folder.ATFolder.initializeArchetype(self, **kwargs)
         # Enable syndication by default
         syn_tool = getToolByName(self, 'portal_syndication', None)
         if syn_tool is not None:

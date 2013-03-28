@@ -21,10 +21,19 @@
 
   <genericsetup:upgradeStep
     zcml:condition="installed Products.contentmigration"
-    title="Migrate Topics to Collections"
-    description="Topics are old style, Collections are the new hot stuff"
+    title="Make Collections folderish"
+    description="Make it possible to nest Collections"
     source="1"
     destination="2"
+    handler="plone.app.collection.upgrade.migrate_to_folderish_collections"
+    profile="plone.app.collection:default"/>
+
+  <genericsetup:upgradeStep
+    zcml:condition="installed Products.contentmigration"
+    title="Migrate Topics to Collections"
+    description="Topics are old style, Collections are the new hot stuff"
+    source="2"
+    destination="3"
     handler="plone.app.collection.upgrade.migrate_topics"
     profile="plone.app.collection:default"/>
 

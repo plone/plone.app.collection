@@ -2,6 +2,7 @@ import logging
 
 from Products.CMFCore.utils import getToolByName
 from Products.contentmigration.archetypes import ATItemMigrator
+from Products.contentmigration.archetypes import InplaceATItemMigrator
 from Products.contentmigration.basemigrator.walker import CatalogWalker
 from plone.app.querystring.interfaces import IQuerystringRegistryReader
 from plone.registry.interfaces import IRegistry
@@ -209,6 +210,61 @@ class TopicMigrator(ATItemMigrator):
 
         logger.info("formquery: %s" % formquery)
         self.new.setQuery(formquery)
+
+
+class FolderishCollectionMigrator(InplaceATItemMigrator):
+    src_portal_type = src_meta_type = 'Collection'
+    dst_portal_type = dst_meta_type = 'Collection'
+
+
+def migrate_to_folderish_collections(context):
+    """Migrate new-style Collections to folderish Collections.
+
+    This can be used as upgrade step.
+
+    The new-style Collections started out as inheriting from
+    ATDocument.  Historically users could nest topics, so we want to
+    try to bring that back.
+
+    TODO/notes:
+
+    - This simple migration seems to work.
+
+    - While creating a Collection you visit a url like this:
+        portal_factory/Collection/@@querybuilder_html_results/(dynamic view)
+      This gives a traceback:
+        BadRequest: The id "@@querybuilder_html_results" is invalid
+        because it begins with "@@".
+      Either this is caused by switching to folders, or I never
+      noticed it before.
+
+    - You see the Contents tab, even when no types are allowed to be
+      added.  This shows the found items.  You can select them and try
+      to copy or cut them, but that gives an error message: one or
+      more of the items are not available.  So we should hide the
+      Contents tab.
+
+    - If you allow adding a Collection within a Collection, it does
+      not show up in the folder contents.  This might mean we need to
+      bring back the Subtopics/Subcollections tab.
+
+    - Do we want to allow nested Collections by default?  Probably
+      not.  In other words, we want to always create folderish
+      Collections, but by default not have the option to nest them.
+      Possibly we could make this configurable in a control panel that
+      does the necessary changes in the back end, mostly in the
+      portal_types tool.
+
+    - The sub collection should 'inherit' the query from its parent,
+      otherwise this exercise does not make much sense.  See the
+      maurits-recursive branch of archetypes.querywidget, which seems
+      to work, though for the tests to pass it currently needs the
+      maurits-upgradepath branch of plone.app.collection.
+
+    """
+    site = getToolByName(context, 'portal_url').getPortalObject()
+    collection_walker = CatalogWalker(site, FolderishCollectionMigrator)
+    collection_walker.go()
 
 
 def migrate_topics(context):
