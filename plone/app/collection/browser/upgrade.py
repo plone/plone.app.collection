@@ -54,9 +54,30 @@ def format_date(value):
 # smaller as they are a lot alike.
 
 def ATDateCriteria(formquery, criterion, registry):
-    # TODO: relative dates.  Ah, that would be ATRelativeDateCriteria I think.
+    """Handle date criteria.
+
+    Note that there is also ATDateRangeCriterion, which is much
+    simpler as it just has two dates.
+
+    In our case we have these valid operations:
+
+    ['plone.app.querystring.operation.date.lessThan',
+     'plone.app.querystring.operation.date.largerThan',
+     'plone.app.querystring.operation.date.between',
+     'plone.app.querystring.operation.date.lessThanRelativeDate',
+     'plone.app.querystring.operation.date.largerThanRelativeDate',
+     'plone.app.querystring.operation.date.today',
+     'plone.app.querystring.operation.date.beforeToday',
+     'plone.app.querystring.operation.date.afterToday']
+
+    TODO: We may want to copy code from the getCriteriaItems method of
+    Products/ATContentTypes/criteria/date.py and check the field
+    values ourselves instead of translating the values back and forth.
+
+    Note: this is probably the hardest criterion.
+    """
     operator = {'max': 'lessThan',
-                'min': 'moreThan',
+                'min': 'largerThan',
                 'min:max': 'between',
                 }
     messages = []
@@ -70,9 +91,9 @@ def ATDateCriteria(formquery, criterion, registry):
             continue
 
         if isinstance(value['query'], tuple):
-            # TODO: if one of these dates is today/now that probably
-            # means we should create a relative date criterion
-            # instead.
+            # TODO: if one of these dates is today/now (use the
+            # isCurrentDay method to check this) then that probably
+            # means we should use a different operator instead.
             query_value = [format_date(v) for v in value['query']]
         else:
             query_value = format_date(value['query'])
