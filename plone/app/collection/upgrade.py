@@ -105,20 +105,13 @@ class ATDateCriteriaConverter(CriterionConverter):
             query_value = format_date(value['query'])
         return query_value
 
-# Create an instance of the converter.
-ATDateCriteria = ATDateCriteriaConverter()
-
 
 class ATSimpleStringCriterionConverter(CriterionConverter):
     operator_code = 'string.contains'
 
-ATSimpleStringCriterion = ATSimpleStringCriterionConverter()
-
 
 class ATCurrentAuthorCriterionConverter(CriterionConverter):
     operator_code = 'string.currentUser'
-
-ATCurrentAuthorCriterion = ATCurrentAuthorCriterionConverter()
 
 
 class ATListCriterionConverter(CriterionConverter):
@@ -126,8 +119,6 @@ class ATListCriterionConverter(CriterionConverter):
 
     def get_query_value(self, value):
         return value['query']
-
-ATListCriterion = ATListCriterionConverter()
 
 
 class TopicMigrator(ATItemMigrator):
@@ -180,24 +171,19 @@ class TopicMigrator(ATItemMigrator):
         formquery = []
         for criterion in criteria:
             type_ = criterion.__class__.__name__
-            module = 'plone.app.collection.upgrade'
-            fromlist = module.split(".")[:-1]
-            try:
-                # TODO: Make 'module' a class attribute.
-                module = __import__(module, fromlist=fromlist)
-                converter = getattr(module, type_)
-            except (ImportError, AttributeError):
-                logger.error('Unsupported criterion %s' % type_)
-                raise
-            else:
-                # TODO: the registry is the same for every object, so
-                # we may want to make this available as
-                # self.parsed_registry.
-                reg = getUtility(IRegistry)
-                reader = IQuerystringRegistryReader(reg)
-                result = reader.parseRegistry()
+            converter = CONVERTERS.get(type_)
+            if converter is None:
+                msg = 'Unsupported criterion %s' % type_
+                logger.error(msg)
+                raise ValueError(msg)
+            # TODO: the registry is the same for every object, so
+            # we may want to make this available as
+            # self.parsed_registry.
+            reg = getUtility(IRegistry)
+            reader = IQuerystringRegistryReader(reg)
+            result = reader.parseRegistry()
 
-                converter(formquery, criterion, result)
+            converter(formquery, criterion, result)
 
         logger.info("formquery: %s" % formquery)
         self.new.setQuery(formquery)
@@ -221,3 +207,12 @@ def migrate_topics(context):
     # argument to the 'go' method and use a custom migrator, to save
     # recalculating it again and again.
     topic_walker.go()
+
+
+CONVERTERS = {
+    # Create an instance of each converter.
+    'ATDateCriteria': ATDateCriteriaConverter(),
+    'ATSimpleStringCriterion': ATSimpleStringCriterionConverter(),
+    'ATCurrentAuthorCriterion': ATCurrentAuthorCriterionConverter(),
+    'ATListCriterion': ATListCriterionConverter(),
+    }
