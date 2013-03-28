@@ -37,12 +37,24 @@ class Erreur(object):
         return map(format, self.traceback)
 
 
+def format_date(value):
+    """Format the date.
+
+    The value is expected to be a DateTime.DateTime object, though it
+    actually also works on datetime.datetime objects.
+
+    The query field expects a string with month/date/year.
+    So 28 March 2013 should become '03/28/2013'.
+    """
+    return value.strftime('%m/%d/%Y')
+
+
 # Convertors
 # TODO: make this class based so the individual convertors can be
 # smaller as they are a lot alike.
 
 def ATDateCriteria(formquery, criterion, registry):
-    # TODO: relative dates.
+    # TODO: relative dates.  Ah, that would be ATRelativeDateCriteria I think.
     operator = {'max': 'lessThan',
                 'min': 'moreThan',
                 'min:max': 'between',
@@ -58,9 +70,12 @@ def ATDateCriteria(formquery, criterion, registry):
             continue
 
         if isinstance(value['query'], tuple):
-            query_value = [v.ISO8601() for v in value['query']]
+            # TODO: if one of these dates is today/now that probably
+            # means we should create a relative date criterion
+            # instead.
+            query_value = [format_date(v) for v in value['query']]
         else:
-            query_value = value['query'].ISO8601()
+            query_value = format_date(value['query'])
         row = {'i': index,
                'o': operation,
                'v': query_value}
@@ -81,7 +96,7 @@ def ATSimpleStringCriterion(formquery, criterion, registry):
 
         row = {'i': index,
                'o': operation,
-               'v': value['query']}
+               'v': value}
         formquery.append(row)
     return messages
 
@@ -224,8 +239,9 @@ class Upgrade(BrowserView):
         # Set collection attributes
         new_ob.setTitle(ob.Title())
         new_ob.setText(ob.getText())
-        new_ob.setLimitNumber(ob.getLimitNumber())
-        new_ob.setItemCount(ob.getItemCount())
+        if ob.getLimitNumber():
+            # getLimitNumber is a boolean, getItemCount is an integer.
+            new_ob.setLimit(ob.getItemCount())
 
         # set UID for link-by-uid etc
         new_ob._setUID(ob.UID())
