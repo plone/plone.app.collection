@@ -5,7 +5,7 @@ import logging
 import transaction
 
 from Acquisition import aq_parent
-from zope.app.component import hooks
+from zope.component.hooks import getSite
 from zope.component import getUtility
 
 from Products.Five import BrowserView
@@ -126,7 +126,7 @@ class Upgrade(BrowserView):
     def __call__(self):
         self.failed = []
 
-        site = hooks.getSite()
+        site = getSite()
         # Allow collections globally
         pt = getToolByName(site, 'portal_types')
         old_global_allow = pt['Collection'].global_allow
