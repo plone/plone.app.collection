@@ -149,13 +149,11 @@ class TopicMigrator(ATItemMigrator):
             # the results in a list or in tabular form.  If
             # getCustomView is True, this means the new object should
             # use the tabular view.
-            print 'setting tabular view'
             self.new.setLayout('tabular_view')
             return
 
         layout = self.view_methods_mapping.get(self.old.getLayout())
         if layout:
-            print 'Changing layout from %r to %r. new has %r' % (self.old.getLayout(), layout, self.new.getLayout())
             self.new.setLayout(layout)
 
     def migrate_criteria(self):
