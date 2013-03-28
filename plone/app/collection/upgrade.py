@@ -121,6 +121,25 @@ class ATListCriterionConverter(CriterionConverter):
         return value['query']
 
 
+class ATPathCriterionConverter(CriterionConverter):
+    operator_code = 'string.path'
+
+    def get_query_value(self, value):
+        if value.get('depth') != -1:
+            logger.warn("Cannot handle searching a path on a specific depth. "
+                        "Allowing recursive search. %r", value)
+        if not isinstance(value['query'], list):
+            # Simple string.  I have not seen this yet in practice,
+            # but it might happen.
+            return value['query']
+        # We have a list, but the string.path operator can currently
+        # only handle one path, as a simple string.
+        if len(value['query']) > 1:
+            logger.warn("Multiple paths in query. Using only the first. %r",
+                        value['query'])
+        return value['query'][0]
+
+
 class TopicMigrator(ATItemMigrator):
     src_portal_type = 'Topic'
     src_meta_type = 'ATTopic'
@@ -221,4 +240,5 @@ CONVERTERS = {
     'ATSimpleStringCriterion': ATSimpleStringCriterionConverter(),
     'ATCurrentAuthorCriterion': ATCurrentAuthorCriterionConverter(),
     'ATListCriterion': ATListCriterionConverter(),
+    'ATPathCriterion': ATPathCriterionConverter(),
     }
