@@ -13,22 +13,6 @@ prefix = "plone.app.querystring"
 INVALID_OPERATION = 'Invalid operation %s for criterion: %s'
 
 
-class Erreur(object):
-    def __init__(self, ob, exception=None, traceback=None, messages=None):
-        self.ob = ob
-        self.exception = exception
-        self.traceback = traceback
-        self.messages = messages
-
-    def getStacktrace(self):
-        if not self.traceback:
-            return ""
-
-        def format(line):
-            return "Module %s, line %s, in %s, %s" % line
-        return map(format, self.traceback)
-
-
 def format_date(value):
     """Format the date.
 
@@ -72,14 +56,13 @@ def ATDateCriteria(formquery, criterion, registry):
                 'min': 'largerThan',
                 'min:max': 'between',
                 }
-    messages = []
     for index, value in criterion.getCriteriaItems():
         operations = registry.get('%s.field.%s.operations' % (prefix, index))
         operation = "%s.operation.date.%s" % (prefix, operator[value['range']])
 
         if not operation in operations:
-            msg = INVALID_OPERATION % (operation, criterion)
-            messages.append(msg)
+            logger.error(INVALID_OPERATION % (operation, criterion))
+            # TODO: raise an Exception?
             continue
 
         if isinstance(value['query'], tuple):
@@ -93,62 +76,52 @@ def ATDateCriteria(formquery, criterion, registry):
                'o': operation,
                'v': query_value}
         formquery.append(row)
-    return messages
 
 
 def ATSimpleStringCriterion(formquery, criterion, registry):
-    messages = []
     for index, value in criterion.getCriteriaItems():
         operations = registry.get('%s.field.%s.operations' % (prefix, index))
         operation = "%s.operation.string.contains" % prefix
 
         if not operation in operations:
-            msg = INVALID_OPERATION % (operation, criterion)
-            messages.append(msg)
+            logger.error(INVALID_OPERATION % (operation, criterion))
             continue
 
         row = {'i': index,
                'o': operation,
                'v': value}
         formquery.append(row)
-    return messages
 
 
 def ATCurrentAuthorCriterion(formquery, criterion, registry):
-    messages = []
     for index, value in criterion.getCriteriaItems():
         operations = registry.get('%s.field.%s.operations' % (prefix, index))
         operation = "%s.operation.string.currentUser" % prefix
 
         if not operation in operations:
-            msg = INVALID_OPERATION % (operation, criterion)
-            messages.append(msg)
+            logger.error(INVALID_OPERATION % (operation, criterion))
             continue
 
         row = {'i': index,
                'o': operation,
                'v': value}
         formquery.append(row)
-    return messages
 
 
 def ATListCriterion(formquery, criterion, registry):
-    messages = []
     for index, value in criterion.getCriteriaItems():
         key = '%s.field.%s.operations' % (prefix, index)
         operations = registry.get(key)
         operation = "%s.operation.list.contains" % prefix
 
         if not operation in operations:
-            msg = INVALID_OPERATION % (operation, criterion)
-            messages.append(msg)
+            logger.error(INVALID_OPERATION % (operation, criterion))
             continue
 
         row = {'i': index,
                'o': operation,
                'v': value['query']}
         formquery.append(row)
-    return messages
 
 
 class TopicMigrator(ATItemMigrator):
@@ -186,8 +159,10 @@ class TopicMigrator(ATItemMigrator):
             self.new.setLayout(layout)
 
     def migrate_criteria(self):
-        messages = []  # TODO just use logging.
+        """Migrate old style to new style criteria.
 
+        Plus handling for some special fields.
+        """
         # The old Topic has boolean limitNumber and integer itemCount,
         # where the new Collection only has limit.
         if self.old.getLimitNumber():
@@ -208,8 +183,8 @@ class TopicMigrator(ATItemMigrator):
                 module = __import__(module, fromlist=fromlist)
                 convertor = getattr(module, type_)
             except (ImportError, AttributeError):
-                messages.append('Unsupported criterion %s' % type_)
-                continue
+                logger.error('Unsupported criterion %s' % type_)
+                raise
             else:
                 # TODO: the registry is the same for every object, so
                 # we may want to make this available as
@@ -218,8 +193,7 @@ class TopicMigrator(ATItemMigrator):
                 reader = IQuerystringRegistryReader(reg)
                 result = reader.parseRegistry()
 
-                messages_ = convertor(formquery, criterion, result)
-                messages.extend(messages_)
+                convertor(formquery, criterion, result)
 
         logger.info("formquery: %s" % formquery)
         self.new.setQuery(formquery)
