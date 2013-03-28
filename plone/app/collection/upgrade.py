@@ -128,7 +128,7 @@ class TopicMigrator(ATItemMigrator):
     src_portal_type = 'Topic'
     src_meta_type = 'ATTopic'
     dst_portal_type = dst_meta_type = 'Collection'
-    view_methods_mapping= {
+    view_methods_mapping = {
         'folder_listing': 'standard_view',
         'folder_summary_view': 'summary_view',
         'folder_full_view': 'all_content',
