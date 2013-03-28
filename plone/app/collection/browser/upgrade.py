@@ -38,9 +38,15 @@ class Erreur(object):
 
 
 # Convertors
+# TODO: make this class based so the individual convertors can be
+# smaller as they are a lot alike.
+
 def ATDateCriteria(formquery, criterion, registry):
+    # TODO: relative dates.
     operator = {'max': 'lessThan',
-                'min': 'moreThan', }
+                'min': 'moreThan',
+                'min:max': 'between',
+                }
     messages = []
     for index, value in criterion.getCriteriaItems():
         operations = registry.get('%s.field.%s.operations' % (prefix, index))
@@ -51,9 +57,13 @@ def ATDateCriteria(formquery, criterion, registry):
             messages.append(msg)
             continue
 
+        if isinstance(value['query'], tuple):
+            query_value = [v.ISO8601() for v in value['query']]
+        else:
+            query_value = value['query'].ISO8601()
         row = {'i': index,
                'o': operation,
-               'v': value['query'].ISO8601()}
+               'v': query_value}
         formquery.append(row)
     return messages
 
@@ -132,7 +142,6 @@ class Upgrade(BrowserView):
         old_global_allow = pt['Collection'].global_allow
         pt['Collection'].global_allow = True
 
-        import pdb; pdb.set_trace()
         for path in self.request.get('paths', []):
             try:
                 ob = site.restrictedTraverse(path)
@@ -199,6 +208,9 @@ class Upgrade(BrowserView):
                 messages.append('Unsupported criterion %s' % type_)
                 continue
             else:
+                # TODO: the registry is the same for every object, so
+                # we may want to make this available as
+                # self.parsed_registry.
                 reg = getUtility(IRegistry)
                 reader = IQuerystringRegistryReader(reg)
                 result = reader.parseRegistry()
