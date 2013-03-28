@@ -153,6 +153,10 @@ class TopicMigrator(ATItemMigrator):
         'atct_topic_view': 'standard_view',
         }
 
+    @property
+    def registry(self):
+        return self.kwargs['registry']
+
     def last_migrate_layout(self):
         """Migrate the layout (view method).
 
@@ -201,14 +205,7 @@ class TopicMigrator(ATItemMigrator):
                 msg = 'Unsupported criterion %s' % type_
                 logger.error(msg)
                 raise ValueError(msg)
-            # TODO: the registry is the same for every object, so
-            # we may want to make this available as
-            # self.parsed_registry.
-            reg = getUtility(IRegistry)
-            reader = IQuerystringRegistryReader(reg)
-            result = reader.parseRegistry()
-
-            converter(formquery, criterion, result)
+            converter(formquery, criterion, self.registry)
 
         logger.info("formquery: %s" % formquery)
         self.new.setQuery(formquery)
@@ -228,10 +225,12 @@ def migrate_topics(context):
     """
     site = getToolByName(context, 'portal_url').getPortalObject()
     topic_walker = CatalogWalker(site, TopicMigrator)
-    # TODO: we could parse the registry and pass it as keyword
-    # argument to the 'go' method and use a custom migrator, to save
-    # recalculating it again and again.
-    topic_walker.go()
+    # Parse the registry to get allowed operations and pass it to the
+    # migrator.
+    reg = getUtility(IRegistry)
+    reader = IQuerystringRegistryReader(reg)
+    registry = reader.parseRegistry()
+    topic_walker.go(registry=registry)
 
 
 CONVERTERS = {
