@@ -116,6 +116,11 @@ def ATListCriterion(formquery, criterion, registry):
 class Upgrade(BrowserView):
     """ Allow upgrading old ATTopic collections to
         new plone.app.collection collections
+
+    TODO This approach misses things like setting the Author,
+    modification date, marker interfaces, archetypes.schemaextender
+    extensions, etcetera.  Products.contentmigration may be a better
+    basis.
     """
 
     def __call__(self):
@@ -127,6 +132,7 @@ class Upgrade(BrowserView):
         old_global_allow = pt['Collection'].global_allow
         pt['Collection'].global_allow = True
 
+        import pdb; pdb.set_trace()
         for path in self.request.get('paths', []):
             try:
                 ob = site.restrictedTraverse(path)
@@ -178,7 +184,7 @@ class Upgrade(BrowserView):
         # Set old values
         myType.filter_content_types = old_fct
 
-        # Set critaria
+        # Set criteria
         # See also Products.ATContentTypes.content.topic.buildQuery
         criteria = ob.listCriteria()
         formquery = []
@@ -214,6 +220,8 @@ class Upgrade(BrowserView):
 
         # Set Plone attributes
         layout = ob.getLayout()
+        # TODO Check the available view methods and only change the
+        # layout if it is not available for the new collection.
         layout = 'standard_view' if layout == 'atct_topic_view' else layout
         new_ob.setLayout(layout)
 
