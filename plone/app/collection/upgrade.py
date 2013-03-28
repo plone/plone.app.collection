@@ -26,10 +26,44 @@ def format_date(value):
 
 
 # Converters
-# TODO: make this class based so the individual converters can be
-# smaller as they are a lot alike.
 
-def ATDateCriteria(formquery, criterion, registry):
+class CriterionConverter(object):
+
+    # Last part of the code for the dotted operation method,
+    # e.g. 'string.contains'.
+    operator_code = ''
+
+    def get_query_value(self, value):
+        # value may contain a query and some parameters, but in the
+        # simple case it is simply a value.
+        return value
+
+    def get_operation(self, value):
+        # Get dotted operation method.  This may depend on value.
+        return "%s.operation.%s" % (prefix, self.operator_code)
+
+    def __call__(self, formquery, criterion, registry):
+        for index, value in criterion.getCriteriaItems():
+            # Get the operation method.
+            key = '%s.field.%s.operations' % (prefix, index)
+            operations = registry.get(key)
+            operation = self.get_operation(value)
+            if not operation in operations:
+                logger.error(INVALID_OPERATION % (operation, criterion))
+                # TODO: raise an Exception?
+                continue
+
+            # Get the value that we will query for.
+            query_value = self.get_query_value(value)
+
+            # Add a row to the form query.
+            row = {'i': index,
+                   'o': operation,
+                   'v': query_value}
+            formquery.append(row)
+
+
+class ATDateCriteriaConverter(CriterionConverter):
     """Handle date criteria.
 
     Note that there is also ATDateRangeCriterion, which is much
@@ -52,19 +86,16 @@ def ATDateCriteria(formquery, criterion, registry):
 
     Note: this is probably the hardest criterion.
     """
-    operator = {'max': 'lessThan',
-                'min': 'largerThan',
-                'min:max': 'between',
-                }
-    for index, value in criterion.getCriteriaItems():
-        operations = registry.get('%s.field.%s.operations' % (prefix, index))
-        operation = "%s.operation.date.%s" % (prefix, operator[value['range']])
 
-        if not operation in operations:
-            logger.error(INVALID_OPERATION % (operation, criterion))
-            # TODO: raise an Exception?
-            continue
+    def get_operation(self, value):
+        # Get dotted operation method.  This may depend on value.
+        operator = {'max': 'lessThan',
+                    'min': 'largerThan',
+                    'min:max': 'between',
+                    }
+        return "%s.operation.date.%s" % (prefix, operator[value['range']])
 
+    def get_query_value(self, value):
         if isinstance(value['query'], tuple):
             # TODO: if one of these dates is today/now (use the
             # isCurrentDay method to check this) then that probably
@@ -72,56 +103,31 @@ def ATDateCriteria(formquery, criterion, registry):
             query_value = [format_date(v) for v in value['query']]
         else:
             query_value = format_date(value['query'])
-        row = {'i': index,
-               'o': operation,
-               'v': query_value}
-        formquery.append(row)
+        return query_value
+
+# Create an instance of the converter.
+ATDateCriteria = ATDateCriteriaConverter()
 
 
-def ATSimpleStringCriterion(formquery, criterion, registry):
-    for index, value in criterion.getCriteriaItems():
-        operations = registry.get('%s.field.%s.operations' % (prefix, index))
-        operation = "%s.operation.string.contains" % prefix
+class ATSimpleStringCriterionConverter(CriterionConverter):
+    operator_code = 'string.contains'
 
-        if not operation in operations:
-            logger.error(INVALID_OPERATION % (operation, criterion))
-            continue
-
-        row = {'i': index,
-               'o': operation,
-               'v': value}
-        formquery.append(row)
+ATSimpleStringCriterion = ATSimpleStringCriterionConverter()
 
 
-def ATCurrentAuthorCriterion(formquery, criterion, registry):
-    for index, value in criterion.getCriteriaItems():
-        operations = registry.get('%s.field.%s.operations' % (prefix, index))
-        operation = "%s.operation.string.currentUser" % prefix
+class ATCurrentAuthorCriterionConverter(CriterionConverter):
+    operator_code = 'string.currentUser'
 
-        if not operation in operations:
-            logger.error(INVALID_OPERATION % (operation, criterion))
-            continue
-
-        row = {'i': index,
-               'o': operation,
-               'v': value}
-        formquery.append(row)
+ATCurrentAuthorCriterion = ATCurrentAuthorCriterionConverter()
 
 
-def ATListCriterion(formquery, criterion, registry):
-    for index, value in criterion.getCriteriaItems():
-        key = '%s.field.%s.operations' % (prefix, index)
-        operations = registry.get(key)
-        operation = "%s.operation.list.contains" % prefix
+class ATListCriterionConverter(CriterionConverter):
+    operator_code = 'list.contains'
 
-        if not operation in operations:
-            logger.error(INVALID_OPERATION % (operation, criterion))
-            continue
+    def get_query_value(self, value):
+        return value['query']
 
-        row = {'i': index,
-               'o': operation,
-               'v': value['query']}
-        formquery.append(row)
+ATListCriterion = ATListCriterionConverter()
 
 
 class TopicMigrator(ATItemMigrator):
