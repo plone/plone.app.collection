@@ -180,7 +180,7 @@ class TopicMigrator(ATItemMigrator):
         formquery = []
         for criterion in criteria:
             type_ = criterion.__class__.__name__
-            module = 'plone.app.collection.browser.upgrade'
+            module = 'plone.app.collection.upgrade'
             fromlist = module.split(".")[:-1]
             try:
                 # TODO: Make 'module' a class attribute.
