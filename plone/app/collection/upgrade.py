@@ -25,8 +25,8 @@ def format_date(value):
     return value.strftime('%m/%d/%Y')
 
 
-# Convertors
-# TODO: make this class based so the individual convertors can be
+# Converters
+# TODO: make this class based so the individual converters can be
 # smaller as they are a lot alike.
 
 def ATDateCriteria(formquery, criterion, registry):
@@ -179,7 +179,7 @@ class TopicMigrator(ATItemMigrator):
             try:
                 # TODO: Make 'module' a class attribute.
                 module = __import__(module, fromlist=fromlist)
-                convertor = getattr(module, type_)
+                converter = getattr(module, type_)
             except (ImportError, AttributeError):
                 logger.error('Unsupported criterion %s' % type_)
                 raise
@@ -191,7 +191,7 @@ class TopicMigrator(ATItemMigrator):
                 reader = IQuerystringRegistryReader(reg)
                 result = reader.parseRegistry()
 
-                convertor(formquery, criterion, result)
+                converter(formquery, criterion, result)
 
         logger.info("formquery: %s" % formquery)
         self.new.setQuery(formquery)
