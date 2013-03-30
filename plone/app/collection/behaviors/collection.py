@@ -27,6 +27,7 @@ class CollectionBehavior(object):
 
     def __init__(self, context):
         self.context = context
+        self.request = self.context.REQUEST
 
     #security.declareProtected(View, 'listMetaDataFields')
     def listMetaDataFields(self, exclude=True):
@@ -37,14 +38,19 @@ class CollectionBehavior(object):
         #return tool.getMetadataDisplay(exclude)
 
     def results(self, batch=True, b_start=0, b_size=None):
-        querybuilder = QueryBuilder(self, self.REQUEST)
-        sort_order = 'reverse' if self.sort_reversed else 'ascending'
+        querybuilder = QueryBuilder(self.context, self.request)
+        sort_order = 'reverse' if getattr(self, 'sort_reversed', False) else 'ascending'
         if not b_size:
-            b_size = self.item_count
-        return querybuilder(query=self.query,
-                            batch=batch, b_start=b_start, b_size=b_size,
-                            sort_on=self.sort_on, sort_order=sort_order,
-                            limit=self.limit)
+            b_size = getattr(self, 'item_count', None)
+        return querybuilder(
+            query=getattr(self, 'query', {}),
+            batch=batch,
+            b_start=b_start, 
+            b_size=b_size,
+            sort_on=getattr(self, 'sort_on', None), 
+            sort_order=sort_order,
+            limit=getattr(self, 'limit', None),
+        )
 
     def selectedViewFields(self):
         """Returns a list of all metadata fields from the catalog that were
@@ -57,11 +63,11 @@ class CollectionBehavior(object):
         #return [_mapping[field] for field in self.customViewFields]
 
     def getFoldersAndImages(self):
-        catalog = getToolByName(self, 'portal_catalog')
+        catalog = getToolByName(self.context, 'portal_catalog')
         results = self.results(batch=False)
 
         _mapping = {'results': results, 'images': {}}
-        portal_atct = getToolByName(self, 'portal_atct')
+        portal_atct = getToolByName(self.context, 'portal_atct')
         image_types = getattr(portal_atct, 'image_types', [])
 
         for item in results:
@@ -78,17 +84,3 @@ class CollectionBehavior(object):
         _mapping['total_number_of_images'] = sum(map(len,
                                                 _mapping['images'].values()))
         return _mapping
-
-    # BBB
-
-    def setQuery(self, query):
-        self.query = query
-
-    def getQuery(self):
-        return self.query
-
-    def setSort_on(self, sort_on):
-        self.sort_on = sort_on
-
-    def setSort_reversed(self, sort_reversed):
-        self.sort_reversed = sort_reversed
