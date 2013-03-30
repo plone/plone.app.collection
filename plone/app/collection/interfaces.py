@@ -44,6 +44,7 @@ class ICollectionBehavior(model.Schema):
         title=_(u'label_sort_reversed', default=u'Reversed order'),
         description=_(u'Sort the results in reversed order'),
         required=False,
+        default=False,
     )
 
     limit = schema.Int(
@@ -68,6 +69,23 @@ class ICollectionBehavior(model.Schema):
 
     #form.order_before(title='*')
     #form.order_after(description='title')
+
+    def listMetaDataFields(exclude=True):
+        """Return a list of all metadata fields from portal_catalog.
+        """
+
+    def results(batch=True, b_start=0, b_size=None):
+        """
+        """
+
+    def selectedViewFields():
+        """Returns a list of all metadata fields from the catalog that were
+           selected.
+        """
+
+    def getFoldersAndImages():
+        """
+        """
 
 
 alsoProvides(ICollectionBehavior, IFormFieldProvider)
