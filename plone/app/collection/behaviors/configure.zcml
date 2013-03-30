@@ -9,9 +9,9 @@
 
   <plone:behavior
     title="Collection Behavior"
-    description="Adds image and image caption fields"
+    description="Adds collection fields"
     provides=".collection.ICollectionBehavior"
-    factory=".collection.ICollectionBehavior"
+    factory=".collection.CollectionBehavior"
     for="plone.dexterity.interfaces.IDexterityContent"
     marker=".collection.ICollectionBehavior"
     />
