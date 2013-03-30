@@ -7,6 +7,7 @@ from plone.app.testing import SITE_OWNER_PASSWORD
 from plone.testing.z2 import Browser
 
 from plone.app.collection.testing import (
+    PLONEAPPCOLLECTION_INTEGRATION_TESTING,
     PLONEAPPCOLLECTION_FUNCTIONAL_TESTING
 )
 
@@ -16,6 +17,26 @@ from zope.interface import alsoProvides
 from plone.dexterity.fti import DexterityFTI
 
 from plone.app.testing import TEST_USER_ID, setRoles
+
+
+class CollectionBehaviorIntegrationTest(unittest.TestCase):
+
+    layer = PLONEAPPCOLLECTION_INTEGRATION_TESTING
+
+    def setUp(self):
+        app = self.layer['app']
+        self.portal = self.layer['portal']
+        self.request = self.layer['request']
+        self.portal_url = self.portal.absolute_url()
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        self.portal.invokeFactory(
+            'Collection',
+            id='collection',
+            title=u'My Collection'
+        )
+
+    def test_results_method(self):
+        self.assertEqual(self.portal.collection.results(), [])
 
 
 class CollectionBehaviorFunctionalTest(unittest.TestCase):
