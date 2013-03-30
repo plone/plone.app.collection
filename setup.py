@@ -28,7 +28,6 @@ setup(name='plone.app.collection',
           'plone.app.dexterity',
           'plone.app.contentmenu',
           'plone.formwidget.querystring',
-          'rwproperty',
       ],
       extras_require={
           'test': [

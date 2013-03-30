@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from Products.CMFCore.utils import getToolByName
 
-from rwproperty import getproperty, setproperty
-
 from plone.app.contentlisting.interfaces import IContentListing
 
 from plone.app.querystring.querybuilder import QueryBuilder
