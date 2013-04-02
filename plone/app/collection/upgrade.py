@@ -236,14 +236,6 @@ def migrate_to_folderish_collections(context):
       get a traceback.  We might want to guard against that, if
       possible.
 
-    - While creating a Collection you visit a url like this:
-        portal_factory/Collection/@@querybuilder_html_results/(dynamic view)
-      This gives a traceback:
-        BadRequest: The id "@@querybuilder_html_results" is invalid
-        because it begins with "@@".
-      Either this is caused by switching to folders, or I never
-      noticed it before.
-
     - The sub collection should 'inherit' the query from its parent,
       otherwise this exercise does not make much sense.  See the
       maurits-recursive branch of archetypes.querywidget, which seems
