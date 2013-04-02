@@ -19,14 +19,20 @@
     provides="Products.GenericSetup.interfaces.EXTENSION"
     />
 
-  <genericsetup:upgradeStep
+  <genericsetup:upgradeSteps
     zcml:condition="installed Products.contentmigration"
-    title="Make Collections folderish"
-    description="Make it possible to nest Collections"
     source="1"
     destination="2"
-    handler="plone.app.collection.upgrade.migrate_to_folderish_collections"
-    profile="plone.app.collection:default"/>
+    profile="plone.app.collection:default">
+    <genericsetup:upgradeStep
+        handler="plone.app.collection.upgrade.migrate_to_folderish_collections"
+        title="Make Collections folderish"
+        description="Makes it possible to nest Collections" />
+    <genericsetup:upgradeStep
+        handler="plone.app.collection.upgrade.run_actions_step"
+        title="Run actions step"
+        description="Adds a Subcollections tab" />
+  </genericsetup:upgradeSteps>
 
   <genericsetup:upgradeStep
     zcml:condition="installed Products.contentmigration"

@@ -12,6 +12,7 @@ logger = logging.getLogger('plone.app.collection')
 prefix = "plone.app.querystring"
 
 INVALID_OPERATION = 'Invalid operation %s for criterion: %s'
+PROFILE_ID = 'profile-plone.app.collection:default'
 
 
 def format_date(value):
@@ -230,6 +231,11 @@ def migrate_to_folderish_collections(context):
 
     - This simple migration seems to work.
 
+    - If you run this twice, or presumably also if you run it after
+      you have simply added a new folderish Collection manually, you
+      get a traceback.  We might want to guard against that, if
+      possible.
+
     - While creating a Collection you visit a url like this:
         portal_factory/Collection/@@querybuilder_html_results/(dynamic view)
       This gives a traceback:
@@ -238,9 +244,9 @@ def migrate_to_folderish_collections(context):
       Either this is caused by switching to folders, or I never
       noticed it before.
 
-    - If you allow adding a Collection within a Collection, it does
-      not show up in the folder contents.  This might mean we need to
-      bring back the Subtopics/Subcollections tab.
+    - We need a Subtopics/Subcollections tab, probably based on the
+      old atct_topic_subtopics.  We probably want to hide it by
+      default.
 
     - Do we want to allow nested Collections by default?  Probably
       not.  In other words, we want to always create folderish
@@ -261,8 +267,12 @@ def migrate_to_folderish_collections(context):
     collection_walker.go()
 
 
+def run_actions_step(context):
+    context.runImportStepFromProfile(PROFILE_ID, 'actions')
+
+
 def migrate_topics(context):
-    """Migrate ATContentTypes Topics to plone.app.contenttypes Collections.
+    """Migrate ATContentTypes Topics to plone.app.collection Collections.
 
     This can be used as upgrade step.
 
