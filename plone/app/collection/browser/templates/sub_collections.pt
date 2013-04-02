@@ -72,6 +72,11 @@
               Up one level
           </a>
 
+          <p>
+            <a tal:attributes="href view/add_url"
+               i18n:translate="add_subcollection">Add a subcollection</a>
+          </p>
+
           <form name="folderContentsForm"
                 method="post"
                 action="folder_object"

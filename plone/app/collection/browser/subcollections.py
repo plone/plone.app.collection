@@ -10,6 +10,9 @@ class SubCollectionsView(FolderContentsView):
         table = SubCollectionsTable(aq_inner(self.context), self.request)
         return table.render()
 
+    def add_url(self):
+        return '%s/createObject?type_name=Collection' % self.renderBase
+
 
 class SubCollectionsTable(FolderContentsTable):
 
