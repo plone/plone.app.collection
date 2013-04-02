@@ -238,7 +238,8 @@ def migrate_to_folderish_collections(context):
 
     The new-style Collections started out as inheriting from
     ATDocument.  Historically users could nest topics, so we want to
-    try to bring that back.
+    try to bring that back.  This is the first step: make existing
+    new-style Collections folderish.
 
     TODO/notes:
 
