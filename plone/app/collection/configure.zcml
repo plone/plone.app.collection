@@ -36,6 +36,10 @@
         handler="plone.app.collection.upgrade.run_actions_step"
         title="Run actions step"
         description="Adds a Subcollections tab" />
+    <genericsetup:upgradeStep
+        handler="plone.app.collection.upgrade.run_propertiestool_step"
+        title="Run propertiestool step"
+        description="Allows Collections as default page even though they are folderish" />
   </genericsetup:upgradeSteps>
 
   <genericsetup:upgradeStep

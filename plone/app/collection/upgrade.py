@@ -276,6 +276,10 @@ def run_actions_step(context):
     context.runImportStepFromProfile(PROFILE_ID, 'actions')
 
 
+def run_propertiestool_step(context):
+    context.runImportStepFromProfile(PROFILE_ID, 'propertiestool')
+
+
 def migrate_topics(context):
     """Migrate ATContentTypes Topics to plone.app.collection Collections.
 
