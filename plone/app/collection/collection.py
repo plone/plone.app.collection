@@ -142,6 +142,15 @@ class Collection(folder.ATFolder, document.ATDocumentBase, ObjectManager):
         val = self.objectIds(self.meta_type)
         return bool(val)
 
+    security.declareProtected(View, 'allowAddSubcollection')
+    def allowAddSubcollection(self):
+        """Are subcollections allowed?
+
+        By default we allow it, though the UI may not show anything.
+        Also, some permissions will normally be checked as well.
+        """
+        return True
+
     # for BBB with ATTopic
     security.declareProtected(View, 'queryCatalog')
     def queryCatalog(self, batch=True, b_start=0, b_size=30, sort_on=None):

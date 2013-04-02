@@ -244,18 +244,6 @@ def migrate_to_folderish_collections(context):
       Either this is caused by switching to folders, or I never
       noticed it before.
 
-    - We need a Subtopics/Subcollections tab, probably based on the
-      old atct_topic_subtopics.  We probably want to hide it by
-      default.  Oh, we need a better check, as simply checking the
-      'Add Collection' permission shows the tab on too many objects.
-
-    - Do we want to allow nested Collections by default?  Probably
-      not.  In other words, we want to always create folderish
-      Collections, but by default not have the option to nest them.
-      Possibly we could make this configurable in a control panel that
-      does the necessary changes in the back end, mostly in the
-      portal_types tool.
-
     - The sub collection should 'inherit' the query from its parent,
       otherwise this exercise does not make much sense.  See the
       maurits-recursive branch of archetypes.querywidget, which seems

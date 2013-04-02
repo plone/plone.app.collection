@@ -8,7 +8,7 @@
    <property
       name="url_expr">string:${plone_context_state/object_url}/sub_collections</property>
    <property name="icon_expr"></property>
-   <property name="available_expr"></property>
+   <property name="available_expr">object/allowAddSubcollection|nothing</property>
    <property name="permissions">
     <element value="plone.app.collection: Add Collection"/>
    </property>
