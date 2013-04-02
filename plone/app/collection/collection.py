@@ -134,6 +134,14 @@ class Collection(folder.ATFolder, document.ATDocumentBase, ObjectManager):
             b_size = self.getLimit()
         return self.getQuery(batch=batch, b_start=b_start, b_size=b_size, sort_on=sort_on, brains=brains)
 
+    security.declareProtected(View, 'hasSubcollections')
+    def hasSubcollections(self):
+        """Returns true if subcollectionsview have been created on
+        this collection.
+        """
+        val = self.objectIds(self.meta_type)
+        return bool(val)
+
     # for BBB with ATTopic
     security.declareProtected(View, 'queryCatalog')
     def queryCatalog(self, batch=True, b_start=0, b_size=30, sort_on=None):

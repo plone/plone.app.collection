@@ -179,6 +179,18 @@
         </tal:results>
         </metal:listingmacro>
 
+        <metal:body define-macro="folderlisting_macro">
+          <tal:subtopics condition="context/hasSubcollections"
+                         define="folderContents here/getFolderContents">
+            <h2 i18n:domain="atcontenttypes"
+                i18n:translate="heading_contained_collections"
+                id="atct_subtopics_header">
+              Also in this section
+            </h2>
+            <metal:list metal:use-macro="here/base/macros/folderlisting"/>
+          </tal:subtopics>
+        </metal:body>
+
     </metal:block>
   </div>
 
