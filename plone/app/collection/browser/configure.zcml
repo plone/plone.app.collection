@@ -81,4 +81,19 @@
       template="templates/rss.pt"
       />
 
+  <!-- Subcollections tab -->
+  <browser:page
+      for="plone.app.collection.interfaces.ICollection"
+      class=".subcollections.SubCollectionsView"
+      name="sub_collections"
+      template="templates/sub_collections.pt"
+      permission="cmf.ListFolderContents" />
+
+  <browser:page
+      for="plone.app.collection.interfaces.ICollection"
+      class=".subcollections.SubCollectionsBrowserView"
+      attribute="update_table"
+      name="foldercontents_get_table"
+      permission="cmf.ListFolderContents" />
+
 </configure>

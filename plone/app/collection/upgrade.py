@@ -246,7 +246,8 @@ def migrate_to_folderish_collections(context):
 
     - We need a Subtopics/Subcollections tab, probably based on the
       old atct_topic_subtopics.  We probably want to hide it by
-      default.
+      default.  Oh, we need a better check, as simply checking the
+      'Add Collection' permission shows the tab on too many objects.
 
     - Do we want to allow nested Collections by default?  Probably
       not.  In other words, we want to always create folderish
