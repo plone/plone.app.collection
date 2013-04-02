@@ -1,9 +1,10 @@
 import logging
 
 from Products.CMFCore.utils import getToolByName
+from Products.CMFCore.interfaces._content import IFolderish
 from Products.contentmigration.archetypes import ATItemMigrator
 from Products.contentmigration.archetypes import InplaceATItemMigrator
-from Products.contentmigration.basemigrator.walker import CatalogWalker
+from Products.contentmigration.walker import CustomQueryWalker
 from plone.app.querystring.interfaces import IQuerystringRegistryReader
 from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
@@ -25,6 +26,18 @@ def format_date(value):
     So 28 March 2013 should become '03/28/2013'.
     """
     return value.strftime('%m/%d/%Y')
+
+
+def is_old_non_folderish_item(obj, **kwargs):
+    """Is this an old not yet migrated Collection item?
+
+    The old non-folderish and new folderish Collections have the same
+    meta_type and portal_type, which means a simple catalog walker
+    will crash when it is called on a new folderish Collection, for
+    example when the upgrade step is run twice.  We can use this
+    function to ignore the new Collections.
+    """
+    return not IFolderish(obj)
 
 
 # Converters
@@ -231,11 +244,6 @@ def migrate_to_folderish_collections(context):
 
     - This simple migration seems to work.
 
-    - If you run this twice, or presumably also if you run it after
-      you have simply added a new folderish Collection manually, you
-      get a traceback.  We might want to guard against that, if
-      possible.
-
     - The sub collection should 'inherit' the query from its parent,
       otherwise this exercise does not make much sense.  See the
       maurits-recursive branch of archetypes.querywidget, which seems
@@ -244,7 +252,9 @@ def migrate_to_folderish_collections(context):
 
     """
     site = getToolByName(context, 'portal_url').getPortalObject()
-    collection_walker = CatalogWalker(site, FolderishCollectionMigrator)
+    collection_walker = CustomQueryWalker(
+        site, FolderishCollectionMigrator,
+        callBefore=is_old_non_folderish_item)
     collection_walker.go()
 
 
@@ -273,7 +283,7 @@ def migrate_topics(context):
     Topics cannot be migrated for the moment and may give an error.
     """
     site = getToolByName(context, 'portal_url').getPortalObject()
-    topic_walker = CatalogWalker(site, TopicMigrator)
+    topic_walker = CustomQueryWalker(site, TopicMigrator)
     # Parse the registry to get allowed operations and pass it to the
     # migrator.
     reg = getUtility(IRegistry)
