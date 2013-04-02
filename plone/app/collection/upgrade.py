@@ -267,6 +267,10 @@ def migrate_to_folderish_collections(context):
     collection_walker.go()
 
 
+def run_typeinfo_step(context):
+    context.runImportStepFromProfile(PROFILE_ID, 'typeinfo')
+
+
 def run_actions_step(context):
     context.runImportStepFromProfile(PROFILE_ID, 'actions')
 

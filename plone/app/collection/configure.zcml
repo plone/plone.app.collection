@@ -29,6 +29,10 @@
         title="Make Collections folderish"
         description="Makes it possible to nest Collections" />
     <genericsetup:upgradeStep
+        handler="plone.app.collection.upgrade.run_typeinfo_step"
+        title="Run typeinfo step"
+        description="Makes Collections addable within a Collection" />
+    <genericsetup:upgradeStep
         handler="plone.app.collection.upgrade.run_actions_step"
         title="Run actions step"
         description="Adds a Subcollections tab" />
