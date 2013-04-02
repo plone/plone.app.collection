@@ -15,6 +15,7 @@ from Products.Archetypes.atapi import (BooleanField,
                                        StringWidget)
 from Products.CMFCore.permissions import ModifyPortalContent, View
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.interfaces import INonStructuralFolder
 from zope.interface import implements
 
 from plone.app.collection import PloneMessageFactory as _
@@ -99,7 +100,7 @@ schemata.finalizeATCTSchema(
 
 class Collection(folder.ATFolder, document.ATDocumentBase, ObjectManager):
     """A (new style) folderish Plone Collection"""
-    implements(ICollection)
+    implements(ICollection, INonStructuralFolder)
 
     meta_type = "Collection"
     schema = CollectionSchema

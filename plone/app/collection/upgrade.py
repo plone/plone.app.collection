@@ -238,12 +238,6 @@ def migrate_to_folderish_collections(context):
       Either this is caused by switching to folders, or I never
       noticed it before.
 
-    - You see the Contents tab, even when no types are allowed to be
-      added.  This shows the found items.  You can select them and try
-      to copy or cut them, but that gives an error message: one or
-      more of the items are not available.  So we should hide the
-      Contents tab.
-
     - If you allow adding a Collection within a Collection, it does
       not show up in the folder contents.  This might mean we need to
       bring back the Subtopics/Subcollections tab.
