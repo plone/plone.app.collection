@@ -52,7 +52,7 @@
              class="link-parent"
              tal:define="parent_url view/parent_url"
              tal:condition="parent_url"
-             tal:attributes="href string:${parent_url}/folder_contents"
+             tal:attributes="href string:${parent_url}/sub_collections"
              i18n:translate="go_to_parent_url">
               Up one level
           </a>
