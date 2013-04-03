@@ -107,17 +107,6 @@ class Collection(folder.ATFolder, document.ATDocumentBase, ObjectManager):
 
     security = ClassSecurityInfo()
 
-    # Override initializeArchetype to turn on syndication by default
-    def initializeArchetype(self, **kwargs):
-        ret_val = folder.ATFolder.initializeArchetype(self, **kwargs)
-        # Enable syndication by default
-        syn_tool = getToolByName(self, 'portal_syndication', None)
-        if syn_tool is not None:
-            if (syn_tool.isSiteSyndicationAllowed() and
-                                    not syn_tool.isSyndicationAllowed(self)):
-                syn_tool.enableSyndication(self)
-        return ret_val
-
     security.declareProtected(View, 'listMetaDataFields')
     def listMetaDataFields(self, exclude=True):
         """Return a list of metadata fields from portal_catalog.

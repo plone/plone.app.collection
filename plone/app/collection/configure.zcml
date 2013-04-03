@@ -74,4 +74,8 @@
       />
   </class>
 
+  <subscriber for=".interfaces.ICollection
+                   Products.Archetypes.interfaces.IObjectInitializedEvent"
+              handler=".eventhandlers.enable_syndication" />
+
 </configure>
