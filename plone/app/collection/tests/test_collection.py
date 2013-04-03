@@ -1,3 +1,5 @@
+from Products.Archetypes.event import ObjectInitializedEvent
+from Products.CMFCore.utils import getToolByName
 from plone.app.portlets.storage import PortletAssignmentMapping
 from plone.app.testing import login
 from plone.app.testing import logout
@@ -9,7 +11,7 @@ from plone.portlets.interfaces import IPortletType
 from plone.testing.z2 import Browser
 from transaction import commit
 from zope.component import getUtility, getMultiAdapter
-from Products.CMFCore.utils import getToolByName
+from zope.event import notify
 
 from plone.app.collection.portlets import collectionportlet
 from .base import CollectionTestCase, CollectionPortletTestCase
@@ -246,6 +248,7 @@ class TestCollection(CollectionTestCase):
                              "collection",
                              title="New Collection")
         collection = portal['collection']
+        notify(ObjectInitializedEvent(collection))
         syn = getToolByName(portal, 'portal_syndication')
         self.assertTrue(syn.isSyndicationAllowed(collection))
 
