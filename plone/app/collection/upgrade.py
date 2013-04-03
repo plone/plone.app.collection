@@ -295,9 +295,17 @@ def migrate_topics(context):
 
 CONVERTERS = {
     # Create an instance of each converter.
-    'ATDateCriteria': ATDateCriteriaConverter(),
-    'ATSimpleStringCriterion': ATSimpleStringCriterionConverter(),
     'ATCurrentAuthorCriterion': ATCurrentAuthorCriterionConverter(),
+    'ATDateCriteria': ATDateCriteriaConverter(),
     'ATListCriterion': ATListCriterionConverter(),
     'ATPathCriterion': ATPathCriterionConverter(),
+    'ATSimpleStringCriterion': ATSimpleStringCriterionConverter(),
+    # TODO:
+    #'ATBooleanCriterion',
+    #'ATDateRangeCriterion',
+    #'ATPortalTypeCriterion',
+    #'ATReferenceCriterion',
+    #'ATRelativePathCriterion',
+    #'ATSelectionCriterion',
+    #'ATSimpleIntCriterion',
     }
