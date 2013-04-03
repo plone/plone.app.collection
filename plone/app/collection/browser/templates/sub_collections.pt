@@ -16,8 +16,9 @@
       </metal:block>
       <div metal:fill-slot="javascript_head_slot" tal:omit-tag="">
           <script type="text/javascript"
-                  tal:condition="exists:context/++resource++folder_contents.js"
-                  tal:attributes="src string:${context/absolute_url}/++resource++folder_contents.js">
+                  tal:define="portal context/@@plone_portal_state/portal"
+                  tal:condition="exists:portal/++resource++folder_contents.js"
+                  tal:attributes="src string:${portal_url}/++resource++folder_contents.js">
           </script>
       </div>
   </head>
