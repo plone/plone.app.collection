@@ -89,6 +89,9 @@
       template="templates/sub_collections.pt"
       permission="cmf.ListFolderContents" />
 
+  <!-- TODO: In Plone 4.2 we would need
+       name="foldercontents_update_table" for KSS.  Registering it
+       under two names is okay actually. -->
   <browser:page
       for="plone.app.collection.interfaces.ICollection"
       class=".subcollections.SubCollectionsBrowserView"
