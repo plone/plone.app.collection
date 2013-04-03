@@ -1,4 +1,4 @@
-from Acquisition import aq_inner
+from Acquisition import aq_inner, aq_parent
 from plone.app.content.browser.foldercontents import FolderContentsView
 from plone.app.content.browser.foldercontents import FolderContentsTable
 try:
@@ -25,6 +25,13 @@ class SubCollectionsView(FolderContentsView):
         """
         # Assume a folderish context
         return self.context.absolute_url() + '/'
+
+    def has_parent_collection(self):
+        context = aq_inner(self.context)
+        parent = aq_parent(context)
+        if not hasattr(parent, 'portal_type'):
+            return False
+        return parent.portal_type == context.portal_type
 
     def add_url(self):
         return '%s/createObject?type_name=Collection' % self.renderBase()

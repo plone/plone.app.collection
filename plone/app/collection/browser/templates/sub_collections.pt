@@ -51,7 +51,7 @@
           <a href=""
              class="link-parent"
              tal:define="parent_url view/parent_url"
-             tal:condition="parent_url"
+             tal:condition="view/has_parent_collection"
              tal:attributes="href string:${parent_url}/sub_collections"
              i18n:translate="go_to_parent_url">
               Up one level
