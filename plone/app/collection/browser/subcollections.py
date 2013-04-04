@@ -34,7 +34,8 @@ class SubCollectionsView(FolderContentsView):
         return parent.portal_type == context.portal_type
 
     def add_url(self):
-        return '%s/createObject?type_name=Collection' % self.renderBase()
+        return '%s/createObject?type_name=%s' % (
+            self.renderBase(), self.context.portal_type)
 
 
 class SubCollectionsTable(FolderContentsTable):
