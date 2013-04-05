@@ -118,17 +118,22 @@ class ATDateCriteriaConverter(CriterionConverter):
         key = '%s.field.%s.operations' % (prefix, field)
         operations = registry.get(key)
 
-        def add_row(operation, value):
+        def add_row(operation, value=None):
             if not operation in operations:
                 raise ValueError(INVALID_OPERATION % (operation, criterion))
             # Add a row to the form query.
             row = {'i': field,
-                   'o': operation,
-                   'v': value}
+                   'o': operation}
+            if value is not None:
+                row['v'] = value
             formquery.append(row)
 
         operation = criterion.getOperation()
         if operation == 'within_day':
+            if date.isCurrentDay():
+                new_operation = "%s.operation.date.today" % prefix
+                add_row(new_operation)
+                return
             date_range = (date.earliestTime(), date.latestTime())
             new_operation = "%s.operation.date.between" % prefix
             add_row(new_operation, date_range)
@@ -143,8 +148,8 @@ class ATDateCriteriaConverter(CriterionConverter):
                 add_row(new_operation, date.earliestTime())
                 return
             else:
-                new_operation = "%s.operation.date.largerThan" % prefix
-                add_row(new_operation, date)
+                new_operation = "%s.operation.date.afterToday" % prefix
+                add_row(new_operation)
                 return
         elif operation == 'less':
             if value != 0:
@@ -156,8 +161,8 @@ class ATDateCriteriaConverter(CriterionConverter):
                 add_row(new_operation, date_range)
                 return
             else:
-                new_operation = "%s.operation.date.lessThan" % prefix
-                add_row(new_operation, date)
+                new_operation = "%s.operation.date.beforeToday" % prefix
+                add_row(new_operation)
                 return
 
 

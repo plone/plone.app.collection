@@ -39,11 +39,34 @@ class PACollection(PloneSandboxLayer):
         workflow.doActionFor(portal.collectiontestpage, "publish")
 
 
+class PACollectionMigration(PACollection):
+
+    def setUpPloneSite(self, portal):
+        applyProfile(portal, 'plone.app.collection:default')
+        portal.acl_users.userFolderAddUser('admin',
+                                           'secret',
+                                           ['Manager'],
+                                           [])
+        login(portal, 'admin')
+        workflow = portal.portal_workflow
+        workflow.setDefaultChain('simple_publication_workflow')
+
+        # Add a topic
+        portal.portal_types.Topic.global_allow = True
+        portal.invokeFactory("Topic", "topic", title="Topic")
+
+
 PACOLLECTION_FIXTURE = PACollection()
+PACOLLECTION_MIGRATION_FIXTURE = PACollectionMigration()
+
 
 PACOLLECTION_FUNCTIONAL_TESTING = \
     FunctionalTesting(bases=(PACOLLECTION_FIXTURE, ),
                       name="PACollection:Functional")
+
+PACOLLECTION_MIGRATION_TESTING = \
+    FunctionalTesting(bases=(PACOLLECTION_MIGRATION_FIXTURE, ),
+                      name="PACollection:Migration")
 
 
 class CollectionTestCase(unittest.TestCase):
@@ -54,3 +77,8 @@ class CollectionTestCase(unittest.TestCase):
 class CollectionPortletTestCase(unittest.TestCase):
 
     layer = PACOLLECTION_FUNCTIONAL_TESTING
+
+
+class CollectionMigrationTestCase(unittest.TestCase):
+
+    layer = PACOLLECTION_MIGRATION_TESTING
