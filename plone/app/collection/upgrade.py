@@ -1,5 +1,6 @@
 import logging
 
+from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.interfaces._content import IFolderish
 from Products.contentmigration.archetypes import ATItemMigrator
@@ -95,30 +96,69 @@ class ATDateCriteriaConverter(CriterionConverter):
      'plone.app.querystring.operation.date.beforeToday',
      'plone.app.querystring.operation.date.afterToday']
 
-    TODO: We may want to copy code from the getCriteriaItems method of
-    Products/ATContentTypes/criteria/date.py and check the field
+    This code is based on the getCriteriaItems method from
+    Products/ATContentTypes/criteria/date.py.  We check the field
     values ourselves instead of translating the values back and forth.
-
-    Note: this is probably the hardest criterion.
     """
 
-    def get_operation(self, value):
-        # Get dotted operation method.  This may depend on value.
-        operator = {'max': 'lessThan',
-                    'min': 'largerThan',
-                    'min:max': 'between',
-                    }
-        return "%s.operation.date.%s" % (prefix, operator[value['range']])
+    def __call__(self, formquery, criterion, registry):
+        if criterion.value is None:
+            return
+        field = criterion.Field()
+        value = criterion.Value()
 
-    def get_query_value(self, value):
-        if isinstance(value['query'], tuple):
-            # TODO: if one of these dates is today/now (use the
-            # isCurrentDay method to check this) then that probably
-            # means we should use a different operator instead.
-            query_value = [format_date(v) for v in value['query']]
-        else:
-            query_value = format_date(value['query'])
-        return query_value
+        # Negate the value for 'old' days
+        if criterion.getDateRange() == '-':
+            value = -value
+
+        date = DateTime() + value
+        current_date = DateTime()
+
+        # Get the possible operation methods.
+        key = '%s.field.%s.operations' % (prefix, field)
+        operations = registry.get(key)
+
+        def add_row(operation, value):
+            if not operation in operations:
+                raise ValueError(INVALID_OPERATION % (operation, criterion))
+            # Add a row to the form query.
+            row = {'i': field,
+                   'o': operation,
+                   'v': value}
+            formquery.append(row)
+
+        operation = criterion.getOperation()
+        if operation == 'within_day':
+            date_range = (date.earliestTime(), date.latestTime())
+            new_operation = "%s.operation.date.between" % prefix
+            add_row(new_operation, date_range)
+            return
+        elif operation == 'more':
+            if value != 0:
+                if criterion.getDateRange() == '-':
+                    range_op = 'lessThan'
+                else:
+                    range_op = 'largerThan'
+                new_operation = "%s.operation.date.%s" % (prefix, range_op)
+                add_row(new_operation, date.earliestTime())
+                return
+            else:
+                new_operation = "%s.operation.date.largerThan" % prefix
+                add_row(new_operation, date)
+                return
+        elif operation == 'less':
+            if value != 0:
+                if criterion.getDateRange() == '-':
+                    date_range = (date.earliestTime(), current_date)
+                else:
+                    date_range = (current_date, date.latestTime())
+                new_operation = "%s.operation.date.between" % prefix
+                add_row(new_operation, date_range)
+                return
+            else:
+                new_operation = "%s.operation.date.lessThan" % prefix
+                add_row(new_operation, date)
+                return
 
 
 class ATSimpleStringCriterionConverter(CriterionConverter):
