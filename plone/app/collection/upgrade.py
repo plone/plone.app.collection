@@ -175,7 +175,7 @@ class ATCurrentAuthorCriterionConverter(CriterionConverter):
 
 
 class ATListCriterionConverter(CriterionConverter):
-    operator_code = 'list.contains'
+    operator_code = 'selection.is'
 
     def get_query_value(self, value):
         return value['query']

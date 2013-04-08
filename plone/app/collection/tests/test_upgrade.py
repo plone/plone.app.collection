@@ -147,3 +147,12 @@ class TestCriterionConverters(CollectionMigrationTestCase):
                          [{'i': 'Creator',
                            'o': 'plone.app.querystring.operation.string.currentUser',
                            'v': 'admin'}])
+
+    def test_ATListCriterion(self):
+        portal = self.layer['portal']
+        self.add_criterion('Subject', 'ATListCriterion', ('foo', 'bar'))
+        self.run_migration()
+        self.assertEqual(portal.topic.getRawQuery(),
+                         [{'i': 'Subject',
+                           'o': 'plone.app.querystring.operation.selection.is',
+                           'v': ('foo', 'bar')}])
