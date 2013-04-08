@@ -5,13 +5,6 @@ from plone.app.testing import login
 from .base import CollectionMigrationTestCase
 from plone.app.collection.upgrade import migrate_topics
 
-# default test query
-query = [{
-    'i': 'Title',
-    'o': 'plone.app.querystring.operation.string.is',
-    'v': 'Collection Test Page',
-}]
-
 
 class TestCriterionConverters(CollectionMigrationTestCase):
 
