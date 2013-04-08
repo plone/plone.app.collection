@@ -13,13 +13,14 @@ class TestCriterionConverters(CollectionMigrationTestCase):
         login(portal, 'admin')
         migrate_topics(getToolByName(portal, 'portal_setup'))
 
-    def add_criterion(self, index, criterion, value, operation=None,
+    def add_criterion(self, index, criterion, value=None, operation=None,
                       date_range=None):
         portal = self.layer['portal']
         name = '%s_%s' % (index, criterion)
         portal.topic.addCriterion(index, criterion)
         crit = portal.topic.getCriterion(name)
-        crit.setValue(value)
+        if value is not None:
+            crit.setValue(value)
         if operation is not None:
             crit.setOperation(operation)
         if date_range is not None:
@@ -137,3 +138,12 @@ class TestCriterionConverters(CollectionMigrationTestCase):
         self.assertEqual(query[3]['i'], 'modified')
         self.assertEqual(query[3]['o'], 'plone.app.querystring.operation.date.today')
         self.assertFalse('v' in query[3].keys())
+
+    def test_ATCurrentAuthorCriterion(self):
+        portal = self.layer['portal']
+        self.add_criterion('Creator', 'ATCurrentAuthorCriterion')
+        self.run_migration()
+        self.assertEqual(portal.topic.getRawQuery(),
+                         [{'i': 'Creator',
+                           'o': 'plone.app.querystring.operation.string.currentUser',
+                           'v': 'admin'}])
