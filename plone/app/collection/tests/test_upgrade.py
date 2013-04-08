@@ -14,7 +14,7 @@ class TestCriterionConverters(CollectionMigrationTestCase):
         migrate_topics(getToolByName(portal, 'portal_setup'))
 
     def add_criterion(self, index, criterion, value=None, operation=None,
-                      date_range=None):
+                      operator=None, date_range=None):
         portal = self.layer['portal']
         name = '%s_%s' % (index, criterion)
         portal.topic.addCriterion(index, criterion)
@@ -23,6 +23,8 @@ class TestCriterionConverters(CollectionMigrationTestCase):
             crit.setValue(value)
         if operation is not None:
             crit.setOperation(operation)
+        if operator is not None:
+            crit.setOperator(operator)
         if date_range is not None:
             crit.setDateRange(date_range)
 
@@ -150,9 +152,19 @@ class TestCriterionConverters(CollectionMigrationTestCase):
 
     def test_ATListCriterion(self):
         portal = self.layer['portal']
-        self.add_criterion('Subject', 'ATListCriterion', ('foo', 'bar'))
+        # The new-style queries do not currently offer the possibility
+        # to choose if the given values should be joined with 'or' or
+        # 'and'.  Default is 'or'.
+        self.add_criterion('Subject', 'ATListCriterion', ('foo', 'bar'), operator='or')
+        self.add_criterion('portal_type', 'ATListCriterion', ('Document', 'Folder'), operator='and')
         self.run_migration()
-        self.assertEqual(portal.topic.getRawQuery(),
-                         [{'i': 'Subject',
-                           'o': 'plone.app.querystring.operation.selection.is',
-                           'v': ('foo', 'bar')}])
+        query = portal.topic.getRawQuery()
+        self.assertEqual(len(query), 2)
+        self.assertEqual(query[0],
+                         {'i': 'Subject',
+                          'o': 'plone.app.querystring.operation.selection.is',
+                          'v': ('foo', 'bar')})
+        self.assertEqual(query[1],
+                         {'i': 'portal_type',
+                          'o': 'plone.app.querystring.operation.selection.is',
+                          'v': ('Document', 'Folder')})
