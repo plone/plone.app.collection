@@ -74,8 +74,9 @@ class CriterionConverter(object):
 
             # Add a row to the form query.
             row = {'i': index,
-                   'o': operation,
-                   'v': query_value}
+                   'o': operation}
+            if query_value is not None:
+                row['v'] = query_value
             formquery.append(row)
 
 
@@ -201,6 +202,50 @@ class ATPathCriterionConverter(CriterionConverter):
             logger.warn("Multiple paths in query. Using only the first. %r",
                         value['query'])
         return value['query'][0]
+
+
+class ATBooleanCriterionConverter(CriterionConverter):
+
+    def get_operation(self, value):
+        # Get dotted operation method.
+        # value is one of these beauties:
+        # value = [1, True, '1', 'True']
+        # value = [0, '', False, '0', 'False', None, (), [], {}, MV]
+        if True in value:
+            code = 'isTrue'
+        elif False in value:
+            code = 'isFalse'
+        else:
+            logger.warn("Unknown value for boolean criterion. "
+                        "Falling back to True. %r", value)
+            code = 'isTrue'
+        return "%s.operation.boolean.%s" % (prefix, code)
+
+    def __call__(self, formquery, criterion, registry):
+        for index, value in criterion.getCriteriaItems():
+            # Get the operation method.
+            if index == 'is_folderish':
+                fieldname = 'isFolderish'
+            elif index == 'is_default_page':
+                fieldname = 'isDefaultPage'
+            else:
+                fieldname = index
+            key = '%s.field.%s.operations' % (prefix, fieldname)
+            try:
+                operations = registry.get(key)
+            except KeyError:
+                logger.error("No operations available for index %s", fieldname)
+                # TODO: raise an Exception?
+                continue
+            operation = self.get_operation(value)
+            if not operation in operations:
+                logger.error(INVALID_OPERATION % (operation, criterion))
+                # TODO: raise an Exception?
+                continue
+            # Add a row to the form query.
+            row = {'i': index,
+                   'o': operation}
+            formquery.append(row)
 
 
 class TopicMigrator(ATItemMigrator):
@@ -348,8 +393,8 @@ CONVERTERS = {
     'ATListCriterion': ATListCriterionConverter(),
     'ATPathCriterion': ATPathCriterionConverter(),
     'ATSimpleStringCriterion': ATSimpleStringCriterionConverter(),
+    'ATBooleanCriterion': ATBooleanCriterionConverter(),
     # TODO:
-    #'ATBooleanCriterion',
     #'ATDateRangeCriterion',
     #'ATPortalTypeCriterion',
     #'ATReferenceCriterion',

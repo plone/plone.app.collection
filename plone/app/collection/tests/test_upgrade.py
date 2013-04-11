@@ -14,7 +14,8 @@ class TestCriterionConverters(CollectionMigrationTestCase):
         migrate_topics(getToolByName(portal, 'portal_setup'))
 
     def add_criterion(self, index, criterion, value=None, operation=None,
-                      operator=None, date_range=None, recurse=None):
+                      operator=None, date_range=None, recurse=None,
+                      bool_value=None):
         portal = self.layer['portal']
         name = '%s_%s' % (index, criterion)
         portal.topic.addCriterion(index, criterion)
@@ -31,6 +32,8 @@ class TestCriterionConverters(CollectionMigrationTestCase):
             crit.setDateRange(date_range)
         if recurse is not None:
             crit.setRecurse(recurse)
+        if bool_value is not None:
+            crit.setBool(bool_value)
 
     def test_migrate_simple_topic(self):
         portal = self.layer['portal']
@@ -204,3 +207,19 @@ class TestCriterionConverters(CollectionMigrationTestCase):
                          [{'i': 'path',
                            'o': 'plone.app.querystring.operation.string.path',
                            'v': '/plone/folder'}])
+
+    def test_ATBooleanCriterion(self):
+        # Note that in standard Plone the boolean criterion is only
+        # defined for is_folderish and is_default_page.
+        portal = self.layer['portal']
+        self.add_criterion('is_folderish', 'ATBooleanCriterion', bool_value=True)
+        self.add_criterion('is_default_page', 'ATBooleanCriterion', bool_value=False)
+        self.run_migration()
+        query = portal.topic.getRawQuery()
+        self.assertEqual(len(query), 2)
+        self.assertEqual(query[0],
+                         {'i': 'is_folderish',
+                          'o': 'plone.app.querystring.operation.boolean.isTrue'})
+        self.assertEqual(query[1],
+                         {'i': 'is_default_page',
+                          'o': 'plone.app.querystring.operation.boolean.isFalse'})
