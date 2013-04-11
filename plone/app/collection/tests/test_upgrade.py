@@ -14,11 +14,13 @@ class TestCriterionConverters(CollectionMigrationTestCase):
         migrate_topics(getToolByName(portal, 'portal_setup'))
 
     def add_criterion(self, index, criterion, value=None, operation=None,
-                      operator=None, date_range=None):
+                      operator=None, date_range=None, recurse=None):
         portal = self.layer['portal']
         name = '%s_%s' % (index, criterion)
         portal.topic.addCriterion(index, criterion)
         crit = portal.topic.getCriterion(name)
+        # Different criterions take different options.  This is one
+        # way of doing that.
         if value is not None:
             crit.setValue(value)
         if operation is not None:
@@ -27,6 +29,8 @@ class TestCriterionConverters(CollectionMigrationTestCase):
             crit.setOperator(operator)
         if date_range is not None:
             crit.setDateRange(date_range)
+        if recurse is not None:
+            crit.setRecurse(recurse)
 
     def test_migrate_simple_topic(self):
         portal = self.layer['portal']
@@ -168,3 +172,35 @@ class TestCriterionConverters(CollectionMigrationTestCase):
                          {'i': 'portal_type',
                           'o': 'plone.app.querystring.operation.selection.is',
                           'v': ('Document', 'Folder')})
+
+    def test_ATPathCriterion(self):
+        portal = self.layer['portal']
+        self.add_criterion('path', 'ATPathCriterion', portal.folder.UID())
+        self.run_migration()
+        self.assertEqual(portal.topic.getRawQuery(),
+                         [{'i': 'path',
+                           'o': 'plone.app.querystring.operation.string.path',
+                           'v': '/plone/folder'}])
+
+    def test_ATPathCriterionNonRecursive(self):
+        # Topics supported non recursive search, so search at a specific
+        # depth.  New Collections do not support it.
+        portal = self.layer['portal']
+        self.add_criterion('path', 'ATPathCriterion', portal.folder.UID(), recurse=True)
+        self.run_migration()
+        self.assertEqual(portal.topic.getRawQuery(),
+                         [{'i': 'path',
+                           'o': 'plone.app.querystring.operation.string.path',
+                           'v': '/plone/folder'}])
+
+    def test_ATPathCriterionDouble(self):
+        # Collections currently support only one path.
+        portal = self.layer['portal']
+        login(portal, 'admin')
+        portal.invokeFactory("Folder", "folder2", title="Folder 2")
+        self.add_criterion('path', 'ATPathCriterion', [portal.folder.UID(), portal.folder2.UID()])
+        self.run_migration()
+        self.assertEqual(portal.topic.getRawQuery(),
+                         [{'i': 'path',
+                           'o': 'plone.app.querystring.operation.string.path',
+                           'v': '/plone/folder'}])

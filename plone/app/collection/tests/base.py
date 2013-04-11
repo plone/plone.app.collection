@@ -55,6 +55,9 @@ class PACollectionMigration(PACollection):
         portal.portal_types.Topic.global_allow = True
         portal.invokeFactory("Topic", "topic", title="Topic")
 
+        # Add a folder.
+        portal.invokeFactory("Folder", "folder", title="Folder")
+
 
 PACOLLECTION_FIXTURE = PACollection()
 PACOLLECTION_MIGRATION_FIXTURE = PACollectionMigration()
