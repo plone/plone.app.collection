@@ -24,6 +24,22 @@ from plone.app.collection.interfaces import ICollection
 
 CollectionSchema = folder.ATFolderSchema.copy() + document.ATDocumentSchema.copy() + atapi.Schema((
 
+    BooleanField('acquireCriteria',
+        required=False,
+        mode="rw",
+        default=False,
+        write_permission=ModifyPortalContent,
+        widget=BooleanWidget(
+            label=_(u'label_inherit_criteria', default=u'Inherit Criteria'),
+            description=_(
+                u'help_inherit_collection_criteria',
+                default=u"Narrow down the search results from the parent Collection(s) "
+                        u"by using the criteria from this Collection."),
+            # Only show when the parent object is a Collection also.
+            condition="python:object.aq_parent.portal_type == 'Collection'"
+            ),
+        ),
+
     QueryField(
         name='query',
         widget=QueryWidget(
@@ -87,6 +103,7 @@ CollectionSchema = folder.ATFolderSchema.copy() + document.ATDocumentSchema.copy
 ))
 
 CollectionSchema.moveField('query', after='description')
+CollectionSchema.moveField('acquireCriteria', before='query')
 if 'presentation' in CollectionSchema:
     CollectionSchema['presentation'].widget.visible = False
 CollectionSchema['tableContents'].widget.visible = False
