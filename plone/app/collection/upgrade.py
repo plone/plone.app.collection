@@ -65,7 +65,7 @@ class CriterionConverter(object):
         index_data = registry.get(key)
         if index_data.get('enabled'):
             return True
-        logger.warn("Index %s is not enabled as criterion index. ")
+        logger.warn("Index %s is not enabled as criterion index. ", index)
         return False
 
     def is_operation_valid(self, registry, operation):
