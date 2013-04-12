@@ -37,6 +37,9 @@ class TestCriterionConverters(CollectionMigrationTestCase):
                            'o': 'plone.app.querystring.operation.string.contains',
                            'v': 'bar'}])
 
+        # Check that the resulting query does not give an error.
+        portal.topic.getQuery()
+
     def test_ATDateCriteriaPast(self):
         portal = self.layer['portal']
         # More than 5 days in the past:
@@ -77,6 +80,9 @@ class TestCriterionConverters(CollectionMigrationTestCase):
         self.assertEqual(query[3]['o'], 'plone.app.querystring.operation.date.beforeToday')
         self.assertTrue('v' not in query[3].keys())
 
+        # Check that the resulting query does not give an error.
+        portal.topic.getQuery()
+
     def test_ATDateCriteriaFuture(self):
         portal = self.layer['portal']
         # More than 5 days in the future:
@@ -115,6 +121,9 @@ class TestCriterionConverters(CollectionMigrationTestCase):
         self.assertEqual(query[3]['i'], 'modified')
         self.assertEqual(query[3]['o'], 'plone.app.querystring.operation.date.beforeToday')
         self.assertTrue('v' not in query[3].keys())
+
+        # Check that the resulting query does not give an error.
+        portal.topic.getQuery()
 
     def test_ATDateCriteriaExactDay(self):
         portal = self.layer['portal']
@@ -158,6 +167,9 @@ class TestCriterionConverters(CollectionMigrationTestCase):
         self.assertEqual(query[3]['o'], 'plone.app.querystring.operation.date.today')
         self.assertFalse('v' in query[3].keys())
 
+        # Check that the resulting query does not give an error.
+        portal.topic.getQuery()
+
     def test_ATCurrentAuthorCriterion(self):
         portal = self.layer['portal']
         self.add_criterion('Creator', 'ATCurrentAuthorCriterion')
@@ -166,6 +178,9 @@ class TestCriterionConverters(CollectionMigrationTestCase):
                          [{'i': 'Creator',
                            'o': 'plone.app.querystring.operation.string.currentUser',
                            'v': 'admin'}])
+
+        # Check that the resulting query does not give an error.
+        portal.topic.getQuery()
 
     def test_ATListCriterion(self):
         portal = self.layer['portal']
@@ -190,6 +205,9 @@ class TestCriterionConverters(CollectionMigrationTestCase):
                           'o': 'plone.app.querystring.operation.selection.is',
                           'v': ('Document', 'Folder')})
 
+        # Check that the resulting query does not give an error.
+        portal.topic.getQuery()
+
     def test_ATPathCriterion(self):
         portal = self.layer['portal']
         self.add_criterion('path', 'ATPathCriterion', portal.folder.UID())
@@ -198,6 +216,9 @@ class TestCriterionConverters(CollectionMigrationTestCase):
                          [{'i': 'path',
                            'o': 'plone.app.querystring.operation.string.path',
                            'v': '/plone/folder'}])
+
+        # Check that the resulting query does not give an error.
+        portal.topic.getQuery()
 
     def test_ATPathCriterionNonRecursive(self):
         # Topics supported non recursive search, so search at a specific
@@ -210,6 +231,9 @@ class TestCriterionConverters(CollectionMigrationTestCase):
                          [{'i': 'path',
                            'o': 'plone.app.querystring.operation.string.path',
                            'v': '/plone/folder'}])
+
+        # Check that the resulting query does not give an error.
+        portal.topic.getQuery()
 
     def test_ATPathCriterionDouble(self):
         # Collections currently support only one path.
@@ -225,6 +249,9 @@ class TestCriterionConverters(CollectionMigrationTestCase):
         # Which of the paths is taken is not defined.  This might
         # depend on the sort order of the uids.
         self.assertTrue(query[0]['v'] in ('/plone/folder', '/plone/folder2'))
+
+        # Check that the resulting query does not give an error.
+        portal.topic.getQuery()
 
     def test_ATBooleanCriterion(self):
         # Note that in standard Plone the boolean criterion is only
@@ -244,6 +271,9 @@ class TestCriterionConverters(CollectionMigrationTestCase):
         self.assertEqual(query[1],
                          {'i': 'is_default_page',
                           'o': 'plone.app.querystring.operation.boolean.isFalse'})
+
+        # Check that the resulting query does not give an error.
+        portal.topic.getQuery()
 
     def test_ATDateRangeCriteria(self):
         portal = self.layer['portal']
@@ -277,6 +307,9 @@ class TestCriterionConverters(CollectionMigrationTestCase):
         self.assertEqual(query[2]['o'], 'plone.app.querystring.operation.date.between')
         self.assertEqual(query[2]['v'], (time1 + 3, time1 + 5))
 
+        # Check that the resulting query does not give an error.
+        portal.topic.getQuery()
+
     def test_ATPortalTypeCriterion(self):
         portal = self.layer['portal']
         self.add_criterion('portal_type', 'ATPortalTypeCriterion', ('Document', 'Folder'))
@@ -286,6 +319,9 @@ class TestCriterionConverters(CollectionMigrationTestCase):
                          [{'i': 'portal_type',
                            'o': 'plone.app.querystring.operation.selection.is',
                            'v': ('Document', 'Folder')}])
+
+        # Check that the resulting query does not give an error.
+        portal.topic.getQuery()
 
     def test_ATSelectionCriterion(self):
         portal = self.layer['portal']
@@ -310,6 +346,9 @@ class TestCriterionConverters(CollectionMigrationTestCase):
                           'o': 'plone.app.querystring.operation.selection.is',
                           'v': ('Document', 'Folder')})
 
+        # Check that the resulting query does not give an error.
+        portal.topic.getQuery()
+
     def test_ATReferenceCriterion(self):
         # Note: the new criterion is disabled by default.  Also, it
         # needs the _referenceIs function in the plone.app.querystring
@@ -321,3 +360,8 @@ class TestCriterionConverters(CollectionMigrationTestCase):
                          [{'i': 'getRawRelatedItems',
                            'o': 'plone.app.querystring.operation.reference.is',
                            'v': (portal.folder.UID(),)}])
+
+        # Check that the resulting query does not give an error.
+        # This will give an ImportError: No module named _referenceIs.
+        # TODO re-enable this check when the queryparser works.
+        #portal.topic.getQuery()
