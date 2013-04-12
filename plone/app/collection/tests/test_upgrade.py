@@ -492,3 +492,26 @@ class TestCriterionConverters(CollectionMigrationTestCase):
 
         # Check that the resulting query does not give an error.
         portal.topic.getQuery()
+
+    def test_ATSortCriterion(self):
+        portal = self.layer['portal']
+        self.add_criterion('modified', 'ATSortCriterion')
+        self.run_migration()
+        self.assertEqual(portal.topic.getSort_on(), 'modified')
+        self.assertEqual(portal.topic.getSort_reversed(), False)
+        self.assertEqual(portal.topic.getRawQuery(), [])
+
+        # Check that the resulting query does not give an error.
+        portal.topic.getQuery()
+
+    def test_ATSortCriterionReversed(self):
+        portal = self.layer['portal']
+        crit = self.add_criterion('created', 'ATSortCriterion')
+        crit.setReversed(True)
+        self.run_migration()
+        self.assertEqual(portal.topic.getSort_on(), 'created')
+        self.assertEqual(portal.topic.getSort_reversed(), True)
+        self.assertEqual(portal.topic.getRawQuery(), [])
+
+        # Check that the resulting query does not give an error.
+        portal.topic.getQuery()
