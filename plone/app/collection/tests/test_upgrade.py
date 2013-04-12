@@ -218,10 +218,13 @@ class TestCriterionConverters(CollectionMigrationTestCase):
         portal.invokeFactory("Folder", "folder2", title="Folder 2")
         self.add_criterion('path', 'ATPathCriterion', [portal.folder.UID(), portal.folder2.UID()])
         self.run_migration()
-        self.assertEqual(portal.topic.getRawQuery(),
-                         [{'i': 'path',
-                           'o': 'plone.app.querystring.operation.string.path',
-                           'v': '/plone/folder'}])
+        query = portal.topic.getRawQuery()
+        self.assertEqual(len(query), 1)
+        self.assertEqual(query[0]['i'], 'path')
+        self.assertEqual(query[0]['o'], 'plone.app.querystring.operation.string.path')
+        # Which of the paths is taken is not defined.  This might
+        # depend on the sort order of the uids.
+        self.assertTrue(query[0]['v'] in ('/plone/folder', '/plone/folder2'))
 
     def test_ATBooleanCriterion(self):
         # Note that in standard Plone the boolean criterion is only
