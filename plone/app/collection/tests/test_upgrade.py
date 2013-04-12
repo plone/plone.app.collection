@@ -25,14 +25,33 @@ class TestCriterionConverters(CollectionMigrationTestCase):
     def test_migrate_simple_topic(self):
         portal = self.layer['portal']
         self.assertEqual(portal.topic.portal_type, 'Topic')
+        self.assertEqual(portal.topic.getAcquireCriteria(), False)
+        self.assertEqual(portal.topic.getLimitNumber(), False)
+        self.assertEqual(portal.topic.getItemCount(), 0)
+        self.assertEqual(portal.topic.getCustomViewFields(), ('Title',))
         self.run_migration()
         self.assertEqual(portal.topic.portal_type, 'Collection')
         self.assertEqual(portal.topic.getAcquireCriteria(), False)
         self.assertEqual(portal.topic.getSort_on(), 'sortable_title')
         self.assertEqual(portal.topic.getSort_reversed(), False)
         self.assertEqual(portal.topic.getLimit(), 1000)
+        self.assertEqual(portal.topic.getCustomViewFields(), ('Title',))
 
     def test_migrate_topic_fields(self):
+        portal = self.layer['portal']
+        portal.topic.setAcquireCriteria(True)
+        portal.topic.setText('<p>Hello</p>')
+        portal.topic.setLimitNumber(True)
+        portal.topic.setItemCount(42)
+        portal.topic.setCustomViewFields(('Title', 'Type'))
+        self.run_migration()
+        self.assertEqual(portal.topic.portal_type, 'Collection')
+        self.assertEqual(portal.topic.getAcquireCriteria(), True)
+        self.assertEqual(portal.topic.getLimit(), 42)
+        self.assertEqual(portal.topic.getCustomViewFields(),
+                         ('Title', 'Type'))
+
+    def test_migrate_topic_layout(self):
         portal = self.layer['portal']
         portal.topic.setAcquireCriteria(True)
         portal.topic.setText('<p>Hello</p>')
