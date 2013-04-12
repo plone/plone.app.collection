@@ -166,7 +166,7 @@ class ATCurrentAuthorCriterionConverter(CriterionConverter):
     operator_code = 'string.currentUser'
 
 
-class ATListCriterionConverter(CriterionConverter):
+class ATSelectionCriterionConverter(CriterionConverter):
     operator_code = 'selection.is'
 
     def get_query_value(self, value):
@@ -174,6 +174,10 @@ class ATListCriterionConverter(CriterionConverter):
             logger.warn("Cannot handle selection operator 'and'. Using 'or'. "
                         "%r", value)
         return value['query']
+
+
+class ATListCriterionConverter(ATSelectionCriterionConverter):
+    pass
 
 
 class ATPathCriterionConverter(CriterionConverter):
@@ -398,9 +402,9 @@ CONVERTERS = {
     'ATBooleanCriterion': ATBooleanCriterionConverter(),
     'ATDateRangeCriterion': ATDateRangeCriterionConverter(),
     'ATPortalTypeCriterion': ATPortalTypeCriterionConverter(),
+    'ATSelectionCriterion': ATSelectionCriterionConverter(),
     # TODO:
     #'ATReferenceCriterion',
     #'ATRelativePathCriterion',
-    #'ATSelectionCriterion',
     #'ATSimpleIntCriterion',
     }

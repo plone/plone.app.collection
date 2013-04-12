@@ -286,3 +286,26 @@ class TestCriterionConverters(CollectionMigrationTestCase):
                          [{'i': 'portal_type',
                            'o': 'plone.app.querystring.operation.selection.is',
                            'v': ('Document', 'Folder')}])
+
+    def test_ATSelectionCriterion(self):
+        portal = self.layer['portal']
+        # The new-style queries do not currently offer the possibility
+        # to choose if the given values should be joined with 'or' or
+        # 'and'.  Default is 'or'.
+        crit = self.add_criterion('Subject', 'ATSelectionCriterion', ('foo', 'bar'))
+        crit.setOperator('or')
+        # Note: this could have been an ATPortalTypeCriterion too:
+        crit = self.add_criterion('portal_type', 'ATSelectionCriterion', ('Document', 'Folder'))
+        crit.setOperator('and')
+
+        self.run_migration()
+        query = portal.topic.getRawQuery()
+        self.assertEqual(len(query), 2)
+        self.assertEqual(query[0],
+                         {'i': 'Subject',
+                          'o': 'plone.app.querystring.operation.selection.is',
+                          'v': ('foo', 'bar')})
+        self.assertEqual(query[1],
+                         {'i': 'portal_type',
+                          'o': 'plone.app.querystring.operation.selection.is',
+                          'v': ('Document', 'Folder')})
