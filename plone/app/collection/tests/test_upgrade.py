@@ -393,3 +393,53 @@ class TestCriterionConverters(CollectionMigrationTestCase):
 
         # Check that the resulting query does not give an error.
         portal.topic.getQuery()
+
+    def test_ATSimpleIntCriterion(self):
+        portal = self.layer['portal']
+        self.add_criterion('getObjPositionInParent', 'ATSimpleIntCriterion', 7)
+        self.run_migration()
+        self.assertEqual(portal.topic.getRawQuery(),
+                         [{'i': 'getObjPositionInParent',
+                           'o': 'plone.app.querystring.operation.int.is',
+                           'v': 7}])
+
+        # Check that the resulting query does not give an error.
+        portal.topic.getQuery()
+
+    def test_ATSimpleIntCriterionMinimum(self):
+        portal = self.layer['portal']
+        crit = self.add_criterion('getObjPositionInParent', 'ATSimpleIntCriterion', 6)
+        crit.setDirection('min')
+        self.run_migration()
+        self.assertEqual(portal.topic.getRawQuery(),
+                         [{'i': 'getObjPositionInParent',
+                           'o': 'plone.app.querystring.operation.int.largerThan',
+                           'v': 6}])
+
+        # Check that the resulting query does not give an error.
+        portal.topic.getQuery()
+
+    def test_ATSimpleIntCriterionMaximum(self):
+        portal = self.layer['portal']
+        crit = self.add_criterion('getObjPositionInParent', 'ATSimpleIntCriterion', 5)
+        crit.setDirection('max')
+        self.run_migration()
+        self.assertEqual(portal.topic.getRawQuery(),
+                         [{'i': 'getObjPositionInParent',
+                           'o': 'plone.app.querystring.operation.int.lessThan',
+                           'v': 5}])
+
+        # Check that the resulting query does not give an error.
+        portal.topic.getQuery()
+
+    def test_ATSimpleIntCriterionBetween(self):
+        # This is not supported.
+        portal = self.layer['portal']
+        crit = self.add_criterion('getObjPositionInParent', 'ATSimpleIntCriterion', 4)
+        crit.setDirection('min:max')
+        crit.setValue2(8)
+        self.run_migration()
+        self.assertEqual(portal.topic.getRawQuery(), [])
+
+        # Check that the resulting query does not give an error.
+        portal.topic.getQuery()

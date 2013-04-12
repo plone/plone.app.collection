@@ -308,6 +308,35 @@ class ATRelativePathCriterionConverter(CriterionConverter):
         return criterion.getRelativePath()
 
 
+class ATSimpleIntCriterionConverter(CriterionConverter):
+    # Also available: int.lessThan, int.largerThan.
+    operator_code = 'int.is'
+
+    def get_operation(self, value):
+        # Get dotted operation method.
+        direction = value.get('range')
+        if not direction:
+            code = 'is'
+        elif direction == 'min':
+            code = 'largerThan'
+        elif direction == 'max':
+            code = 'lessThan'
+        elif direction == 'min:max':
+            logger.warn("min:max direction not supported for integers. %r",
+                        value)
+            return
+        else:
+            logger.warn("Unknown direction for integers. %r", value)
+            return
+        return "%s.operation.int.%s" % (prefix, code)
+
+    def get_query_value(self, value, criterion):
+        if isinstance(value['query'], tuple):
+            logger.warn("More than one integer is not supported. %r", value)
+            return
+        return value['query']
+
+
 class TopicMigrator(ATItemMigrator):
     src_portal_type = 'Topic'
     src_meta_type = 'ATTopic'
@@ -459,6 +488,5 @@ CONVERTERS = {
     'ATSelectionCriterion': ATSelectionCriterionConverter(),
     'ATReferenceCriterion': ATReferenceCriterionConverter(),
     'ATRelativePathCriterion': ATRelativePathCriterionConverter(),
-    # TODO:
-    #'ATSimpleIntCriterion',
+    'ATSimpleIntCriterion': ATSimpleIntCriterionConverter(),
     }
