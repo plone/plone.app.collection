@@ -50,7 +50,7 @@ class CriterionConverter(object):
     # e.g. 'string.contains'.
     operator_code = ''
 
-    def get_query_value(self, value):
+    def get_query_value(self, value, criterion):
         # value may contain a query and some parameters, but in the
         # simple case it is simply a value.
         return value
@@ -109,7 +109,7 @@ class CriterionConverter(object):
                 continue
 
             # Get the value that we will query for.
-            query_value = self.get_query_value(value)
+            query_value = self.get_query_value(value, criterion)
 
             # Add a row to the form query.
             row = {'i': index,
@@ -213,7 +213,7 @@ class ATCurrentAuthorCriterionConverter(CriterionConverter):
 class ATSelectionCriterionConverter(CriterionConverter):
     operator_code = 'selection.is'
 
-    def get_query_value(self, value):
+    def get_query_value(self, value, criterion):
         if value.get('operator') == 'and':
             logger.warn("Cannot handle selection operator 'and'. Using 'or'. "
                         "%r", value)
@@ -234,20 +234,17 @@ class ATReferenceCriterionConverter(ATSelectionCriterionConverter):
 class ATPathCriterionConverter(CriterionConverter):
     operator_code = 'string.path'
 
-    def get_query_value(self, value):
-        if value.get('depth') != -1:
-            logger.warn("Cannot handle searching a path on a specific depth. "
+    def get_query_value(self, value, criterion):
+        if not criterion.Recurse():
+            logger.warn("Cannot handle non-recursive path search. "
                         "Allowing recursive search. %r", value)
-        if not isinstance(value['query'], list):
-            # Simple string.  I have not seen this yet in practice,
-            # but it might happen.
-            return value['query']
-        # We have a list, but the string.path operator can currently
-        # only handle one path, as a simple string.
-        if len(value['query']) > 1:
+        raw = criterion.getRawValue()
+        if not raw:
+            return
+        if len(raw) > 1:
             logger.warn("Multiple paths in query. Using only the first. %r",
                         value['query'])
-        return value['query'][0]
+        return raw[0]
 
 
 class ATBooleanCriterionConverter(CriterionConverter):
@@ -292,7 +289,7 @@ class ATBooleanCriterionConverter(CriterionConverter):
 class ATDateRangeCriterionConverter(CriterionConverter):
     operator_code = 'date.between'
 
-    def get_query_value(self, value):
+    def get_query_value(self, value, criterion):
         return value['query']
 
 
@@ -300,9 +297,15 @@ class ATPortalTypeCriterionConverter(CriterionConverter):
     operator_code = 'selection.is'
 
 
-class ATRelativePathCriterionConverter(ATPathCriterionConverter):
+class ATRelativePathCriterionConverter(CriterionConverter):
     # We also have path.isWithinRelative, but its function is not defined.
     operator_code = 'string.relativePath'
+
+    def get_query_value(self, value, criterion):
+        if not criterion.Recurse():
+            logger.warn("Cannot handle non-recursive path search. "
+                        "Allowing recursive search. %r", value)
+        return criterion.getRelativePath()
 
 
 class TopicMigrator(ATItemMigrator):

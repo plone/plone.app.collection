@@ -215,7 +215,7 @@ class TestCriterionConverters(CollectionMigrationTestCase):
         self.assertEqual(portal.topic.getRawQuery(),
                          [{'i': 'path',
                            'o': 'plone.app.querystring.operation.string.path',
-                           'v': '/plone/folder'}])
+                           'v': portal.folder.UID()}])
 
         # Check that the resulting query does not give an error.
         portal.topic.getQuery()
@@ -230,7 +230,7 @@ class TestCriterionConverters(CollectionMigrationTestCase):
         self.assertEqual(portal.topic.getRawQuery(),
                          [{'i': 'path',
                            'o': 'plone.app.querystring.operation.string.path',
-                           'v': '/plone/folder'}])
+                           'v': portal.folder.UID()}])
 
         # Check that the resulting query does not give an error.
         portal.topic.getQuery()
@@ -248,7 +248,7 @@ class TestCriterionConverters(CollectionMigrationTestCase):
         self.assertEqual(query[0]['o'], 'plone.app.querystring.operation.string.path')
         # Which of the paths is taken is not defined.  This might
         # depend on the sort order of the uids.
-        self.assertTrue(query[0]['v'] in ('/plone/folder', '/plone/folder2'))
+        self.assertTrue(query[0]['v'] in (portal.folder.UID(), portal.folder2.UID()))
 
         # Check that the resulting query does not give an error.
         portal.topic.getQuery()
@@ -373,7 +373,7 @@ class TestCriterionConverters(CollectionMigrationTestCase):
         self.assertEqual(portal.topic.getRawQuery(),
                          [{'i': 'path',
                            'o': 'plone.app.querystring.operation.string.relativePath',
-                           'v': '/plone/folder'}])
+                           'v': '../folder'}])
 
         # Check that the resulting query does not give an error.
         portal.topic.getQuery()
@@ -389,7 +389,7 @@ class TestCriterionConverters(CollectionMigrationTestCase):
         self.assertEqual(portal.topic.getRawQuery(),
                          [{'i': 'path',
                            'o': 'plone.app.querystring.operation.string.relativePath',
-                           'v': '/plone/folder'}])
+                           'v': '../folder'}])
 
         # Check that the resulting query does not give an error.
         portal.topic.getQuery()
