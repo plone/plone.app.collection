@@ -13,27 +13,14 @@ class TestCriterionConverters(CollectionMigrationTestCase):
         login(portal, 'admin')
         migrate_topics(getToolByName(portal, 'portal_setup'))
 
-    def add_criterion(self, index, criterion, value=None, operation=None,
-                      operator=None, date_range=None, recurse=None,
-                      bool_value=None):
+    def add_criterion(self, index, criterion, value=None):
         portal = self.layer['portal']
         name = '%s_%s' % (index, criterion)
         portal.topic.addCriterion(index, criterion)
         crit = portal.topic.getCriterion(name)
-        # Different criterions take different options.  This is one
-        # way of doing that.
         if value is not None:
             crit.setValue(value)
-        if operation is not None:
-            crit.setOperation(operation)
-        if operator is not None:
-            crit.setOperator(operator)
-        if date_range is not None:
-            crit.setDateRange(date_range)
-        if recurse is not None:
-            crit.setRecurse(recurse)
-        if bool_value is not None:
-            crit.setBool(bool_value)
+        return crit
 
     def test_migrate_simple_topic(self):
         portal = self.layer['portal']
@@ -54,14 +41,23 @@ class TestCriterionConverters(CollectionMigrationTestCase):
         portal = self.layer['portal']
         time1 = DateTime()
         # More than 5 days in the past:
-        self.add_criterion('created', 'ATFriendlyDateCriteria', 5, operation='more', date_range='-')
+        crit = self.add_criterion('created', 'ATFriendlyDateCriteria', 5)
+        crit.setOperation('more')
+        crit.setDateRange('-')
         # Less than 5 days in the past:
-        self.add_criterion('effective', 'ATFriendlyDateCriteria', 5, operation='less', date_range='-')
+        crit = self.add_criterion('effective', 'ATFriendlyDateCriteria', 5)
+        crit.setOperation('less')
+        crit.setDateRange('-')
         # The next two are logically a bit weird.
         # More than 0 days in the past is historically interpreted as: after today.
-        self.add_criterion('expires', 'ATFriendlyDateCriteria', 0, operation='more', date_range='-')
+        crit = self.add_criterion('expires', 'ATFriendlyDateCriteria', 0)
+        crit.setOperation('more')
+        crit.setDateRange('-')
         # Less than 0 days in the past is historically interpreted as: before today.
-        self.add_criterion('modified', 'ATFriendlyDateCriteria', 0, operation='less', date_range='-')
+        crit = self.add_criterion('modified', 'ATFriendlyDateCriteria', 0)
+        crit.setOperation('less')
+        crit.setDateRange('-')
+
         self.run_migration()
         query = portal.topic.getRawQuery()
         time2 = DateTime()
@@ -87,13 +83,22 @@ class TestCriterionConverters(CollectionMigrationTestCase):
         portal = self.layer['portal']
         time1 = DateTime()
         # More than 5 days in the future:
-        self.add_criterion('created', 'ATFriendlyDateCriteria', 5, operation='more', date_range='+')
+        crit = self.add_criterion('created', 'ATFriendlyDateCriteria', 5)
+        crit.setOperation('more')
+        crit.setDateRange('+')
         # Less than 5 days in the future:
-        self.add_criterion('effective', 'ATFriendlyDateCriteria', 5, operation='less', date_range='+')
+        crit = self.add_criterion('effective', 'ATFriendlyDateCriteria', 5)
+        crit.setOperation('less')
+        crit.setDateRange('+')
         # More than 0 days in the future: after today.
-        self.add_criterion('expires', 'ATFriendlyDateCriteria', 0, operation='more', date_range='+')
+        crit = self.add_criterion('expires', 'ATFriendlyDateCriteria', 0)
+        crit.setOperation('more')
+        crit.setDateRange('+')
         # Less than 0 days in the future: before today.
-        self.add_criterion('modified', 'ATFriendlyDateCriteria', 0, operation='less', date_range='+')
+        crit = self.add_criterion('modified', 'ATFriendlyDateCriteria', 0)
+        crit.setOperation('less')
+        crit.setDateRange('+')
+
         self.run_migration()
         query = portal.topic.getRawQuery()
         time2 = DateTime()
@@ -119,14 +124,23 @@ class TestCriterionConverters(CollectionMigrationTestCase):
         portal = self.layer['portal']
         #time1 = DateTime()
         # 5 days ago:
-        self.add_criterion('created', 'ATFriendlyDateCriteria', 5, operation='within_day', date_range='-')
+        crit = self.add_criterion('created', 'ATFriendlyDateCriteria', 5)
+        crit.setOperation('within_day')
+        crit.setDateRange('-')
         # 5 days from now:
-        self.add_criterion('effective', 'ATFriendlyDateCriteria', 5, operation='within_day', date_range='+')
+        crit = self.add_criterion('effective', 'ATFriendlyDateCriteria', 5)
+        crit.setOperation('within_day')
+        crit.setDateRange('+')
         # past or future does not matter if the day is today.
         # today minus
-        self.add_criterion('expires', 'ATFriendlyDateCriteria', 0, operation='within_day', date_range='-')
+        crit = self.add_criterion('expires', 'ATFriendlyDateCriteria', 0)
+        crit.setOperation('within_day')
+        crit.setDateRange('-')
         # today plus
-        self.add_criterion('modified', 'ATFriendlyDateCriteria', 0, operation='within_day', date_range='+')
+        crit = self.add_criterion('modified', 'ATFriendlyDateCriteria', 0)
+        crit.setOperation('within_day')
+        crit.setDateRange('+')
+
         self.run_migration()
         query = portal.topic.getRawQuery()
         time2 = DateTime()
@@ -162,8 +176,11 @@ class TestCriterionConverters(CollectionMigrationTestCase):
         # The new-style queries do not currently offer the possibility
         # to choose if the given values should be joined with 'or' or
         # 'and'.  Default is 'or'.
-        self.add_criterion('Subject', 'ATListCriterion', ('foo', 'bar'), operator='or')
-        self.add_criterion('portal_type', 'ATListCriterion', ('Document', 'Folder'), operator='and')
+        crit = self.add_criterion('Subject', 'ATListCriterion', ('foo', 'bar'))
+        crit.setOperator('or')
+        crit = self.add_criterion('portal_type', 'ATListCriterion', ('Document', 'Folder'))
+        crit.setOperator('and')
+
         self.run_migration()
         query = portal.topic.getRawQuery()
         self.assertEqual(len(query), 2)
@@ -189,7 +206,8 @@ class TestCriterionConverters(CollectionMigrationTestCase):
         # Topics supported non recursive search, so search at a specific
         # depth.  New Collections do not support it.
         portal = self.layer['portal']
-        self.add_criterion('path', 'ATPathCriterion', portal.folder.UID(), recurse=True)
+        crit = self.add_criterion('path', 'ATPathCriterion', portal.folder.UID())
+        crit.setRecurse(True)
         self.run_migration()
         self.assertEqual(portal.topic.getRawQuery(),
                          [{'i': 'path',
@@ -212,8 +230,11 @@ class TestCriterionConverters(CollectionMigrationTestCase):
         # Note that in standard Plone the boolean criterion is only
         # defined for is_folderish and is_default_page.
         portal = self.layer['portal']
-        self.add_criterion('is_folderish', 'ATBooleanCriterion', bool_value=True)
-        self.add_criterion('is_default_page', 'ATBooleanCriterion', bool_value=False)
+        crit = self.add_criterion('is_folderish', 'ATBooleanCriterion')
+        crit.setBool(True)
+        crit = self.add_criterion('is_default_page', 'ATBooleanCriterion')
+        crit.setBool(False)
+
         self.run_migration()
         query = portal.topic.getRawQuery()
         self.assertEqual(len(query), 2)
