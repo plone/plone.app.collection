@@ -364,3 +364,32 @@ class TestCriterionConverters(CollectionMigrationTestCase):
 
         # Check that the resulting query does not give an error.
         #portal.topic.getQuery()
+
+    def test_ATRelativePathCriterion(self):
+        portal = self.layer['portal']
+        crit = self.add_criterion('path', 'ATRelativePathCriterion')
+        crit.setRelativePath('../folder')
+        self.run_migration()
+        self.assertEqual(portal.topic.getRawQuery(),
+                         [{'i': 'path',
+                           'o': 'plone.app.querystring.operation.string.relativePath',
+                           'v': '/plone/folder'}])
+
+        # Check that the resulting query does not give an error.
+        portal.topic.getQuery()
+
+    def test_ATRelativePathCriterionNonRecursive(self):
+        # Topics supported non recursive search, so search at a specific
+        # depth.  New Collections do not support it.
+        portal = self.layer['portal']
+        crit = self.add_criterion('path', 'ATRelativePathCriterion')
+        crit.setRelativePath('../folder')
+        crit.setRecurse(True)
+        self.run_migration()
+        self.assertEqual(portal.topic.getRawQuery(),
+                         [{'i': 'path',
+                           'o': 'plone.app.querystring.operation.string.relativePath',
+                           'v': '/plone/folder'}])
+
+        # Check that the resulting query does not give an error.
+        portal.topic.getQuery()

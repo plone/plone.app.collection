@@ -300,6 +300,11 @@ class ATPortalTypeCriterionConverter(CriterionConverter):
     operator_code = 'selection.is'
 
 
+class ATRelativePathCriterionConverter(ATPathCriterionConverter):
+    # We also have path.isWithinRelative, but its function is not defined.
+    operator_code = 'string.relativePath'
+
+
 class TopicMigrator(ATItemMigrator):
     src_portal_type = 'Topic'
     src_meta_type = 'ATTopic'
@@ -450,7 +455,7 @@ CONVERTERS = {
     'ATPortalTypeCriterion': ATPortalTypeCriterionConverter(),
     'ATSelectionCriterion': ATSelectionCriterionConverter(),
     'ATReferenceCriterion': ATReferenceCriterionConverter(),
+    'ATRelativePathCriterion': ATRelativePathCriterionConverter(),
     # TODO:
-    #'ATRelativePathCriterion',
     #'ATSimpleIntCriterion',
     }
