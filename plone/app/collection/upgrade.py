@@ -3,7 +3,7 @@ import logging
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.interfaces._content import IFolderish
-from Products.contentmigration.archetypes import ATItemMigrator
+from Products.contentmigration.archetypes import InplaceATFolderMigrator
 from Products.contentmigration.archetypes import InplaceATItemMigrator
 from Products.contentmigration.walker import CustomQueryWalker
 from plone.app.querystring.interfaces import IQuerystringRegistryReader
@@ -337,7 +337,7 @@ class ATSimpleIntCriterionConverter(CriterionConverter):
         return value['query']
 
 
-class TopicMigrator(ATItemMigrator):
+class TopicMigrator(InplaceATFolderMigrator):
     src_portal_type = 'Topic'
     src_meta_type = 'ATTopic'
     dst_portal_type = dst_meta_type = 'Collection'
@@ -373,16 +373,15 @@ class TopicMigrator(ATItemMigrator):
         if layout:
             self.new.setLayout(layout)
 
-    def migrate_criteria(self):
-        """Migrate old style to new style criteria.
+    def beforeChange_criteria(self):
+        """Store the criteria of the old Topic.
 
-        Plus handling for some special fields.
+        Store the info on the migrator and restore the values in the
+        migrate_criteria method.
         """
-        # The old Topic has boolean limitNumber and integer itemCount,
-        # where the new Collection only has limit.
-        if self.old.getLimitNumber():
-            self.new.setLimit(self.old.getItemCount())
-
+        self._collection_sort_reversed = None
+        self._collection_sort_on = None
+        self._collection_query = None
         # Get the old criteria.
         # See also Products.ATContentTypes.content.topic.buildQuery
         criteria = self.old.listCriteria()
@@ -391,10 +390,11 @@ class TopicMigrator(ATItemMigrator):
             type_ = criterion.__class__.__name__
             if type_ == 'ATSortCriterion':
                 # Sort order and direction are now stored in the Collection.
-                self.new.setSort_reversed(criterion.getReversed())
-                self.new.setSort_on(criterion.Field())
+                self._collection_sort_reversed = criterion.getReversed()
+                self._collection_sort_on = criterion.Field()
                 logger.info("Sort on %r, reverse: %s.",
-                            self.new.getSort_on(), self.new.getSort_reversed())
+                            self._collection_sort_on,
+                            self._collection_sort_reversed)
                 continue
 
             converter = CONVERTERS.get(type_)
@@ -405,7 +405,25 @@ class TopicMigrator(ATItemMigrator):
             converter(formquery, criterion, self.registry)
 
         logger.info("formquery: %s" % formquery)
-        self.new.setQuery(formquery)
+        self._collection_query = formquery
+
+    def migrate_criteria(self):
+        """Migrate old style to new style criteria.
+
+        Plus handling for some special fields.
+        """
+        # The old Topic has boolean limitNumber and integer itemCount,
+        # where the new Collection only has limit.
+        if self.old.getLimitNumber():
+            self.new.setLimit(self.old.getItemCount())
+
+        # Get the old data stores by the beforeChange_criteria method.
+        if self._collection_sort_reversed is not None:
+            self.new.setSort_reversed(self._collection_sort_reversed)
+        if self._collection_sort_on is not None:
+            self.new.setSort_on(self._collection_sort_on)
+        if self._collection_query is not None:
+            self.new.setQuery(self._collection_query)
 
 
 class FolderishCollectionMigrator(InplaceATItemMigrator):

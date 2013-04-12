@@ -28,6 +28,16 @@ class TestCriterionConverters(CollectionMigrationTestCase):
         self.run_migration()
         self.assertEqual(portal.topic.portal_type, 'Collection')
 
+    def test_migrate_nested_topic(self):
+        portal = self.layer['portal']
+        login(portal, 'admin')
+        portal.portal_types.Topic.filter_content_types = False
+        portal.portal_types.Collection.filter_content_types = False
+        portal.topic.invokeFactory("Topic", "subtopic", title="Sub Topic")
+        self.run_migration()
+        self.assertEqual(portal.topic.portal_type, 'Collection')
+        self.assertEqual(portal.topic.subtopic.portal_type, 'Collection')
+
     def test_ATSimpleStringCriterion(self):
         portal = self.layer['portal']
         self.add_criterion('SearchableText', 'ATSimpleStringCriterion', 'bar')
