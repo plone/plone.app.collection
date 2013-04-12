@@ -59,38 +59,53 @@ class CriterionConverter(object):
         # Get dotted operation method.  This may depend on value.
         return "%s.operation.%s" % (prefix, self.operator_code)
 
+    def is_index_enabled(self, registry, index):
+        # Is the index enabled as criterion index?
+        key = '%s.field.%s' % (prefix, index)
+        index_data = registry.get(key)
+        if index_data.get('enabled'):
+            return True
+        logger.warn("Index %s is not enabled as criterion index. ")
+        return False
+
+    def is_operation_valid(self, registry, operation):
+        # Check that the operation exists.
+        op_info = registry.get(operation)
+        if op_info is None:
+            logger.error("Operation %r is not defined.", operation)
+            return False
+        op_function_name = op_info.get('operation')
+        try:
+            resolve(op_function_name)
+        except ImportError:
+            logger.error("ImportError for operation %r: %s",
+                         operation, op_function_name)
+            return False
+        return True
+
+    def get_valid_operation(self, registry, index, value):
+        key = '%s.field.%s.operations' % (prefix, index)
+        operations = registry.get(key)
+        operation = self.get_operation(value)
+        if not operation in operations:
+            return
+        if self.is_operation_valid(registry, operation):
+            return operation
+
     def __call__(self, formquery, criterion, registry):
         for index, value in criterion.getCriteriaItems():
-            # Is the index enabled as criterion index?
-            key = '%s.field.%s' % (prefix, index)
-            index_data = registry.get(key)
-            if not index_data.get('enabled'):
-                logger.warn("Index %s is not enabled as criterion index. "
-                            "Ignoring criterion value %r", index, value)
-                # TODO: raise an Exception?  Only log the warning and
-                # continue processing the index and value anyway?
-                # Continue with the next criteria item?
+            # Check if the index is enabled as criterion index.
+            self.is_index_enabled(registry, index)
+            # TODO: what do we do when this is False?  Raise an
+            # Exception?  Continue processing the index and value
+            # anyway, now that a warning is logged?  Continue with the
+            # next criteria item?
 
             # Get the operation method.
-            key = '%s.field.%s.operations' % (prefix, index)
-            operations = registry.get(key)
-            operation = self.get_operation(value)
-            if not operation in operations:
+            operation = self.get_valid_operation(registry, index, value)
+            if not operation:
                 logger.error(INVALID_OPERATION % (operation, criterion))
                 # TODO: raise an Exception?
-                continue
-
-            # Check that the operation exists.
-            op_function = None
-            op_info = registry.get(operation)
-            if op_info is not None:
-                try:
-                    op_function = resolve(op_info.get('operation'))
-                except ImportError:
-                    pass
-            if op_function is None:
-                logger.error("Operation %r is not defined. Ignoring index %r "
-                             "and value %r", operation, index, value)
                 continue
 
             # Get the value that we will query for.
@@ -132,6 +147,9 @@ class ATDateCriteriaConverter(CriterionConverter):
         field = criterion.Field()
         value = criterion.Value()
 
+        # Check if the index is enabled as criterion index.
+        self.is_index_enabled(registry, field)
+
         # Negate the value for 'old' days
         if criterion.getDateRange() == '-':
             value = -value
@@ -144,6 +162,8 @@ class ATDateCriteriaConverter(CriterionConverter):
 
         def add_row(operation, value=None):
             if not operation in operations:
+                raise ValueError(INVALID_OPERATION % (operation, criterion))
+            if not self.is_operation_valid(registry, operation):
                 raise ValueError(INVALID_OPERATION % (operation, criterion))
             # Add a row to the form query.
             row = {'i': field,
@@ -249,22 +269,17 @@ class ATBooleanCriterionConverter(CriterionConverter):
 
     def __call__(self, formquery, criterion, registry):
         for index, value in criterion.getCriteriaItems():
-            # Get the operation method.
             if index == 'is_folderish':
                 fieldname = 'isFolderish'
             elif index == 'is_default_page':
                 fieldname = 'isDefaultPage'
             else:
                 fieldname = index
-            key = '%s.field.%s.operations' % (prefix, fieldname)
-            try:
-                operations = registry.get(key)
-            except KeyError:
-                logger.error("No operations available for index %s", fieldname)
-                # TODO: raise an Exception?
-                continue
-            operation = self.get_operation(value)
-            if not operation in operations:
+            # Check if the index is enabled as criterion index.
+            self.is_index_enabled(registry, fieldname)
+            # Get the operation method.
+            operation = self.get_valid_operation(registry, fieldname, value)
+            if not operation:
                 logger.error(INVALID_OPERATION % (operation, criterion))
                 # TODO: raise an Exception?
                 continue
