@@ -282,7 +282,8 @@ class ATSelectionCriterionConverter(CriterionConverter):
     operator_code = 'selection.is'
 
     def get_query_value(self, value, index, criterion):
-        if value.get('operator') == 'and':
+        values = value['query']
+        if value.get('operator') == 'and' and len(values) > 1:
             logger.warn("Cannot handle selection operator 'and'. Using 'or'. "
                         "%r", value)
         values = value['query']
