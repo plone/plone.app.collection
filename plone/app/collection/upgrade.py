@@ -79,6 +79,40 @@ class CriterionConverter(object):
         logger.warn("Index %s is not enabled as criterion index. ", index)
         return False
 
+    def switch_type_to_portal_type(self, value, criterion):
+        # 'portal_type' is the object id of the FTI in portal_types.
+        # 'Type' is the title of that object.
+        # For example:
+        # - portal_type 'Document' has Type 'Page'.
+        # - portal_type 'Topic' has Type 'Collection (old)'.
+        if isinstance(value, dict):
+            values = value.get('query', [])
+        else:
+            values = value
+        if not values:
+            return value
+        new_values = []
+        ttool = getToolByName(criterion, 'portal_types')
+        type_to_portal_type = {}
+        portal_types = ttool.objectIds()
+        for portal_type, Type in ttool.listTypeTitles().items():
+            type_to_portal_type[Type] = portal_type
+        for Type in values:
+            portal_type = type_to_portal_type.get(Type)
+            if not portal_type:
+                if Type in portal_types:
+                    portal_type = Type
+                else:
+                    logger.warn("Cannot switch Type %r to portal_type.", Type)
+                    continue
+            new_values.append(portal_type)
+        new_values = tuple(new_values)
+        if isinstance(value, dict):
+            value['query'] = new_values
+        else:
+            value = new_values
+        return value
+
     def is_operation_valid(self, registry, operation):
         # Check that the operation exists.
         op_info = registry.get(operation)
@@ -107,7 +141,13 @@ class CriterionConverter(object):
         for index, value in criterion.getCriteriaItems():
             # Check if the index is known and enabled as criterion index.
             if not self.is_index_known(registry, index):
-                continue
+                if index != 'Type':
+                    continue
+                # Try to replace Type by portal_type
+                index = 'portal_type'
+                if not self.is_index_known(registry, index):
+                    continue
+                value = self.switch_type_to_portal_type(value, criterion)
             self.is_index_enabled(registry, index)
             # TODO: what do we do when this is False?  Raise an
             # Exception?  Continue processing the index and value

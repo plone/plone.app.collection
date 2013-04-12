@@ -414,6 +414,26 @@ class TestCriterionConverters(CollectionMigrationTestCase):
         # Check that the resulting query does not give an error.
         portal.topic.getQuery()
 
+    def test_ATSelectionCriterionForTypeTitle(self):
+        # 'portal_type' is the object id of the FTI in portal_types.
+        # 'Type' is the title of that object.
+        # For example:
+        # - portal_type 'Document' has Type 'Page'.
+        # - portal_type 'Topic' has Type 'Collection (old)'.
+        # Type is not enabled as criterion index by default, so we
+        # want to migrate to a portal_type criterion instead.
+        portal = self.layer['portal']
+        self.add_criterion('Type', 'ATSelectionCriterion', ('Page', 'Folder'))
+        self.run_migration()
+        query = portal.topic.getRawQuery()
+        self.assertEqual(query,
+                         [{'i': 'portal_type',
+                           'o': 'plone.app.querystring.operation.selection.is',
+                           'v': ('Document', 'Folder')}])
+
+        # Check that the resulting query does not give an error.
+        portal.topic.getQuery()
+
     def test_ATReferenceCriterion(self):
         # Note: the new criterion is disabled by default.  Also, it
         # needs the _referenceIs function in the plone.app.querystring
