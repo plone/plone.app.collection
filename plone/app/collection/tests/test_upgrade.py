@@ -39,7 +39,6 @@ class TestCriterionConverters(CollectionMigrationTestCase):
 
     def test_ATDateCriteriaPast(self):
         portal = self.layer['portal']
-        time1 = DateTime()
         # More than 5 days in the past:
         crit = self.add_criterion('created', 'ATFriendlyDateCriteria', 5)
         crit.setOperation('more')
@@ -60,16 +59,15 @@ class TestCriterionConverters(CollectionMigrationTestCase):
 
         self.run_migration()
         query = portal.topic.getRawQuery()
-        time2 = DateTime()
         self.assertEqual(len(query), 4)
 
         self.assertEqual(query[0]['i'], 'created')
-        self.assertEqual(query[0]['o'], 'plone.app.querystring.operation.date.lessThan')
-        self.assertEqual(query[0]['v'], (time1 - 5).earliestTime())
+        self.assertEqual(query[0]['o'], 'plone.app.querystring.operation.date.largerThanRelativeDate')
+        self.assertEqual(query[0]['v'], -5)
 
         self.assertEqual(query[1]['i'], 'effective')
-        self.assertEqual(query[1]['o'], 'plone.app.querystring.operation.date.between')
-        self.assertTrue(query[1]['v'], time2)
+        self.assertEqual(query[1]['o'], 'plone.app.querystring.operation.date.lessThanRelativeDate')
+        self.assertEqual(query[1]['v'], -5)
 
         self.assertEqual(query[2]['i'], 'expires')
         self.assertEqual(query[2]['o'], 'plone.app.querystring.operation.date.afterToday')
@@ -81,7 +79,6 @@ class TestCriterionConverters(CollectionMigrationTestCase):
 
     def test_ATDateCriteriaFuture(self):
         portal = self.layer['portal']
-        time1 = DateTime()
         # More than 5 days in the future:
         crit = self.add_criterion('created', 'ATFriendlyDateCriteria', 5)
         crit.setOperation('more')
@@ -101,16 +98,15 @@ class TestCriterionConverters(CollectionMigrationTestCase):
 
         self.run_migration()
         query = portal.topic.getRawQuery()
-        time2 = DateTime()
         self.assertEqual(len(query), 4)
 
         self.assertEqual(query[0]['i'], 'created')
-        self.assertEqual(query[0]['o'], 'plone.app.querystring.operation.date.largerThan')
-        self.assertEqual(query[0]['v'], (time1 + 5).earliestTime())
+        self.assertEqual(query[0]['o'], 'plone.app.querystring.operation.date.largerThanRelativeDate')
+        self.assertEqual(query[0]['v'], 5)
 
         self.assertEqual(query[1]['i'], 'effective')
-        self.assertEqual(query[1]['o'], 'plone.app.querystring.operation.date.between')
-        self.assertTrue(query[1]['v'], time2)
+        self.assertEqual(query[1]['o'], 'plone.app.querystring.operation.date.lessThanRelativeDate')
+        self.assertTrue(query[1]['v'], 5)
 
         self.assertEqual(query[2]['i'], 'expires')
         self.assertEqual(query[2]['o'], 'plone.app.querystring.operation.date.afterToday')

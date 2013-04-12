@@ -113,7 +113,6 @@ class ATDateCriteriaConverter(CriterionConverter):
             value = -value
 
         date = DateTime() + value
-        current_date = DateTime()
 
         # Get the possible operation methods.
         key = '%s.field.%s.operations' % (prefix, field)
@@ -141,12 +140,8 @@ class ATDateCriteriaConverter(CriterionConverter):
             return
         elif operation == 'more':
             if value != 0:
-                if criterion.getDateRange() == '-':
-                    range_op = 'lessThan'
-                else:
-                    range_op = 'largerThan'
-                new_operation = "%s.operation.date.%s" % (prefix, range_op)
-                add_row(new_operation, date.earliestTime())
+                new_operation = "%s.operation.date.largerThanRelativeDate" % prefix
+                add_row(new_operation, value)
                 return
             else:
                 new_operation = "%s.operation.date.afterToday" % prefix
@@ -154,12 +149,8 @@ class ATDateCriteriaConverter(CriterionConverter):
                 return
         elif operation == 'less':
             if value != 0:
-                if criterion.getDateRange() == '-':
-                    date_range = (date.earliestTime(), current_date)
-                else:
-                    date_range = (current_date, date.latestTime())
-                new_operation = "%s.operation.date.between" % prefix
-                add_row(new_operation, date_range)
+                new_operation = "%s.operation.date.lessThanRelativeDate" % prefix
+                add_row(new_operation, value)
                 return
             else:
                 new_operation = "%s.operation.date.beforeToday" % prefix
