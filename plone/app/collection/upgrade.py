@@ -180,6 +180,13 @@ class ATListCriterionConverter(ATSelectionCriterionConverter):
     pass
 
 
+class ATReferenceCriterionConverter(ATSelectionCriterionConverter):
+    # Note: the new criterion is disabled by default.  Also, it
+    # needs the _referenceIs function in the plone.app.querystring
+    # queryparser and that function is not defined.
+    operator_code = 'reference.is'
+
+
 class ATPathCriterionConverter(CriterionConverter):
     operator_code = 'string.path'
 
@@ -403,8 +410,8 @@ CONVERTERS = {
     'ATDateRangeCriterion': ATDateRangeCriterionConverter(),
     'ATPortalTypeCriterion': ATPortalTypeCriterionConverter(),
     'ATSelectionCriterion': ATSelectionCriterionConverter(),
+    'ATReferenceCriterion': ATReferenceCriterionConverter(),
     # TODO:
-    #'ATReferenceCriterion',
     #'ATRelativePathCriterion',
     #'ATSimpleIntCriterion',
     }

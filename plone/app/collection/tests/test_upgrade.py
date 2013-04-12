@@ -309,3 +309,15 @@ class TestCriterionConverters(CollectionMigrationTestCase):
                          {'i': 'portal_type',
                           'o': 'plone.app.querystring.operation.selection.is',
                           'v': ('Document', 'Folder')})
+
+    def test_ATReferenceCriterion(self):
+        # Note: the new criterion is disabled by default.  Also, it
+        # needs the _referenceIs function in the plone.app.querystring
+        # queryparser and that function is not defined.
+        portal = self.layer['portal']
+        self.add_criterion('getRawRelatedItems', 'ATReferenceCriterion', portal.folder.UID())
+        self.run_migration()
+        self.assertEqual(portal.topic.getRawQuery(),
+                         [{'i': 'getRawRelatedItems',
+                           'o': 'plone.app.querystring.operation.reference.is',
+                           'v': (portal.folder.UID(),)}])
