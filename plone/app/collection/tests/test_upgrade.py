@@ -89,6 +89,19 @@ class TestCriterionConverters(CollectionMigrationTestCase):
         # Check that the resulting query does not give an error.
         portal.topic.getQuery()
 
+    def test_ATSimpleStringCriterionToSelection(self):
+        # Some string criterions really should be selection criterions.
+        portal = self.layer['portal']
+        self.add_criterion('review_state', 'ATSimpleStringCriterion', 'published')
+        self.run_migration()
+        self.assertEqual(portal.topic.getRawQuery(),
+                         [{'i': 'review_state',
+                           'o': 'plone.app.querystring.operation.selection.is',
+                           'v': 'published'}])
+
+        # Check that the resulting query does not give an error.
+        portal.topic.getQuery()
+
     def test_ATDateCriteriaPast(self):
         portal = self.layer['portal']
         # More than 5 days in the past:
