@@ -49,6 +49,8 @@ class CriterionConverter(object):
     # Last part of the code for the dotted operation method,
     # e.g. 'string.contains'.
     operator_code = ''
+    # alternative code, possibly used if the first code does not work.
+    alt_operator_code = ''
 
     def get_query_value(self, value, index, criterion):
         # value may contain a query and some parameters, but in the
@@ -58,6 +60,10 @@ class CriterionConverter(object):
     def get_operation(self, value):
         # Get dotted operation method.  This may depend on value.
         return "%s.operation.%s" % (prefix, self.operator_code)
+
+    def get_alt_operation(self, value):
+        # Get dotted operation method.  This may depend on value.
+        return "%s.operation.%s" % (prefix, self.alt_operator_code)
 
     def is_index_known(self, registry, index):
         # Is the index registered as criterion index?
@@ -133,7 +139,9 @@ class CriterionConverter(object):
         operations = registry.get(key)
         operation = self.get_operation(value)
         if not operation in operations:
-            return
+            operation = self.get_alt_operation(value)
+            if not operation in operations:
+                return
         if self.is_operation_valid(registry, operation):
             return operation
 
@@ -257,6 +265,8 @@ class ATDateCriteriaConverter(CriterionConverter):
 
 class ATSimpleStringCriterionConverter(CriterionConverter):
     operator_code = 'string.contains'
+    # review_state could be a string criterion, but should become a selection.
+    alt_operator_code = 'selection.is'
 
 
 class ATCurrentAuthorCriterionConverter(CriterionConverter):
