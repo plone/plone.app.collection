@@ -9,6 +9,7 @@ from Products.contentmigration.walker import CustomQueryWalker
 from plone.app.querystring.interfaces import IQuerystringRegistryReader
 from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
+from zope.dottedname.resolve import resolve
 
 logger = logging.getLogger('plone.app.collection')
 prefix = "plone.app.querystring"
@@ -60,6 +61,16 @@ class CriterionConverter(object):
 
     def __call__(self, formquery, criterion, registry):
         for index, value in criterion.getCriteriaItems():
+            # Is the index enabled as criterion index?
+            key = '%s.field.%s' % (prefix, index)
+            index_data = registry.get(key)
+            if not index_data.get('enabled'):
+                logger.warn("Index %s is not enabled as criterion index. "
+                            "Ignoring criterion value %r", index, value)
+                # TODO: raise an Exception?  Only log the warning and
+                # continue processing the index and value anyway?
+                # Continue with the next criteria item?
+
             # Get the operation method.
             key = '%s.field.%s.operations' % (prefix, index)
             operations = registry.get(key)
@@ -67,6 +78,19 @@ class CriterionConverter(object):
             if not operation in operations:
                 logger.error(INVALID_OPERATION % (operation, criterion))
                 # TODO: raise an Exception?
+                continue
+
+            # Check that the operation exists.
+            op_function = None
+            op_info = registry.get(operation)
+            if op_info is not None:
+                try:
+                    op_function = resolve(op_info.get('operation'))
+                except ImportError:
+                    pass
+            if op_function is None:
+                logger.error("Operation %r is not defined. Ignoring index %r "
+                             "and value %r", operation, index, value)
                 continue
 
             # Get the value that we will query for.
