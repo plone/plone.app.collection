@@ -174,6 +174,7 @@ class TestCriterionConverters(CollectionMigrationTestCase):
         # 'and'.  Default is 'or'.
         crit = self.add_criterion('Subject', 'ATListCriterion', ('foo', 'bar'))
         crit.setOperator('or')
+        # Note: this could have been an ATPortalTypeCriterion too:
         crit = self.add_criterion('portal_type', 'ATListCriterion', ('Document', 'Folder'))
         crit.setOperator('and')
 
@@ -272,3 +273,13 @@ class TestCriterionConverters(CollectionMigrationTestCase):
         self.assertEqual(query[2]['i'], 'expires')
         self.assertEqual(query[2]['o'], 'plone.app.querystring.operation.date.between')
         self.assertEqual(query[2]['v'], (time1 + 3, time1 + 5))
+
+    def test_ATPortalTypeCriterion(self):
+        portal = self.layer['portal']
+        self.add_criterion('portal_type', 'ATPortalTypeCriterion', ('Document', 'Folder'))
+        self.run_migration()
+        query = portal.topic.getRawQuery()
+        self.assertEqual(query,
+                         [{'i': 'portal_type',
+                           'o': 'plone.app.querystring.operation.selection.is',
+                           'v': ('Document', 'Folder')}])

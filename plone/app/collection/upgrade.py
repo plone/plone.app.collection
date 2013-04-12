@@ -246,6 +246,10 @@ class ATDateRangeCriterionConverter(CriterionConverter):
         return value['query']
 
 
+class ATPortalTypeCriterionConverter(CriterionConverter):
+    operator_code = 'selection.is'
+
+
 class TopicMigrator(ATItemMigrator):
     src_portal_type = 'Topic'
     src_meta_type = 'ATTopic'
@@ -393,8 +397,8 @@ CONVERTERS = {
     'ATSimpleStringCriterion': ATSimpleStringCriterionConverter(),
     'ATBooleanCriterion': ATBooleanCriterionConverter(),
     'ATDateRangeCriterion': ATDateRangeCriterionConverter(),
+    'ATPortalTypeCriterion': ATPortalTypeCriterionConverter(),
     # TODO:
-    #'ATPortalTypeCriterion',
     #'ATReferenceCriterion',
     #'ATRelativePathCriterion',
     #'ATSelectionCriterion',
