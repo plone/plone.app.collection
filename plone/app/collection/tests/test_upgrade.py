@@ -27,6 +27,22 @@ class TestCriterionConverters(CollectionMigrationTestCase):
         self.assertEqual(portal.topic.portal_type, 'Topic')
         self.run_migration()
         self.assertEqual(portal.topic.portal_type, 'Collection')
+        self.assertEqual(portal.topic.getAcquireCriteria(), False)
+        self.assertEqual(portal.topic.getSort_on(), 'sortable_title')
+        self.assertEqual(portal.topic.getSort_reversed(), False)
+        self.assertEqual(portal.topic.getLimit(), 1000)
+
+    def test_migrate_topic_fields(self):
+        portal = self.layer['portal']
+        portal.topic.setAcquireCriteria(True)
+        portal.topic.setText('<p>Hello</p>')
+        portal.topic.setLimitNumber(True)
+        portal.topic.setItemCount(42)
+        self.run_migration()
+        self.assertEqual(portal.topic.portal_type, 'Collection')
+        self.assertEqual(portal.topic.getAcquireCriteria(), True)
+        self.assertEqual(portal.topic.getLimit(), 42)
+        self.assertEqual(portal.topic.getText(), '<p>Hello</p>')
 
     def test_migrate_nested_topic(self):
         portal = self.layer['portal']
