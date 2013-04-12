@@ -59,6 +59,17 @@ class CriterionConverter(object):
         # Get dotted operation method.  This may depend on value.
         return "%s.operation.%s" % (prefix, self.operator_code)
 
+    def is_index_known(self, registry, index):
+        # Is the index registered as criterion index?
+        key = '%s.field.%s' % (prefix, index)
+        try:
+            registry.get(key)
+        except KeyError:
+            logger.error("Index %s is no criterion index. Registry gives "
+                         "KeyError: %s", index, key)
+            return False
+        return True
+
     def is_index_enabled(self, registry, index):
         # Is the index enabled as criterion index?
         key = '%s.field.%s' % (prefix, index)
@@ -94,7 +105,9 @@ class CriterionConverter(object):
 
     def __call__(self, formquery, criterion, registry):
         for index, value in criterion.getCriteriaItems():
-            # Check if the index is enabled as criterion index.
+            # Check if the index is known and enabled as criterion index.
+            if not self.is_index_known(registry, index):
+                continue
             self.is_index_enabled(registry, index)
             # TODO: what do we do when this is False?  Raise an
             # Exception?  Continue processing the index and value
@@ -147,7 +160,9 @@ class ATDateCriteriaConverter(CriterionConverter):
         field = criterion.Field()
         value = criterion.Value()
 
-        # Check if the index is enabled as criterion index.
+        # Check if the index is known and enabled as criterion index.
+        if not self.is_index_known(registry, field):
+            return
         self.is_index_enabled(registry, field)
 
         # Negate the value for 'old' days
@@ -272,7 +287,9 @@ class ATBooleanCriterionConverter(CriterionConverter):
                 fieldname = 'isDefaultPage'
             else:
                 fieldname = index
-            # Check if the index is enabled as criterion index.
+            # Check if the index is known and enabled as criterion index.
+            if not self.is_index_known(registry, fieldname):
+                continue
             self.is_index_enabled(registry, fieldname)
             # Get the operation method.
             operation = self.get_valid_operation(registry, fieldname, value)
