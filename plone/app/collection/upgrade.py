@@ -382,9 +382,13 @@ class TopicMigrator(InplaceATFolderMigrator):
         self._collection_sort_reversed = None
         self._collection_sort_on = None
         self._collection_query = None
+        path = '/'.join(self.old.getPhysicalPath())
+        logger.info("Migrating Topic at %s", path)
         # Get the old criteria.
         # See also Products.ATContentTypes.content.topic.buildQuery
         criteria = self.old.listCriteria()
+        logger.debug("Old criteria for %s: %r", path,
+                     [(crit, crit.getCriteriaItems()) for crit in criteria])
         formquery = []
         for criterion in criteria:
             type_ = criterion.__class__.__name__
@@ -392,9 +396,9 @@ class TopicMigrator(InplaceATFolderMigrator):
                 # Sort order and direction are now stored in the Collection.
                 self._collection_sort_reversed = criterion.getReversed()
                 self._collection_sort_on = criterion.Field()
-                logger.info("Sort on %r, reverse: %s.",
-                            self._collection_sort_on,
-                            self._collection_sort_reversed)
+                logger.debug("Sort on %r, reverse: %s.",
+                             self._collection_sort_on,
+                             self._collection_sort_reversed)
                 continue
 
             converter = CONVERTERS.get(type_)
@@ -404,7 +408,7 @@ class TopicMigrator(InplaceATFolderMigrator):
                 raise ValueError(msg)
             converter(formquery, criterion, self.registry)
 
-        logger.info("formquery: %s" % formquery)
+        logger.debug("New query for %s: %r", path, formquery)
         self._collection_query = formquery
 
     def migrate_criteria(self):
