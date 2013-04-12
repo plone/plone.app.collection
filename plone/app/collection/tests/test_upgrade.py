@@ -25,12 +25,14 @@ class TestCriterionConverters(CollectionMigrationTestCase):
     def test_migrate_simple_topic(self):
         portal = self.layer['portal']
         self.assertEqual(portal.topic.portal_type, 'Topic')
+        self.assertEqual(portal.topic.getLayout(), 'atct_topic_view')
         self.assertEqual(portal.topic.getAcquireCriteria(), False)
         self.assertEqual(portal.topic.getLimitNumber(), False)
         self.assertEqual(portal.topic.getItemCount(), 0)
         self.assertEqual(portal.topic.getCustomViewFields(), ('Title',))
         self.run_migration()
         self.assertEqual(portal.topic.portal_type, 'Collection')
+        self.assertEqual(portal.topic.getLayout(), 'standard_view')
         self.assertEqual(portal.topic.getAcquireCriteria(), False)
         self.assertEqual(portal.topic.getSort_on(), 'sortable_title')
         self.assertEqual(portal.topic.getSort_reversed(), False)
@@ -51,17 +53,19 @@ class TestCriterionConverters(CollectionMigrationTestCase):
         self.assertEqual(portal.topic.getCustomViewFields(),
                          ('Title', 'Type'))
 
-    def test_migrate_topic_layout(self):
+    def test_migrate_layout(self):
         portal = self.layer['portal']
         portal.topic.setAcquireCriteria(True)
-        portal.topic.setText('<p>Hello</p>')
-        portal.topic.setLimitNumber(True)
-        portal.topic.setItemCount(42)
+        portal.topic.setLayout('folder_summary_view')
         self.run_migration()
-        self.assertEqual(portal.topic.portal_type, 'Collection')
-        self.assertEqual(portal.topic.getAcquireCriteria(), True)
-        self.assertEqual(portal.topic.getLimit(), 42)
-        self.assertEqual(portal.topic.getText(), '<p>Hello</p>')
+        self.assertEqual(portal.topic.getLayout(), 'summary_view')
+
+    def test_migrate_customView(self):
+        portal = self.layer['portal']
+        portal.topic.setAcquireCriteria(True)
+        portal.topic.setCustomView(True)
+        self.run_migration()
+        self.assertEqual(portal.topic.getLayout(), 'tabular_view')
 
     def test_migrate_nested_topic(self):
         portal = self.layer['portal']
