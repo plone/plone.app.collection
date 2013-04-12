@@ -516,16 +516,16 @@ def migrate_topics(context):
 
 CONVERTERS = {
     # Create an instance of each converter.
+    'ATBooleanCriterion': ATBooleanCriterionConverter(),
     'ATCurrentAuthorCriterion': ATCurrentAuthorCriterionConverter(),
     'ATDateCriteria': ATDateCriteriaConverter(),
+    'ATDateRangeCriterion': ATDateRangeCriterionConverter(),
     'ATListCriterion': ATListCriterionConverter(),
     'ATPathCriterion': ATPathCriterionConverter(),
-    'ATSimpleStringCriterion': ATSimpleStringCriterionConverter(),
-    'ATBooleanCriterion': ATBooleanCriterionConverter(),
-    'ATDateRangeCriterion': ATDateRangeCriterionConverter(),
     'ATPortalTypeCriterion': ATPortalTypeCriterionConverter(),
-    'ATSelectionCriterion': ATSelectionCriterionConverter(),
     'ATReferenceCriterion': ATReferenceCriterionConverter(),
     'ATRelativePathCriterion': ATRelativePathCriterionConverter(),
+    'ATSelectionCriterion': ATSelectionCriterionConverter(),
     'ATSimpleIntCriterion': ATSimpleIntCriterionConverter(),
+    'ATSimpleStringCriterion': ATSimpleStringCriterionConverter(),
     }
