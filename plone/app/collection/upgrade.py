@@ -146,7 +146,11 @@ class CriterionConverter(object):
             return operation
 
     def __call__(self, formquery, criterion, registry):
-        for index, value in criterion.getCriteriaItems():
+        criteria = criterion.getCriteriaItems()
+        if not criteria:
+            logger.warn("Ignoring empty criterion %s.", criterion)
+            return
+        for index, value in criteria:
             # Check if the index is known and enabled as criterion index.
             if index == 'Type':
                 # Try to replace Type by portal_type
@@ -202,6 +206,7 @@ class ATDateCriteriaConverter(CriterionConverter):
 
     def __call__(self, formquery, criterion, registry):
         if criterion.value is None:
+            logger.warn("Ignoring empty criterion %s.", criterion)
             return
         field = criterion.Field()
         value = criterion.Value()
@@ -334,7 +339,10 @@ class ATBooleanCriterionConverter(CriterionConverter):
         return "%s.operation.boolean.%s" % (prefix, code)
 
     def __call__(self, formquery, criterion, registry):
-        for index, value in criterion.getCriteriaItems():
+        criteria = criterion.getCriteriaItems()
+        if not criteria:
+            return
+        for index, value in criteria:
             if index == 'is_folderish':
                 fieldname = 'isFolderish'
             elif index == 'is_default_page':
