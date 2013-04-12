@@ -140,14 +140,12 @@ class CriterionConverter(object):
     def __call__(self, formquery, criterion, registry):
         for index, value in criterion.getCriteriaItems():
             # Check if the index is known and enabled as criterion index.
-            if not self.is_index_known(registry, index):
-                if index != 'Type':
-                    continue
+            if index == 'Type':
                 # Try to replace Type by portal_type
                 index = 'portal_type'
-                if not self.is_index_known(registry, index):
-                    continue
                 value = self.switch_type_to_portal_type(value, criterion)
+            if not self.is_index_known(registry, index):
+                continue
             self.is_index_enabled(registry, index)
             # TODO: what do we do when this is False?  Raise an
             # Exception?  Continue processing the index and value
