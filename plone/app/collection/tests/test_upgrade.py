@@ -244,3 +244,35 @@ class TestCriterionConverters(CollectionMigrationTestCase):
         self.assertEqual(query[1],
                          {'i': 'is_default_page',
                           'o': 'plone.app.querystring.operation.boolean.isFalse'})
+
+    def test_ATDateRangeCriteria(self):
+        portal = self.layer['portal']
+        time1 = DateTime()
+        # Days in the past:
+        crit = self.add_criterion('created', 'ATDateRangeCriterion')
+        crit.setStart(time1 - 5)
+        crit.setEnd(time1 - 3)
+        # Past and future:
+        crit = self.add_criterion('effective', 'ATDateRangeCriterion')
+        crit.setStart(time1 - 2)
+        crit.setEnd(time1 + 2)
+        # Days in the future:
+        crit = self.add_criterion('expires', 'ATDateRangeCriterion')
+        crit.setStart(time1 + 3)
+        crit.setEnd(time1 + 5)
+
+        self.run_migration()
+        query = portal.topic.getRawQuery()
+        self.assertEqual(len(query), 3)
+
+        self.assertEqual(query[0]['i'], 'created')
+        self.assertEqual(query[0]['o'], 'plone.app.querystring.operation.date.between')
+        self.assertEqual(query[0]['v'], (time1 - 5, time1 - 3))
+
+        self.assertEqual(query[1]['i'], 'effective')
+        self.assertEqual(query[1]['o'], 'plone.app.querystring.operation.date.between')
+        self.assertEqual(query[1]['v'], (time1 - 2, time1 + 2))
+
+        self.assertEqual(query[2]['i'], 'expires')
+        self.assertEqual(query[2]['o'], 'plone.app.querystring.operation.date.between')
+        self.assertEqual(query[2]['v'], (time1 + 3, time1 + 5))

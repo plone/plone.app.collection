@@ -248,6 +248,13 @@ class ATBooleanCriterionConverter(CriterionConverter):
             formquery.append(row)
 
 
+class ATDateRangeCriterionConverter(CriterionConverter):
+    operator_code = 'date.between'
+
+    def get_query_value(self, value):
+        return value['query']
+
+
 class TopicMigrator(ATItemMigrator):
     src_portal_type = 'Topic'
     src_meta_type = 'ATTopic'
@@ -394,8 +401,8 @@ CONVERTERS = {
     'ATPathCriterion': ATPathCriterionConverter(),
     'ATSimpleStringCriterion': ATSimpleStringCriterionConverter(),
     'ATBooleanCriterion': ATBooleanCriterionConverter(),
+    'ATDateRangeCriterion': ATDateRangeCriterionConverter(),
     # TODO:
-    #'ATDateRangeCriterion',
     #'ATPortalTypeCriterion',
     #'ATReferenceCriterion',
     #'ATRelativePathCriterion',
