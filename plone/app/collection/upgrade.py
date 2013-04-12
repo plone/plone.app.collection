@@ -50,7 +50,7 @@ class CriterionConverter(object):
     # e.g. 'string.contains'.
     operator_code = ''
 
-    def get_query_value(self, value, criterion):
+    def get_query_value(self, value, index, criterion):
         # value may contain a query and some parameters, but in the
         # simple case it is simply a value.
         return value
@@ -122,7 +122,7 @@ class CriterionConverter(object):
                 continue
 
             # Get the value that we will query for.
-            query_value = self.get_query_value(value, criterion)
+            query_value = self.get_query_value(value, index, criterion)
 
             # Add a row to the form query.
             row = {'i': index,
@@ -228,11 +228,17 @@ class ATCurrentAuthorCriterionConverter(CriterionConverter):
 class ATSelectionCriterionConverter(CriterionConverter):
     operator_code = 'selection.is'
 
-    def get_query_value(self, value, criterion):
+    def get_query_value(self, value, index, criterion):
         if value.get('operator') == 'and':
             logger.warn("Cannot handle selection operator 'and'. Using 'or'. "
                         "%r", value)
-        return value['query']
+        values = value['query']
+        # Special handling for portal_type=Topic.
+        if index == 'portal_type' and 'Topic' in values:
+            values = list(values)
+            values[values.index('Topic')] = 'Collection'
+            values = tuple(values)
+        return values
 
 
 class ATListCriterionConverter(ATSelectionCriterionConverter):
@@ -249,7 +255,7 @@ class ATReferenceCriterionConverter(ATSelectionCriterionConverter):
 class ATPathCriterionConverter(CriterionConverter):
     operator_code = 'string.path'
 
-    def get_query_value(self, value, criterion):
+    def get_query_value(self, value, index, criterion):
         if not criterion.Recurse():
             logger.warn("Cannot handle non-recursive path search. "
                         "Allowing recursive search. %r", value)
@@ -306,19 +312,27 @@ class ATBooleanCriterionConverter(CriterionConverter):
 class ATDateRangeCriterionConverter(CriterionConverter):
     operator_code = 'date.between'
 
-    def get_query_value(self, value, criterion):
+    def get_query_value(self, value, index, criterion):
         return value['query']
 
 
 class ATPortalTypeCriterionConverter(CriterionConverter):
     operator_code = 'selection.is'
 
+    def get_query_value(self, value, index, criterion):
+        # Special handling for portal_type=Topic.
+        if 'Topic' in value:
+            value = list(value)
+            value[value.index('Topic')] = 'Collection'
+            value = tuple(value)
+        return value
+
 
 class ATRelativePathCriterionConverter(CriterionConverter):
     # We also have path.isWithinRelative, but its function is not defined.
     operator_code = 'string.relativePath'
 
-    def get_query_value(self, value, criterion):
+    def get_query_value(self, value, index, criterion):
         if not criterion.Recurse():
             logger.warn("Cannot handle non-recursive path search. "
                         "Allowing recursive search. %r", value)
@@ -347,7 +361,7 @@ class ATSimpleIntCriterionConverter(CriterionConverter):
             return
         return "%s.operation.int.%s" % (prefix, code)
 
-    def get_query_value(self, value, criterion):
+    def get_query_value(self, value, index, criterion):
         if isinstance(value['query'], tuple):
             logger.warn("More than one integer is not supported. %r", value)
             return

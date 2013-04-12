@@ -372,6 +372,21 @@ class TestCriterionConverters(CollectionMigrationTestCase):
         # Check that the resulting query does not give an error.
         portal.topic.getQuery()
 
+    def test_ATPortalTypeCriterionOfTopic(self):
+        portal = self.layer['portal']
+        # We migrate Topics to Collections, so we should update
+        # criterions that search for Topics.
+        self.add_criterion('portal_type', 'ATPortalTypeCriterion', ('Topic',))
+        self.run_migration()
+        query = portal.topic.getRawQuery()
+        self.assertEqual(query,
+                         [{'i': 'portal_type',
+                           'o': 'plone.app.querystring.operation.selection.is',
+                           'v': ('Collection',)}])
+
+        # Check that the resulting query does not give an error.
+        portal.topic.getQuery()
+
     def test_ATSelectionCriterion(self):
         portal = self.layer['portal']
         # The new-style queries do not currently offer the possibility
@@ -380,7 +395,8 @@ class TestCriterionConverters(CollectionMigrationTestCase):
         crit = self.add_criterion('Subject', 'ATSelectionCriterion', ('foo', 'bar'))
         crit.setOperator('or')
         # Note: this could have been an ATPortalTypeCriterion too:
-        crit = self.add_criterion('portal_type', 'ATSelectionCriterion', ('Document', 'Folder'))
+        # Note that we check that Topic is turned into Collection too.
+        crit = self.add_criterion('portal_type', 'ATSelectionCriterion', ('Document', 'Topic'))
         crit.setOperator('and')
 
         self.run_migration()
@@ -393,7 +409,7 @@ class TestCriterionConverters(CollectionMigrationTestCase):
         self.assertEqual(query[1],
                          {'i': 'portal_type',
                           'o': 'plone.app.querystring.operation.selection.is',
-                          'v': ('Document', 'Folder')})
+                          'v': ('Document', 'Collection')})
 
         # Check that the resulting query does not give an error.
         portal.topic.getQuery()
