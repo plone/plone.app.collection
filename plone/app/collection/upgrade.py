@@ -57,11 +57,11 @@ class CriterionConverter(object):
         # simple case it is simply a value.
         return value
 
-    def get_operation(self, value):
+    def get_operation(self, value, index, criterion):
         # Get dotted operation method.  This may depend on value.
         return "%s.operation.%s" % (prefix, self.operator_code)
 
-    def get_alt_operation(self, value):
+    def get_alt_operation(self, value, index, criterion):
         # Get dotted operation method.  This may depend on value.
         return "%s.operation.%s" % (prefix, self.alt_operator_code)
 
@@ -134,12 +134,12 @@ class CriterionConverter(object):
             return False
         return True
 
-    def get_valid_operation(self, registry, index, value):
+    def get_valid_operation(self, registry, index, value, criterion):
         key = '%s.field.%s.operations' % (prefix, index)
         operations = registry.get(key)
-        operation = self.get_operation(value)
+        operation = self.get_operation(value, index, criterion)
         if not operation in operations:
-            operation = self.get_alt_operation(value)
+            operation = self.get_alt_operation(value, index, criterion)
             if not operation in operations:
                 return
         if self.is_operation_valid(registry, operation):
@@ -165,7 +165,7 @@ class CriterionConverter(object):
             # next criteria item?
 
             # Get the operation method.
-            operation = self.get_valid_operation(registry, index, value)
+            operation = self.get_valid_operation(registry, index, value, criterion)
             if not operation:
                 logger.error(INVALID_OPERATION % (operation, criterion))
                 # TODO: raise an Exception?
@@ -324,7 +324,7 @@ class ATPathCriterionConverter(CriterionConverter):
 
 class ATBooleanCriterionConverter(CriterionConverter):
 
-    def get_operation(self, value):
+    def get_operation(self, value, index, criterion):
         # Get dotted operation method.
         # value is one of these beauties:
         # value = [1, True, '1', 'True']
@@ -355,7 +355,7 @@ class ATBooleanCriterionConverter(CriterionConverter):
                 continue
             self.is_index_enabled(registry, fieldname)
             # Get the operation method.
-            operation = self.get_valid_operation(registry, fieldname, value)
+            operation = self.get_valid_operation(registry, fieldname, value, criterion)
             if not operation:
                 logger.error(INVALID_OPERATION % (operation, criterion))
                 # TODO: raise an Exception?
@@ -400,7 +400,7 @@ class ATSimpleIntCriterionConverter(CriterionConverter):
     # Also available: int.lessThan, int.largerThan.
     operator_code = 'int.is'
 
-    def get_operation(self, value):
+    def get_operation(self, value, index, criterion):
         # Get dotted operation method.
         direction = value.get('range')
         if not direction:
