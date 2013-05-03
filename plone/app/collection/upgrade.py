@@ -571,9 +571,6 @@ def migrate_topics(context):
     The new-style Collections might again get some changes later.
     They may become folderish or dexterity items or dexterity
     containers or a dexterity behavior.
-
-    For the moment this is just for the 1.x Collections.  Nested
-    Topics cannot be migrated for the moment and may give an error.
     """
     site = getToolByName(context, 'portal_url').getPortalObject()
     topic_walker = CustomQueryWalker(site, TopicMigrator)
