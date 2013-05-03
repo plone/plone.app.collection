@@ -228,8 +228,10 @@ class ATDateCriteriaConverter(CriterionConverter):
 
         def add_row(operation, value=None):
             if not operation in operations:
+                # TODO just ignore it?
                 raise ValueError(INVALID_OPERATION % (operation, criterion))
             if not self.is_operation_valid(registry, operation):
+                # TODO just ignore it?
                 raise ValueError(INVALID_OPERATION % (operation, criterion))
             # Add a row to the form query.
             row = {'i': field,
