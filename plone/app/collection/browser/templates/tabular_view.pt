@@ -32,7 +32,9 @@
           <table class="listing" summary="Content listing"
               i18n:attributes="summary"
               tal:define="fields context/selectedViewFields;
-                          pas_member context/@@pas_member">
+                          pas_member context/@@pas_member;
+                          site_properties context/portal_properties/site_properties;
+                          use_view_action site_properties/typesUseViewActionInListings|python:();">
               <thead>
                   <tr>
                       <th class="nosort"
@@ -53,9 +55,10 @@
                           tal:define="field_data python:getattr(item, field[0])">
                           <tal:block tal:replace="field_data" />
                       </td>
-                      <td tal:condition="python:field[0] == 'Title'">
+                      <td tal:condition="python:field[0] == 'Title'" tal:define="item_url item/getURL;
+                                                                                 item_type item/portal_type;">
                           <a href="#"
-                             tal:attributes="href item/getURL;
+                             tal:attributes="href python:item_type in use_view_action and item_url+'/view' or item_url;
                                              title item/Title"
                              tal:content="item/Title">Item Title</a>
                       </td>
