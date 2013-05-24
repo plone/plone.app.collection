@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0.10 (unreleased)
+1.0.10 (2013-05-23)
 -------------------
 
 - Fix tabular view to show append /view onto files and images
