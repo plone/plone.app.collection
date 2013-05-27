@@ -157,6 +157,7 @@ class CriterionConverter(object):
                 index = 'portal_type'
                 value = self.switch_type_to_portal_type(value, criterion)
             if not self.is_index_known(registry, index):
+                logger.info("Index %s not known in registry.", index)
                 continue
             self.is_index_enabled(registry, index)
             # TODO: what do we do when this is False?  Raise an
