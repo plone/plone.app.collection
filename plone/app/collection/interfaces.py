@@ -38,7 +38,7 @@ class ICollection(model.Schema):
     )
 
     limit = schema.Int(
-        title=_(u'Limit'),
+        title=_(u'label_limit', default=u'Limit'),
         description=_(u'Limit Search Results'),
         required=False,
         default=1000,

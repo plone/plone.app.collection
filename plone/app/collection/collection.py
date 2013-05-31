@@ -21,18 +21,22 @@ class Collection(Item):
     def results(self, batch=True, b_start=0, b_size=None,
                 sort_on=None, limit=None):
         querybuilder = QueryBuilder(self, self.REQUEST)
-        sort_order = 'reverse' if self.sort_reversed else 'ascending'
-        if not b_size:
-            b_size = self.item_count
-        if not sort_on:
-            sort_on = self.sort_on
-        if not limit:
-            limit = self.limit
-        return querybuilder(
-            query=self.query, batch=batch, b_start=b_start, b_size=b_size,
-            sort_on=sort_on, sort_order=sort_order,
-            limit=limit
-        )
+
+        kw_args = {
+            'query': self.query,
+            'batch': batch,
+            'b_start': b_start,
+            'sort_order': 'reverse' if self.sort_reversed else 'ascending'
+        }
+
+        if not b_size and self.item_count:
+            kw_args['b_size'] = self.item_count
+        if not sort_on and self.sort_on:
+            kw_args['sort_on'] = self.sort_on
+        if not limit and self.limit:
+            kw_args['limit'] = self.limit
+
+        return querybuilder(**kw_args)
 
     def selectedViewFields(self):
         """Returns a list of all metadata fields from the catalog that were
