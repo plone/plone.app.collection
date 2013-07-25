@@ -4,6 +4,14 @@ Changelog
 2.0b6 (unreleased)
 ------------------
 
+- Add CSS classes on tabular_view table headers and cells
+  in order to easily customize them.
+  [avoinea]
+
+- Use 'structure value' for tabular_view field value in order to easily
+  insert images, links or other HTML entities in this table
+  [avoinea]
+
 - Implement 'queryCatalog' BBB method for collection type for compability
   with plone.portlet.collection >= 2.1.4.
   [timo]
@@ -11,7 +19,7 @@ Changelog
 - Bugfix for missing limit, and added capital letter for Limit in the schema.
   [bosim]
 
-- Fix translations to the plone domain, and some translations match existing 
+- Fix translations to the plone domain, and some translations match existing
   translations in the plone domain.
   [bosim]
 
