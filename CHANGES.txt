@@ -4,7 +4,13 @@ Changelog
 1.0.11 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Add CSS classes on tabular_view table headers and cells
+  in order to easily customize them.
+  [avoinea]
+
+- Use 'structure value' for tabular_view field value in order to easily
+  insert images, links or other HTML entities in this table
+  [avoinea]
 
 
 1.0.10 (2013-05-23)
