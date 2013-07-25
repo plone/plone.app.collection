@@ -29,7 +29,7 @@
         </p>
 
         <tal:listing tal:condition="batch">
-          <table class="listing" summary="Content listing"
+          <table class="listing collection-listing" summary="Content listing"
               i18n:attributes="summary"
               tal:define="fields context/selectedViewFields;
                           pas_member context/@@pas_member;
@@ -40,6 +40,7 @@
                       <th class="nosort"
                           i18n:translate=""
                           tal:repeat="field fields"
+                          tal:attributes="class python:'listing-header-%s' % field[0]"
                           tal:content="python: field[1]">Field name</th>
                   </tr>
               </thead>
@@ -52,17 +53,18 @@
                             'Title', 'Creator', 'ModificationDate',
                             'CreationDate', 'EffectiveDate',
                             'ExpirationDate', ]"
+                          tal:attributes="class python:'listing-body-%s' % field[0]"
                           tal:define="field_data python:getattr(item, field[0])">
-                          <tal:block tal:replace="field_data" />
+                          <tal:block tal:replace="structure field_data" />
                       </td>
-                      <td tal:condition="python:field[0] == 'Title'" tal:define="item_url item/getURL;
+                      <td class="listing-body-Title" tal:condition="python:field[0] == 'Title'" tal:define="item_url item/getURL;
                                                                                  item_type item/portal_type;">
                           <a href="#"
                              tal:attributes="href python:item_type in use_view_action and item_url+'/view' or item_url;
                                              title item/Title"
                              tal:content="item/Title">Item Title</a>
                       </td>
-                      <td tal:condition="python:field[0] == 'Creator'"
+                      <td class="listing-body-Creator" tal:condition="python:field[0] == 'Creator'"
                           tal:define="author python:pas_member.info(item.Creator());
                                       name python:author['fullname'] or author['username']">
                           <a href="#"
@@ -75,6 +77,7 @@
                       <td tal:condition="python:field[0] in ['ModificationDate',
                             'CreationDate', 'EffectiveDate',
                             'ExpirationDate', ]"
+                          tal:attributes="class python:'listing-body-%s' % field[0]"
                           tal:define="field_data python:getattr(item, field[0])">
                           <span tal:replace="python:toLocalizedTime(field_data(),long_format=1)">
                             August 16, 2001 at 23:35:59
