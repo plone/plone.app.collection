@@ -1,6 +1,16 @@
 Introduction
 ============
 
+WARNING!!!
+
+This is the Dexterity-based branch of plone.app.collection which will not be
+developed further. The code has been merged into plone.app.contententtypes!
+
+There is a good chance you don't want to make any changes here! If you want to
+add enhancements please do it in plone.app.contenttypes.
+
+WARNING!!!
+
 Collections in Plone are the most powerful tool content editors and site
 managers have to construct navigation and site sections.
 
