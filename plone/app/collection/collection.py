@@ -29,6 +29,13 @@ class Collection(Item):
             'sort_order': 'reverse' if self.sort_reversed else 'ascending'
         }
 
+        if b_size:
+            kw_args['b_size'] = b_size
+        if limit:
+            kw_args['limit'] = limit
+        if sort_on:
+            kw_args['sort_on'] = sort_on
+
         if not b_size and self.item_count:
             kw_args['b_size'] = self.item_count
         if not sort_on and self.sort_on:
