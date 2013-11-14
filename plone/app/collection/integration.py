@@ -13,8 +13,7 @@ class HiddenProfiles(object):
         Prevents profiles dependencies from showing up in the profile list
         when creating a Plone site.
         """
-        return [u'archetypes.querywidget:default',
-                u'plone.app.querystring:default',
+        return [u'plone.app.querystring:default',
                 ]
 
     def getNonInstallableProducts(self):
@@ -23,6 +22,5 @@ class HiddenProfiles(object):
         installer's list of installable products.
         """
         return [
-            'archetypes.querywidget',
             'plone.app.querystring',
             ]

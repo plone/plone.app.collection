@@ -1,8 +1,8 @@
 from AccessControl import ClassSecurityInfo
 from OFS.ObjectManager import ObjectManager
-from archetypes.querywidget.field import QueryField
-from archetypes.querywidget.widget import QueryWidget
+from plone.app.collection.field import QueryField
 from plone.app.contentlisting.interfaces import IContentListing
+from plone.app.widgets.at import QueryStringWidget
 from Products.ATContentTypes.content import document, schemata
 from Products.Archetypes import atapi
 from Products.Archetypes.atapi import (BooleanField,
@@ -26,7 +26,7 @@ CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
 
     QueryField(
         name='query',
-        widget=QueryWidget(
+        widget=QueryStringWidget(
             label=_(u"Search terms"),
             description=_(u"Define the search terms for the items you want to "
                           u"list by choosing what to match on. "
