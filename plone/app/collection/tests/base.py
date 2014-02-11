@@ -13,12 +13,14 @@ class PACollection(PloneSandboxLayer):
 
     def setUpZope(self, app, configurationContext):
         # load ZCML
+        z2.installProduct(app, 'Products.ATContentTypes')
         import plone.app.collection
         xmlconfig.file('configure.zcml', plone.app.collection,
                        context=configurationContext)
         z2.installProduct(app, 'plone.app.collection')
 
     def setUpPloneSite(self, portal):
+        applyProfile(portal, 'Products.ATContentTypes:default')
         applyProfile(portal, 'plone.app.collection:default')
         portal.acl_users.userFolderAddUser('admin',
                                            'secret',
