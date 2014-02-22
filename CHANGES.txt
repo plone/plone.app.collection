@@ -1,10 +1,24 @@
 Changelog
 =========
 
-1.0.12 (unreleased)
--------------------
+1.1.0 (2014-02-22)
+------------------
 
-- Nothing changed yet.
+- Install Products.ATContentTypes on the test fixture because Plone 5 does
+  not install ATContentTypes automatically any longer.
+  [timo]
+
+- Declare dependency on plone.app.querystring.
+  [davisagli]
+
+- Add dependency on plone.app.widgets and run the install steps. Also run
+  import steps for plone.app.querystring, needed for the registry data to be
+  there.
+  [frapell]
+
+- Remove archetypes.querywidget from the dependencies and bring the field it
+  provides to this package.
+  [frapell]
 
 
 1.0.11 (2013-08-13)
