@@ -4,7 +4,9 @@ Changelog
 1.1.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Make sure Products.ATContentTypes is installed when running the tests, so
+  tests pass for Plone 5 as well.
+  [timo]
 
 
 1.1.0 (2014-02-22)

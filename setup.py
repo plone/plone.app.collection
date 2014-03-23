@@ -48,6 +48,7 @@ setup(name='plone.app.collection',
       extras_require={
           'test': [
               'plone.app.testing [robot]',
+              'Products.ATContentTypes [test]',
               ],
       },
       entry_points="""
