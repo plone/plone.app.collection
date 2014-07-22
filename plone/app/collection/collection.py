@@ -126,18 +126,18 @@ class Collection(document.ATDocument, ObjectManager):
         return tool.getMetadataDisplay(exclude)
 
     security.declareProtected(View, 'results')
-    def results(self, batch=True, b_start=0, b_size=None, sort_on=None, brains=False):
+    def results(self, batch=True, b_start=0, b_size=None, sort_on=None, brains=False, custom_query={}):
         """Get results"""
         if sort_on is None:
             sort_on = self.getSort_on()
         if b_size is None:
             b_size = self.getLimit()
-        return self.getQuery(batch=batch, b_start=b_start, b_size=b_size, sort_on=sort_on, brains=brains)
+        return self.getQuery(batch=batch, b_start=b_start, b_size=b_size, sort_on=sort_on, brains=brains, custom_query=custom_query)
 
     # for BBB with ATTopic
     security.declareProtected(View, 'queryCatalog')
-    def queryCatalog(self, batch=True, b_start=0, b_size=30, sort_on=None):
-        return self.results(batch, b_start, b_size, sort_on=sort_on, brains=True)
+    def queryCatalog(self, batch=True, b_start=0, b_size=30, sort_on=None, **kwargs):
+        return self.results(batch, b_start, b_size, sort_on=sort_on, brains=True, custom_query=kwargs)
 
     # for BBB with ATTopic
     # This is used in Plone 4.2 but no longer in Plone 4.3
