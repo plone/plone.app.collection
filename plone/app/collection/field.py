@@ -35,7 +35,8 @@ class QueryField(ObjectField):
         return querybuilder(query=value, batch=kwargs.get('batch', False),
             b_start=kwargs.get('b_start', 0), b_size=kwargs.get('b_size', 30),
             sort_on=sort_on, sort_order=sort_order,
-            limit=limit, brains=kwargs.get('brains', False))
+            limit=limit, brains=kwargs.get('brains', False),
+            custom_query=kwargs.get('custom_query', {}))
 
     def getRaw(self, instance, **kwargs):
         return deepcopy(ObjectField.get(self, instance, **kwargs) or [])
