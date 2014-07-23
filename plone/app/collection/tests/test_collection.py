@@ -64,6 +64,38 @@ class TestCollection(unittest.TestCase):
             self.collection.getQuery()[0].Title(),
             "Collection Test Page")
 
+    def test_customQuery(self):
+        portal = self.layer['portal']
+        login(portal, 'admin')
+        # add a collection, so we can add a query to it
+        portal.invokeFactory("Collection",
+                             "collection",
+                             title="New Collection")
+        collection = portal['collection']
+
+        testquery = [{
+            'i': 'id',
+            'o': 'plone.app.querystring.operation.string.is',
+            'v': 'collectiontestpage',
+        }]
+
+        collection.setQuery(testquery)
+
+        # Test unmodified query
+        self.assertEqual(len(collection.results()), 1)
+
+        # Test with custom query overwriting original query
+        custom_query = {'id': {'query': 'folder_0'}}
+        results = collection.results(custom_query=custom_query)
+        self.assertEqual(len(results), 1)
+        self.assertEqual(results[0].id, 'folder_0')
+
+        # Test with custom query overwriting original query and adding another
+        # search term, which cannot be found
+        custom_query = {'id': {'query': 'folder_0'}, 'Title': {'query': 'foo'}}
+        results = collection.results(custom_query=custom_query)
+        self.assertEqual(len(results), 0)
+
     def test_listMetaDataFields(self):
         metadatafields = self.collection.listMetaDataFields()
         self.assertTrue(len(metadatafields) > 0)
