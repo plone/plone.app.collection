@@ -1,25 +1,15 @@
-from plone.app.portlets.storage import PortletAssignmentMapping
+from Products.CMFCore.utils import getToolByName
+from plone.app.collection.testing import PLONEAPPCOLLECTION_INTEGRATION_TESTING
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import login
 from plone.app.testing import logout
 from plone.app.testing import setRoles
-from plone.app.testing import TEST_USER_ID
-from plone.app.testing import TEST_USER_NAME
-from plone.portlets.interfaces import IPortletAssignment
-from plone.portlets.interfaces import IPortletDataProvider
-from plone.portlets.interfaces import IPortletManager
-from plone.portlets.interfaces import IPortletRenderer
-from plone.portlets.interfaces import IPortletType
 from plone.testing.z2 import Browser
 from transaction import commit
-from zope.component import getUtility, getMultiAdapter
-from Products.CMFCore.utils import getToolByName
 
-from plone.app.collection.portlets import collectionportlet
-from .base import CollectionTestCase, CollectionPortletTestCase
-from .base import PACOLLECTION_FUNCTIONAL_TESTING
-from plone.app.collection.testing import PLONEAPPCOLLECTION_INTEGRATION_TESTING
-import time
 import unittest2 as unittest
+
 
 # default test query
 query = [{
@@ -58,7 +48,9 @@ class TestCollection(unittest.TestCase):
         self.assertEqual(self.portal.col1.Title(), "New Collection")
 
     def test_searchResults(self):
-        self.portal.invokeFactory('Document', 'doc1', title='Collection Test Page')
+        self.portal.invokeFactory('Document',
+                                  'doc1',
+                                  title='Collection Test Page')
         self.collection.setQuery(query)
         self.assertEqual(
             self.collection.getQuery()[0].Title(),
@@ -108,7 +100,10 @@ class TestCollection(unittest.TestCase):
         self.assertTrue(len(metadatafields) > 0)
 
     def test_viewingCollection(self):
-        self.portal.invokeFactory('Document', 'doc1', title='Collection Test Page')
+        self.portal.invokeFactory(
+            'Document',
+            'doc1',
+            title='Collection Test Page')
         # set the query and publish the collection
         self.collection.setQuery(query)
         commit()
@@ -122,9 +117,9 @@ class TestCollection(unittest.TestCase):
         data = getData('image.png')
         # add an image that will be listed by the collection
         self.portal.invokeFactory("Image",
-                             "image",
-                             title="Image example",
-                             image=data)
+                                  "image",
+                                  title="Image example",
+                                  image=data)
         # Search for images
         query = [{
             'i': 'Type',
@@ -155,8 +150,8 @@ class TestCollection(unittest.TestCase):
 
         # add example folder and a subfolder to it, both with same id
         self.portal.invokeFactory("Folder",
-                             "folder1",
-                             title="Folder1")
+                                  "folder1",
+                                  title="Folder1")
         folder = self.portal['folder1']
 
         folder.invokeFactory("Folder",
@@ -186,8 +181,8 @@ class TestCollection(unittest.TestCase):
         collection = self.collection
         # add example folder
         self.portal.invokeFactory("Folder",
-                             "folder1",
-                             title="Folder1")
+                                  "folder1",
+                                  title="Folder1")
         folder = self.portal['folder1']
 
         # add example image into this folder
@@ -197,8 +192,8 @@ class TestCollection(unittest.TestCase):
 
         # add another image into the self.portal root
         self.portal.invokeFactory("Image",
-                             "image1",
-                             title="Image example")
+                                  "image1",
+                                  title="Image example")
         query = [{
             'i': 'Type',
             'o': 'plone.app.querystring.operation.string.is',
@@ -219,8 +214,8 @@ class TestCollection(unittest.TestCase):
         )
 
         self.portal.invokeFactory("Folder",
-                             "folder2",
-                             title="Folder2")
+                                  "folder2",
+                                  title="Folder2")
         query = [{
             'i': 'Type',
             'o': 'plone.app.querystring.operation.string.is',
