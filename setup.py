@@ -26,7 +26,7 @@ setup(name='plone.app.collection',
           'plone.app.contentlisting',
           'plone.app.form',
           'plone.app.portlets',
-          'plone.app.querystring>=1.2.2.dev0',  # custom_query support
+          'plone.app.querystring>=1.2.2',  # custom_query support
           'plone.app.vocabularies',
           'plone.app.widgets',
           'plone.portlet.collection',
