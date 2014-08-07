@@ -67,6 +67,13 @@ class TestCollection(unittest.TestCase):
     def test_customQuery(self):
         portal = self.layer['portal']
         login(portal, 'admin')
+
+        # add test content
+        portal.invokeFactory('Document',
+                             'collectiontestpage',
+                             title='Collection Test Page')
+        portal.invokeFactory('Folder', 'folder_0', title="Folder 0")
+
         # add a collection, so we can add a query to it
         portal.invokeFactory("Collection",
                              "collection",
