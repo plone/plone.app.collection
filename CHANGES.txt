@@ -5,7 +5,7 @@ Changelog
 ------------------
 
 - Add a ``custom_query`` parameter to the ``Collection`` class' ``results`` and
-  ``queryCatalog`` methods, and pass it over to the ``QueryField``. The
+  ``queryCatalog`` methods, and pass it over to ``QueryField``. The
   ``custom_query`` parameter allows for run time customization of the stored
   query, e.g. by request parameters.
   [thet]
