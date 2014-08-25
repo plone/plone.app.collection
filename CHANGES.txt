@@ -9,6 +9,12 @@ Changelog
   stored query, e.g. by request parameters.
   [thet]
 
+- Use plone.app.robotframework instead of plone.act.
+  [bsuttor]
+
+- Refactor robots tests.
+  [bsuttor]
+
 
 1.0.11 (2013-08-13)
 -------------------
