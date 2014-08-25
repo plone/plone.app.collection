@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from plone.app.portlets.storage import PortletAssignmentMapping
 from plone.app.testing import login
 from plone.app.testing import logout
@@ -258,6 +259,35 @@ class TestCollection(CollectionTestCase):
         results = collection.results(batch=False)
         # fail test if there is more than one result
         self.assertTrue(len(results) == 1)
+
+    def test_batch(self):
+        portal = self.layer['portal']
+        login(portal, 'admin')
+        # add a collection, so we can add a query to it
+        portal.invokeFactory("Collection",
+                             "collection",
+                             title="New Collection")
+        collection = portal['collection']
+
+        # add two folders as example content
+        portal.invokeFactory("Folder",
+                             "folder1",
+                             title="Folder1")
+
+        portal.invokeFactory("Folder",
+                             "folder2",
+                             title="Folder2")
+        query = [{
+            'i': 'Type',
+            'o': 'plone.app.querystring.operation.string.is',
+            'v': 'Folder',
+        }]
+
+        collection.setQuery(query)
+        collection.setLimit(2)
+        results = collection.results(batch=True, b_size=1)
+        # fail test if there is more than one result
+        self.assertTrue(results.next_pages == [2])
 
     def test_selectedViewFields(self):
         portal = self.layer['portal']
