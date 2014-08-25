@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from AccessControl import ClassSecurityInfo
 from OFS.ObjectManager import ObjectManager
 from archetypes.querywidget.field import QueryField
@@ -60,6 +61,18 @@ CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
         ),
 
     IntegerField(
+        name='b_size',
+        required=False,
+        mode='rw',
+        default=30,
+        widget=IntegerWidget(
+            label=_(u'Limit Results by Page'),
+            description=_(u"Specify the number of items to show by page.")
+            ),
+        validators=('isInt',)
+        ),
+
+    IntegerField(
         name='limit',
         required=False,
         mode='rw',
@@ -71,7 +84,8 @@ CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
         validators=('isInt',)
         ),
 
-    LinesField('customViewFields',
+    LinesField(
+        name='customViewFields',
         required=False,
         mode='rw',
         default=('Title', 'Creator', 'Type', 'ModificationDate'),
@@ -126,12 +140,15 @@ class Collection(document.ATDocument, ObjectManager):
         return tool.getMetadataDisplay(exclude)
 
     security.declareProtected(View, 'results')
-    def results(self, batch=True, b_start=0, b_size=None, sort_on=None, brains=False, custom_query={}):
+    def results(self, batch=True, b_start=0, b_size=0, sort_on=None, brains=False, custom_query={}):
         """Get results"""
+        batch_size = self.getB_size()
         if sort_on is None:
             sort_on = self.getSort_on()
-        if b_size is None:
+        if b_size == 0 and not batch_size and not batch:
             b_size = self.getLimit()
+        if b_size == 0 and batch_size and batch:
+            b_size = batch_size
         return self.getQuery(batch=batch, b_start=b_start, b_size=b_size, sort_on=sort_on, brains=brains, custom_query=custom_query)
 
     # for BBB with ATTopic
