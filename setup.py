@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
 
 version = '1.0.12.dev0'
@@ -46,7 +47,7 @@ setup(name='plone.app.collection',
       ],
       extras_require={
           'test': [
-              'plone.app.testing [robot]',
+              'plone.app.robotframework',
               ],
       },
       entry_points="""
