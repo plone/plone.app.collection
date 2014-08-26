@@ -1,22 +1,11 @@
 # -*- coding: utf-8 -*-
-from plone.app.portlets.storage import PortletAssignmentMapping
 from plone.app.testing import login
 from plone.app.testing import logout
-from plone.portlets.interfaces import IPortletAssignment
-from plone.portlets.interfaces import IPortletDataProvider
-from plone.portlets.interfaces import IPortletManager
-from plone.portlets.interfaces import IPortletRenderer
-from plone.portlets.interfaces import IPortletType
 from plone.testing.z2 import Browser
 from transaction import commit
-from zope.component import getUtility, getMultiAdapter
 from Products.CMFCore.utils import getToolByName
 
-from plone.app.collection.portlets import collectionportlet
-from .base import CollectionTestCase, CollectionPortletTestCase
-from .base import PACOLLECTION_FUNCTIONAL_TESTING
-
-import time
+from .base import CollectionTestCase
 
 # default test query
 query = [{
@@ -285,9 +274,16 @@ class TestCollection(CollectionTestCase):
 
         collection.setQuery(query)
         collection.setLimit(2)
+        results = collection.results(batch=False)
+        self.assertTrue(results.actual_result_count == 2)
         results = collection.results(batch=True, b_size=1)
-        # fail test if there is more than one result
-        self.assertTrue(results.next_pages == [2])
+        self.assertTrue(results.length == 1)
+        results = collection.results(batch=True, b_size=3)
+        self.assertTrue(results.length == 2)
+
+        collection.setB_size(1)
+        results = collection.results()
+        self.assertTrue(results.length == 1)
 
     def test_selectedViewFields(self):
         portal = self.layer['portal']
