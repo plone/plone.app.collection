@@ -1,25 +1,19 @@
+# This robot tests are the old test.
+# Robot tests are now on collection.robot file
+#
 *** Settings ***
+Resource plone/app/robotframework/selenium.robot
+Resource plone/app/robotframework/keywords.robot
 
-Library  Selenium2Library  timeout=10  implicit_wait=0.5
-Library  plone.app.collection.testing_keywords.Keywords
+Library Remote ${PLONE_URL}/RobotRemote
+Library plone.app.robotframework.keywords.Debugging
 
-Resource  plone/act/keywords.txt
-Resource  collection_keywords.txt
+Test Setup Test Setup
+Test Teardown Close all browsers
 
-Variables  plone/app/testing/interfaces.py
 
 Suite Setup  Suite Setup
 Suite Teardown  Suite Teardown
-
-*** Variables ***
-
-${front-page}  http://localhost:55001/plone/
-${test-folder}  http://localhost:55001/plone/acceptance-test-folder
-
-${PORT} =  55001
-${ZOPE_URL} =  http://localhost:${PORT}
-${PLONE_URL} =  ${ZOPE_URL}/plone
-${BROWSER} =  Firefox
 
 
 *** Test Cases ***
@@ -237,9 +231,12 @@ Test Relative Location Without Subfolders
 #    Then the collection should show one result
 #     And the collection should contain  My document
 
+*** Variables ***
+
+${FOLDER_ID}  a-folder
+${DOCUMENT_ID}  a-document
 
 *** Keywords ***
-
 Suite Setup
     Open browser  ${front-page}
 
@@ -281,3 +278,111 @@ the collection should contain
     [Arguments]  ${title}
     Go to  ${front-page}/my-collection
     Page should contain  ${title}
+
+Create Collection
+    [Arguments]  ${title}
+    #Go to  ${test-folder}/++add++Collection
+    Go to  ${test-folder}/portal_factory/Collection/dummy_collection/edit
+    Input text  name=title  ${title}
+    Click Button  Save
+
+Live Preview number of results should be
+    [Arguments]  ${number}
+    Wait Until Page Contains  ${number} items matching your search terms.
+
+Live Preview should contain
+    [Arguments]  ${title}
+    Page should contain  ${title}
+
+Set Review state Criterion
+    Wait Until Page Contains Element  xpath=//select[@name="addindex"]
+    Select From List  xpath=//select[@name="addindex"]  Review state
+    Wait Until Page Contains Element  xpath=//select[@class='queryoperator']
+    #
+    # clicking on the element causes it to disappear thus selecting a checkbox not possible
+    #
+    #Click Element  xpath=//div[@class='criteria']//dl
+    #Select Checkbox  published
+    Select Checkbox  xpath=//div[@class='criteria']//dl//input[@value='published']
+    Live Preview number of results should be  1
+    Live Preview should contain  Published Document
+    Click Button  Save
+
+Set Creator Criterion To
+    [Arguments]  ${creator_criterion}
+    Wait Until Page Contains Element  xpath=//select[@name="addindex"]
+    Select From List  xpath=//select[@name="addindex"]  Creator
+    Wait Until Page Contains Element  xpath=//select[@class='queryoperator']
+    Select From List  xpath=//select[@class='queryoperator']  Is
+    Input Text  name=query.v:records  ${creator_criterion}
+    Wait Until Page Contains  2 items matching your search terms.
+    Live Preview should contain  Test user documen
+    Click Button  Save
+
+Set Absolute Location Criterion To
+    [Arguments]  ${absolute_path_criterion}
+    Wait Until Page Contains Element  xpath=//select[@name="addindex"]
+    Select From List  xpath=(//select[@name="addindex"])[last()]  Location
+    Wait Until Page Contains Element  xpath=//select[@class='queryoperator']
+    Select From List  xpath=(//select[@class='queryoperator'])[last()]  Absolute path
+    Input Text  xpath=(//input[@name="query.v:records"])[last()]  ${absolute_path_criterion}
+    Click Button  Save
+
+Set Relative Location Criterion To
+    [Arguments]  ${relative_path_criterion}
+    Wait Until Page Contains Element  xpath=//select[@name="addindex"]
+    Select From List  xpath=(//select[@name="addindex"])[last()]  Location
+    Wait Until Page Contains Element  xpath=//select[@class='queryoperator']
+    Select From List  xpath=(//select[@class='queryoperator'])[last()]  Relative path
+    Wait Until Page Contains Element  xpath=//input[@name="query.v:records"]
+    Input Text  xpath=(//input[@name="query.v:records"])[last()]  ${relative_path_criterion}
+    Click Button  Save
+
+Set Relative Location Without Subfolders Criterion To
+    [Arguments]  ${relative_path_criterion}
+    Wait Until Page Contains Element  xpath=//select[@name="addindex"]
+    Select From List  xpath=(//select[@name="addindex"])[last()]  Location
+    Wait Until Page Contains Element  xpath=//select[@class='queryoperator']
+    Select From List  xpath=(//select[@class='queryoperator'])[last()]  Relative path (without subfolders)
+    Wait Until Page Contains Element  xpath=//input[@name="query.v:records"]
+    Input Text  xpath=(//input[@name="query.v:records"])[last()]  ${relative_path_criterion}
+    Click Button  Save
+
+Set Short name (id) Criterion
+    Wait Until Page Contains Element  xpath=//select[@name="addindex"]
+    Select From List  xpath=//select[@name="addindex"]  Short name (id)
+    Wait Until Page Contains Element  xpath=//select[@class='queryoperator']
+    Input Text  name=query.v:records  first-document
+    Wait Until Page Contains  1 items matching your search terms.
+    Page should contain  First Document
+    Click Button  Save
+
+Set Type Criterion
+    Wait Until Page Contains Element  xpath=//select[@name="addindex"]
+    Select From List  xpath=//select[@name="addindex"]  Type
+    Wait Until Page Contains Element  xpath=//select[@class='queryoperator']
+    #
+    # clicking on the element causes it to disappear thus selecting a checkbox not possible
+    #
+    #Click Element  xpath=//div[@class='criteria']/div/dl
+    #Select Checkbox  Document
+    Select Checkbox  xpath=//div[@class='criteria']//dl//input[@value='Document']
+    Wait Until Page Contains  1 items matching your search terms.
+    Page should contain  My Document
+    Click Button  Save
+
+Add collection
+    Go to  ${test-folder}/my-collection/edit
+    Click Link  xpath=//input[@name='form.widgets.query.v:records:list']
+    Click Link  collection
+    Page should contain  Add Collection
+    Page should contain  Description
+    Page should contain  Search terms
+
+    Input text  form.widgets.IBasic.title  My Collection
+    Wait Until Page Contains Element  xpath=//select[@name="addindex"]
+    Select From List  xpath=//select[@name="addindex"]  Description
+    Input text  form.widgets.query.v:records  Plone
+
+    Click Button  Save
+    Page should contain  My Collection

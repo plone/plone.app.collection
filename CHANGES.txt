@@ -9,6 +9,16 @@ Changelog
   stored query, e.g. by request parameters.
   [thet]
 
+- Use plone.app.robotframework instead of plone.act.
+  [bsuttor]
+
+- Refactor robots tests.
+  [bsuttor]
+
+- Add b_size field. We can choose batch size (number of element visible on one
+  page) for a view with this field.
+  [bsuttor]
+
 
 1.0.11 (2013-08-13)
 -------------------

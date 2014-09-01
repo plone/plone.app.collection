@@ -23,3 +23,7 @@
 coverage.xml
 zptlint.log
 /buildout-cache
+report.html
+selenium-screenshot-*.png
+log.html
+output.xml
