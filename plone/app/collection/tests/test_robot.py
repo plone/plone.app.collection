@@ -14,7 +14,7 @@ def test_suite():
     current_dir = os.path.abspath(os.path.dirname(__file__))
     robot_dir = os.path.join(current_dir, 'robot')
     robot_tests = [
-        'robot/{}'.format(doc) for doc in os.listdir(robot_dir) if doc.endswith('.robot')
+        'robot/{0}'.format(doc) for doc in os.listdir(robot_dir) if doc.endswith('.robot')
     ]
     for test in robot_tests:
         suite.addTests([
