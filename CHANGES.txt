@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0.12 (unreleased)
+1.0.12 (2014-09-07)
 -------------------
 
 - Add a ``custom_query`` parameter to the ``Collection`` class' ``results`` and
