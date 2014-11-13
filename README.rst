@@ -1,6 +1,8 @@
 Overview
 ========
 
+
+
 Collections in Plone are the most powerful tool content editors and site
 managers have to construct navigation and site sections.
 
