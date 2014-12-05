@@ -13,7 +13,10 @@ Changelog
 - Add a ``custom_query`` parameter to the ``Collection`` class' ``results`` and
   ``queryCatalog`` methods, and pass it over to ``QueryField``. The
   ``custom_query`` parameter allows for run time customization of the stored
-  query, e.g. by request parameters.
+  query. This can be done for example by views using the ``contentFilter``
+  dictionary, which can be build from request parameters.  custom_query as well
+  as contentFilter are dictionaries of index names and their associated query
+  values.
   [thet]
 
 
