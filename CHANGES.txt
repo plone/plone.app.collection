@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.0.9-cantab1 (2015-01-15)
+--------------------------
+
+- Support for import and export of collections using FTP, DAV and GenericSetup
+  [matthewwilkes]
+
 1.0.9 (2013-04-06)
 ------------------
 
