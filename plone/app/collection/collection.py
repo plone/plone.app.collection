@@ -20,7 +20,7 @@ from zope.interface import implements
 from plone.app.collection import PloneMessageFactory as _
 from plone.app.collection.config import ATCT_TOOLNAME, PROJECTNAME
 from plone.app.collection.interfaces import ICollection
-
+from plone.app.collection.marshaller import CollectionRFC822Marshaller
 
 CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
 
@@ -85,6 +85,9 @@ CollectionSchema = document.ATDocumentSchema.copy() + atapi.Schema((
             ),
         ),
 ))
+
+# Use the extended marshaller that understands queries
+CollectionSchema.registerLayer("marshall", CollectionRFC822Marshaller())
 
 CollectionSchema.moveField('query', after='description')
 if 'presentation' in CollectionSchema:
