@@ -2,7 +2,7 @@ from AccessControl import ClassSecurityInfo
 from OFS.ObjectManager import ObjectManager
 from plone.app.collection.field import QueryField
 from plone.app.contentlisting.interfaces import IContentListing
-from plone.app.widgets.at import QueryStringWidget
+from Products.Archetypes.Widget import QueryStringWidget
 from Products.ATContentTypes.content import document, schemata
 from Products.Archetypes import atapi
 from Products.Archetypes.atapi import (BooleanField,
