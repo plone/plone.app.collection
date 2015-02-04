@@ -3,6 +3,7 @@ from plone.app.testing import login
 from plone.app.testing import logout
 from plone.testing.z2 import Browser
 from transaction import commit
+from Products.Archetypes.Marshall import parseRFC822
 from Products.CMFCore.utils import getToolByName
 
 from .base import CollectionTestCase
@@ -306,3 +307,92 @@ class TestCollection(CollectionTestCase):
         collection = portal['collection']
         syn = getToolByName(portal, 'portal_syndication')
         self.assertTrue(syn.isSyndicationAllowed(collection))
+
+
+class TestMarshalling(CollectionTestCase):
+
+    def test_simple_query_included_in_marshall_results(self):
+        portal = self.layer['portal']
+        login(portal, 'admin')
+        query = [{
+            'i': 'portal_type',
+            'o': 'plone.app.querystring.operation.string.is',
+            'v': 'News Item',
+        }]
+        portal.invokeFactory("Collection",
+                             "collection",
+                             query=query,
+                             title="New Collection")
+        collection = portal['collection']
+        rfc822 = collection.manage_FTPget()
+        data = parseRFC822(rfc822)
+        self.assertIn('query0_i', data[0])
+        self.assertIn('query0_o', data[0])
+        self.assertIn('query0_v', data[0])
+        
+        self.assertEqual(data[0]['query0_i'], query[0]['i'])
+        self.assertEqual(data[0]['query0_o'], query[0]['o'])
+        self.assertEqual(data[0]['query0_v'], query[0]['v'])
+    
+    def test_multiple_query_items_included_in_marshall_results(self):
+        portal = self.layer['portal']
+        login(portal, 'admin')
+        query = [{
+            'i': 'portal_type',
+            'o': 'plone.app.querystring.operation.string.is',
+            'v': 'News Item',
+        },{ 'i': 'Title',
+            'o': 'plone.app.querystring.operation.string.is',
+            'v': 'Test News Item',
+        }]
+        
+        portal.invokeFactory("Collection",
+                             "collection",
+                             query=query,
+                             title="New Collection")
+        collection = portal['collection']
+        rfc822 = collection.manage_FTPget()
+        data = parseRFC822(rfc822)
+        
+        self.assertIn('query0_i', data[0])
+        self.assertIn('query0_o', data[0])
+        self.assertIn('query0_v', data[0])
+        self.assertIn('query1_i', data[0])
+        self.assertIn('query1_o', data[0])
+        self.assertIn('query1_v', data[0])
+        
+        self.assertEqual(data[0]['query0_i'], query[0]['i'])
+        self.assertEqual(data[0]['query0_o'], query[0]['o'])
+        self.assertEqual(data[0]['query0_v'], query[0]['v'])
+        self.assertEqual(data[0]['query1_i'], query[1]['i'])
+        self.assertEqual(data[0]['query1_o'], query[1]['o'])
+        self.assertEqual(data[0]['query1_v'], query[1]['v'])
+    
+    def test_query_gets_set_on_PUT(self):
+        portal = self.layer['portal']
+        login(portal, 'admin')
+        query = [{
+            'i': 'portal_type',
+            'o': 'plone.app.querystring.operation.string.is',
+            'v': 'News Item',
+        }]
+        
+        expected_query = [{
+            'i': 'portal_type',
+            'o': 'plone.app.querystring.operation.string.is',
+            'v': 'LOREM IPSUM DOLOR',
+        }]
+        
+        portal.invokeFactory("Collection",
+                             "collection",
+                             query=query,
+                             title="New Collection")
+        collection = portal['collection']
+        rfc822 = collection.manage_FTPget()
+        # Modify the response to put in a sentinal, to check it's been updated
+        rfc822 = rfc822.replace(query[0]['v'], expected_query[0]['v'])
+        
+        portal.REQUEST.set("BODY", rfc822)
+        collection.PUT(portal.REQUEST, None)
+        self.assertEqual(collection.query, expected_query)
+    
