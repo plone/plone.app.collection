@@ -4,7 +4,8 @@ Changelog
 1.1.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Support for import and export of collections using FTP, DAV and GenericSetup
+  [matthewwilkes]
 
 
 1.1.2 (2014-10-23)
