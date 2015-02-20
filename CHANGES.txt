@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0.13 (unreleased)
+1.0.13 (2015-02-20)
 -------------------
 
 - Support for import and export of collections using FTP, DAV and GenericSetup
