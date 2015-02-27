@@ -1,3 +1,4 @@
+from Products.Archetypes.Marshall import parseRFC822
 from Products.CMFCore.utils import getToolByName
 from plone.app.collection.testing import PLONEAPPCOLLECTION_INTEGRATION_TESTING
 from plone.app.testing import TEST_USER_ID
@@ -7,7 +8,7 @@ from plone.app.testing import logout
 from plone.app.testing import setRoles
 from plone.testing.z2 import Browser
 from transaction import commit
-from Products.Archetypes.Marshall import parseRFC822
+from zExceptions import BadRequest
 
 import unittest2 as unittest
 
@@ -131,7 +132,7 @@ class TestCollection(unittest.TestCase):
         try:
             properties.site_properties.manage_addProperty(
                 'allowAnonymousViewAbout', False, 'boolean')
-        except:
+        except BadRequest:
             properties.site_properties.manage_changeProperties(
                 allowAnonymousViewAbout=False)
         self.portal.portal_registry = None
@@ -153,7 +154,7 @@ class TestCollection(unittest.TestCase):
         try:
             properties.site_properties.manage_addProperty(
                 'allowAnonymousViewAbout', True, 'boolean')
-        except:
+        except BadRequest:
             properties.site_properties.manage_changeProperties(
                 allowAnonymousViewAbout=True)
         self.portal.portal_registry = None
@@ -176,7 +177,7 @@ class TestCollection(unittest.TestCase):
         try:
             properties.site_properties.manage_addProperty(
                 'allowAnonymousViewAbout', False, 'boolean')
-        except:
+        except BadRequest:
             properties.site_properties.manage_changeProperties(
                 allowAnonymousViewAbout=False)
         self.portal.portal_registry = {}  # mock the registry
@@ -199,7 +200,7 @@ class TestCollection(unittest.TestCase):
         try:
             properties.site_properties.manage_addProperty(
                 'allowAnonymousViewAbout', True, 'boolean')
-        except:
+        except BadRequest:
             properties.site_properties.manage_changeProperties(
                 allowAnonymousViewAbout=True)
         self.portal.portal_registry = {}  # mock the registry
@@ -222,7 +223,7 @@ class TestCollection(unittest.TestCase):
         try:
             properties.site_properties.manage_delProperties(
                 ['allowAnonymousViewAbout'])
-        except:
+        except BadRequest:
             pass
         self.portal.portal_registry = {'plone.allow_anon_views_about': False}
 
@@ -244,7 +245,7 @@ class TestCollection(unittest.TestCase):
         try:
             properties.site_properties.manage_delProperties(
                 ['allowAnonymousViewAbout'])
-        except:
+        except BadRequest:
             pass
         self.portal.portal_registry = {'plone.allow_anon_views_about': True}
 
@@ -264,7 +265,7 @@ class TestCollection(unittest.TestCase):
         try:
             properties.site_properties.manage_addProperty(
                 'allowAnonymousViewAbout', False, 'boolean')
-        except:
+        except BadRequest:
             properties.site_properties.manage_changeProperties(
                 allowAnonymousViewAbout=False)
         self.portal.portal_registry = {'plone.allow_anon_views_about': False}
