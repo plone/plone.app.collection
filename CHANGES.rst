@@ -4,8 +4,8 @@ Changelog
 1.1.3 (unreleased)
 ------------------
 
-- Read ``allow_anon_views_about`` setting from the registry instead of portal
-  properties (see https://github.com/plone/Products.CMFPlone/issues/216).
+- Read ``allow_anon_views_about`` setting from the registry, with fallback to
+  portal properties (see https://github.com/plone/Products.CMFPlone/issues/216)
   [jcerjak]
 
 - Support for import and export of collections using FTP, DAV and GenericSetup

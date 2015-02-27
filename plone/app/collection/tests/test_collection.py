@@ -42,6 +42,14 @@ class TestCollection(unittest.TestCase):
             pass
         self.collection = self.portal['col']
 
+    def _set_up_collection(self):
+        self.portal.invokeFactory(
+            'Document',
+            'doc1',
+            title='Collection Test Page'
+        )
+        self.collection.setQuery(query)
+
     def test_addCollection(self):
         self.portal.invokeFactory("Collection",
                                   "col1",
@@ -113,6 +121,160 @@ class TestCollection(unittest.TestCase):
         browser = Browser(self.layer['app'])
         browser.open(self.collection.absolute_url())
         self.assertTrue("Collection Test Page" in browser.contents)
+
+    def test_show_about_no_registry_has_property_noshow(self):
+        """Test the case where we fetch show about information from portal
+        properties (Plone < 5) and show about is False.
+        """
+        # disable show about in site properties
+        properties = getToolByName(self.portal, 'portal_properties')
+        try:
+            properties.site_properties.manage_addProperty(
+                'allowAnonymousViewAbout', False, 'boolean')
+        except:
+            properties.site_properties.manage_changeProperties(
+                allowAnonymousViewAbout=False)
+        self.portal.portal_registry = None
+
+        self._set_up_collection()
+
+        # logout and check if author information is hidden
+        logout()
+        result = self.collection.restrictedTraverse('standard_view')()
+        self.assertFalse("author" in result)
+        self.assertFalse("test-user" in result)
+
+    def test_show_about_no_registry_has_property_show(self):
+        """Test the case where we fetch show about information from portal
+        properties (Plone < 5) and show about is True.
+        """
+        # enable show about in site properties
+        properties = getToolByName(self.portal, 'portal_properties')
+        try:
+            properties.site_properties.manage_addProperty(
+                'allowAnonymousViewAbout', True, 'boolean')
+        except:
+            properties.site_properties.manage_changeProperties(
+                allowAnonymousViewAbout=True)
+        self.portal.portal_registry = None
+
+        self._set_up_collection()
+
+        # logout and check if author information is shown
+        logout()
+        result = self.collection.restrictedTraverse('standard_view')()
+        self.assertTrue("author" in result)
+        self.assertTrue("test-user" in result)
+
+    def test_show_about_has_property_and_registry_noshow(self):
+        """Test the case where we fetch show about information from portal
+        properties, but registry is also present (Plone < 5, with
+        plone.app.registry installed) and show about is False.
+        """
+        # disable show about in site properties, create an empty registry
+        properties = getToolByName(self.portal, 'portal_properties')
+        try:
+            properties.site_properties.manage_addProperty(
+                'allowAnonymousViewAbout', False, 'boolean')
+        except:
+            properties.site_properties.manage_changeProperties(
+                allowAnonymousViewAbout=False)
+        self.portal.portal_registry = {}  # mock the registry
+
+        self._set_up_collection()
+
+        # logout and check if author information is hidden
+        logout()
+        result = self.collection.restrictedTraverse('standard_view')()
+        self.assertFalse("author" in result)
+        self.assertFalse("test-user" in result)
+
+    def test_show_about_has_property_and_registry_show(self):
+        """Test the case where we fetch show about information from portal
+        properties, but registry is also present (Plone < 5, with
+        plone.app.registry installed) and show about is True.
+        """
+        # enable show about in site properties, create an empty registry
+        properties = getToolByName(self.portal, 'portal_properties')
+        try:
+            properties.site_properties.manage_addProperty(
+                'allowAnonymousViewAbout', True, 'boolean')
+        except:
+            properties.site_properties.manage_changeProperties(
+                allowAnonymousViewAbout=True)
+        self.portal.portal_registry = {}  # mock the registry
+
+        self._set_up_collection()
+
+        # logout and check if author information is shown
+        logout()
+        result = self.collection.restrictedTraverse('standard_view')()
+        self.assertTrue("author" in result)
+        self.assertTrue("test-user" in result)
+
+    def test_show_about_has_registry_no_property_noshow(self):
+        """Test the case where we fetch show about information from the
+        registry (Plone >= 5) and show about is False.
+        """
+        # disable show about in the registry, delete 'allowAnonymousViewAbout'
+        # property
+        properties = getToolByName(self.portal, 'portal_properties')
+        try:
+            properties.site_properties.manage_delProperties(
+                ['allowAnonymousViewAbout'])
+        except:
+            pass
+        self.portal.portal_registry = {'plone.allow_anon_views_about': False}
+
+        self._set_up_collection()
+
+        # logout and check if author information is hidden
+        logout()
+        result = self.collection.restrictedTraverse('standard_view')()
+        self.assertFalse("author" in result)
+        self.assertFalse("test-user" in result)
+
+    def test_show_about_has_registry_no_property_show(self):
+        """Test the case where we fetch show about information from the
+        registry (Plone >= 5) and show about is True.
+        """
+        # enable show about in the registry, delete 'allowAnonymousViewAbout'
+        # property
+        properties = getToolByName(self.portal, 'portal_properties')
+        try:
+            properties.site_properties.manage_delProperties(
+                ['allowAnonymousViewAbout'])
+        except:
+            pass
+        self.portal.portal_registry = {'plone.allow_anon_views_about': True}
+
+        self._set_up_collection()
+
+        # logout and check if author information is shown
+        logout()
+        result = self.collection.restrictedTraverse('standard_view')()
+        self.assertTrue("author" in result)
+        self.assertTrue("test-user" in result)
+
+    def test_show_about_logged_in(self):
+        """Test the case where we show about information if a user is logged in
+        even though show about is set to False
+        """
+        properties = getToolByName(self.portal, 'portal_properties')
+        try:
+            properties.site_properties.manage_addProperty(
+                'allowAnonymousViewAbout', False, 'boolean')
+        except:
+            properties.site_properties.manage_changeProperties(
+                allowAnonymousViewAbout=False)
+        self.portal.portal_registry = {'plone.allow_anon_views_about': False}
+
+        self._set_up_collection()
+
+        # check if author information is shown
+        result = self.collection.restrictedTraverse('standard_view')()
+        self.assertTrue("author" in result)
+        self.assertTrue("test-user" in result)
 
     def test_collection_templates(self):
         data = getData('image.png')
@@ -260,11 +422,11 @@ class TestMarshalling(unittest.TestCase):
         self.assertIn('query0_i', data[0])
         self.assertIn('query0_o', data[0])
         self.assertIn('query0_v', data[0])
-        
+
         self.assertEqual(data[0]['query0_i'], query[0]['i'])
         self.assertEqual(data[0]['query0_o'], query[0]['o'])
         self.assertEqual(data[0]['query0_v'], query[0]['v'])
-    
+
     def test_multiple_query_items_included_in_marshall_results(self):
         portal = self.layer['portal']
         login(portal, 'admin')
@@ -276,7 +438,7 @@ class TestMarshalling(unittest.TestCase):
             'o': 'plone.app.querystring.operation.string.is',
             'v': 'Test News Item',
         }]
-        
+
         portal.invokeFactory("Collection",
                              "collection",
                              query=query,
@@ -284,21 +446,21 @@ class TestMarshalling(unittest.TestCase):
         collection = portal['collection']
         rfc822 = collection.manage_FTPget()
         data = parseRFC822(rfc822)
-        
+
         self.assertIn('query0_i', data[0])
         self.assertIn('query0_o', data[0])
         self.assertIn('query0_v', data[0])
         self.assertIn('query1_i', data[0])
         self.assertIn('query1_o', data[0])
         self.assertIn('query1_v', data[0])
-        
+
         self.assertEqual(data[0]['query0_i'], query[0]['i'])
         self.assertEqual(data[0]['query0_o'], query[0]['o'])
         self.assertEqual(data[0]['query0_v'], query[0]['v'])
         self.assertEqual(data[0]['query1_i'], query[1]['i'])
         self.assertEqual(data[0]['query1_o'], query[1]['o'])
         self.assertEqual(data[0]['query1_v'], query[1]['v'])
-    
+
     def test_query_gets_set_on_PUT(self):
         portal = self.layer['portal']
         login(portal, 'admin')
@@ -307,13 +469,13 @@ class TestMarshalling(unittest.TestCase):
             'o': 'plone.app.querystring.operation.string.is',
             'v': 'News Item',
         }]
-        
+
         expected_query = [{
             'i': 'portal_type',
             'o': 'plone.app.querystring.operation.string.is',
             'v': 'LOREM IPSUM DOLOR',
         }]
-        
+
         portal.invokeFactory("Collection",
                              "collection",
                              query=query,
@@ -322,8 +484,7 @@ class TestMarshalling(unittest.TestCase):
         rfc822 = collection.manage_FTPget()
         # Modify the response to put in a sentinal, to check it's been updated
         rfc822 = rfc822.replace(query[0]['v'], expected_query[0]['v'])
-        
+
         portal.REQUEST.set("BODY", rfc822)
         collection.PUT(portal.REQUEST, None)
         self.assertEqual(collection.query, expected_query)
-    
