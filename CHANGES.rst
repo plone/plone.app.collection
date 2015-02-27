@@ -8,6 +8,9 @@ Changelog
   properties (see https://github.com/plone/Products.CMFPlone/issues/216).
   [jcerjak]
 
+- Support for import and export of collections using FTP, DAV and GenericSetup
+  [matthewwilkes]
+
 
 1.1.2 (2014-10-23)
 ------------------

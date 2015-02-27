@@ -14,7 +14,7 @@
     name="default"
     title="plone.app.collection"
     directory="profiles/default"
-    description="Adds support for new style collections to Plone"
+    description="Archetypes-based collections"
     provides="Products.GenericSetup.interfaces.EXTENSION"
     />
 
