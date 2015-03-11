@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.1.3 (unreleased)
+1.1.3 (2015-03-11)
 ------------------
 
 - Read ``allow_anon_views_about`` setting from the registry, with fallback to
