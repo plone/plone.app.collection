@@ -9,8 +9,10 @@ setup(name='plone.app.collection',
                        open("CHANGES.rst").read(),
       classifiers=[
         "Framework :: Plone",
+        "Framework :: Plone :: 5.0",
         "License :: OSI Approved :: GNU General Public License (GPL)",
         "Programming Language :: Python",
+        "Programming Language :: Python :: 2.7",
         ],
       keywords='',
       author='Plone Foundation',
@@ -24,7 +26,6 @@ setup(name='plone.app.collection',
       install_requires=[
           'setuptools',
           'plone.app.contentlisting',
-          'plone.app.form',
           'plone.app.portlets',
           'plone.app.querystring>=1.2.2',  # custom_query support
           'plone.app.vocabularies',
