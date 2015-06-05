@@ -4,7 +4,8 @@ Changelog
 1.1.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Remove plone.app.form dependency.
+  [timo]
 
 
 1.1.3 (2015-03-11)
