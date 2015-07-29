@@ -48,6 +48,7 @@ setup(name='plone.app.collection',
       extras_require={
           'test': [
               'plone.app.robotframework',
+              'Plone',
               ],
       },
       entry_points="""
