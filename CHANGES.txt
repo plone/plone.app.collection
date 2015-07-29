@@ -1,10 +1,24 @@
 Changelog
 =========
 
+Note: this maurits-upgradepath branch of plone.app.collection is for
+an old PLIP for folderish new-style Collections.  It only makes sense
+with plone.app.querystring branch maurits-recursive and
+archetypes.querywidget branch maurits-recursive.
+
+Do *not* expect official releases of these.
+
+
 1.0.14 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Made Collections folderish and added migration code from old-style
+  Topics to this new-style folderish Collections.  Note that the
+  folderish part is not really wanted in core Plone, the migration has
+  been added in Plone 5, and Collections are now in
+  plone.app.contenttypes.  So you should not really use this.  But *I*
+  am. :-)
+  [maurits]
 
 
 1.0.13 (2015-02-20)
