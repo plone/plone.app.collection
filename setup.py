@@ -1,6 +1,7 @@
+# -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
 
-version = '1.0.9.dev0'
+version = '1.0.14.dev0'
 
 setup(name='plone.app.collection',
       version=version,
@@ -23,7 +24,7 @@ setup(name='plone.app.collection',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          'archetypes.querywidget>=1.0.2dev',
+          'archetypes.querywidget>=1.1.1.dev0',  # custom_query support
           'plone.app.contentlisting',
           'plone.app.form',
           'plone.app.portlets',
@@ -46,7 +47,7 @@ setup(name='plone.app.collection',
       ],
       extras_require={
           'test': [
-              'plone.app.testing [robot]',
+              'plone.app.robotframework',
               ],
       },
       entry_points="""

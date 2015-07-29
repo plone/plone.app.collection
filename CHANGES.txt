@@ -1,7 +1,64 @@
 Changelog
 =========
 
-1.0.9 (unreleased)
+1.0.14 (unreleased)
+-------------------
+
+- Nothing changed yet.
+
+
+1.0.13 (2015-02-20)
+-------------------
+
+- Support for import and export of collections using FTP, DAV and GenericSetup
+  [matthewwilkes]
+
+
+1.0.12 (2014-09-07)
+-------------------
+
+- Add a ``custom_query`` parameter to the ``Collection`` class' ``results`` and
+  ``queryCatalog`` methods, which allows for run time customization of the
+  stored query. This can be done for example by views using the
+  ``contentFilter`` dictionary, which can be build from request parameters.
+  custom_query as well as contentFilter are dictionaries of index names and
+  their associated query values.
+  [thet]
+
+- Use plone.app.robotframework instead of plone.act.
+  [bsuttor]
+
+- Refactor robots tests.
+  [bsuttor]
+
+- Add b_size field. We can choose batch size (number of element visible on one
+  page) for a view with this field.
+  [bsuttor]
+
+- Fix error "zero length field name in format" for python 2.6.
+  [bsuttor]
+
+
+1.0.11 (2013-08-13)
+-------------------
+
+- Add CSS classes on tabular_view table headers and cells
+  in order to easily customize them.
+  [avoinea]
+
+- Use 'structure value' for tabular_view field value in order to easily
+  insert images, links or other HTML entities in this table
+  [avoinea]
+
+
+1.0.10 (2013-05-23)
+-------------------
+
+- Fix tabular view to show append /view onto files and images
+  [vangheem]
+
+
+1.0.9 (2013-04-06)
 ------------------
 
 - Provide /RSS view for collection so we at least have an option

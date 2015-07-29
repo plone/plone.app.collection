@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from AccessControl import ClassSecurityInfo
 from OFS.ObjectManager import ObjectManager
 from archetypes.querywidget.field import QueryField
@@ -21,6 +22,7 @@ from zope.interface import implements
 from plone.app.collection import PloneMessageFactory as _
 from plone.app.collection.config import ATCT_TOOLNAME, PROJECTNAME
 from plone.app.collection.interfaces import ICollection
+from plone.app.collection.marshaller import CollectionRFC822Marshaller
 
 CollectionSchema = folder.ATFolderSchema.copy() + document.ATDocumentSchema.copy() + atapi.Schema((
 
@@ -76,6 +78,18 @@ CollectionSchema = folder.ATFolderSchema.copy() + document.ATDocumentSchema.copy
         ),
 
     IntegerField(
+        name='b_size',
+        required=False,
+        mode='rw',
+        default=30,
+        widget=IntegerWidget(
+            label=_(u'Limit Results by Page'),
+            description=_(u"Specify the number of items to show by page.")
+            ),
+        validators=('isInt',)
+        ),
+
+    IntegerField(
         name='limit',
         required=False,
         mode='rw',
@@ -87,7 +101,8 @@ CollectionSchema = folder.ATFolderSchema.copy() + document.ATDocumentSchema.copy
         validators=('isInt',)
         ),
 
-    LinesField('customViewFields',
+    LinesField(
+        name='customViewFields',
         required=False,
         mode='rw',
         default=('Title', 'Creator', 'Type', 'ModificationDate'),
@@ -101,6 +116,9 @@ CollectionSchema = folder.ATFolderSchema.copy() + document.ATDocumentSchema.copy
             ),
         ),
 ))
+
+# Use the extended marshaller that understands queries
+CollectionSchema.registerLayer("marshall", CollectionRFC822Marshaller())
 
 CollectionSchema.moveField('query', after='description')
 CollectionSchema.moveField('acquireCriteria', before='query')
@@ -132,13 +150,16 @@ class Collection(folder.ATFolder, document.ATDocumentBase, ObjectManager):
         return tool.getMetadataDisplay(exclude)
 
     security.declareProtected(View, 'results')
-    def results(self, batch=True, b_start=0, b_size=None, sort_on=None, brains=False):
+    def results(self, batch=True, b_start=0, b_size=0, sort_on=None, brains=False, custom_query={}):
         """Get results"""
+        batch_size = self.getB_size()
         if sort_on is None:
             sort_on = self.getSort_on()
-        if b_size is None:
+        if b_size == 0 and not batch_size and not batch:
             b_size = self.getLimit()
-        return self.getQuery(batch=batch, b_start=b_start, b_size=b_size, sort_on=sort_on, brains=brains)
+        if b_size == 0 and batch_size and batch:
+            b_size = batch_size
+        return self.getQuery(batch=batch, b_start=b_start, b_size=b_size, sort_on=sort_on, brains=brains, custom_query=custom_query)
 
     security.declareProtected(View, 'hasSubcollections')
     def hasSubcollections(self):
@@ -159,8 +180,8 @@ class Collection(folder.ATFolder, document.ATDocumentBase, ObjectManager):
 
     # for BBB with ATTopic
     security.declareProtected(View, 'queryCatalog')
-    def queryCatalog(self, batch=True, b_start=0, b_size=30, sort_on=None):
-        return self.results(batch, b_start, b_size, sort_on=sort_on, brains=True)
+    def queryCatalog(self, batch=True, b_start=0, b_size=30, sort_on=None, **kwargs):
+        return self.results(batch, b_start, b_size, sort_on=sort_on, brains=True, custom_query=kwargs)
 
     # for BBB with ATTopic
     # This is used in Plone 4.2 but no longer in Plone 4.3
