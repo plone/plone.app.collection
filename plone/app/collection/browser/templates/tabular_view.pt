@@ -33,8 +33,7 @@
               i18n:attributes="summary"
               tal:define="fields context/selectedViewFields;
                           pas_member context/@@pas_member;
-                          site_properties context/portal_properties/site_properties;
-                          use_view_action site_properties/typesUseViewActionInListings|python:();">
+                          use_view_action python:context.portal_registry.get('plone.types_use_view_action_in_listings');">
               <thead>
                   <tr>
                       <th class="nosort"

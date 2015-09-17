@@ -30,7 +30,7 @@
                              batch python:context.results(b_start=b_start);
                              site_properties context/portal_properties/site_properties;
                              portal_registry context/portal_registry|nothing;
-                             use_view_action site_properties/typesUseViewActionInListings|python:();
+                             use_view_action python:portal_registry.get('plone.types_use_view_action_in_listings');
                              isAnon context/@@plone_portal_state/anonymous;
                              normalizeString nocall: context/plone_utils/normalizeString;
                              toLocalizedTime nocall: context/@@plone/toLocalizedTime;
