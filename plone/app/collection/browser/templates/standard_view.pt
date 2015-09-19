@@ -28,15 +28,13 @@
         <metal:listingmacro define-macro="listing">
         <tal:results define="b_start python:request.get('b_start', 0);
                              batch python:context.results(b_start=b_start);
-                             site_properties context/portal_properties/site_properties;
                              portal_registry context/portal_registry|nothing;
                              use_view_action python:portal_registry and portal_registry.get('plone.types_use_view_action_in_listings', []);
                              isAnon context/@@plone_portal_state/anonymous;
                              normalizeString nocall: context/plone_utils/normalizeString;
                              toLocalizedTime nocall: context/@@plone/toLocalizedTime;
-                             show_about_bbb site_properties/allowAnonymousViewAbout|nothing;
                              show_about_registry python:portal_registry and portal_registry.get('plone.allow_anon_views_about', []);
-                             show_about python:not isAnon or show_about_registry or show_about_bbb;
+                             show_about python:not isAnon or show_about_registry;
                              navigation_root_url context/@@plone_portal_state/navigation_root_url;
                              pas_member context/@@pas_member;">
         <tal:listing condition="batch">
