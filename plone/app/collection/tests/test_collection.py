@@ -129,7 +129,6 @@ class TestCollection(unittest.TestCase):
         """
         registry = getUtility(IRegistry)
         registry['plone.allow_anon_views_about'] = False        
-        self.portal.portal_registry = {'plone.allow_anon_views_about': False}
 
         self._set_up_collection()
 
