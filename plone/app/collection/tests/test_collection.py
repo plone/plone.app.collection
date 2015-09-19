@@ -1,6 +1,8 @@
+from zope.component import getUtility
 from Products.Archetypes.Marshall import parseRFC822
 from Products.CMFCore.utils import getToolByName
 from plone.app.collection.testing import PLONEAPPCOLLECTION_INTEGRATION_TESTING
+from plone.registry.interfaces import IRegistry
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import login
@@ -8,8 +10,6 @@ from plone.app.testing import logout
 from plone.app.testing import setRoles
 from plone.testing.z2 import Browser
 from transaction import commit
-from zExceptions import BadRequest
-
 import unittest2 as unittest
 
 
@@ -123,151 +123,12 @@ class TestCollection(unittest.TestCase):
         browser.open(self.collection.absolute_url())
         self.assertTrue("Collection Test Page" in browser.contents)
 
-    def test_show_about_no_registry_has_property_noshow(self):
-        """Test the case where we fetch show about information from portal
-        properties (Plone < 5) and show about is False.
-        """
-        # disable show about in site properties
-        properties = getToolByName(self.portal, 'portal_properties')
-        try:
-            properties.site_properties.manage_addProperty(
-                'allowAnonymousViewAbout', False, 'boolean')
-        except BadRequest:
-            properties.site_properties.manage_changeProperties(
-                allowAnonymousViewAbout=False)
-        self.portal.portal_registry = None
-
-        self._set_up_collection()
-
-        # logout and check if author information is hidden
-        logout()
-        result = self.collection.restrictedTraverse('standard_view')()
-        self.assertFalse("author" in result)
-        self.assertFalse("test-user" in result)
-
-    def test_show_about_no_registry_has_property_show(self):
-        """Test the case where we fetch show about information from portal
-        properties (Plone < 5) and show about is True.
-        """
-        # enable show about in site properties
-        properties = getToolByName(self.portal, 'portal_properties')
-        try:
-            properties.site_properties.manage_addProperty(
-                'allowAnonymousViewAbout', True, 'boolean')
-        except BadRequest:
-            properties.site_properties.manage_changeProperties(
-                allowAnonymousViewAbout=True)
-        self.portal.portal_registry = None
-
-        self._set_up_collection()
-
-        # logout and check if author information is shown
-        logout()
-        result = self.collection.restrictedTraverse('standard_view')()
-        self.assertTrue("author" in result)
-        self.assertTrue("test-user" in result)
-
-    def test_show_about_has_property_and_registry_noshow(self):
-        """Test the case where we fetch show about information from portal
-        properties, but registry is also present (Plone < 5, with
-        plone.app.registry installed) and show about is False.
-        """
-        # disable show about in site properties, create an empty registry
-        properties = getToolByName(self.portal, 'portal_properties')
-        try:
-            properties.site_properties.manage_addProperty(
-                'allowAnonymousViewAbout', False, 'boolean')
-        except BadRequest:
-            properties.site_properties.manage_changeProperties(
-                allowAnonymousViewAbout=False)
-        self.portal.portal_registry = {}  # mock the registry
-
-        self._set_up_collection()
-
-        # logout and check if author information is hidden
-        logout()
-        result = self.collection.restrictedTraverse('standard_view')()
-        self.assertFalse("author" in result)
-        self.assertFalse("test-user" in result)
-
-    def test_show_about_has_property_and_registry_show(self):
-        """Test the case where we fetch show about information from portal
-        properties, but registry is also present (Plone < 5, with
-        plone.app.registry installed) and show about is True.
-        """
-        # enable show about in site properties, create an empty registry
-        properties = getToolByName(self.portal, 'portal_properties')
-        try:
-            properties.site_properties.manage_addProperty(
-                'allowAnonymousViewAbout', True, 'boolean')
-        except BadRequest:
-            properties.site_properties.manage_changeProperties(
-                allowAnonymousViewAbout=True)
-        self.portal.portal_registry = {}  # mock the registry
-
-        self._set_up_collection()
-
-        # logout and check if author information is shown
-        logout()
-        result = self.collection.restrictedTraverse('standard_view')()
-        self.assertTrue("author" in result)
-        self.assertTrue("test-user" in result)
-
-    def test_show_about_has_registry_no_property_noshow(self):
-        """Test the case where we fetch show about information from the
-        registry (Plone >= 5) and show about is False.
-        """
-        # disable show about in the registry, delete 'allowAnonymousViewAbout'
-        # property
-        properties = getToolByName(self.portal, 'portal_properties')
-        try:
-            properties.site_properties.manage_delProperties(
-                ['allowAnonymousViewAbout'])
-        except BadRequest:
-            pass
-        self.portal.portal_registry = {'plone.allow_anon_views_about': False}
-
-        self._set_up_collection()
-
-        # logout and check if author information is hidden
-        logout()
-        result = self.collection.restrictedTraverse('standard_view')()
-        self.assertFalse("author" in result)
-        self.assertFalse("test-user" in result)
-
-    def test_show_about_has_registry_no_property_show(self):
-        """Test the case where we fetch show about information from the
-        registry (Plone >= 5) and show about is True.
-        """
-        # enable show about in the registry, delete 'allowAnonymousViewAbout'
-        # property
-        properties = getToolByName(self.portal, 'portal_properties')
-        try:
-            properties.site_properties.manage_delProperties(
-                ['allowAnonymousViewAbout'])
-        except BadRequest:
-            pass
-        self.portal.portal_registry = {'plone.allow_anon_views_about': True}
-
-        self._set_up_collection()
-
-        # logout and check if author information is shown
-        logout()
-        result = self.collection.restrictedTraverse('standard_view')()
-        self.assertTrue("author" in result)
-        self.assertTrue("test-user" in result)
-
     def test_show_about_logged_in(self):
         """Test the case where we show about information if a user is logged in
         even though show about is set to False
         """
-        properties = getToolByName(self.portal, 'portal_properties')
-        try:
-            properties.site_properties.manage_addProperty(
-                'allowAnonymousViewAbout', False, 'boolean')
-        except BadRequest:
-            properties.site_properties.manage_changeProperties(
-                allowAnonymousViewAbout=False)
+        registry = getUtility(IRegistry)
+        registry['plone.allow_anon_views_about'] = False        
         self.portal.portal_registry = {'plone.allow_anon_views_about': False}
 
         self._set_up_collection()
