@@ -4,7 +4,8 @@ Changelog
 1.1.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Pull typesUseViewActionInListings value from portal_registry.
+  [esteele]
 
 
 1.1.4 (2015-06-05)
