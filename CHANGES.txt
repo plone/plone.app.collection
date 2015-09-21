@@ -4,7 +4,9 @@ Changelog
 1.0.14 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Make formatting of start & end dates in tabular view consistent with other
+  dates
+  [djowett]
 
 
 1.0.13 (2015-02-20)

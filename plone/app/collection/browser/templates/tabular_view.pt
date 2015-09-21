@@ -52,7 +52,7 @@
                       <td tal:condition="python:field[0] not in [
                             'Title', 'Creator', 'ModificationDate',
                             'CreationDate', 'EffectiveDate',
-                            'ExpirationDate', ]"
+                            'ExpirationDate', 'start', 'end', ]"
                           tal:attributes="class python:'listing-body-%s' % field[0]"
                           tal:define="field_data python:getattr(item, field[0])">
                           <tal:block tal:replace="structure field_data" />
@@ -80,6 +80,14 @@
                           tal:attributes="class python:'listing-body-%s' % field[0]"
                           tal:define="field_data python:getattr(item, field[0])">
                           <span tal:replace="python:toLocalizedTime(field_data(),long_format=1)">
+                            August 16, 2001 at 23:35:59
+                          </span>
+                      </td>
+
+                      <td tal:condition="python:field[0] in ['start', 'end', ]"
+                          tal:attributes="class python:'listing-body-%s' % field[0]"
+                          tal:define="field_data python:getattr(item, field[0])">
+                          <span tal:replace="python:toLocalizedTime(field_data,long_format=1)">
                             August 16, 2001 at 23:35:59
                           </span>
                       </td>
