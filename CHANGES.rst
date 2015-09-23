@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0.14 (unreleased)
+1.0.14 (2015-09-23)
 -------------------
 
 - Make formatting of start & end dates in tabular view consistent with other
