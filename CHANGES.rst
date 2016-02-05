@@ -6,6 +6,11 @@ Changelog
 
 Fixes:
 
+- Remove existing type information object (FTI) from portal_types when
+  installing.  This might be a dexterity FTI, which would give an
+  error when installing: ValueError: undefined property
+  ``content_meta_type``.  [maurits]
+
 - Pull typesUseViewActionInListings value from portal_registry.
   [esteele]
 
