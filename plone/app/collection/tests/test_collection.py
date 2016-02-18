@@ -1,6 +1,7 @@
 from zope.component import getUtility
 from Products.Archetypes.Marshall import parseRFC822
 from Products.CMFCore.utils import getToolByName
+from plone.app.collection.testing import PLONEAPPCOLLECTION_FUNCTIONAL_TESTING
 from plone.app.collection.testing import PLONEAPPCOLLECTION_INTEGRATION_TESTING
 from plone.registry.interfaces import IRegistry
 from plone.app.testing import TEST_USER_ID
@@ -31,16 +32,14 @@ def getData(filename):
 
 class TestCollection(unittest.TestCase):
 
-    layer = PLONEAPPCOLLECTION_INTEGRATION_TESTING
+    layer = PLONEAPPCOLLECTION_FUNCTIONAL_TESTING
 
     def setUp(self):
         self.portal = self.layer['portal']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
         login(self.portal, TEST_USER_NAME)
-        try:
-            self.portal.invokeFactory('Collection', 'col')
-        except:
-            pass
+
+        self.portal.invokeFactory('Collection', 'col')
         self.collection = self.portal['col']
 
     def _set_up_collection(self):
@@ -128,7 +127,7 @@ class TestCollection(unittest.TestCase):
         even though show about is set to False
         """
         registry = getUtility(IRegistry)
-        registry['plone.allow_anon_views_about'] = False        
+        registry['plone.allow_anon_views_about'] = False
 
         self._set_up_collection()
 
