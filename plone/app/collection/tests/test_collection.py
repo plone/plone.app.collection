@@ -224,7 +224,7 @@ class TestCollection(unittest.TestCase):
         }]
         collection.setQuery(query)
         imagecount = collection.getFoldersAndImages()['total_number_of_images']
-        self.assertEqual(imagecount, 3)
+        self.assertEqual(imagecount, 2)
 
     def test_limit(self):
         collection = self.collection
