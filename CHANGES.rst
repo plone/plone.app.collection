@@ -10,7 +10,8 @@ New:
 
 Fixes:
 
-- *add item here*
+- Fix test isolation problems.
+  [gforcada]
 
 
 1.1.5 (2016-02-11)
