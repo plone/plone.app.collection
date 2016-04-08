@@ -9,12 +9,20 @@
   <include package="plone.app.querystring" />
   <include package="plone.app.contentlisting" />
   <include package=".browser" />
-  
+
   <genericsetup:registerProfile
     name="default"
     title="plone.app.collection"
     directory="profiles/default"
     description="Archetypes-based collections"
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    />
+
+  <genericsetup:registerProfile
+    name="uninstall"
+    title="plone.app.collection"
+    directory="profiles/uninstall"
+    description="Archetypes-based collections (uninstall)"
     provides="Products.GenericSetup.interfaces.EXTENSION"
     />
 

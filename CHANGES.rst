@@ -10,7 +10,8 @@ Incompatibilities:
 
 New:
 
-- *add item here*
+- Added uninstall profile.  The Collection type is removed when you
+  uninstall this package.  [maurits]
 
 Fixes:
 
