@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <object name="portal_types">
-   <!-- We remove the existing FTI since itcould be Dexterity-based and would
+   <!-- We remove the existing FTI since it could be Dexterity-based and would
         not be compatible in that case.  You get this error when installing:
         ValueError: undefined property 'content_meta_type' -->
   <object name="Collection" remove="True"/>

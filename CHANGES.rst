@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.1.7 (unreleased)
+1.2.0 (unreleased)
 ------------------
 
 Incompatibilities:
@@ -10,7 +10,8 @@ Incompatibilities:
 
 New:
 
-- *add item here*
+- Added uninstall profile.  The Collection type is removed when you
+  uninstall this package.  [maurits]
 
 Fixes:
 
