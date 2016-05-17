@@ -4,18 +4,10 @@ Changelog
 1.2.0 (unreleased)
 ------------------
 
-Incompatibilities:
-
-- *add item here*
-
 New:
 
 - Added uninstall profile.  The Collection type is removed when you
   uninstall this package.  [maurits]
-
-Fixes:
-
-- *add item here*
 
 
 1.1.6 (2016-02-27)
