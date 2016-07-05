@@ -2,7 +2,7 @@ from copy import deepcopy
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.Field import ObjectField
 from Products.Archetypes.Field import registerField
-from zope.interface import implements
+from zope.interface import implementer
 from zope.interface import Interface
 from zope.site.hooks import getSite
 from plone.app.querystring.querybuilder import QueryBuilder
@@ -12,10 +12,9 @@ class IQueryField(Interface):
     """Query field interface """
 
 
+@implementer(IQueryField)
 class QueryField(ObjectField):
     """QueryField for storing query"""
-
-    implements(IQueryField)
     _properties = ObjectField._properties.copy()
 
     security = ClassSecurityInfo()
