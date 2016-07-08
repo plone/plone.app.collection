@@ -15,7 +15,7 @@ from Products.Archetypes.atapi import (BooleanField,
                                        StringWidget)
 from Products.CMFCore.permissions import ModifyPortalContent, View
 from Products.CMFCore.utils import getToolByName
-from zope.interface import implements
+from zope.interface import implementer
 
 from plone.app.collection import PloneMessageFactory as _
 from plone.app.collection.config import ATCT_TOOLNAME, PROJECTNAME
@@ -101,9 +101,9 @@ schemata.finalizeATCTSchema(
     moveDiscussion=False)
 
 
+@implementer(ICollection)
 class Collection(document.ATDocument, ObjectManager):
     """A (new style) Plone Collection"""
-    implements(ICollection)
 
     meta_type = "Collection"
     schema = CollectionSchema

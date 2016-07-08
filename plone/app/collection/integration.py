@@ -2,11 +2,11 @@ from Products.CMFPlone.interfaces import INonInstallable \
     as IPloneFactoryNonInstallable
 from Products.CMFQuickInstallerTool.interfaces import INonInstallable \
     as IQuickInstallerNonInstallable
-from zope.interface import implements
+from zope.interface import implementer
 
 
+@implementer(IQuickInstallerNonInstallable, IPloneFactoryNonInstallable)
 class HiddenProfiles(object):
-    implements(IQuickInstallerNonInstallable, IPloneFactoryNonInstallable)
 
     def getNonInstallableProfiles(self):
         """

@@ -1,7 +1,8 @@
 from Products.validation.interfaces.IValidator import IValidator
-from zope.interface import implements
+from zope.interface import implementer
 
 
+@implementer(IValidator)
 class NonJavascriptValidator:
     """
         This validator is added when accessing the new style collections
@@ -10,7 +11,6 @@ class NonJavascriptValidator:
         which keeps archetypes from creating a temp object in
         portal_factory keeps archetypes from losing the request/parser info
     """
-    implements(IValidator)
 
     name = 'nonjavascriptvalidator'
 
