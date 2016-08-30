@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.2.2 (unreleased)
-------------------
+1.0.15 (unreleased)
+-------------------
 
 Breaking changes:
 
@@ -17,50 +17,6 @@ Bug fixes:
 - Check with getattr if item isPrincipiaFolderish as Comment does
   not have this attribute which would render an AttributeError
   [ichim-david]
-
-
-1.2.1 (2016-08-15)
-------------------
-
-Bug fixes:
-
-- Use zope.interface decorator.
-  [gforcada]
-
-
-1.2.0 (2016-05-18)
-------------------
-
-New:
-
-- Added uninstall profile.  The Collection type is removed when you
-  uninstall this package.  [maurits]
-
-
-1.1.6 (2016-02-27)
-------------------
-
-Fixes:
-
-- Fix test isolation problems.
-  [gforcada]
-
-
-1.1.5 (2016-02-11)
-------------------
-
-Fixes:
-
-- Remove existing type information object (FTI) from portal_types when
-  installing.  This might be a dexterity FTI, which would give an
-  error when installing: ValueError: undefined property
-  ``content_meta_type``.  [maurits]
-
-- Pull typesUseViewActionInListings value from portal_registry.
-  [esteele]
->>>>>>> f9c2019... - Check with getattr if item isPrincipiaFolderish as Comment does
-
-- Nothing changed yet.
 
 
 1.0.14 (2015-09-23)
