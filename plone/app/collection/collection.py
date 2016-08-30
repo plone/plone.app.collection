@@ -188,7 +188,7 @@ class Collection(document.ATDocument, ObjectManager):
 
         for item in results:
             item_path = item.getPath()
-            if item.isPrincipiaFolderish:
+            if getattr(item, 'isPrincipiaFolderish', []):
                 query = {
                     'portal_type': image_types,
                     'path': item_path,

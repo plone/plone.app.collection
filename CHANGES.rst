@@ -4,7 +4,19 @@ Changelog
 1.0.15 (unreleased)
 -------------------
 
-- Nothing changed yet.
+Breaking changes:
+
+- *add item here*
+
+New features:
+
+- *add item here*
+
+Bug fixes:
+
+- Check with getattr if item isPrincipiaFolderish as Comment does
+  not have this attribute which would render an AttributeError
+  [ichim-david]
 
 
 1.0.14 (2015-09-23)
