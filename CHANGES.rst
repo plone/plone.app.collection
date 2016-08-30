@@ -14,7 +14,9 @@ New:
 
 Fixes:
 
-- *add item here*
+- Check with getattr if item isPrincipiaFolderish as Comment does
+  not have this attribute which would render an AttributeError
+  [ichim-david]
 
 
 1.1.6 (2016-02-27)
