@@ -14,6 +14,9 @@ New features:
 
 Bug fixes:
 
+- Fix summary view for results with Discussion Items
+  [ichim-david]
+
 - Check with getattr if item isPrincipiaFolderish as Comment does
   not have this attribute which would render an AttributeError
   [ichim-david]
