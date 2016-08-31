@@ -18,12 +18,12 @@
         <div class="tileItem visualIEFloatFix"
              tal:define="obj item/getObject">
             <a href="#"
-                  tal:condition="obj/image|nothing"
+                  tal:define="scales obj/@@images|nothing"
+                  tal:condition="scales"
                   tal:attributes="href item/getURL">
                   <div class="tileImage">
                       <img src="" alt=""
-                           tal:define="scales obj/@@images;
-                                       scale python:scales.scale('image', 'thumb')"
+                           tal:define="scale python:scales.scale('image', 'thumb') if scales else None"
                            tal:replace="structure python:scale and scale.tag(css_class='tileImage') or None" />
                   </div>
             </a>
