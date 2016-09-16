@@ -4,14 +4,6 @@ Changelog
 1.1.7 (unreleased)
 ------------------
 
-Incompatibilities:
-
-- *add item here*
-
-New:
-
-- *add item here*
-
 Fixes:
 
 - Fix summary view for results with Discussion Items
