@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from types import ListType, TupleType
 
 from zope.contenttype import guess_content_type

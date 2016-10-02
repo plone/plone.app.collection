@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from Products.validation.config import validation
 from zope.i18nmessageid import MessageFactory
 
