@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import doctest
 
 from zope.configuration import xmlconfig

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from zope.component import getUtility
 from Products.Archetypes.Marshall import parseRFC822
 from Products.CMFCore.utils import getToolByName

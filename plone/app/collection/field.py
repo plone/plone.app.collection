@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from copy import deepcopy
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.Field import ObjectField

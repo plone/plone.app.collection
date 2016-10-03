@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from Products.validation.interfaces.IValidator import IValidator
 from zope.interface import implementer
 

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 PROJECTNAME = 'plone.app.collection'
 
 ADD_PERMISSIONS = {

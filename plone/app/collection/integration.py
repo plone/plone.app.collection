@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from Products.CMFPlone.interfaces import INonInstallable \
     as IPloneFactoryNonInstallable
 from Products.CMFQuickInstallerTool.interfaces import INonInstallable \

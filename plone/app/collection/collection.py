@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from AccessControl import ClassSecurityInfo
 from OFS.ObjectManager import ObjectManager
 from plone.app.collection.field import QueryField
