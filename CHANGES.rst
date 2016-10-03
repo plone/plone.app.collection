@@ -17,6 +17,9 @@ Bug fixes:
 - Add coding header to python files.
   [gforcada]
 
+- Remove superfluos dependency on zope.formlib
+  [jensens]
+
 
 1.2.2 (2016-09-16)
 ------------------
