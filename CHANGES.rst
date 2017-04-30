@@ -16,7 +16,9 @@ Bug fixes:
 
 - Add coding header to python files.
   [gforcada]
-
+  
+- removed unittest2 dependency
+   [kakshay21]
 
 1.2.2 (2016-09-16)
 ------------------
