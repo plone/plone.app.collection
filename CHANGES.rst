@@ -25,9 +25,6 @@ Bug fixes:
 - Add coding header to python files.
   [gforcada]
   
-- removed unittest2 dependency.
-  [kakshay21]
-
 - Remove superfluos dependency on zope.formlib
   [jensens]
 
