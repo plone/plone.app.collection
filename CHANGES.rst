@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.3 (unreleased)
+1.2.4 (unreleased)
 ------------------
 
 Breaking changes:
@@ -14,11 +14,23 @@ New features:
 
 Bug fixes:
 
+- *add item here*
+
+
+1.2.3 (2016-11-18)
+------------------
+
+Bug fixes:
+
 - Add coding header to python files.
   [gforcada]
   
 - removed unittest2 dependency.
   [kakshay21]
+
+- Remove superfluos dependency on zope.formlib
+  [jensens]
+
 
 1.2.2 (2016-09-16)
 ------------------

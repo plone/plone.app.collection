@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
 
-version = '1.2.3.dev0'
+version = '1.2.4.dev0'
 
 setup(name='plone.app.collection',
       version=version,
@@ -41,7 +41,6 @@ setup(name='plone.app.collection',
           'transaction',
           'zope.component',
           'zope.configuration',
-          'zope.formlib',
           'zope.i18nmessageid',
           'zope.interface',
           'zope.schema',
