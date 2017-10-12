@@ -14,8 +14,10 @@ class HiddenProfiles(object):
         Prevents profiles dependencies from showing up in the profile list
         when creating a Plone site.
         """
-        return [u'plone.app.querystring:default',
-                ]
+        return [
+            'plone.app.collection:uninstall',
+            'plone.app.querystring:default',
+        ]
 
     def getNonInstallableProducts(self):
         """
@@ -24,4 +26,4 @@ class HiddenProfiles(object):
         """
         return [
             'plone.app.querystring',
-            ]
+        ]
