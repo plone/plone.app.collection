@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Hide uninstall from install screens.
+  [jensens]
 
 
 1.2.4 (2017-06-03)
@@ -32,7 +33,7 @@ Bug fixes:
 
 - Add coding header to python files.
   [gforcada]
-  
+
 - Remove superfluos dependency on zope.formlib
   [jensens]
 

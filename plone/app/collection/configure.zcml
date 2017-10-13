@@ -12,17 +12,17 @@
 
   <genericsetup:registerProfile
     name="default"
-    title="plone.app.collection"
+    title="Archetypes-based collections"
     directory="profiles/default"
-    description="Archetypes-based collections"
+    description="plone.app.collection, the new style Archetypes collections in Plone 4"
     provides="Products.GenericSetup.interfaces.EXTENSION"
     />
 
   <genericsetup:registerProfile
     name="uninstall"
-    title="plone.app.collection"
+    title="Uninstall Archetypes-based collections"
     directory="profiles/uninstall"
-    description="Archetypes-based collections (uninstall)"
+    description="plone.app.collection (uninstall)"
     provides="Products.GenericSetup.interfaces.EXTENSION"
     />
 
