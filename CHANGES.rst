@@ -14,7 +14,7 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Removed dependency on CMFQuickInstallerTool.  [maurits]
 
 
 1.2.5 (2017-11-24)

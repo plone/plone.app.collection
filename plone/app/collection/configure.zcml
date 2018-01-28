@@ -29,13 +29,7 @@
   <!-- hide profiles for our widget/field dependencies -->
   <utility
     factory=".integration.HiddenProfiles"
-    name="plone.app.collection"
-    provides="Products.CMFPlone.interfaces.INonInstallable" />
-
-  <utility
-    factory=".integration.HiddenProfiles"
-    name="plone.app.collection"
-    provides="Products.CMFQuickInstallerTool.interfaces.INonInstallable" />
+    name="plone.app.collection" />
 
   <permission
     id="plone.app.collection.addCollection"
