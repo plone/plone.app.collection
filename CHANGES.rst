@@ -14,7 +14,10 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Remove installation of plone.app.widgets default profile.
+  In Plone 5.0/5.1 with plone.app.widgets >= 2.0, the profile is only a dummy profile for BBB.
+  In Plone 5.2 will be removed.
+  [jensens]
 
 
 1.2.6 (2018-02-04)
