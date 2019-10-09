@@ -9,6 +9,7 @@ setup(name='plone.app.collection',
       long_description=(open("README.rst").read() + "\n" +
                         open("CHANGES.rst").read()),
       classifiers=[
+          "Development Status :: 6 - Mature",
           "Framework :: Plone",
           "Framework :: Plone :: 5.1",
           "Framework :: Plone :: 5.2",
