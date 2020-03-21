@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
 
-version = '1.2.8'
+version = '1.2.9.dev0'
 
 setup(name='plone.app.collection',
       version=version,
